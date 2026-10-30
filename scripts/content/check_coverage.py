@@ -28,7 +28,32 @@ def letters(text: str) -> Counter:
     return Counter(c for c in text.lower() if c.isalnum())
 
 
+def check_monsters(lines) -> int:
+    data = {e["id"]: e for e in json.load(open(os.path.join(DATA, "monsters.json"), encoding="utf-8"))["entries"]}
+    heads = merged_headings(lines, 14.8)
+    bad = 0
+    for start, end, line, name in heads:
+        stop = end
+        while stop < len(lines) and is_statblock(lines[stop]) and lines[stop].size not in (14.8, 18.0):
+            stop += 1
+        # Baris ability (GillSans kecil) diformat ulang menjadi tabel; dibandingkan lewat mekanik.
+        source = " ".join(l.text for l in lines[end:stop] if not (l.font.startswith("GillSans") and l.size in (6.0, 6.8, 9.8)))
+        entry = data[f"monster.{slug(name)}"]
+        body = re.sub(r"\n\| \|.*?\| Save \|[^\n]*", "", entry["body"], flags=re.S)
+        a, b = letters(source), letters(entry["summary"] + body)
+        missing, extra = sum((a - b).values()), sum((b - a).values())
+        if missing > 3 or extra > 3:
+            bad += 1
+            print(f"{entry['id']}: missing {missing} extra {extra}")
+    print(f"monster: {len(heads)} checked, {bad} with differences")
+    return bad
+
+
 def main(work: str, kind: str) -> None:
+    if kind == "monster":
+        if check_monsters(load_lines(os.path.join(work, "runs.jsonl"))):
+            sys.exit(1)
+        return
     file, chapter, accept, first_page = KINDS[kind]
     lines = load_lines(os.path.join(work, "runs.jsonl"))
     heads = [h for h in merged_headings(lines, 12.0) if h[2].chapter == chapter and h[2].page >= first_page and h[1] < len(lines) and accept(h[2], h[1], lines)]

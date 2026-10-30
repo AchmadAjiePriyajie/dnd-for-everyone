@@ -33,6 +33,9 @@ def table_kind(line: Line) -> str:
 
 
 def is_subheading(line: Line) -> bool:
+    if line.font == "GillSans" and line.size == 12.0:
+        # Judul bagian stat block: Traits, Actions, Bonus Actions, Reactions, Legendary Actions.
+        return True
     return line.font.startswith("GillSans-SemiBold") and line.size in (12.0, 14.0, 18.0) and "SC" not in line.font
 
 

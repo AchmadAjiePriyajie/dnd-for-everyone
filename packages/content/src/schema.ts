@@ -136,42 +136,56 @@ const spellMechanics = z.strictObject({
   }),
 });
 
+const creatureType = z.enum([
+  'aberration',
+  'beast',
+  'celestial',
+  'construct',
+  'dragon',
+  'elemental',
+  'fey',
+  'fiend',
+  'giant',
+  'humanoid',
+  'monstrosity',
+  'ooze',
+  'plant',
+  'undead',
+]);
+
+/**
+ * Stat block. Makhluk panggilan spell/magic item (`summoned`) memakai nilai yang
+ * bergantung pada caster (mis. HP "10 (Medium or smaller)"), sehingga field angka
+ * yang tidak tetap dihilangkan dan teks lengkapnya ada di body.
+ */
 const monsterMechanics = z.strictObject({
   size: z.array(size).min(1),
-  creatureType: z.enum([
-    'aberration',
-    'beast',
-    'celestial',
-    'construct',
-    'dragon',
-    'elemental',
-    'fey',
-    'fiend',
-    'giant',
-    'humanoid',
-    'monstrosity',
-    'ooze',
-    'plant',
-    'undead',
-  ]),
-  ac: z.number().int().positive(),
-  initiative: z.number().int(),
-  hp: z.strictObject({ average: z.number().int().positive(), formula: dice }),
-  speed: z.record(z.enum(['walk', 'burrow', 'climb', 'fly', 'swim']), z.number().int().nonnegative()),
+  creatureTypes: z.array(creatureType).min(1),
+  /** Swarm: ukuran tiap makhluk penyusun, mis. Medium Swarm of Tiny Beasts. */
+  swarmOf: size.optional(),
+  /** Tag tipe dalam kurung, mis. "wizard" dari Humanoid (Wizard). */
+  tags: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(),
+  alignment: z.string().regex(/^[a-z-]+$/),
+  summoned: z.boolean().optional(),
+  ac: z.number().int().positive().optional(),
+  initiative: z.number().int().optional(),
+  hp: z.strictObject({ average: z.number().int().positive(), formula: dice }).optional(),
+  speed: z.partialRecord(z.enum(['walk', 'burrow', 'climb', 'fly', 'swim']), z.number().int().nonnegative()),
   hover: z.boolean().optional(),
   abilities: z.record(ability, z.number().int().min(1).max(30)),
-  saves: z.record(ability, z.number().int()).optional(),
-  skills: z.record(z.string(), z.number().int()).optional(),
+  saves: z.record(ability, z.number().int()),
+  skills: z.record(z.string().regex(/^[a-z-]+$/), z.number().int()).optional(),
   vulnerabilities: z.array(damageType).optional(),
   resistances: z.array(damageType).optional(),
   immunities: z.strictObject({ damage: z.array(damageType), conditions: z.array(contentIdSchema) }).optional(),
-  senses: z.record(z.string(), z.number().int().nonnegative()),
+  gear: z.array(contentIdSchema).optional(),
+  senses: z.partialRecord(z.enum(['blindsight', 'darkvision', 'tremorsense', 'truesight']), z.number().int().nonnegative()),
   passivePerception: z.number().int(),
-  cr: z.string().regex(/^(0|1\/8|1\/4|1\/2|[1-9]|[12][0-9]|30)$/),
-  xp: z.number().int().nonnegative(),
+  cr: z.string().regex(/^(0|1\/8|1\/4|1\/2|[1-9]|[12][0-9]|30)$/).optional(),
+  xp: z.number().int().nonnegative().optional(),
   /** XP saat di lair, bila ada. */
   xpInLair: z.number().int().positive().optional(),
-  proficiencyBonus: z.number().int().min(2).max(9),
+  proficiencyBonus: z.number().int().min(2).max(9).optional(),
 });
 
 const equipmentMechanics = z.strictObject({
