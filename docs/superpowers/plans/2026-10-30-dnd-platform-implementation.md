@@ -170,11 +170,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `searchReference(principal: Principal, query: string, locale: Locale, campaignId?: Id): SearchHit[]`; `SearchHit { entryId, title, originalTitle, summary, whenToUse, relatedIds, source }`. MiniSearch index corpus yang boleh diakses; aliases/frasa pemula dikurasi, bukan AI.
 
-- [ ] Tulis `finds_beginner_aliases_without_private_notes`: `expect(ids('darah')).toContain('rule.hit-points')`; `nyawa`/`HP` menuju entri sama; `giliran saya bisa apa` menuju panduan turn; query rahasia DM tidak muncul bagi player.
-- [ ] Run `npm run test -- apps/server/src/features/reference/search.test.ts`; expected FAIL.
-- [ ] Implementasikan normalisasi EN/ID, exact/alias lebih tinggi daripada fuzzy, typo/prefix terbatas, kosong/no result, bookmark dan help links; tampilkan ringkasan, konteks, teks sumber dan langkah berikutnya. Tautan aksi membuka review, tidak otomatis menghabiskan resource.
-- [ ] Run test sama; expected PASS termasuk ID dengan original EN, fallback homebrew berlabel, query panjang dan scope campaign lain.
-- [ ] Commit `feat: add beginner reference search`.
+- [x] Tulis `finds_beginner_aliases_without_private_notes`: `expect(ids('darah')).toContain('rule.hit-points')`; `nyawa`/`HP` menuju entri sama; `giliran saya bisa apa` menuju panduan turn; query rahasia DM tidak muncul bagi player.
+- [x] Run `npm run test -- apps/server/src/features/reference/search.test.ts`; expected FAIL.
+- [x] Implementasikan normalisasi EN/ID, exact/alias lebih tinggi daripada fuzzy, typo/prefix terbatas, kosong/no result, bookmark dan help links; tampilkan ringkasan, konteks, teks sumber dan langkah berikutnya. Tautan aksi membuka review, tidak otomatis menghabiskan resource.
+- [x] Run test sama; expected PASS termasuk ID dengan original EN, fallback homebrew berlabel, query panjang dan scope campaign lain.
+- [x] Commit `feat: add beginner reference search`.
 
 ### Task 7: Wizard karakter dan perhitungan dasar
 

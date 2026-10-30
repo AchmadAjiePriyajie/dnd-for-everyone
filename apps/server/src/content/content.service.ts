@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { ContentNotFoundError, defaultContentDir, loadCatalog } from '#content/catalog';
+import { type Glossary, loadGlossary } from '#content/glossary';
 import type { ContentAudit, ContentCatalog, ContentEntry } from '#shared/content';
 import type { Id, Locale } from '#shared/contracts';
 import { APP_OPTIONS, type AppOptions } from '../app-options.js';
@@ -10,11 +11,14 @@ import { DomainError } from '../common/domain-error.js';
 export class ContentService implements OnModuleInit {
   private readonly logger = new Logger(ContentService.name);
   private catalog!: ContentCatalog;
+  private glossary!: Glossary;
 
   constructor(@Inject(APP_OPTIONS) private readonly options: AppOptions) {}
 
   onModuleInit(): void {
-    this.catalog = loadCatalog(this.options.contentDir ?? defaultContentDir);
+    const contentDir = this.options.contentDir ?? defaultContentDir;
+    this.catalog = loadCatalog(contentDir);
+    this.glossary = loadGlossary(contentDir, (id) => this.catalog.has(id));
     const audit = this.catalog.auditContent();
     const open = Object.values(audit).reduce((sum, list) => sum + list.length, 0);
     if (open > 0) this.logger.warn(`content audit has ${open} open issue(s); run npm run content:audit`);
@@ -35,6 +39,11 @@ export class ContentService implements OnModuleInit {
 
   ids(): Id[] {
     return this.catalog.ids();
+  }
+
+  /** Alias pemula dan panduan aplikasi yang dikurasi; sudah divalidasi terhadap corpus. */
+  getGlossary(): Glossary {
+    return this.glossary;
   }
 
   auditContent(): ContentAudit {

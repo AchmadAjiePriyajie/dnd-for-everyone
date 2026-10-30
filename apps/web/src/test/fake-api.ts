@@ -1,4 +1,5 @@
 import type { AccountView, ApiError, CampaignSummary } from '#shared/access';
+import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
 export interface FakeRequest {
@@ -13,6 +14,11 @@ export interface FakeServerState {
   authenticated: boolean;
   campaigns: CampaignSummary[];
   snapshots: Record<string, RoomSnapshot>;
+  reference: {
+    search: (q: string, locale: string, campaignId: string | null) => SearchHit[];
+    entries: Record<string, ReferenceEntryView>;
+    bookmarks: string[];
+  };
 }
 
 const json = (status: number, body: unknown) =>
@@ -27,6 +33,7 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     authenticated: true,
     campaigns: [],
     snapshots: {},
+    reference: { search: () => [], entries: {}, bookmarks: [] },
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -64,6 +71,23 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
       const id = `camp-${state.campaigns.length + 1}`;
       state.campaigns.push({ id, title: body.title, ruleset: 'srd-5.2.1-2024', role: 'dm', dmAccountId: view().accountId });
       return json(201, { id });
+    }
+    if (path === '/api/reference/search') {
+      const q = url.searchParams.get('q') ?? '';
+      return json(200, q.trim() ? state.reference.search(q, url.searchParams.get('locale')!, url.searchParams.get('campaignId')) : []);
+    }
+    const entry = /^\/api\/reference\/entries\/([^/]+)$/.exec(path);
+    if (entry) {
+      const found = state.reference.entries[decodeURIComponent(entry[1]!)];
+      return found ? json(200, found) : error(404, 'NOT_FOUND');
+    }
+    if (path === '/api/reference/bookmarks') return json(200, [...state.reference.bookmarks].sort());
+    const bookmark = /^\/api\/reference\/bookmarks\/([^/]+)$/.exec(path);
+    if (bookmark) {
+      const id = decodeURIComponent(bookmark[1]!);
+      state.reference.bookmarks = state.reference.bookmarks.filter((other) => other !== id);
+      if (method === 'PUT') state.reference.bookmarks.push(id);
+      return new Response(null, { status: 204 });
     }
     const snapshot = /^\/api\/campaigns\/([^/]+)\/snapshot$/.exec(path);
     if (snapshot) {

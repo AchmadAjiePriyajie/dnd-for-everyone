@@ -1,0 +1,265 @@
+{
+ "version": 1,
+ "terms": {
+  "rule.hit-points": {
+   "aliases": { "en": ["hp", "health", "life", "hit point"], "id": ["darah", "nyawa", "hp", "poin nyawa", "kesehatan"] },
+   "whenToUse": { "en": "Check when your character takes damage or is healed.", "id": "Lihat saat karaktermu menerima damage atau disembuhkan." }
+  },
+  "rule.temporary-hit-points": {
+   "aliases": { "en": ["temp hp", "temporary hp", "thp"], "id": ["hp sementara", "darah sementara", "nyawa sementara", "temp hp"] },
+   "whenToUse": { "en": "A buffer that absorbs damage before your real Hit Points.", "id": "Lapisan yang menyerap damage sebelum Hit Points aslimu berkurang." }
+  },
+  "rule.armor-class": {
+   "aliases": { "en": ["ac", "defense"], "id": ["ac", "pertahanan", "kelas armor", "nilai pertahanan"] },
+   "whenToUse": { "en": "The number an attack roll must reach to hit you.", "id": "Angka yang harus dicapai attack roll agar mengenaimu." }
+  },
+  "rule.advantage": {
+   "aliases": { "en": ["adv", "roll twice take higher"], "id": ["keuntungan", "lempar dua kali ambil tertinggi", "adv"] },
+   "whenToUse": { "en": "Roll two d20s and use the higher result.", "id": "Lempar dua d20 dan pakai hasil yang lebih tinggi." }
+  },
+  "rule.disadvantage": {
+   "aliases": { "en": ["disadv", "roll twice take lower"], "id": ["kerugian", "lempar dua kali ambil terendah", "disadv"] },
+   "whenToUse": { "en": "Roll two d20s and use the lower result.", "id": "Lempar dua d20 dan pakai hasil yang lebih rendah." }
+  },
+  "rule.d20-test": {
+   "aliases": { "en": ["d20 roll", "roll a d20"], "id": ["lempar d20", "tes d20"] },
+   "whenToUse": { "en": "Any ability check, saving throw, or attack roll.", "id": "Setiap ability check, saving throw, atau attack roll." }
+  },
+  "rule.ability-check": {
+   "aliases": { "en": ["skill check", "check"], "id": ["cek kemampuan", "cek skill", "uji kemampuan"] },
+   "whenToUse": { "en": "When you try something whose outcome is uncertain.", "id": "Saat kamu mencoba sesuatu yang hasilnya tidak pasti." }
+  },
+  "rule.saving-throw": {
+   "aliases": { "en": ["save", "saving roll"], "id": ["lemparan penyelamat", "save", "menghindari efek"] },
+   "whenToUse": { "en": "When an effect tries to harm you and you resist it.", "id": "Saat suatu efek mencoba mencelakaimu dan kamu menahannya." }
+  },
+  "rule.attack-roll": {
+   "aliases": { "en": ["to hit", "hit roll"], "id": ["lemparan serangan", "serang", "menyerang"] },
+   "whenToUse": { "en": "When you attack with a weapon or spell attack.", "id": "Saat kamu menyerang dengan senjata atau spell attack." }
+  },
+  "rule.damage-roll": {
+   "aliases": { "en": ["damage dice"], "id": ["lempar damage", "dadu damage", "kerusakan"] },
+   "whenToUse": { "en": "After an attack hits, roll to see how much it hurts.", "id": "Setelah serangan mengenai, lempar untuk melihat seberapa besar damage-nya." }
+  },
+  "rule.critical-hit": {
+   "aliases": { "en": ["crit", "natural 20", "nat 20"], "id": ["kritikal", "crit", "nat 20", "dua puluh natural"] },
+   "whenToUse": { "en": "You rolled a 20 on the d20 for an attack.", "id": "Kamu mendapat 20 pada d20 saat menyerang." }
+  },
+  "rule.difficulty-class": {
+   "aliases": { "en": ["dc", "target number"], "id": ["dc", "tingkat kesulitan", "angka target"] },
+   "whenToUse": { "en": "The number you must reach on a check or save.", "id": "Angka yang harus kamu capai pada check atau save." }
+  },
+  "rule.proficiency": {
+   "aliases": { "en": ["proficiency bonus", "pb", "proficient"], "id": ["bonus kemahiran", "kemahiran", "mahir", "pb"] },
+   "whenToUse": { "en": "Add it to rolls for things your character is trained in.", "id": "Tambahkan ke lemparan untuk hal yang dilatih karaktermu." }
+  },
+  "rule.skill": {
+   "aliases": { "en": ["skills"], "id": ["keterampilan", "keahlian"] },
+   "whenToUse": { "en": "Pick the skill that fits what you are trying to do.", "id": "Pilih skill yang cocok dengan apa yang kamu coba lakukan." }
+  },
+  "rule.initiative": {
+   "aliases": { "en": ["turn order", "who goes first"], "id": ["inisiatif", "urutan giliran", "siapa duluan"] },
+   "whenToUse": { "en": "At the start of combat to decide turn order.", "id": "Di awal combat untuk menentukan urutan giliran." }
+  },
+  "rule.combat": {
+   "aliases": { "en": ["fight", "battle"], "id": ["pertarungan", "pertempuran", "bertarung", "berkelahi"] },
+   "whenToUse": { "en": "How rounds, turns, and Initiative work in a fight.", "id": "Cara kerja ronde, giliran, dan Initiative dalam pertarungan." }
+  },
+  "rule.action": {
+   "aliases": { "en": ["main action"], "id": ["aksi", "tindakan", "aksi utama"] },
+   "whenToUse": { "en": "The one main thing you do on your turn.", "id": "Satu hal utama yang kamu lakukan pada giliranmu." }
+  },
+  "rule.bonus-action": {
+   "aliases": { "en": ["bonus"], "id": ["aksi bonus", "tindakan bonus"] },
+   "whenToUse": { "en": "Only if a feature or spell gives you one.", "id": "Hanya bila fitur atau spell memberimu Bonus Action." }
+  },
+  "rule.reaction": {
+   "aliases": { "en": ["react"], "id": ["reaksi"] },
+   "whenToUse": { "en": "An instant response, even on someone else's turn.", "id": "Respons seketika, bahkan pada giliran makhluk lain." }
+  },
+  "rule.speed": {
+   "aliases": { "en": ["movement", "move", "how far can i move"], "id": ["kecepatan", "gerak", "bergerak", "jarak gerak"] },
+   "whenToUse": { "en": "How far you can move on your turn.", "id": "Seberapa jauh kamu dapat bergerak pada giliranmu." }
+  },
+  "rule.opportunity-attacks": {
+   "aliases": { "en": ["attack of opportunity", "aoo", "oa"], "id": ["serangan peluang", "serangan kesempatan", "kabur dari musuh"] },
+   "whenToUse": { "en": "When a creature leaves an enemy's reach.", "id": "Saat makhluk keluar dari jangkauan musuh." }
+  },
+  "rule.dash": {
+   "aliases": { "en": ["run", "sprint"], "id": ["lari", "berlari"] },
+   "whenToUse": { "en": "Use your action to move farther.", "id": "Pakai action-mu untuk bergerak lebih jauh." }
+  },
+  "rule.dodge": {
+   "aliases": { "en": ["defend", "evade"], "id": ["menghindar", "mengelak", "bertahan"] },
+   "whenToUse": { "en": "Make attacks against you harder until your next turn.", "id": "Membuat serangan terhadapmu lebih sulit hingga giliran berikutnya." }
+  },
+  "rule.disengage": {
+   "aliases": { "en": ["retreat", "withdraw"], "id": ["mundur", "melepaskan diri"] },
+   "whenToUse": { "en": "Move away without provoking Opportunity Attacks.", "id": "Menjauh tanpa memicu Opportunity Attack." }
+  },
+  "rule.hide": {
+   "aliases": { "en": ["sneak", "stealth"], "id": ["bersembunyi", "sembunyi", "mengendap"] },
+   "whenToUse": { "en": "Try to become hidden from enemies.", "id": "Mencoba bersembunyi dari musuh." }
+  },
+  "rule.help": {
+   "aliases": { "en": ["assist", "aid ally"], "id": ["bantu", "membantu", "menolong"] },
+   "whenToUse": { "en": "Give an ally Advantage on a check or attack.", "id": "Memberi sekutu Advantage pada check atau serangan." }
+  },
+  "rule.ready": {
+   "aliases": { "en": ["hold action", "wait"], "id": ["siaga", "menunggu", "menahan aksi"] },
+   "whenToUse": { "en": "Prepare to act when a trigger happens.", "id": "Bersiap bertindak saat pemicu terjadi." }
+  },
+  "rule.short-rest": {
+   "aliases": { "en": ["short break"], "id": ["istirahat pendek", "istirahat singkat", "rehat pendek"] },
+   "whenToUse": { "en": "About 1 hour of rest to spend Hit Point Dice.", "id": "Istirahat sekitar 1 jam untuk memakai Hit Point Dice." }
+  },
+  "rule.long-rest": {
+   "aliases": { "en": ["sleep", "overnight rest"], "id": ["istirahat panjang", "tidur", "istirahat malam"] },
+   "whenToUse": { "en": "About 8 hours to recover most resources.", "id": "Sekitar 8 jam untuk memulihkan sebagian besar resource." }
+  },
+  "rule.hit-point-dice": {
+   "aliases": { "en": ["hit dice", "hd"], "id": ["dadu hit point", "dadu nyawa", "hit dice"] },
+   "whenToUse": { "en": "Spend during a Short Rest to heal.", "id": "Dipakai saat Short Rest untuk memulihkan HP." }
+  },
+  "rule.death-saving-throw": {
+   "aliases": { "en": ["death save", "dying"], "id": ["save kematian", "sekarat", "hampir mati", "pingsan 0 hp"] },
+   "whenToUse": { "en": "Your character is at 0 Hit Points.", "id": "Karaktermu berada di 0 Hit Points." }
+  },
+  "rule.healing": {
+   "aliases": { "en": ["heal", "cure"], "id": ["penyembuhan", "menyembuhkan", "sembuh", "obat"] },
+   "whenToUse": { "en": "How regaining Hit Points works.", "id": "Cara memulihkan Hit Points." }
+  },
+  "rule.concentration": {
+   "aliases": { "en": ["concentrating", "keep a spell going"], "id": ["konsentrasi", "menjaga spell"] },
+   "whenToUse": { "en": "Some spells last only while you concentrate.", "id": "Sebagian spell hanya bertahan selama kamu berkonsentrasi." }
+  },
+  "rule.spell-attack": {
+   "aliases": { "en": ["spell to hit"], "id": ["serangan sihir", "serangan spell"] },
+   "whenToUse": { "en": "Spells that ask you to make an attack roll.", "id": "Spell yang memintamu melakukan attack roll." }
+  },
+  "rule.casting-spells": {
+   "aliases": { "en": ["cast a spell", "how do spells work", "magic"], "id": ["sihir", "merapal mantra", "mantra", "cara pakai spell"] },
+   "whenToUse": { "en": "Basics of casting time, range, components and slots.", "id": "Dasar waktu casting, jangkauan, komponen, dan slot." }
+  },
+  "rule.cantrip": {
+   "aliases": { "en": ["level 0 spell"], "id": ["mantra level 0", "spell level 0"] },
+   "whenToUse": { "en": "Spells you can cast without spending a slot.", "id": "Spell yang dapat di-cast tanpa menghabiskan slot." }
+  },
+  "rule.cover": {
+   "aliases": { "en": ["behind cover", "take cover"], "id": ["perlindungan", "berlindung", "tameng"] },
+   "whenToUse": { "en": "Obstacles between you and an attacker raise your AC.", "id": "Penghalang antara kamu dan penyerang menaikkan AC-mu." }
+  },
+  "rule.difficult-terrain": {
+   "aliases": { "en": ["rough terrain"], "id": ["medan sulit", "medan berat"] },
+   "whenToUse": { "en": "Each foot of movement costs 1 extra foot.", "id": "Setiap kaki gerakan memakan 1 kaki tambahan." }
+  },
+  "rule.grappling": {
+   "aliases": { "en": ["grab", "grapple"], "id": ["mencengkeram", "memegang musuh", "bergulat"] },
+   "whenToUse": { "en": "Hold a creature so it can't move away.", "id": "Menahan makhluk agar tidak dapat menjauh." }
+  },
+  "rule.resistance": {
+   "aliases": { "en": ["resistant", "half damage"], "id": ["ketahanan", "tahan", "setengah damage"] },
+   "whenToUse": { "en": "Halve damage of that type.", "id": "Damage tipe itu dibagi dua." }
+  },
+  "rule.vulnerability": {
+   "aliases": { "en": ["weakness", "double damage"], "id": ["kerentanan", "kelemahan", "damage ganda"] },
+   "whenToUse": { "en": "Double damage of that type.", "id": "Damage tipe itu dikali dua." }
+  },
+  "rule.heroic-inspiration": {
+   "aliases": { "en": ["inspiration", "reroll"], "id": ["inspirasi", "lempar ulang"] },
+   "whenToUse": { "en": "Spend it to reroll one die.", "id": "Pakai untuk melempar ulang satu dadu." }
+  },
+  "rule.passive-perception": {
+   "aliases": { "en": ["notice", "passive wisdom"], "id": ["persepsi pasif", "menyadari"] },
+   "whenToUse": { "en": "Whether you notice something without rolling.", "id": "Apakah kamu menyadari sesuatu tanpa melempar dadu." }
+  },
+  "rule.darkvision": {
+   "aliases": { "en": ["see in the dark", "night vision"], "id": ["melihat dalam gelap", "penglihatan malam"] },
+   "whenToUse": { "en": "Seeing in Dim Light and Darkness.", "id": "Melihat dalam Dim Light dan Darkness." }
+  },
+  "rule.ability-score-and-modifier": {
+   "aliases": { "en": ["modifier", "stats", "ability score"], "id": ["skor kemampuan", "modifier", "statistik", "stat"] },
+   "whenToUse": { "en": "Turn a score into the bonus you add to rolls.", "id": "Mengubah score menjadi bonus yang ditambahkan ke lemparan." }
+  },
+  "rule.level-advancement": {
+   "aliases": { "en": ["level up", "leveling"], "id": ["naik level", "naik tingkat"] },
+   "whenToUse": { "en": "What your character gains at a new level.", "id": "Apa yang diperoleh karaktermu di level baru." }
+  },
+  "rule.multiclassing": {
+   "aliases": { "en": ["multiclass", "second class"], "id": ["multikelas", "dua class", "class kedua"] },
+   "whenToUse": { "en": "Taking levels in more than one class.", "id": "Mengambil level di lebih dari satu class." }
+  },
+  "rule.create-your-character": {
+   "aliases": { "en": ["make a character", "new character"], "id": ["buat karakter", "membuat karakter", "karakter baru"] },
+   "whenToUse": { "en": "Step-by-step character creation.", "id": "Langkah demi langkah membuat karakter." }
+  },
+  "condition.prone": {
+   "aliases": { "en": ["knocked down", "lying down"], "id": ["terjatuh", "tergeletak", "rebah"] },
+   "whenToUse": { "en": "You were knocked down or dropped to the ground.", "id": "Kamu dijatuhkan atau menjatuhkan diri ke tanah." }
+  },
+  "condition.unconscious": {
+   "aliases": { "en": ["knocked out", "ko"], "id": ["pingsan", "tidak sadar"] },
+   "whenToUse": { "en": "Often happens at 0 Hit Points.", "id": "Sering terjadi saat Hit Points 0." }
+  },
+  "condition.frightened": {
+   "aliases": { "en": ["scared", "afraid", "fear"], "id": ["takut", "ketakutan"] },
+   "whenToUse": { "en": "You can't willingly move closer to the source of fear.", "id": "Kamu tidak dapat sengaja mendekati sumber ketakutan." }
+  },
+  "condition.poisoned": {
+   "aliases": { "en": ["poison"], "id": ["keracunan", "racun"] },
+   "whenToUse": { "en": "Disadvantage on attack rolls and ability checks.", "id": "Disadvantage pada attack roll dan ability check." }
+  },
+  "condition.grappled": {
+   "aliases": { "en": ["held", "grabbed"], "id": ["dicengkeram", "ditahan"] },
+   "whenToUse": { "en": "Your Speed is 0 while held.", "id": "Speed-mu 0 selama ditahan." }
+  },
+  "condition.restrained": {
+   "aliases": { "en": ["tied up", "stuck"], "id": ["terikat", "terjerat", "terperangkap"] },
+   "whenToUse": { "en": "Caught in a net, web, or similar effect.", "id": "Terjebak jaring, sarang laba-laba, atau efek serupa." }
+  },
+  "condition.charmed": {
+   "aliases": { "en": ["mind controlled"], "id": ["terpesona", "terpikat"] },
+   "whenToUse": { "en": "You can't attack the charmer.", "id": "Kamu tidak dapat menyerang makhluk yang memesonamu." }
+  },
+  "condition.invisible": {
+   "aliases": { "en": ["unseen"], "id": ["tak terlihat", "tidak terlihat", "menghilang"] },
+   "whenToUse": { "en": "Others can't see you.", "id": "Makhluk lain tidak dapat melihatmu." }
+  },
+  "condition.blinded": {
+   "aliases": { "en": ["blind", "can't see"], "id": ["buta", "tidak bisa melihat"] },
+   "whenToUse": { "en": "You can't see.", "id": "Kamu tidak dapat melihat." }
+  },
+  "condition.exhaustion": {
+   "aliases": { "en": ["tired", "fatigue"], "id": ["kelelahan", "lelah", "capek"] },
+   "whenToUse": { "en": "Each level penalizes your D20 Tests.", "id": "Setiap level memberi penalti pada D20 Test." }
+  },
+  "condition.stunned": {
+   "aliases": { "en": ["dazed"], "id": ["pusing", "linglung", "terkejut"] },
+   "whenToUse": { "en": "You can't act and fail some saves.", "id": "Kamu tidak dapat bertindak dan gagal pada sebagian save." }
+  },
+  "condition.paralyzed": {
+   "aliases": { "en": ["frozen", "can't move"], "id": ["lumpuh", "tidak bisa bergerak"] },
+   "whenToUse": { "en": "You can't move or act; hits nearby become critical.", "id": "Kamu tidak dapat bergerak atau bertindak; serangan dari dekat menjadi critical." }
+  }
+ },
+ "guides": [
+  {
+   "id": "guide.your-turn",
+   "relatedIds": ["rule.combat", "rule.action", "rule.actions", "rule.bonus-action", "rule.reaction", "rule.speed", "rule.utilize"],
+   "phrases": {
+    "en": ["what can i do on my turn", "what can i do", "my turn", "on my turn", "turn options"],
+    "id": ["giliran saya bisa apa", "giliranku bisa apa", "apa yang bisa saya lakukan", "giliran saya", "saat giliran saya", "pilihan giliran"]
+   },
+   "title": { "en": "What can I do on my turn?", "id": "Apa yang bisa saya lakukan pada giliran saya?" },
+   "summary": {
+    "en": "Beginner guide written for this app, not SRD text.",
+    "id": "Panduan pemula yang ditulis untuk aplikasi ini, bukan teks SRD."
+   },
+   "whenToUse": { "en": "When it is your turn in combat.", "id": "Saat tiba giliranmu dalam combat." },
+   "body": {
+    "en": "On your turn you can do each of these once, in any order:\n\n- **Move** up to your [Speed](ref:rule.speed). You can split movement before and after your action.\n- **Take one [action](ref:rule.action)**, such as Attack, Dash, Dodge, Help, Hide, Magic or Utilize. See the [list of actions](ref:rule.actions).\n- **Take a [Bonus Action](ref:rule.bonus-action)** only if a feature or spell gives you one.\n- **Interact with one object** for free, like drawing a weapon or opening a door.\n\nYou also have one [Reaction](ref:rule.reaction) per round, which you can use even on another creature's turn. Not sure? Tell the DM what you want to do; the app will show the matching rule before anything is spent.",
+    "id": "Pada giliranmu, kamu dapat melakukan masing-masing hal berikut sekali, dalam urutan apa pun:\n\n- **Bergerak** hingga sejauh [Speed](ref:rule.speed)-mu. Gerakan boleh dipecah sebelum dan sesudah action.\n- **Mengambil satu [action](ref:rule.action)**, seperti Attack, Dash, Dodge, Help, Hide, Magic, atau Utilize. Lihat [daftar action](ref:rule.actions).\n- **Mengambil [Bonus Action](ref:rule.bonus-action)** hanya bila fitur atau spell memberimu Bonus Action.\n- **Berinteraksi dengan satu objek** secara gratis, misalnya menghunus senjata atau membuka pintu.\n\nKamu juga memiliki satu [Reaction](ref:rule.reaction) per ronde, yang dapat dipakai bahkan pada giliran makhluk lain. Ragu? Sampaikan kepada DM apa yang ingin kamu lakukan; aplikasi akan menampilkan aturan yang sesuai sebelum apa pun dihabiskan."
+   }
+  }
+ ]
+}

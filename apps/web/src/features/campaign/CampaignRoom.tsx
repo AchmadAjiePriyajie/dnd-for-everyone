@@ -87,6 +87,12 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </p>
         </div>
       </header>
+      <p>
+        <Link href={routePath.reference(campaignId)} className="button-link">
+          <Icon name="scroll" />
+          {t('room.openReference')}
+        </Link>
+      </p>
       {entry.error && <ErrorMessage error={entry.error} />}
       <ErrorMessage error={actionError} />
 

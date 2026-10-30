@@ -1,14 +1,20 @@
 import { type AnchorHTMLAttributes, type MouseEvent, useSyncExternalStore } from 'react';
 
 /** Rute frontend; host menyajikan index.html untuk navigasi ini (lihat server web.ts). */
-export type Route = { name: 'lobby' } | { name: 'campaign'; campaignId: string } | { name: 'not-found' };
+export type Route =
+  | { name: 'lobby' }
+  | { name: 'campaign'; campaignId: string }
+  | { name: 'reference'; campaignId?: string }
+  | { name: 'not-found' };
 
 export function parseRoute(pathname: string): Route {
   if (pathname === '/' || pathname === '') return { name: 'lobby' };
-  const campaign = /^\/campaigns\/([^/]+)\/?$/.exec(pathname);
+  if (/^\/reference\/?$/.test(pathname)) return { name: 'reference' };
+  const campaign = /^\/campaigns\/([^/]+)(\/reference)?\/?$/.exec(pathname);
   if (campaign) {
     try {
-      return { name: 'campaign', campaignId: decodeURIComponent(campaign[1]!) };
+      const campaignId = decodeURIComponent(campaign[1]!);
+      return campaign[2] ? { name: 'reference', campaignId } : { name: 'campaign', campaignId };
     } catch {
       return { name: 'not-found' };
     }
@@ -19,6 +25,8 @@ export function parseRoute(pathname: string): Route {
 export const routePath = {
   lobby: () => '/',
   campaign: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}`,
+  reference: (campaignId?: string) =>
+    campaignId === undefined ? '/reference' : `/campaigns/${encodeURIComponent(campaignId)}/reference`,
 };
 
 const listeners = new Set<() => void>();

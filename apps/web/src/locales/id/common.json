@@ -9,7 +9,8 @@
     "campaigns": "Campaign",
     "signOut": "Keluar",
     "signedInAs": "Masuk sebagai {{username}}",
-    "tagline": "Jalankan campaign D&D 2024 di host milikmu sendiri."
+    "tagline": "Jalankan campaign D&D 2024 di host milikmu sendiri.",
+    "reference": "Referensi"
   },
   "connection": {
     "label": "Koneksi",
@@ -92,7 +93,8 @@
     "revoke": "Cabut",
     "noAccess": "Kamu tidak punya akses ke campaign ini.",
     "dmTools": "Alat Dungeon Master",
-    "inviteActive": "Aktif"
+    "inviteActive": "Aktif",
+    "openReference": "Referensi aturan"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",
@@ -119,5 +121,32 @@
     "OFFLINE": "Kamu sedang offline. Tidak ada yang dikirim; coba lagi setelah tersambung.",
     "INTERNAL": "Terjadi kesalahan di host. Coba lagi.",
     "UNKNOWN": "Terjadi kesalahan ({{code}})."
+  },
+  "reference": {
+    "title": "Referensi aturan",
+    "searchLabel": "Cari aturan dan istilah",
+    "searchPlaceholder": "mis. darah, keuntungan, giliran saya",
+    "searchHint": "Istilah bahasa Indonesia maupun Inggris sama-sama bisa.",
+    "noResults": "Tidak ada hasil. Coba kata lain, atau istilah bahasa Inggrisnya.",
+    "results": "Hasil pencarian",
+    "badgeGuide": "Panduan aplikasi (bukan SRD)",
+    "badgeCampaign": "Konten campaign",
+    "badgeFallback": "Teks bahasa Inggris",
+    "originalTitle": "Inggris:",
+    "bookmark": "Simpan",
+    "bookmarked": "Tersimpan",
+    "bookmarkAdd": "Simpan bookmark",
+    "bookmarkRemove": "Hapus bookmark",
+    "bookmarks": "Bookmark",
+    "noBookmarks": "Belum ada yang disimpan. Pakai tombol Simpan pada entri mana pun.",
+    "whenToUse": "Kapan dipakai:",
+    "related": "Lihat juga",
+    "sourceSrd": "SRD 5.2.1 · {{section}} · hlm. {{page}} · CC-BY-4.0",
+    "sourceGuide": "Ditulis untuk aplikasi ini sebagai bantuan pemula; bukan teks SRD.",
+    "sourceCampaign": "Konten campaign, hanya ditampilkan kepada anggota yang berhak.",
+    "translatedNote": "Terjemahan aplikasi (tidak resmi); teks sumber bahasa Inggris tetap tersedia.",
+    "quickHelp": "Bantuan cepat",
+    "intro": "Baru mengenal D&D? Mulai dari sini, atau cari kata apa pun yang kamu dengar di meja. Membaca aturan tidak pernah menghabiskan apa pun.",
+    "backToRoom": "Kembali ke room"
   }
 }

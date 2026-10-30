@@ -9,7 +9,8 @@
     "campaigns": "Campaigns",
     "signOut": "Sign out",
     "signedInAs": "Signed in as {{username}}",
-    "tagline": "Run your D&D 2024 campaign on your own host."
+    "tagline": "Run your D&D 2024 campaign on your own host.",
+    "reference": "Reference"
   },
   "connection": {
     "label": "Connection",
@@ -92,7 +93,8 @@
     "revoke": "Revoke",
     "noAccess": "You do not have access to this campaign.",
     "dmTools": "Dungeon Master tools",
-    "inviteActive": "Active"
+    "inviteActive": "Active",
+    "openReference": "Rules reference"
   },
   "notFound": {
     "title": "Page not found",
@@ -119,5 +121,32 @@
     "OFFLINE": "You are offline. Nothing was sent; try again once reconnected.",
     "INTERNAL": "Something went wrong on the host. Try again.",
     "UNKNOWN": "Something went wrong ({{code}})."
+  },
+  "reference": {
+    "title": "Rules reference",
+    "searchLabel": "Search rules and terms",
+    "searchPlaceholder": "e.g. HP, advantage, my turn",
+    "searchHint": "English and Indonesian terms both work.",
+    "noResults": "No results. Try another word, or the English term.",
+    "results": "Search results",
+    "badgeGuide": "App guide (not SRD)",
+    "badgeCampaign": "Campaign content",
+    "badgeFallback": "English text",
+    "originalTitle": "English:",
+    "bookmark": "Bookmark",
+    "bookmarked": "Bookmarked",
+    "bookmarkAdd": "Save bookmark",
+    "bookmarkRemove": "Remove bookmark",
+    "bookmarks": "Bookmarks",
+    "noBookmarks": "Nothing saved yet. Use Bookmark on any entry.",
+    "whenToUse": "When to use:",
+    "related": "See also",
+    "sourceSrd": "SRD 5.2.1 · {{section}} · p. {{page}} · CC-BY-4.0",
+    "sourceGuide": "Written for this app to help beginners; not SRD text.",
+    "sourceCampaign": "Campaign content, shown only to members allowed to see it.",
+    "translatedNote": "Unofficial app translation; the English source is kept.",
+    "quickHelp": "Quick help",
+    "intro": "New to D&D? Start here, or search for any word you heard at the table. Reading a rule never spends anything.",
+    "backToRoom": "Back to the room"
   }
 }

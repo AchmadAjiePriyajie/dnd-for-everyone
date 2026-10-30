@@ -5,6 +5,7 @@ import type { Locale } from '#shared/contracts';
 import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
 import { Lobby } from '../features/lobby/Lobby';
+import { ReferencePage } from '../features/reference/ReferencePage';
 import { api } from './api';
 import { Icon, initials } from './icons';
 import { currentLocale, i18n, LOCALES, setLocale } from './i18n';
@@ -117,6 +118,10 @@ function Shell() {
               <Icon name="scroll" />
               {t('app.campaigns')}
             </Link>
+            <Link href={routePath.reference()} aria-current={route.name === 'reference' && !route.campaignId ? 'page' : undefined}>
+              <Icon name="eye" />
+              {t('app.reference')}
+            </Link>
           </nav>
         )}
         <div className="topbar-tools">
@@ -170,6 +175,7 @@ function Routes() {
   const route = useRoute();
   if (route.name === 'lobby') return <Lobby />;
   if (route.name === 'campaign') return <CampaignRoom key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'reference') return <ReferencePage key={route.campaignId ?? ''} campaignId={route.campaignId} />;
   return (
     <section className="card">
       <h1>{t('notFound.title')}</h1>

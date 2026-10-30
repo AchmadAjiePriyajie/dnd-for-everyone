@@ -9,6 +9,7 @@ import { ContentModule } from './content/content.module.js';
 import { DatabaseModule } from './db/database.module.js';
 import { AuthModule } from './features/auth/auth.module.js';
 import { CampaignsModule } from './features/campaigns/campaigns.module.js';
+import { ReferenceModule } from './features/reference/reference.module.js';
 import { RealtimeModule } from './realtime/realtime.module.js';
 
 @Global()
@@ -35,6 +36,7 @@ export class AppModule {
         ContentModule,
         AuthModule,
         CampaignsModule,
+        ReferenceModule,
         CommandsModule,
         RealtimeModule,
       ],

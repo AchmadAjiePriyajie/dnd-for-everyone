@@ -8,6 +8,7 @@ import type {
 } from '#shared/access';
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
+import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
 /** Error dari host atau jaringan; `error.code` diterjemahkan UI lewat `errors.<code>`. */
@@ -56,6 +57,9 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
 
 const campaignPath = (campaignId: Id) => `/api/campaigns/${encodeURIComponent(campaignId)}`;
 
+const referenceQuery = (params: Record<string, string | undefined>) =>
+  new URLSearchParams(Object.entries(params).filter((pair): pair is [string, string] => pair[1] !== undefined)).toString();
+
 export const api = {
   authState: () => request<AuthState>('GET', '/api/auth/state'),
   me: () => request<AccountView>('GET', '/api/auth/me'),
@@ -75,6 +79,14 @@ export const api = {
     request<{ ok: true }>('DELETE', `${campaignPath(campaignId)}/invites/${encodeURIComponent(inviteId)}`),
   removeMember: (campaignId: Id, accountId: Id) =>
     request<{ ok: true }>('DELETE', `${campaignPath(campaignId)}/members/${encodeURIComponent(accountId)}`),
+
+  referenceSearch: (q: string, locale: Locale, campaignId?: Id) =>
+    request<SearchHit[]>('GET', `/api/reference/search?${referenceQuery({ q, locale, campaignId })}`),
+  referenceEntry: (id: Id, locale: Locale, campaignId?: Id) =>
+    request<ReferenceEntryView>('GET', `/api/reference/entries/${encodeURIComponent(id)}?${referenceQuery({ locale, campaignId })}`),
+  bookmarks: () => request<Id[]>('GET', '/api/reference/bookmarks'),
+  addBookmark: (id: Id) => request<void>('PUT', `/api/reference/bookmarks/${encodeURIComponent(id)}`),
+  removeBookmark: (id: Id) => request<void>('DELETE', `/api/reference/bookmarks/${encodeURIComponent(id)}`),
 
   snapshot: (campaignId: Id) => request<RoomSnapshot>('GET', `${campaignPath(campaignId)}/snapshot`),
   command: (command: CommandEnvelope) =>
