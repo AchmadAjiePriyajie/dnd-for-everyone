@@ -1,0 +1,40 @@
+{
+  "name": "dnd-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "dev": "npm run build:server && node --enable-source-maps dist/apps/server/src/index.js",
+    "build": "npm run build:server",
+    "build:server": "tsc -p apps/server/tsconfig.build.json && node scripts/copy-server-assets.mjs",
+    "start": "node --enable-source-maps dist/apps/server/src/index.js",
+    "typecheck": "tsc -p apps/server/tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "content:audit": "node -e \"console.error('content:audit belum tersedia; dibuat pada Task 5'); process.exit(1)\""
+  },
+  "dependencies": {
+    "@nestjs/common": "12.3.2",
+    "@nestjs/core": "12.3.2",
+    "@nestjs/platform-fastify": "12.3.2",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "12.3.2",
+    "@swc/core": "1.16.20",
+    "@types/node": "24.19.2",
+    "typescript": "6.0.3",
+    "unplugin-swc": "2.0.0",
+    "vitest": "5.0.5"
+  },
+  "imports": {
+    "#shared/*": {
+      "source": "./packages/shared/src/*.ts",
+      "default": "./dist/packages/shared/src/*.js"
+    }
+  }
+}
