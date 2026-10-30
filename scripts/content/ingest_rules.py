@@ -27,11 +27,13 @@ STANDALONE_SECTIONS = {"Properties", "Mastery Properties", "Artisan’s Tools", 
 
 def build_section_body(name: str, lines: list, words: Words) -> str:
     """Place the known page-bottom floats after their section's continuous prose."""
-    if name not in {"Rhythm of Play", "Starting at Higher Levels", "Travel Pace"}:
+    if name not in {"Rhythm of Play", "Starting at Higher Levels", "Travel Pace", "Proficiency"}:
         return build_body(lines, words)
     prose, floats = [], []
     for line in lines:
         floating = is_sidebar_title(line) or is_sidebar_text(line) or is_table_line(line)
+        if name == "Proficiency":
+            floating = is_table_line(line) and line.page == 9
         if name == "Travel Pace" and line.page == 192 and line.y < 290 and line.font.startswith("GillSans"):
             floating = True  # Includes both complete table footnotes.
         (floats if floating else prose).append(line)

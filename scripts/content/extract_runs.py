@@ -61,7 +61,8 @@ def merge_full_width_tables(runs: list[dict]) -> None:
 
     Header tabel (GillSans-SemiBold 9.2) yang punya sel di kedua kolom menandai tabel
     lebar-penuh, kecuali kolom kanan memiliki judul tabelnya sendiri tepat di atas
-    header (dua tabel terpisah yang kebetulan sejajar).
+    header (dua tabel terpisah yang kebetulan sejajar) atau baris body tabel lain
+    yang berlanjut tepat di atas header.
     """
     headers: dict[int, set[int]] = {}
     for run in runs:
@@ -72,6 +73,17 @@ def merge_full_width_tables(runs: list[dict]) -> None:
         y = round(run["y"])
         if y in headers and is_table_run(run) and run["size"] in (9.2, 9.5):
             headers[y].add(run["col"])
+    # A wide final column can extend right even when all header labels fit left.
+    # Require two aligned body rows; the separate-title guard below still applies.
+    for y0, cols in headers.items():
+        if cols != {0}:
+            continue
+        row_columns: dict[int, set[int]] = {}
+        for run in runs:
+            if is_table_run(run) and run["size"] == 9.5 and 1 < y0 - run["y"] <= 35:
+                row_columns.setdefault(round(run["y"]), set()).add(run["col"])
+        if sum(row_cols == {0, 1} for row_cols in row_columns.values()) >= 2:
+            cols.add(1)
     for y0, cols in sorted(headers.items(), reverse=True):
         if cols != {0, 1}:
             continue
@@ -79,7 +91,9 @@ def merge_full_width_tables(runs: list[dict]) -> None:
             r["col"] == 1 and r["font"] == "GillSans-SemiBold" and r["size"] == 10.5 and 0 < r["y"] - y0 <= 30
             for r in runs
         )
-        if own_title:
+        # Right-column table rows just above the header mean a different table continues there.
+        continues = any(r["col"] == 1 and is_table_run(r) and r["size"] == 9.5 and 1 < r["y"] - y0 <= 22 for r in runs)
+        if own_title or continues:
             continue
         levels = sorted({round(r["y"]) for r in runs if is_table_run(r) and r["y"] <= y0 + 1}, reverse=True)
         table_ys = []
