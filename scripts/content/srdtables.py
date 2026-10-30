@@ -37,9 +37,22 @@ def cells_of(line: Line, starts: list[float]) -> list[str]:
     return row
 
 
+def header_columns(headers: list[Line]) -> tuple[list[float], list[str]]:
+    """Kolom dari baris header dengan span terbanyak; baris header lain ditempel ke kolom terdekat."""
+    base = max(headers, key=lambda line: len(line.spans))
+    starts = [s[3] for s in base.spans]
+    columns = [""] * len(starts)
+    for line in headers:
+        for _font, _size, text, x in line.spans:
+            index = min(range(len(starts)), key=lambda i: abs(starts[i] - x))
+            columns[index] = join_cell(columns[index], fix_text(text))
+    return starts, columns
+
+
 def assemble_table(lines: list[tuple[str, Line]]) -> dict | None:
     """lines: (kind, Line) dengan kind 'title'|'header'|'row'. None bila tanpa header."""
     title = None
+    headers: list[Line] = []
     starts: list[float] = []
     columns: list[str] = []
     rows: list[list[str]] = []
@@ -50,26 +63,28 @@ def assemble_table(lines: list[tuple[str, Line]]) -> dict | None:
         if kind == "header":
             if rows:
                 return None
-            if not starts:
-                starts = [s[3] for s in line.spans]
-                columns = [fix_text(s[2]) for s in line.spans]
-            else:
-                # Header dua baris: gabungkan per kolom.
-                for index, cell in enumerate(cells_of(line, starts)):
-                    if cell:
-                        columns[index] = join_cell(columns[index], cell)
+            headers.append(line)
             continue
-        if not starts:
+        if not headers:
             return None
+        if not starts:
+            starts, columns = header_columns(headers)
         row = cells_of(line, starts)
+        only_first = row[0] and not any(row[1:])
+        if rows and only_first and len(row) > 1 and row[0][:1].islower():
+            # Lanjutan teks sel pertama yang terbungkus (mis. "Viewed once or" + "described").
+            rows[-1][0] = join_cell(rows[-1][0], row[0])
+            continue
         if rows and not row[0]:
             for index, cell in enumerate(row):
                 if cell:
                     rows[-1][index] = join_cell(rows[-1][index], cell)
         else:
             rows.append(row)
-    if not starts:
+    if not headers:
         return None
+    if not starts:
+        starts, columns = header_columns(headers)
     return {"title": title, "columns": columns, "rows": rows}
 
 

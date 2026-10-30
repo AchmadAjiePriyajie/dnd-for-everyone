@@ -49,6 +49,43 @@ def pieces(span: dict) -> list[dict]:
     return out
 
 
+def is_table_run(run: dict) -> bool:
+    return run["font"].startswith("GillSans") and run["size"] <= 10.5
+
+
+def merge_full_width_tables(runs: list[dict]) -> None:
+    """Tabel selebar halaman: pindahkan sel di kolom kanan ke kolom kiri agar satu baris utuh.
+
+    Header tabel (GillSans-SemiBold 9.2) yang punya sel di kedua kolom menandai tabel
+    lebar-penuh, kecuali kolom kanan memiliki judul tabelnya sendiri tepat di atas
+    header (dua tabel terpisah yang kebetulan sejajar).
+    """
+    headers: dict[int, set[int]] = {}
+    for run in runs:
+        if run["font"] == "GillSans-SemiBold" and run["size"] == 9.2:
+            headers.setdefault(round(run["y"]), set()).add(run["col"])
+    for y0, cols in sorted(headers.items(), reverse=True):
+        if cols != {0, 1}:
+            continue
+        own_title = any(
+            r["col"] == 1 and r["font"] == "GillSans-SemiBold" and r["size"] == 10.5 and 0 < r["y"] - y0 <= 30
+            for r in runs
+        )
+        if own_title:
+            continue
+        levels = sorted({round(r["y"]) for r in runs if is_table_run(r) and r["y"] <= y0 + 1}, reverse=True)
+        table_ys = []
+        last = None
+        for y in levels:
+            if last is not None and last - y > 22:
+                break
+            table_ys.append(y)
+            last = y
+        for run in runs:
+            if run["col"] == 1 and is_table_run(run) and round(run["y"]) in table_ys:
+                run["col"] = 0
+
+
 def main(pdf_path: str, out_path: str) -> None:
     data = open(pdf_path, "rb").read()
     digest = hashlib.sha256(data).hexdigest()
@@ -82,6 +119,7 @@ def main(pdf_path: str, out_path: str) -> None:
                             )
             # Header (judul dokumen) dan footer (nomor halaman).
             body = [r for r in runs if 30 <= r["y"] <= height - 45]
+            merge_full_width_tables(body)
             body.sort(key=lambda r: (r["col"], -r["y"], r["x"]))
             for run in body:
                 out.write(json.dumps(run, ensure_ascii=False) + "\n")
