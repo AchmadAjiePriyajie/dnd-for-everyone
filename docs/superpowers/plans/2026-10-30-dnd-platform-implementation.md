@@ -106,11 +106,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `openDatabase(dataDir: string): DatabaseSync`; `migrate(db: DatabaseSync): void`; `backupDatabase(db: DatabaseSync, targetPath: string): Promise<void>`; `createApp(options: { dataDir: string }): Promise<NestFastifyApplication>`. Test helper uses `@nestjs/testing`, initializes Nest dan menunggu Fastify `.ready()` sebelum `app.inject()`, lalu `app.close()` untuk temporary data directory. Root scripts: dev, build, start, typecheck, test, test:e2e, content:audit.
 
-- [ ] Siapkan harness minimal dan failing test `keeps_host_identity_after_reopen`: `expect(reopened.hostId).toBe(first.hostId)`; health endpoint tidak mengungkap path/secret. Tambahkan `boots_nested_injected_providers` untuk membuktikan metadata injection pada test runner dan hasil build. Ini menguji persistence/boot nyata, bukan file konfigurasi.
-- [ ] Jalankan `npm run test -- apps/server/src/app.test.ts`; pastikan gagal pada kontrak aplikasi/persistence yang belum dibuat, bukan karena dependency/harness rusak.
-- [ ] Implementasikan bootstrap Nest/Fastify, AppModule/DatabaseModule, provider singleton dan shutdown hooks; prepared SQL/migrations atomik, foreign keys, WAL dan data directory eksplisit. Sebelum memigrasi database existing, `createApp` menunggu backup konsisten dan gagal start bila backup gagal. Konfigurasikan SWC/reflect-metadata untuk test, frontend build dari output tertentu, serta tooling/lockfile yang diperlukan deliverable ini.
-- [ ] Jalankan test yang sama serta `npm run typecheck`; expected exit 0. Uji kegagalan migrasi tidak meninggalkan schema setengah terpasang, `GET /api/unknown` tetap JSON 404, dan shutdown menutup database. Jika frontend build belum ada pada tahap ini, health/API dapat berjalan tanpa membuat fallback palsu; sajikan output Vite setelah Task 4 tersedia.
-- [ ] Commit `feat: add persistent application host`.
+- [x] Siapkan harness minimal dan failing test `keeps_host_identity_after_reopen`: `expect(reopened.hostId).toBe(first.hostId)`; health endpoint tidak mengungkap path/secret. Tambahkan `boots_nested_injected_providers` untuk membuktikan metadata injection pada test runner dan hasil build. Ini menguji persistence/boot nyata, bukan file konfigurasi.
+- [x] Jalankan `npm run test -- apps/server/src/app.test.ts`; pastikan gagal pada kontrak aplikasi/persistence yang belum dibuat, bukan karena dependency/harness rusak.
+- [x] Implementasikan bootstrap Nest/Fastify, AppModule/DatabaseModule, provider singleton dan shutdown hooks; prepared SQL/migrations atomik, foreign keys, WAL dan data directory eksplisit. Sebelum memigrasi database existing, `createApp` menunggu backup konsisten dan gagal start bila backup gagal. Konfigurasikan SWC/reflect-metadata untuk test, frontend build dari output tertentu, serta tooling/lockfile yang diperlukan deliverable ini.
+- [x] Jalankan test yang sama serta `npm run typecheck`; expected exit 0. Uji kegagalan migrasi tidak meninggalkan schema setengah terpasang, `GET /api/unknown` tetap JSON 404, dan shutdown menutup database. Jika frontend build belum ada pada tahap ini, health/API dapat berjalan tanpa membuat fallback palsu; sajikan output Vite setelah Task 4 tersedia.
+- [x] Commit `feat: add persistent application host`.
 
 ### Task 2: Akun, undangan, campaign dan ownership
 
@@ -118,11 +118,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `registerInvitedAccount(invite: string, username: string, password: string): Promise<Principal>`; `requireMember(principal: Principal, campaignId: Id): Member`; `createCampaign(principal: Principal, title: string): Id`. Bootstrap first owner is one-time. Password hashing uses asynchronous Node scrypt with per-user salt, di luar transaksi, lalu validasi undangan ulang saat commit; opaque auth sessions stored server-side and revocable. Ownership karakter diperkenalkan Task 7 setelah schema karakter tersedia, bukan mengakses tabel yang belum dibuat.
 
-- [ ] Tulis `rejects_cross_campaign_and_role_escalation`: `expect(player.role).toBe('player')`; campaign lain, owner ID palsu dan undangan dicabut semuanya menghasilkan `FORBIDDEN`/`INVITE_INVALID` tanpa detail rahasia.
-- [ ] Run `npm run test -- apps/server/src/features/campaigns/access.test.ts`; expected FAIL sebelum implementasi.
-- [ ] Implementasikan bootstrap, login/logout, undangan, membership, pencabutan anggota dan kontrak error; cookie HttpOnly/SameSite, Secure saat HTTPS; validasi origin/CSRF dan rate limit login/join.
-- [ ] Run test sama; expected PASS, termasuk restart/login ulang tetap memiliki keanggotaan dan DM yang sama.
-- [ ] Commit `feat: add campaign identities and access`.
+- [x] Tulis `rejects_cross_campaign_and_role_escalation`: `expect(player.role).toBe('player')`; campaign lain, owner ID palsu dan undangan dicabut semuanya menghasilkan `FORBIDDEN`/`INVITE_INVALID` tanpa detail rahasia.
+- [x] Run `npm run test -- apps/server/src/features/campaigns/access.test.ts`; expected FAIL sebelum implementasi.
+- [x] Implementasikan bootstrap, login/logout, undangan, membership, pencabutan anggota dan kontrak error; cookie HttpOnly/SameSite, Secure saat HTTPS; validasi origin/CSRF dan rate limit login/join.
+- [x] Run test sama; expected PASS, termasuk restart/login ulang tetap memiliki keanggotaan dan DM yang sama.
+- [x] Commit `feat: add campaign identities and access`.
 
 ### Task 3: Transaksi command, projection dan reconnect
 
@@ -130,11 +130,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** Kontrak `registerCommand`, `executeCommand`, `projectRoom` di atas; HTTP snapshot/command dan Socket.IO `room:changed`. Auth/membership Task 2 dipakai pada subscribe, snapshot, command dan receipt.
 
-- [ ] Tulis `retries_once_after_lost_ack`: dua command dengan requestId/payload sama menghasilkan `expect(second).toEqual(first)` dan satu event; stale revision gagal; rollback tidak mengubah state/receipt.
-- [ ] Run `npm run test -- apps/server/src/commands/dispatcher.test.ts`; expected FAIL.
-- [ ] Implementasikan CommandsModule/RealtimeModule, dispatcher provider, HTTP controller dan RoomsGateway, transaksi state/event/receipt, payload fingerprint, revision, projection per peserta dan reconnect snapshot. Socket memakai session/origin/membership yang sama; cabut subscription saat akses dicabut. Mutation baru saat disconnected ditolak client, tidak masuk buffer socket.
-- [ ] Run test sama; expected PASS termasuk member yang dicabut tidak memperoleh receipt lama, serta perubahan tidak diumumkan sebelum commit.
-- [ ] Commit `feat: add authoritative room commands`.
+- [x] Tulis `retries_once_after_lost_ack`: dua command dengan requestId/payload sama menghasilkan `expect(second).toEqual(first)` dan satu event; stale revision gagal; rollback tidak mengubah state/receipt.
+- [x] Run `npm run test -- apps/server/src/commands/dispatcher.test.ts`; expected FAIL.
+- [x] Implementasikan CommandsModule/RealtimeModule, dispatcher provider, HTTP controller dan RoomsGateway, transaksi state/event/receipt, payload fingerprint, revision, projection per peserta dan reconnect snapshot. Socket memakai session/origin/membership yang sama; cabut subscription saat akses dicabut. Mutation baru saat disconnected ditolak client, tidak masuk buffer socket.
+- [x] Run test sama; expected PASS termasuk member yang dicabut tidak memperoleh receipt lama, serta perubahan tidak diumumkan sebelum commit.
+- [x] Commit `feat: add authoritative room commands`.
 
 ### Task 4: Shell responsif dan EN/ID per pengguna
 
@@ -142,11 +142,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `setLocale(locale: Locale): void`; `useRoom(campaignId: Id): RoomSnapshot | undefined`; API wrapper consumes Task 2 error codes and Task 3 snapshot/command contracts. Preferensi bahasa tersimpan per akun; sebelum login gunakan browser preference dengan fallback EN.
 
-- [ ] Tulis `switches_locale_without_losing_draft`: `expect(draftAfter).toEqual(draftBefore)` dan label berubah EN/ID; parameter terjemahan sama; no secret in room store.
-- [ ] Run `npm run test -- apps/web/src/app/i18n.test.tsx`; expected FAIL.
-- [ ] Implementasikan shell/login/lobby dan navigation role, status koneksi/save/error, dialog aksesibel, locale switch dan catalog lokal; tambahkan EN/ID bersama setiap UI task berikutnya. Konfigurasikan proxy Vite untuk API/Socket.IO saat development, dan penyajian hasil build Vite dari host Nest untuk pengujian produksi berikutnya; frontend fallback tidak menelan API/asset privat.
-- [ ] Run test sama dan locale audit; expected PASS untuk ID/EN/browser lain, termasuk keyboard dan text panjang.
-- [ ] Commit `feat: add bilingual campaign shell`.
+- [x] Tulis `switches_locale_without_losing_draft`: `expect(draftAfter).toEqual(draftBefore)` dan label berubah EN/ID; parameter terjemahan sama; no secret in room store.
+- [x] Run `npm run test -- apps/web/src/app/i18n.test.tsx`; expected FAIL.
+- [x] Implementasikan shell/login/lobby dan navigation role, status koneksi/save/error, dialog aksesibel, locale switch dan catalog lokal; tambahkan EN/ID bersama setiap UI task berikutnya. Konfigurasikan proxy Vite untuk API/Socket.IO saat development, dan penyajian hasil build Vite dari host Nest untuk pengujian produksi berikutnya; frontend fallback tidak menelan API/asset privat.
+- [x] Run test sama dan locale audit; expected PASS untuk ID/EN/browser lain, termasuk keyboard dan text panjang.
+- [x] Commit `feat: add bilingual campaign shell`.
 
 **Gate tahap:** DM dan dua player memakai browser berbeda, room/data bertahan setelah restart, role terjaga dan bahasa dapat berbeda.
 
@@ -158,11 +158,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `getContent(id: Id, locale: Locale): ContentEntry`; `auditContent(): ContentAudit`; `ContentEntry` dan kind-specific mechanics schemas di `packages/shared/src/content.ts` memisahkan localized label/body dari numeric mechanics/provenance. `ContentAudit { missingIds, missingLocales, invalidReferences, mechanicMismatches }` berisi daftar masalah.
 
-- [ ] Buat manifest ekspektasi berdasarkan bagian sumber SRD resmi, catat section/page/hash/version; test `requires_all_manifest_entries_in_both_locales`: semua daftar audit harus `[]`. Manifest dibaca/diperiksa independen dari hasil ingest, bukan dibuat hanya dari entri yang kebetulan tersedia.
-- [ ] Run `npm run test -- packages/content/src/catalog.test.ts`; expected FAIL dengan kekurangan nyata, bukan melemahkan ekspektasi ke corpus sampel.
-- [ ] Ingest/review bertahap aturan, seluruh opsi/progression karakter SRD, spells, equipment/magic items dan monsters ke EN/ID; simpan attribution/penanda terjemahan. Angka/formula tidak diduplikasi dalam dua locale. Fitur yang belum otomatis tetap memiliki teks dan mekanik resource terstruktur.
+- [x] Buat manifest ekspektasi berdasarkan bagian sumber SRD resmi, catat section/page/hash/version; test `requires_all_manifest_entries_in_both_locales`: semua daftar audit harus `[]`. Manifest dibaca/diperiksa independen dari hasil ingest, bukan dibuat hanya dari entri yang kebetulan tersedia.
+- [x] Run `npm run test -- packages/content/src/catalog.test.ts`; expected FAIL dengan kekurangan nyata, bukan melemahkan ekspektasi ke corpus sampel.
+- [x] Ingest/review bertahap aturan, seluruh opsi/progression karakter SRD, spells, equipment/magic items dan monsters ke EN/ID; simpan attribution/penanda terjemahan. Angka/formula tidak diduplikasi dalam dua locale. Fitur yang belum otomatis tetap memiliki teks dan mekanik resource terstruktur.
 - [ ] Run `npm run test -- packages/content/src/catalog.test.ts` dan `npm run content:audit`; expected PASS hanya setelah cakupan lengkap. Gunakan fixture sumber dan sampling visual lintas kategori; hasil OCR tidak dianggap benar tanpa pemeriksaan.
-- [ ] Commit per kategori yang sudah diaudit `feat: add verified bilingual SRD corpus`; gate task tetap terbuka sampai semua kategori lengkap. Tidak menjadikan seluruh library PDF pengguna sebagai asset produk.
+- [x] Commit per kategori yang sudah diaudit `feat: add verified bilingual SRD corpus`; gate task tetap terbuka sampai semua kategori lengkap. Tidak menjadikan seluruh library PDF pengguna sebagai asset produk.
 
 ### Task 6: Reference reader dan pencarian istilah pemula
 
