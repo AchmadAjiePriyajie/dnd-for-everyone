@@ -21,7 +21,21 @@ MARK = {"bi": "***", "b": "**", "i": "*", "": ""}
 def is_table_line(line: Line) -> bool:
     if not line.font.startswith("GillSans") or "SC" in line.font:
         return False
-    return line.size in (9.2, 9.5, 10.5) or (line.size == 9.0 and "SemiBold" not in line.font)
+    return line.size in (9.2, 9.5, 10.5)
+
+
+def is_sidebar_title(line: Line) -> bool:
+    return line.font == "GillSans-Bold-SC700" and line.size == 11.0
+
+
+def is_sidebar_text(line: Line) -> bool:
+    """Kotak sidebar: GillSans 9pt atau ScalaSans (mis. "Exceptions Supersede General Rules")."""
+    return line.font.startswith("ScalaSans") or (line.font.startswith("GillSans") and line.size == 9.0 and "SemiBold" not in line.font)
+
+
+def is_display_line(line: Line) -> bool:
+    """Baris rumus/daftar GillSans 10pt (mis. "Base AC 10 + ..."): satu baris satu paragraf."""
+    return line.font.startswith("GillSans") and line.size == 10.0 and "Light" not in line.font
 
 
 def table_kind(line: Line) -> str:
@@ -120,8 +134,33 @@ class Paragraph:
         return re.sub(r"\s+", " ", out).strip()
 
 
+def key_value_block(lines: list[Line], words: Words) -> str:
+    """Tabel dua kolom tanpa header (mis. Core Barbarian Traits): label kiri, nilai kanan."""
+    # Kolom nilai = posisi baris lanjutan (GillSans reguler); label selalu di kiri.
+    continuation = [line.x for line in lines if line.font == "GillSans"]
+    left = min(line.x for line in lines)
+    value_x = (min(continuation) if continuation else left + 95) - 4
+    fields: list[list[str]] = []
+    for line in lines:
+        label = " ".join(s[2] for s in sorted(line.spans, key=lambda s: s[3]) if s[3] < value_x)
+        value = " ".join(s[2] for s in sorted(line.spans, key=lambda s: s[3]) if s[3] >= value_x)
+        if label and value:
+            fields.append([label, value])
+        elif label and fields:
+            # Label dua baris ("Saving Throw" + "Proficiencies").
+            fields[-1][0] = f"{fields[-1][0]} {label}"
+        elif label:
+            fields.append([label, ""])
+        elif fields:
+            fields[-1][1] = join_text(fields[-1][1], value, words)
+    return "\n".join(f"**{label}:** {value}" for label, value in fields)
+
+
 def table_segments(group: list[Line]) -> list[list[Line]]:
     """Pecah grup baris tabel menjadi tabel terpisah; tabel berdampingan dibelah per x."""
+    if group and table_kind(group[0]) == "title" and re.match(r"^Core .+ Traits$", group[0].text):
+        cut = next((i for i in range(1, len(group)) if table_kind(group[i]) == "title"), len(group))
+        return [group[:cut]] + (table_segments(group[cut:]) if cut < len(group) else [])
     segments: list[list[Line]] = []
     current: list[Line] = []
     for line in group:
@@ -166,7 +205,7 @@ def side_by_side_split(segment: list[Line]) -> float | None:
     return None
 
 
-def build_body(lines: list[Line], words: Words) -> str:
+def build_body(lines: list[Line], words: Words, in_sidebar: bool = False) -> str:
     blocks: list[str] = []
     base: dict[tuple[int, int], float] = {}
     for line in lines:
@@ -191,6 +230,21 @@ def build_body(lines: list[Line], words: Words) -> str:
     i = 0
     while i < len(lines):
         line = lines[i]
+        if not in_sidebar and (is_sidebar_title(line) or is_sidebar_text(line)):
+            flush()
+            title = None
+            inner: list[Line] = []
+            if is_sidebar_title(line):
+                title = line.text
+                i += 1
+            while i < len(lines) and is_sidebar_text(lines[i]):
+                inner.append(lines[i])
+                i += 1
+            text = build_body(inner, words, in_sidebar=True)
+            quoted = ([f"**{title}**", ""] if title else []) + text.split("\n")
+            blocks.append("\n".join(f"> {q}".rstrip() for q in quoted))
+            prev = None
+            continue
         if is_table_line(line):
             flush()
             group = []
@@ -198,6 +252,9 @@ def build_body(lines: list[Line], words: Words) -> str:
                 group.append(lines[i])
                 i += 1
             for segment in table_segments(group):
+                if segment and table_kind(segment[0]) == "title" and re.match(r"^Core .+ Traits$", segment[0].text):
+                    blocks.append(f"**{segment[0].text}**\n\n" + key_value_block(segment[1:], words))
+                    continue
                 items = [(table_kind(seg_line), seg_line) for seg_line in segment]
                 table = assemble_table(items)
                 if table:
@@ -229,13 +286,18 @@ def build_body(lines: list[Line], words: Words) -> str:
             elif hanging:
                 prev_end = prev is None or prev.text.endswith(TERMINATORS)
                 starts_runin = style_of(line.spans[0][0]) == "bi"
-                new = prev_end and (indent <= 4 or starts_runin)
+                new = (prev_end and (indent <= 4 or starts_runin)) or (is_display_line(line) and indent <= 4)
                 if not new and indent <= 4:
                     hanging = False
             else:
                 prev_short = prev is not None and len(prev.text) < SHORT_LINE and prev.text.endswith(TERMINATORS)
                 prev_end = prev is None or prev.text.endswith(TERMINATORS)
                 new = indent > 4 or bullet or prev_short or (starts_bold and prev_end)
+                if is_display_line(line) and indent <= 4:
+                    new = True
+                if prev is not None and is_display_line(prev) and not is_display_line(line) and indent <= 4:
+                    # Teks biasa setelah baris rumus/field selalu paragraf baru.
+                    new = True
                 pending_hanging = False
         if new:
             flush()

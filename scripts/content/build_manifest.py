@@ -42,8 +42,10 @@ RULE_SECTION_CHAPTERS = {
     "gameplay-toolbox",
     "magic-items",
     "monsters-intro",
+    "rules-glossary",
 }
-NOT_RULE_SECTIONS = {"Spell Descriptions", "Magic Items A–Z"}
+# Judul pembuka daftar entri, bukan bagian aturan tersendiri.
+NOT_RULE_SECTIONS = {"Spell Descriptions", "Magic Items A–Z", "Rules Definitions"}
 
 COST_SUFFIX = re.compile(r"\s*\((?:[\d,]+ (?:CP|SP|EP|GP|PP)|Varies|Cantrip, 30 GP; Level 1, 50 GP)\)$")
 

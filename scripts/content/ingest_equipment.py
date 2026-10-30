@@ -19,6 +19,7 @@ from srdtables import assemble_table, cells_by_gap  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "packages", "content")
 OUT = os.path.join(ROOT, "data", "en", "items.json")
+GEAR_TABLE_PAGE = 95
 ABILITIES = {"Strength": "str", "Dexterity": "dex", "Constitution": "con", "Intelligence": "int", "Wisdom": "wis", "Charisma": "cha"}
 DAMAGE = {"Acid", "Bludgeoning", "Cold", "Fire", "Force", "Lightning", "Necrotic", "Piercing", "Poison", "Psychic", "Radiant", "Slashing", "Thunder"}
 PROPERTIES = {"ammunition", "finesse", "heavy", "light", "loading", "range", "reach", "thrown", "two-handed", "versatile"}
@@ -96,7 +97,7 @@ def main(work: str) -> None:
     # Berat gear dari tabel Adventuring Gear (hlm. 95, dua tabel berdampingan).
     gear_weights: dict[str, str] = {}
     for line in lines:
-        if line.page == 95 and line.font == "GillSans" and line.size == 9.5:
+        if line.page == GEAR_TABLE_PAGE and line.font == "GillSans" and line.size == 9.5:
             for keep in (lambda s: s[3] < 300, lambda s: s[3] >= 300):
                 side = [s for s in line.spans if keep(s)]
                 if not side:
@@ -118,7 +119,9 @@ def main(work: str) -> None:
         if section not in ("Artisan’s Tools", "Other Tools", "Adventuring Gear"):
             continue
         stop = heads[index + 1][0] if index + 1 < len(heads) else end
-        block = lines[end:stop]
+        # Hlm. 95 = tabel ringkasan "Adventuring Gear" (milik rule.adventuring-gear),
+        # tercetak di antara entri Ammunition dan Antitoxin.
+        block = [line for line in lines[end:stop] if line.page != GEAR_TABLE_PAGE]
         name = COST_SUFFIX.sub("", text)
         cost_text = text[len(name) :].strip(" ()")
         fields: list[tuple[str, str]] = []
