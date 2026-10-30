@@ -155,6 +155,15 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
         found.derived = derive(found.character.draft);
         return result(found);
       }
+      if (body.kind === 'character.transfer') {
+        found.character.ownerAccountId = body.payload.toAccountId;
+        return result(found);
+      }
+      if (body.kind === 'character.set-override') {
+        if (body.payload.value === null) delete found.character.overrides[body.payload.field];
+        else found.character.overrides[body.payload.field] = body.payload.value;
+        return result(found);
+      }
       if (body.kind === 'character.finalize') {
         if (found.derived.issues.length) return error(422, 'CHARACTER_INCOMPLETE', { count: found.derived.issues.length });
         found.character.status = 'final';

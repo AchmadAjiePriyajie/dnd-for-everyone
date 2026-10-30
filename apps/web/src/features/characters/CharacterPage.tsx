@@ -10,6 +10,7 @@ import { Link, routePath } from '../../app/router';
 import { ErrorMessage, toApiError, useSession } from '../../app/ui';
 import { CharacterSheet } from './CharacterSheet';
 import { CharacterWizard } from './CharacterWizard';
+import { DmCharacterTools } from './DmCharacterTools';
 import type { CharacterView } from './types';
 
 /** Draft milik sendiri dibuka di wizard; selain itu (atau setelah final) tampil sebagai sheet. */
@@ -18,7 +19,7 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
   const session = useSession();
   const locale = i18n.language as Locale;
   // Memantau room menjaga koneksi realtime; command hanya dikirim saat tersambung.
-  useRoomEntry(campaignId);
+  const room = useRoomEntry(campaignId)?.snapshot;
   const [view, setView] = useState<CharacterView | null>(null);
   const [options, setOptions] = useState<CharacterOptions | null>(null);
   const [error, setError] = useState<ApiError | null>(null);
@@ -36,9 +37,11 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
     setView(await api.character(campaignId, characterId));
   }, [campaignId, characterId]);
 
+  // Muat ulang saat room berubah (mis. koreksi atau transfer oleh DM) agar sheet tidak usang.
+  const sequence = room?.eventSequence;
   useEffect(() => {
     reload().catch(fail);
-  }, [reload, fail]);
+  }, [reload, fail, sequence]);
 
   useEffect(() => {
     api.characterOptions(campaignId, locale).then(setOptions, fail);
@@ -75,6 +78,7 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
       ) : (
         <CharacterSheet view={view} options={options} />
       )}
+      {room?.you.role === 'dm' && <DmCharacterTools view={view} members={room.members} campaignId={campaignId} reload={reload} />}
     </div>
   );
 }

@@ -164,7 +164,47 @@ describe('character wizard', () => {
     expect(within(hp).getByText('Modifier Constitution')).toBeTruthy();
     expect(within(hp).getByText('+2')).toBeTruthy();
     expect(within(sheet).getByText('Dwarvish')).toBeTruthy();
-    // Sheet final tidak menawarkan wizard.
+    // Sheet final tidak menawarkan wizard; player tidak melihat alat DM.
     expect(screen.queryByRole('tab', { name: 'Class' })).toBeNull();
+    expect(screen.queryByRole('region', { name: 'Alat DM' })).toBeNull();
+  });
+
+  it('lets_the_dm_transfer_and_correct_numbers', async () => {
+    const draft = { ...emptyDraft(), name: 'Brakka', classId: 'class.fighter' };
+    fake = installFakeApi({
+      snapshots: {
+        'camp-1': {
+          ...snapshot,
+          you: { accountId: 'acc-dm', role: 'dm' },
+          members: [
+            { accountId: 'acc-dm', username: 'dungeon_master', role: 'dm' },
+            { accountId: 'acc-alice', username: 'alice', role: 'player' },
+            { accountId: 'acc-bob', username: 'bob', role: 'player' },
+          ],
+          dm: { invites: [] },
+        },
+      },
+      characterOptions: options,
+      deriveCharacter: fakeDerive,
+      characters: {
+        'char-1': {
+          character: { id: 'char-1', campaignId: 'camp-1', ownerAccountId: 'acc-alice', status: 'final', classLevels: [{ classId: 'class.fighter', level: 1 }], draft, rolls: [], overrides: {}, revision: 3, updatedAt: '' },
+          derived: fakeDerive(draft),
+          allowedMethods: ['standard-array'],
+        },
+      },
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/characters/char-1');
+    const user = userEvent.setup();
+    render(<App />);
+
+    const tools = await screen.findByRole('region', { name: 'DM tools' });
+    await user.selectOptions(within(tools).getByRole('combobox', { name: 'New owner' }), 'acc-bob');
+    await user.click(within(tools).getByRole('button', { name: 'Transfer character' }));
+    await waitFor(() => expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.transfer', payload: { toAccountId: 'acc-bob' } })));
+
+    await user.type(within(tools).getByRole('spinbutton', { name: 'Armor Class' }), '18');
+    await user.click(within(tools).getByRole('button', { name: 'Save corrections' }));
+    await waitFor(() => expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.set-override', payload: { field: 'armorClass', value: 18 } })));
   });
 });

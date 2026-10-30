@@ -331,6 +331,13 @@
       "sleight-of-hand": "Sleight of Hand",
       "stealth": "Stealth",
       "survival": "Survival"
+    },
+    "dm": {
+      "title": "Alat DM",
+      "newOwner": "Pemilik baru",
+      "transfer": "Transfer karakter",
+      "overrideHelp": "Koreksi menggantikan nilai aturan pada sheet; kosongkan field untuk kembali ke nilai aturan.",
+      "saveOverrides": "Simpan koreksi"
     }
   }
 }
