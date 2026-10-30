@@ -39,7 +39,7 @@ class Line:
     col: int
     y: float
     x: float
-    spans: list = field(default_factory=list)  # (font, size, text, x)
+    spans: list = field(default_factory=list)  # (font, size, text, x, x1)
     x1: float = 0.0
 
     @property
@@ -91,14 +91,14 @@ def load_lines(path: str) -> list[Line]:
         last = lines[-1] if lines else None
         if last and last.page == run["page"] and last.col == run["col"] and abs(last.y - run["y"]) < 1.5:
             prev = last.spans[-1]
-            if run["x"] - last.x1 < 0.8 and prev[0] == run["font"]:
+            if -0.5 <= run["x"] - last.x1 < 0.8 and prev[0] == run["font"]:
                 # Bersinggungan (mis. small caps beda ukuran): satu kata, tanpa spasi.
-                last.spans[-1] = (prev[0], max(prev[1], run["size"]), prev[2] + run["text"], prev[3])
+                last.spans[-1] = (prev[0], max(prev[1], run["size"]), prev[2] + run["text"], prev[3], run["x1"])
             else:
-                last.spans.append((run["font"], run["size"], run["text"], run["x"]))
+                last.spans.append((run["font"], run["size"], run["text"], run["x"], run["x1"]))
             last.x1 = run["x1"]
         else:
-            lines.append(Line(run["page"], run["col"], run["y"], run["x"], [(run["font"], run["size"], run["text"], run["x"])]))
+            lines.append(Line(run["page"], run["col"], run["y"], run["x"], [(run["font"], run["size"], run["text"], run["x"], run["x1"])]))
             lines[-1].x1 = run["x1"]
     return lines
 

@@ -85,7 +85,8 @@ class Paragraph:
         self.pieces: list[list[str]] = []  # [style, text]
 
     def add_line(self, line: Line, words: Words, first: bool) -> None:
-        for index, (font, _size, text, _x) in enumerate(line.spans):
+        for index, span in enumerate(line.spans):
+            font, text = span[0], span[2]
             style = style_of(font)
             text = fix_text(text)
             if not self.pieces:
@@ -152,9 +153,9 @@ def side_by_side_split(segment: list[Line]) -> float | None:
     """x awal tabel kanan bila dua tabel dicetak berdampingan (dua judul, atau header berulang)."""
     title = next((l for l in segment if table_kind(l) == "title"), None)
     if title and len(title.spans) > 1:
-        xs = sorted(s[3] for s in title.spans)
-        gaps = [(b - a, b) for a, b in zip(xs, xs[1:])]
-        if gaps and max(gaps)[0] > 60:
+        spans = sorted(title.spans, key=lambda s: s[3])
+        gaps = [(b[3] - a[4], b[3]) for a, b in zip(spans, spans[1:])]
+        if gaps and max(gaps)[0] > 40:
             return max(gaps)[1]
     header = next((l for l in segment if table_kind(l) == "header"), None)
     if header and len(header.spans) >= 4 and len(header.spans) % 2 == 0:

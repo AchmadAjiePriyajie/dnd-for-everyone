@@ -24,8 +24,13 @@ def font_name(name: str) -> str:
 
 
 def pieces(span: dict) -> list[dict]:
-    """Pecah span pada celah antar-karakter yang jauh lebih lebar dari spasi biasa."""
+    """Pecah span pada celah antar-karakter yang jauh lebih lebar dari spasi biasa.
+
+    Teks tabel/field (GillSans kecil) dipecah per kata agar sel yang rapat tetap
+    bisa dipetakan ke kolom header.
+    """
     size = span["size"]
+    per_word = font_name(span["font"]).startswith("GillSans") and size <= 10.5
     out = []
     current = None
     last_x1 = None
@@ -33,7 +38,7 @@ def pieces(span: dict) -> list[dict]:
         x0, _, x1, _ = char["bbox"]
         c = char["c"]
         gap = x0 - last_x1 if last_x1 is not None else 0
-        if current is not None and gap > size * 0.9:
+        if current is not None and (gap > size * 0.9 or (per_word and c == " ")):
             out.append(current)
             current = None
         if current is None:

@@ -198,9 +198,24 @@ const equipmentMechanics = z.strictObject({
       type: z.enum(['melee', 'ranged']),
       damage: z.strictObject({ dice: z.union([dice, z.literal('1')]), type: damageType }),
       versatile: dice.optional(),
-      properties: z.array(z.string()),
+      /** ID properti senjata, mis. rule.property-finesse. */
+      properties: z.array(contentIdSchema),
       range: z.strictObject({ normal: z.number().int().positive(), long: z.number().int().positive() }).optional(),
-      mastery: z.string(),
+      ammunition: z.string().regex(/^[a-z-]+$/).optional(),
+      mastery: contentIdSchema,
+    })
+    .optional(),
+  tool: z.strictObject({ ability }).optional(),
+  mount: z.strictObject({ carryingCapacity: z.number().int().positive() }).optional(),
+  vehicle: z
+    .strictObject({
+      speedMph: z.number().positive().optional(),
+      crew: z.number().int().positive().optional(),
+      passengers: z.number().int().nonnegative().optional(),
+      cargoTons: z.number().nonnegative().optional(),
+      ac: z.number().int().positive().optional(),
+      hp: z.number().int().positive().optional(),
+      damageThreshold: z.number().int().positive().optional(),
     })
     .optional(),
   armor: z
