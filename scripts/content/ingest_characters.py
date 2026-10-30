@@ -43,6 +43,160 @@ def skills_in(text: str, issues: list[str], owner: str) -> list[str]:
     return [n for n in names if n in SKILLS]
 
 
+ITEMS = os.path.join(ROOT, "data", "en", "items.json")
+# Nama tampilan sumber → ID equipment, untuk nama yang tidak sama dengan judul entri.
+ITEM_ALIASES = {
+    "traveler’s clothes": "equipment.clothes-travelers",
+    "arrows": "equipment.ammunition",
+}
+# Item awal yang bukan entri equipment SRD (mis. Spellbook adalah fitur Wizard).
+CUSTOM_ITEMS = {"spellbook"}
+TOOL_GROUPS = {
+    "musical instrument": "musical-instrument",
+    "musical instruments": "musical-instrument",
+    "gaming set": "gaming-set",
+    "artisan’s tools": "artisans-tools",
+}
+
+
+def item_index() -> dict[str, str]:
+    """Judul equipment (huruf kecil) → ID; dibaca dari hasil ingest_equipment.py (jalankan lebih dulu)."""
+    entries = json.load(open(ITEMS, encoding="utf-8"))["entries"]
+    index = {e["name"].lower(): e["id"] for e in entries if e["id"].startswith("equipment.")}
+    index.update(ITEM_ALIASES)
+    return index
+
+
+def singular(name: str, index: dict[str, str]) -> str | None:
+    for candidate in (name, name[:-1], name[:-2]):
+        if candidate in index:
+            return index[candidate]
+    return None
+
+
+def equipment_options(text: str, index: dict[str, str], issues: list[str], owner: str) -> list[dict]:
+    """"Choose A or B: (A) X, 2 Y, and 15 GP; or (B) 75 GP" → [{option, items, gp}]."""
+    text = text.replace("­", "").replace(" ", " ").replace("*", "")
+    parts = re.split(r"\(([A-C])\)\s*", text)[1:]
+    options = []
+    for letter, chunk in zip(parts[0::2], parts[1::2]):
+        chunk = re.sub(r";?\s*(or)?\s*$", "", chunk.strip()).strip()
+        items, gp = [], 0
+        for raw in re.split(r",\s*(?:and\s+)?", chunk):
+            raw = raw.strip()
+            if not raw:
+                continue
+            money = re.fullmatch(r"(\d+) GP", raw)
+            if money:
+                gp = int(money.group(1))
+                continue
+            qty = re.match(r"^(\d+) (.+)$", raw)
+            quantity, name = (int(qty.group(1)), qty.group(2)) if qty else (1, raw)
+            note = None
+            paren = re.match(r"^(.+?) \(([^)]+)\)$", name)
+            if paren:
+                name, note = paren.group(1), paren.group(2)
+                sheets = re.fullmatch(r"(\d+) sheets", note)
+                if sheets:
+                    quantity, note = int(sheets.group(1)), None
+            key = name.lower()
+            if key.startswith("artisan’s tools or musical instrument"):
+                items.append({"choice": "tool-proficiency", "quantity": quantity})
+                continue
+            if note == "same as above" or key.endswith(" of your choice"):
+                group = "gaming-set" if key.startswith("gaming set") else "musical-instrument"
+                items.append({"choice": group, "quantity": quantity})
+                continue
+            item_id = singular(key, index)
+            if not item_id and key in CUSTOM_ITEMS:
+                items.append({"custom": key, "quantity": quantity})
+                continue
+            if not item_id:
+                issues.append(f"{owner}: unknown starting item {raw!r}")
+                continue
+            item = {"id": item_id, "quantity": quantity}
+            if item_id == "equipment.ammunition":
+                note = key  # jenis amunisi, mis. "arrows"
+            if note:
+                item["note"] = note
+            items.append(item)
+        options.append({"option": letter, "items": items, "gp": gp})
+    if not options:
+        issues.append(f"{owner}: equipment options {text!r}")
+    return options
+
+
+def tool_proficiencies(text: str, index: dict[str, str], issues: list[str], owner: str) -> dict:
+    """"Herbalism Kit" / "Choose 3 Musical Instruments" / "Choose one type of Artisan’s Tools or Musical Instrument"."""
+    text = re.sub(r"\s*\(see [^)]*\)", "", text.replace("*", "")).strip()
+    choose = re.match(r"^Choose (\d+|one) (?:type of |kind of )?(.+)$", text)
+    if choose:
+        count = 1 if choose.group(1) == "one" else int(choose.group(1))
+        groups = [TOOL_GROUPS.get(part.strip().lower()) for part in re.split(r"\s+or\s+", choose.group(2))]
+        if None in groups:
+            issues.append(f"{owner}: tool choice {text!r}")
+        return {"fixed": [], "choices": [{"count": count, "from": [g for g in groups if g]}]}
+    item_id = index.get(text.lower())
+    if not item_id:
+        issues.append(f"{owner}: tool {text!r}")
+    return {"fixed": [item_id] if item_id else [], "choices": []}
+
+
+def armor_training(text: str) -> list[str]:
+    words = (("light", "Light"), ("medium", "Medium"), ("heavy", "Heavy"), ("shield", "Shields"))
+    return [kind for kind, word in words if word in text]
+
+
+def weapon_proficiencies(text: str, issues: list[str], owner: str) -> dict:
+    """"Simple and Martial weapons" / "Simple weapons and Martial weapons that have the Finesse or Light property"."""
+    limited = re.search(r"Martial weapons that have the (.+?) property", text)
+    categories = ["simple"] if "Simple" in text else []
+    if "Martial" in text and not limited:
+        categories.append("martial")
+    result: dict = {"categories": categories}
+    if limited:
+        result["martialWithProperty"] = [f"rule.property-{slug(p)}" for p in re.split(r"\s+or\s+", limited.group(1))]
+    if not categories:
+        issues.append(f"{owner}: weapon proficiencies {text!r}")
+    return result
+
+
+def species_traits(body: str) -> dict:
+    """Trait species yang memengaruhi angka/pilihan sheet; teks lengkap tetap di body."""
+    out: dict = {}
+    dark = re.search(r"Darkvision with a range of (\d+) feet", body)
+    if dark:
+        out["darkvision"] = int(dark.group(1))
+    if re.search(r"Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level", body):
+        out["hpPerLevel"] = 1
+    keen = re.search(r"proficiency in the (\w+), (\w+), or (\w+) skill", body)
+    if keen:
+        out["skillChoice"] = {"count": 1, "from": [slug(k) for k in keen.groups()]}
+    if re.search(r"You gain proficiency in one skill of your choice", body):
+        out["skillChoice"] = {"count": 1}
+    if re.search(r"You gain an Origin feat of your choice", body):
+        out["originFeatChoice"] = True
+    return out
+
+
+# Efek feat yang memengaruhi angka sheet. Setiap pola wajib cocok dengan teks sumber.
+FEAT_EFFECTS = {
+    "feat.alert": (r"When you roll Initiative, you can add your Proficiency Bonus", {"initiativeProficiency": True}),
+    "feat.tough": (r"increases by an amount equal to twice your character level", {"hpPerLevel": 2}),
+    "feat.skilled": (r"proficiency in any combination of three skills or tools", {"proficiencyChoice": 3}),
+}
+
+
+def feat_effects(feat_id: str, body: str, issues: list[str]) -> dict:
+    if feat_id not in FEAT_EFFECTS:
+        return {}
+    pattern, effect = FEAT_EFFECTS[feat_id]
+    if not re.search(pattern, body):
+        issues.append(f"{feat_id}: effect text changed")
+        return {}
+    return dict(effect)
+
+
 PARA = "\n\n"
 
 
@@ -75,6 +229,7 @@ def main(work: str) -> None:
     manifest = {e["id"]: e for e in json.load(open(os.path.join(ROOT, "source", "srd-5.2.1-manifest.json"), encoding="utf-8"))["entries"]}
     issues: list[str] = []
     entries: dict[str, dict] = {}
+    items = item_index()
     heads = sorted([h for size in (12.0, 14.0, 18.0) for h in merged_headings(lines, size)], key=lambda h: h[0])
 
     def add(entry_id: str, name: str, summary: str | None, body: str, mechanics: dict, refs: list[str], section: str, page: int) -> None:
@@ -113,6 +268,11 @@ def main(work: str) -> None:
         mechanics["skillChoices"] = {"count": int(choose.group(1)) if choose else 0}
         if "any" not in skill_text.split(":")[0]:
             mechanics["skillChoices"]["from"] = skills_in(skill_text, issues, name)
+        mechanics["weaponProficiencies"] = weapon_proficiencies(fields.get("Weapon Proficiencies", ""), issues, name)
+        mechanics["armorTraining"] = armor_training(fields.get("Armor Training", ""))
+        if "Tool Proficiencies" in fields:
+            mechanics["toolProficiencies"] = tool_proficiencies(fields["Tool Proficiencies"], items, issues, name)
+        mechanics["startingEquipment"] = equipment_options(fields.get("Starting Equipment", ""), items, issues, name)
 
         # Tabel progression "<Class> Features".
         title_index = next((i for i in range(end, sub[0]) if lines[i].size == 10.5 and lines[i].text == f"{name} Features"), None)
@@ -196,6 +356,8 @@ def main(work: str) -> None:
                 mechanics["featOption"] = slug(feat.group(2))
             if f"equipment.{slug(tool)}" in manifest:
                 mechanics["tool"] = f"equipment.{slug(tool)}"
+            mechanics["toolProficiencies"] = tool_proficiencies(tool, items, issues, name)
+            mechanics["startingEquipment"] = equipment_options(fields.get("Equipment", ""), items, issues, name)
             if len(mechanics["abilityScores"]) != 3 or feat_id not in manifest:
                 issues.append(f"{name}: background fields {fields}")
             add(f"background.{slug(name)}", name, None, body, mechanics, [feat_id] + ([mechanics["tool"]] if "tool" in mechanics else []), "Character Origins", head.page)
@@ -210,7 +372,7 @@ def main(work: str) -> None:
                 name,
                 None,
                 body,
-                {"creatureType": creature, "size": sorted(set(sizes), key=["tiny", "small", "medium", "large"].index), "speed": int(speed.group(1)) if speed else 0},
+                {"creatureType": creature, "size": sorted(set(sizes), key=["tiny", "small", "medium", "large"].index), "speed": int(speed.group(1)) if speed else 0, **species_traits(body)},
                 [],
                 "Character Origins",
                 head.page,
@@ -241,6 +403,7 @@ def main(work: str) -> None:
             mechanics["prerequisiteLevel"] = int(level.group(1))
         if "***Repeatable.***" in body:
             mechanics["repeatable"] = True
+        mechanics.update(feat_effects(f"feat.{slug(name)}", body, issues))
         if not category or not summary:
             issues.append(f"{name}: feat header {summary!r} {category}")
         add(f"feat.{slug(name)}", name, summary, body, mechanics, [], "Feats", head.page)

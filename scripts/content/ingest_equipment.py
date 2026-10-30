@@ -159,6 +159,8 @@ def main(work: str) -> None:
             ability = field_map.get("Ability", "")
             if ability in ABILITIES:
                 mechanics["tool"] = {"ability": ABILITIES[ability]}
+                if section == "Artisan’s Tools":
+                    mechanics["tool"]["artisan"] = True
             elif ability:
                 issues.append(f"{name}: tool ability {ability!r}")
         elif name.endswith("Pack"):

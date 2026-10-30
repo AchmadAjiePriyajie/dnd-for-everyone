@@ -16,7 +16,47 @@
      "religion"
     ],
     "featOption": "cleric",
-    "tool": "equipment.calligraphers-supplies"
+    "tool": "equipment.calligraphers-supplies",
+    "toolProficiencies": {
+     "fixed": [
+      "equipment.calligraphers-supplies"
+     ],
+     "choices": []
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.calligraphers-supplies",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.book",
+        "quantity": 1,
+        "note": "prayers"
+       },
+       {
+        "id": "equipment.holy-symbol",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.parchment",
+        "quantity": 10
+       },
+       {
+        "id": "equipment.robe",
+        "quantity": 1
+       }
+      ],
+      "gp": 8
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ]
    },
    "refs": [
     "equipment.calligraphers-supplies",
@@ -42,7 +82,46 @@
      "sleight-of-hand",
      "stealth"
     ],
-    "tool": "equipment.thieves-tools"
+    "tool": "equipment.thieves-tools",
+    "toolProficiencies": {
+     "fixed": [
+      "equipment.thieves-tools"
+     ],
+     "choices": []
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.thieves-tools",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.crowbar",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.pouch",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.clothes-travelers",
+        "quantity": 1
+       }
+      ],
+      "gp": 16
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ]
    },
    "refs": [
     "equipment.thieves-tools",
@@ -69,7 +148,47 @@
      "history"
     ],
     "featOption": "wizard",
-    "tool": "equipment.calligraphers-supplies"
+    "tool": "equipment.calligraphers-supplies",
+    "toolProficiencies": {
+     "fixed": [
+      "equipment.calligraphers-supplies"
+     ],
+     "choices": []
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.quarterstaff",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.calligraphers-supplies",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.book",
+        "quantity": 1,
+        "note": "history"
+       },
+       {
+        "id": "equipment.parchment",
+        "quantity": 8
+       },
+       {
+        "id": "equipment.robe",
+        "quantity": 1
+       }
+      ],
+      "gp": 8
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ]
    },
    "refs": [
     "equipment.calligraphers-supplies",
@@ -94,6 +213,59 @@
     "skills": [
      "athletics",
      "intimidation"
+    ],
+    "toolProficiencies": {
+     "fixed": [],
+     "choices": [
+      {
+       "count": 1,
+       "from": [
+        "gaming-set"
+       ]
+      }
+     ]
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.spear",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shortbow",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.ammunition",
+        "quantity": 20,
+        "note": "arrows"
+       },
+       {
+        "choice": "gaming-set",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.healers-kit",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.quiver",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.clothes-travelers",
+        "quantity": 1
+       }
+      ],
+      "gp": 14
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
     ]
    },
    "refs": [
@@ -128,6 +300,42 @@
       "survival"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple",
+      "martial"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "medium",
+     "shield"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.greataxe",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.handaxe",
+        "quantity": 4
+       },
+       {
+        "id": "equipment.explorers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 15
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 75
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -481,6 +689,54 @@
     "skillChoices": {
      "count": 3
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [
+     "light"
+    ],
+    "toolProficiencies": {
+     "fixed": [],
+     "choices": [
+      {
+       "count": 3,
+       "from": [
+        "musical-instrument"
+       ]
+      }
+     ]
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "choice": "musical-instrument",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.entertainers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 19
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 90
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -1017,6 +1273,49 @@
       "religion"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "medium",
+     "shield"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.chain-shirt",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shield",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.mace",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.holy-symbol",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.priests-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 7
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 110
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -1549,6 +1848,59 @@
       "survival"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "shield"
+    ],
+    "toolProficiencies": {
+     "fixed": [
+      "equipment.herbalism-kit"
+     ],
+     "choices": []
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shield",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.sickle",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.druidic-focus",
+        "quantity": 1,
+        "note": "Quarterstaff"
+       },
+       {
+        "id": "equipment.explorers-pack",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.herbalism-kit",
+        "quantity": 1
+       }
+      ],
+      "gp": 9
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -2095,6 +2447,86 @@
       "survival"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple",
+      "martial"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "medium",
+     "heavy",
+     "shield"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.chain-mail",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.greatsword",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.flail",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.javelin",
+        "quantity": 8
+       },
+       {
+        "id": "equipment.dungeoneers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 4
+     },
+     {
+      "option": "B",
+      "items": [
+       {
+        "id": "equipment.studded-leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.scimitar",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shortsword",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.longbow",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.ammunition",
+        "quantity": 20,
+        "note": "arrows"
+       },
+       {
+        "id": "equipment.quiver",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dungeoneers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 11
+     },
+     {
+      "option": "C",
+      "items": [],
+      "gp": 155
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -2418,6 +2850,56 @@
       "stealth"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ],
+     "martialWithProperty": [
+      "rule.property-light"
+     ]
+    },
+    "armorTraining": [],
+    "toolProficiencies": {
+     "fixed": [],
+     "choices": [
+      {
+       "count": 1,
+       "from": [
+        "artisans-tools",
+        "musical-instrument"
+       ]
+      }
+     ]
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.spear",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dagger",
+        "quantity": 5
+       },
+       {
+        "choice": "tool-proficiency",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.explorers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 11
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -2790,6 +3272,55 @@
       "religion"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple",
+      "martial"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "medium",
+     "heavy",
+     "shield"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.chain-mail",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shield",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.longsword",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.javelin",
+        "quantity": 6
+       },
+       {
+        "id": "equipment.holy-symbol",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.priests-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 9
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 150
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -3257,6 +3788,64 @@
       "survival"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple",
+      "martial"
+     ]
+    },
+    "armorTraining": [
+     "light",
+     "medium",
+     "shield"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.studded-leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.scimitar",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shortsword",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.longbow",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.ammunition",
+        "quantity": 20,
+        "note": "arrows"
+       },
+       {
+        "id": "equipment.quiver",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.druidic-focus",
+        "quantity": 1,
+        "note": "sprig of mistletoe"
+       },
+       {
+        "id": "equipment.explorers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 7
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 150
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -3727,6 +4316,70 @@
       "stealth"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ],
+     "martialWithProperty": [
+      "rule.property-finesse",
+      "rule.property-light"
+     ]
+    },
+    "armorTraining": [
+     "light"
+    ],
+    "toolProficiencies": {
+     "fixed": [
+      "equipment.thieves-tools"
+     ],
+     "choices": []
+    },
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.shortsword",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.shortbow",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.ammunition",
+        "quantity": 20,
+        "note": "arrows"
+       },
+       {
+        "id": "equipment.quiver",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.thieves-tools",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.burglars-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 8
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 100
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -4040,6 +4693,42 @@
       "religion"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.spear",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.arcane-focus",
+        "quantity": 1,
+        "note": "crystal"
+       },
+       {
+        "id": "equipment.dungeoneers-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 28
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 50
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -4570,6 +5259,53 @@
       "religion"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [
+     "light"
+    ],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.leather-armor",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.sickle",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.arcane-focus",
+        "quantity": 1,
+        "note": "orb"
+       },
+       {
+        "id": "equipment.book",
+        "quantity": 1,
+        "note": "occult lore"
+       },
+       {
+        "id": "equipment.scholars-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 15
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 100
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -4917,6 +5653,46 @@
       "religion"
      ]
     },
+    "weaponProficiencies": {
+     "categories": [
+      "simple"
+     ]
+    },
+    "armorTraining": [],
+    "startingEquipment": [
+     {
+      "option": "A",
+      "items": [
+       {
+        "id": "equipment.dagger",
+        "quantity": 2
+       },
+       {
+        "id": "equipment.arcane-focus",
+        "quantity": 1,
+        "note": "Quarterstaff"
+       },
+       {
+        "id": "equipment.robe",
+        "quantity": 1
+       },
+       {
+        "custom": "spellbook",
+        "quantity": 1
+       },
+       {
+        "id": "equipment.scholars-pack",
+        "quantity": 1
+       }
+      ],
+      "gp": 5
+     },
+     {
+      "option": "B",
+      "items": [],
+      "gp": 55
+     }
+    ],
     "progression": [
      {
       "level": 1,
@@ -5419,7 +6195,8 @@
    "name": "Alert",
    "body": "You gain the following benefits.\n\n***Initiative Proficiency.*** When you roll Initiative, you can add your Proficiency Bonus to the roll.\n\n***Initiative Swap.*** Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can’t make this swap if you or the ally has the Incapacitated condition.",
    "mechanics": {
-    "category": "origin"
+    "category": "origin",
+    "initiativeProficiency": true
    },
    "refs": [],
    "source": {
@@ -5625,7 +6402,8 @@
    "body": "You gain proficiency in any combination of three skills or tools of your choice.\n\n***Repeatable.*** You can take this feat more than once.",
    "mechanics": {
     "category": "origin",
-    "repeatable": true
+    "repeatable": true,
+    "proficiencyChoice": 3
    },
    "refs": [],
    "source": {
@@ -5657,7 +6435,8 @@
     "size": [
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 60
    },
    "refs": [],
    "source": {
@@ -5674,7 +6453,9 @@
     "size": [
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 120,
+    "hpPerLevel": 1
    },
    "refs": [],
    "source": {
@@ -5691,7 +6472,16 @@
     "size": [
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 60,
+    "skillChoice": {
+     "count": 1,
+     "from": [
+      "insight",
+      "perception",
+      "survival"
+     ]
+    }
    },
    "refs": [],
    "source": {
@@ -5708,7 +6498,8 @@
     "size": [
      "small"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 60
    },
    "refs": [],
    "source": {
@@ -5760,7 +6551,11 @@
      "small",
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "skillChoice": {
+     "count": 1
+    },
+    "originFeatChoice": true
    },
    "refs": [],
    "source": {
@@ -5777,7 +6572,8 @@
     "size": [
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 120
    },
    "refs": [],
    "source": {
@@ -5795,7 +6591,8 @@
      "small",
      "medium"
     ],
-    "speed": 30
+    "speed": 30,
+    "darkvision": 60
    },
    "refs": [],
    "source": {

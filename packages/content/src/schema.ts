@@ -205,7 +205,8 @@ const equipmentMechanics = z.strictObject({
       mastery: contentIdSchema,
     })
     .optional(),
-  tool: z.strictObject({ ability }).optional(),
+  /** `artisan`: termasuk kelompok Artisan’s Tools (dipakai untuk pilihan proficiency). */
+  tool: z.strictObject({ ability, artisan: z.literal(true).optional() }).optional(),
   mount: z.strictObject({ carryingCapacity: z.number().int().positive() }).optional(),
   vehicle: z
     .strictObject({
