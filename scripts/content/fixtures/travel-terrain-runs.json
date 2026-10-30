@@ -1,0 +1,1442 @@
+[
+ {
+  "page": 192,
+  "col": 0,
+  "x": 63.0,
+  "x1": 93.0,
+  "y": 280.7,
+  "font": "GillSans-SemiBold",
+  "size": 10.5,
+  "text": "Travel"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 96.5,
+  "x1": 132.3,
+  "y": 280.7,
+  "font": "GillSans-SemiBold",
+  "size": 10.5,
+  "text": "Terrain"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 228.6,
+  "x1": 269.3,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Encounter"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 272.0,
+  "x1": 306.4,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Distance"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 67.0,
+  "x1": 97.5,
+  "y": 265.8,
+  "font": "GillSans-SemiBold",
+  "size": 9.2,
+  "text": "Terrain"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.8,
+  "x1": 176.8,
+  "y": 265.8,
+  "font": "GillSans-SemiBold",
+  "size": 9.2,
+  "text": "Maximum"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 179.4,
+  "x1": 198.6,
+  "y": 265.8,
+  "font": "GillSans-SemiBold",
+  "size": 9.2,
+  "text": "Pace"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 90.9,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Arctic"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 155.4,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Fast*"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 243.8,
+  "x1": 258.6,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "6d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.6,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 96.5,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Coastal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 165.9,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 240.2,
+  "x1": 258.6,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.6,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 94.3,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Desert"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 165.9,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 243.8,
+  "x1": 258.6,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "6d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.6,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 91.9,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Forest"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 165.9,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.0,
+  "x1": 258.6,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d8"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 105.7,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Grassland"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 151.2,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Fast"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 243.9,
+  "x1": 258.6,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "6d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 80.1,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Hill"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 165.9,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 240.2,
+  "x1": 258.6,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 103.8,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Mountain"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 154.1,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Slow"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 240.0,
+  "x1": 258.6,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "4d10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 94.4,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Swamp"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 154.1,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Slow"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.0,
+  "x1": 258.6,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d8"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.8,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.6,
+  "x1": 109.4,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Underdark"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 165.9,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.0,
+  "x1": 258.6,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.3,
+  "x1": 266.8,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.7,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.7,
+  "x1": 91.3,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Urban"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 166.0,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Normal"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.1,
+  "x1": 258.6,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "2d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.3,
+  "x1": 266.8,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.5,
+  "x1": 278.7,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 162.3,
+  "x1": 165.0,
+  "y": 103.0,
+  "font": "GillSans",
+  "size": 5.5,
+  "text": "†"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 66.7,
+  "x1": 115.8,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Waterborne"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 135.4,
+  "x1": 162.3,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Special"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 243.8,
+  "x1": 258.6,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "6d6"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 261.2,
+  "x1": 266.7,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "×"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 269.4,
+  "x1": 278.6,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 281.3,
+  "x1": 296.3,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "feet"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 63.0,
+  "x1": 107.3,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "*Appropriate"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 109.5,
+  "x1": 145.0,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "equipment"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 147.2,
+  "x1": 164.6,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "(such"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 166.8,
+  "x1": 173.5,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "as"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 175.7,
+  "x1": 190.4,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "skis)"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 192.6,
+  "x1": 197.6,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "is"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 199.8,
+  "x1": 232.6,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "necessary"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 234.9,
+  "x1": 242.1,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "to"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.3,
+  "x1": 260.2,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "keep"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 262.4,
+  "x1": 270.6,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "up"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 272.8,
+  "x1": 276.2,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "a"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 278.4,
+  "x1": 291.9,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "Fast"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 63.0,
+  "x1": 65.3,
+  "y": 76.6,
+  "font": "GillSans",
+  "size": 4.7,
+  "text": "†"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 65.4,
+  "x1": 104.7,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "Characters’"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 106.9,
+  "x1": 120.5,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "rate"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 122.8,
+  "x1": 129.3,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "of"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 131.5,
+  "x1": 150.5,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "travel"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 152.7,
+  "x1": 170.3,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "while"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 172.5,
+  "x1": 212.1,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "waterborne"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 214.4,
+  "x1": 242.2,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "depends"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 244.4,
+  "x1": 253.0,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "on"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 255.2,
+  "x1": 266.0,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "the"
+ },
+ {
+  "page": 192,
+  "col": 0,
+  "x": 268.3,
+  "x1": 291.1,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "vehicle"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 335.4,
+  "x1": 368.7,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Foraging"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 371.4,
+  "x1": 385.3,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "DC"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 403.1,
+  "x1": 445.1,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Navigation"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 447.7,
+  "x1": 461.6,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "DC"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 482.9,
+  "x1": 509.2,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "Search"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 511.9,
+  "x1": 525.8,
+  "y": 266.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "DC"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.6,
+  "x1": 365.2,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 437.0,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 509.0,
+  "y": 251.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 365.0,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 430.0,
+  "x1": 434.8,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "5"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 508.9,
+  "y": 235.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.6,
+  "x1": 365.2,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 437.0,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 509.0,
+  "y": 220.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 365.0,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 436.9,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 508.9,
+  "y": 205.7,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 364.9,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 430.0,
+  "x1": 434.8,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "5"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 508.9,
+  "y": 190.5,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 364.9,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 437.0,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 508.9,
+  "y": 175.4,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.6,
+  "x1": 365.2,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 436.9,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.6,
+  "x1": 509.2,
+  "y": 160.3,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 365.0,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.9,
+  "x1": 437.0,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.6,
+  "x1": 509.2,
+  "y": 145.2,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.6,
+  "x1": 365.2,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.8,
+  "x1": 437.0,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.6,
+  "x1": 509.2,
+  "y": 130.0,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.6,
+  "x1": 365.2,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "20"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.9,
+  "x1": 437.0,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.9,
+  "x1": 509.0,
+  "y": 114.9,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 355.8,
+  "x1": 364.9,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 427.7,
+  "x1": 437.0,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "10"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 499.8,
+  "x1": 508.9,
+  "y": 99.8,
+  "font": "GillSans",
+  "size": 9.5,
+  "text": "15"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 294.1,
+  "x1": 309.2,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "pace"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 311.5,
+  "x1": 317.3,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "in"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 319.6,
+  "x1": 340.3,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "Arctic"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 342.5,
+  "x1": 367.4,
+  "y": 82.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "terrain."
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 293.4,
+  "x1": 320.5,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "carrying"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 322.7,
+  "x1": 341.8,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "them;"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 344.1,
+  "x1": 355.0,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "see"
+ },
+ {
+  "page": 192,
+  "col": 1,
+  "x": 357.3,
+  "x1": 393.4,
+  "y": 73.9,
+  "font": "GillSans",
+  "size": 8.0,
+  "text": "“Vehicles.”"
+ }
+]

@@ -14,8 +14,6 @@ import hashlib
 import json
 import sys
 
-import pymupdf
-
 EXPECTED_SHA256 = "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87"
 
 
@@ -69,6 +67,11 @@ def merge_full_width_tables(runs: list[dict]) -> None:
     for run in runs:
         if run["font"] == "GillSans-SemiBold" and run["size"] == 9.2:
             headers.setdefault(round(run["y"]), set()).add(run["col"])
+    # Some headers mix bold 9.2pt and regular 9.5pt cells (Travel Terrain).
+    for run in runs:
+        y = round(run["y"])
+        if y in headers and is_table_run(run) and run["size"] in (9.2, 9.5):
+            headers[y].add(run["col"])
     for y0, cols in sorted(headers.items(), reverse=True):
         if cols != {0, 1}:
             continue
@@ -89,9 +92,24 @@ def merge_full_width_tables(runs: list[dict]) -> None:
         for run in runs:
             if run["col"] == 1 and is_table_run(run) and round(run["y"]) in table_ys:
                 run["col"] = 0
+        # Raised note markers belong to the adjacent cell/footnote baseline.
+        for run in runs:
+            if not is_table_run(run) or run["size"] > 6 or round(run["y"]) not in table_ys:
+                continue
+            adjacent = [
+                r for r in runs
+                if r["col"] == run["col"] and is_table_run(r) and r["size"] >= 8
+                and 0 < run["y"] - r["y"] <= 4
+                and min(abs(r["x1"] - run["x"]), abs(run["x1"] - r["x"])) <= 2
+            ]
+            if adjacent:
+                anchor = min(adjacent, key=lambda r: abs(run["y"] - r["y"]))
+                run["y"], run["size"] = anchor["y"], anchor["size"]
 
 
 def main(pdf_path: str, out_path: str) -> None:
+    import pymupdf
+
     data = open(pdf_path, "rb").read()
     digest = hashlib.sha256(data).hexdigest()
     if digest != EXPECTED_SHA256:

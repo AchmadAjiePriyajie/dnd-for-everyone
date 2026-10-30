@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from build_manifest import CHAPTER_TITLES, NOT_RULE_SECTIONS, RULE_SECTION_CHAPTERS, merged_headings  # noqa: E402
-from srdbody import Words, build_body  # noqa: E402
+from srdbody import Words, build_body, is_sidebar_text, is_sidebar_title, is_table_line  # noqa: E402
 from srdlines import load_lines, slug  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "packages", "content")
@@ -23,6 +23,23 @@ OUT = os.path.join(ROOT, "data", "en", "rules.json")
 STOP_AT = {"Background Descriptions", "Species Descriptions", "Origin Feats"}
 SUMMARY_TABLE_PAGES = {91, 95}
 STANDALONE_SECTIONS = {"Properties", "Mastery Properties", "Artisan’s Tools", "Other Tools", "Adventuring Gear"}
+
+
+def build_section_body(name: str, lines: list, words: Words) -> str:
+    """Place the known page-bottom floats after their section's continuous prose."""
+    if name not in {"Rhythm of Play", "Starting at Higher Levels", "Travel Pace"}:
+        return build_body(lines, words)
+    prose, floats = [], []
+    for line in lines:
+        floating = is_sidebar_title(line) or is_sidebar_text(line) or is_table_line(line)
+        if name == "Travel Pace" and line.page == 192 and line.y < 290 and line.font.startswith("GillSans"):
+            floating = True  # Includes both complete table footnotes.
+        (floats if floating else prose).append(line)
+    body = build_body(prose + floats, words)
+    if name == "Travel Pace":
+        body = body.replace("Miles per hour\n\n× number", "Miles per hour × number")
+        body = body.replace("(round down) If the characters", "(round down)\n\nIf the characters")
+    return body
 
 
 def main(work: str) -> None:
@@ -85,7 +102,7 @@ def main(work: str) -> None:
             block.append(line)
         base = slug(text)
         entry_id = f"rule.{base}-overview" if f"rule.{base}" in glossary_ids else f"rule.{base}"
-        add(entry_id, text, None, build_body(block, words), CHAPTER_TITLES[chapter], head.page)
+        add(entry_id, text, None, build_section_body(text, block, words), CHAPTER_TITLES[chapter], head.page)
 
     # --- Properti dan mastery senjata.
     current_section = None

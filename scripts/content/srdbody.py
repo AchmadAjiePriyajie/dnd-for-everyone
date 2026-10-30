@@ -41,7 +41,7 @@ def is_display_line(line: Line) -> bool:
 def table_kind(line: Line) -> str:
     if line.size == 10.5:
         return "title"
-    if line.size == 9.2:
+    if any(span[1] == 9.2 for span in line.spans):
         return "header"
     return "row"
 
