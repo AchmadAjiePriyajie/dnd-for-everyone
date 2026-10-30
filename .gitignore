@@ -5,7 +5,7 @@ codex-session-*.md
 
 # Runtime dan build
 node_modules/
-data/
+/data/
 dist/
 coverage/
 playwright-report/
@@ -14,3 +14,6 @@ test-results/
 
 # Workspace eksekusi plan
 .superpowers/
+
+# Cache Python tooling
+__pycache__/
