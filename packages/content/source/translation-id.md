@@ -59,3 +59,13 @@ dan penjelasan berbahasa Indonesia.
 - `sourceHash` dihitung otomatis dari teks EN oleh
   `scripts/content/merge_translation.py`; jangan ditulis tangan.
 - Gunakan "kamu" untuk "you" (sapaan pemain), konsisten dengan UI.
+
+## Stat block monster (dipilih pengguna 2026-10-30)
+
+- Summary (ukuran, tipe, alignment), semua baris label (`**AC**`, `**Skills**`,
+  `**Senses**`, `**Languages**`, `**CR**`, dst.), tabel ability, judul bagian
+  (`#### Actions`, `#### Bonus Actions`, `#### Reactions`, …) dan nama
+  trait/action tetap persis seperti EN.
+- Baris serangan tetap EN sampai klausa `*Hit:* … damage`; sisa kalimat efek
+  (mis. "plus …", saving throw, condition) dan semua narasi trait/action
+  diterjemahkan.
