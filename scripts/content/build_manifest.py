@@ -1,6 +1,6 @@
 """Bangun manifest ekspektasi SRD 5.2.1 dari struktur heading/tabel PDF resmi.
 
-    python -I scripts/content/build_manifest.py tmp/srd/runs.jsonl packages/content/source/srd-5.2.1-manifest.json
+    python -P scripts/content/build_manifest.py tmp/srd/runs.jsonl packages/content/source/srd-5.2.1-manifest.json
 
 Manifest hanya berisi daftar entri yang wajib ada (id, nama, bagian, halaman).
 Tidak membaca data hasil ingest, sehingga kekurangan corpus tetap terdeteksi.
@@ -99,7 +99,7 @@ def main(runs_path: str, out_path: str) -> None:
     h18 = merged_headings(lines, 18.0)
     h14 = merged_headings(lines, 14.0)
     h12 = merged_headings(lines, 12.0)
-    h146 = merged_headings(lines, 14.6)
+    h146 = merged_headings(lines, 14.8)
 
     # Rules Glossary: [Condition] → condition.*, sisanya rule.*.
     for _, _, line, text in h12:
@@ -210,7 +210,7 @@ def main(runs_path: str, out_path: str) -> None:
         if line.chapter == "magic-items" and line.page >= 209 and end < len(lines) and lines[end].font.endswith("Italic"):
             add("magic-item", text, line.chapter, line.page)
 
-    # Stat block (14.6pt): monster, hewan, makhluk dari spell/magic item.
+    # Stat block (14.8pt): monster, hewan, makhluk dari spell/magic item.
     for _, _, line, text in h146:
         add("monster", text, line.chapter, line.page)
 

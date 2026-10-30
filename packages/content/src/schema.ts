@@ -89,6 +89,8 @@ const dice = z.string().regex(/^\d+d\d+( ?[+-] ?\d+)?$/);
 const size = z.enum(['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan']);
 const cost = z.strictObject({ amount: z.number().nonnegative(), unit: z.enum(['cp', 'sp', 'ep', 'gp', 'pp']) });
 
+const castingUnit = z.enum(['action', 'bonus-action', 'reaction', 'minute', 'hour']);
+
 const spellMechanics = z.strictObject({
   level: z.number().int().min(0).max(9),
   school: z.enum([
@@ -104,12 +106,17 @@ const spellMechanics = z.strictObject({
   classes: z.array(contentIdSchema).min(1),
   castingTime: z.strictObject({
     amount: z.number().int().positive(),
-    unit: z.enum(['action', 'bonus-action', 'reaction', 'minute', 'hour']),
+    unit: castingUnit,
+    /** Mode lain dari spell yang sama, mis. Plant Growth (Action atau 8 jam). */
+    alternative: z.strictObject({ amount: z.number().int().positive(), unit: castingUnit }).optional(),
   }),
   ritual: z.boolean(),
   range: z.strictObject({
     type: z.enum(['self', 'touch', 'feet', 'miles', 'sight', 'unlimited', 'special']),
     distance: z.number().positive().optional(),
+    area: z
+      .strictObject({ shape: z.enum(['cone', 'cube', 'cylinder', 'emanation', 'line', 'sphere']), size: z.number().positive() })
+      .optional(),
   }),
   components: z.strictObject({
     verbal: z.boolean(),
@@ -123,6 +130,8 @@ const spellMechanics = z.strictObject({
     type: z.enum(['instantaneous', 'timed', 'until-dispelled', 'until-dispelled-or-triggered', 'special']),
     amount: z.number().int().positive().optional(),
     unit: z.enum(['round', 'minute', 'hour', 'day']).optional(),
+    /** "Up to 1 hour": boleh diakhiri lebih awal tanpa Concentration. */
+    upTo: z.boolean().optional(),
     concentration: z.boolean(),
   }),
 });
