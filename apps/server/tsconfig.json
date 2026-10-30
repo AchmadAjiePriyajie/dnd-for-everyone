@@ -11,6 +11,7 @@
     "../../packages/shared/src/**/*.ts",
     "../../tests/helpers/**/*.ts",
     "../../packages/content/src/**/*.ts",
+    "../../packages/rules/src/**/*.ts",
     "../../scripts/audit-content.ts"
   ]
 }

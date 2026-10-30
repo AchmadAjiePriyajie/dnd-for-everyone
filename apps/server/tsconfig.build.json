@@ -3,7 +3,8 @@
   "include": [
     "src/**/*.ts",
     "../../packages/shared/src/**/*.ts",
-    "../../packages/content/src/**/*.ts"
+    "../../packages/content/src/**/*.ts",
+    "../../packages/rules/src/**/*.ts"
   ],
   "exclude": [
     "src/**/*.test.ts",

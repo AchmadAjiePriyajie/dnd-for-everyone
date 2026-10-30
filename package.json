@@ -62,6 +62,10 @@
     "#content/*": {
       "source": "./packages/content/src/*.ts",
       "default": "./dist/packages/content/src/*.js"
+    },
+    "#rules/*": {
+      "source": "./packages/rules/src/*.ts",
+      "default": "./dist/packages/rules/src/*.js"
     }
   }
 }
