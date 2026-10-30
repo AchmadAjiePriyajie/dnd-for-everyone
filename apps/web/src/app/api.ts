@@ -8,7 +8,9 @@ import type {
 } from '#shared/access';
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
+import type { CharacterOptions } from '#shared/characters';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
+import type { CharacterView } from '../features/characters/types';
 import type { RoomSnapshot } from '#shared/room';
 
 /** Error dari host atau jaringan; `error.code` diterjemahkan UI lewat `errors.<code>`. */
@@ -80,6 +82,10 @@ export const api = {
   removeMember: (campaignId: Id, accountId: Id) =>
     request<{ ok: true }>('DELETE', `${campaignPath(campaignId)}/members/${encodeURIComponent(accountId)}`),
 
+  characterOptions: (campaignId: Id, locale: Locale) =>
+    request<CharacterOptions>('GET', `${campaignPath(campaignId)}/character-options?locale=${locale}`),
+  character: (campaignId: Id, characterId: Id) =>
+    request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}`),
   referenceSearch: (q: string, locale: Locale, campaignId?: Id) =>
     request<SearchHit[]>('GET', `/api/reference/search?${referenceQuery({ q, locale, campaignId })}`),
   referenceEntry: (id: Id, locale: Locale, campaignId?: Id) =>

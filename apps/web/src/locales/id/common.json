@@ -94,7 +94,10 @@
     "noAccess": "Kamu tidak punya akses ke campaign ini.",
     "dmTools": "Alat Dungeon Master",
     "inviteActive": "Aktif",
-    "openReference": "Referensi aturan"
+    "openReference": "Referensi aturan",
+    "characters": "Karakter",
+    "noCharacters": "Belum ada karakter. Setiap player membuat karakternya sendiri.",
+    "createCharacter": "Buat karakter"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",
@@ -148,5 +151,186 @@
     "quickHelp": "Bantuan cepat",
     "intro": "Baru mengenal D&D? Mulai dari sini, atau cari kata apa pun yang kamu dengar di meja. Membaca aturan tidak pernah menghabiskan apa pun.",
     "backToRoom": "Kembali ke room"
+  },
+  "character": {
+    "newCharacter": "Karakter baru",
+    "unnamed": "Karakter tanpa nama",
+    "level": "Level {{level}}",
+    "statusDraft": "Draft",
+    "steps": "Langkah pembuatan karakter",
+    "step": {
+      "concept": "Konsep",
+      "species": "Species",
+      "background": "Background",
+      "class": "Class",
+      "abilities": "Ability",
+      "equipment": "Perlengkapan",
+      "review": "Tinjau"
+    },
+    "back": "Kembali",
+    "next": "Berikutnya",
+    "save": {
+      "idle": "Belum ada perubahan",
+      "dirty": "Perubahan belum tersimpan…",
+      "saving": "Menyimpan…",
+      "saved": "Semua perubahan tersimpan",
+      "error": "Belum tersimpan. Isianmu tetap di sini; akan disimpan ulang saat tersambung."
+    },
+    "reloadLatest": "Muat versi terbaru",
+    "help": {
+      "concept": "Siapa karaktermu? Ide singkat sudah cukup; bisa diperbaiki nanti.",
+      "species": "Species menentukan ukuran, Speed, dan trait khusus.",
+      "background": "Background menaikkan ability score dan memberi Origin feat, skill, dan alat.",
+      "class": "Class menentukan Hit Points, saving throw, armor training, dan pilihan skill.",
+      "abilities": "Pilih metode yang diizinkan DM, lalu tetapkan score untuk tiap ability.",
+      "equipment": "Pilih perlengkapan awal, alat, dan dua bahasa selain Common."
+    },
+    "field": {
+      "name": "Nama karakter",
+      "concept": "Konsep",
+      "motivation": "Motivasi",
+      "partyBond": "Ikatan dengan party",
+      "speciesId": "Species",
+      "size": "Ukuran",
+      "backgroundId": "Background",
+      "backgroundIncrease": "Peningkatan ability score",
+      "classId": "Class",
+      "abilityMethod": "Metode ability score",
+      "baseScores": "Ability score",
+      "rolls": "Hasil lemparan",
+      "classSkills": "Skill class",
+      "speciesSkills": "Skill species",
+      "featSkills": "Skill dari feat",
+      "extraOriginFeatId": "Origin feat tambahan",
+      "languages": "Bahasa",
+      "toolChoices": "Proficiency alat",
+      "classEquipment": "Perlengkapan awal class",
+      "backgroundEquipment": "Perlengkapan background",
+      "equippedArmorId": "Armor yang dikenakan",
+      "shieldEquipped": "Membawa Shield"
+    },
+    "issue": {
+      "REQUIRED": "{{field}} wajib diisi.",
+      "COUNT": "{{field}}: pilih {{expected}}.",
+      "INVALID": "{{field}} tidak valid.",
+      "INVALID_VALUE": "{{field}}: “{{value}}” tidak diizinkan.",
+      "NOT_ALLOWED": "{{field}} tidak diizinkan di sini.",
+      "POINT_BUY": "Point Buy memakai {{cost}} dari {{budget}} poin."
+    },
+    "issuesTitle": "Masih diperlukan",
+    "readyToFinalize": "Semua pilihan wajib sudah lengkap.",
+    "finalize": "Finalisasi karakter",
+    "warnings": "Peringatan",
+    "warning": {
+      "ARMOR_UNTRAINED": "Tidak punya armor training untuk {{armor}}: Disadvantage pada D20 Test Strength dan Dexterity, dan tidak dapat melakukan casting spell.",
+      "SHIELD_UNTRAINED": "Tidak terlatih memakai {{armor}}: tidak mendapat AC darinya.",
+      "ARMOR_STRENGTH": "{{armor}} memerlukan Strength {{strength}}: Speed-mu berkurang 10 kaki.",
+      "FEAT_CHOICES_PENDING": "{{feat}} memiliki pilihan (misalnya spell) yang ditentukan nanti."
+    },
+    "chooseSkills": "Pilih {{count}} skill",
+    "featSkills": "{{feat}}: pilih {{count}} skill",
+    "increase21": "+2 pada satu ability dan +1 pada ability lain",
+    "increase111": "+1 pada masing-masing: {{abilities}}",
+    "plus2": "+2 pada",
+    "plus1": "+1 pada",
+    "backgroundGrants": "Juga memberi skill {{skills}} dan feat {{feat}}.",
+    "hitDie": "Hit Point Die d{{die}}",
+    "feet": "{{distance}} kaki",
+    "method": {
+      "standard-array": "Standard Array (15, 14, 13, 12, 10, 8)",
+      "point-buy": "Point Buy (27 poin)",
+      "roll": "Lempar 4d6, buang terendah (dicatat host)"
+    },
+    "rollScores": "Lempar enam score",
+    "rolled": "Hasil: {{totals}}",
+    "pointBuyUsed": "Poin terpakai: {{cost}} dari {{budget}}",
+    "toolChoice": "Pilihan alat {{number}}",
+    "toolVariant": "{{group}} yang mana?",
+    "toolVariantHint": "mis. lute, dadu",
+    "toolGroup": {
+      "musical-instrument": "Musical Instrument",
+      "gaming-set": "Gaming Set",
+      "tool-proficiency": "Alat yang dipilih di atas"
+    },
+    "customItem": {
+      "spellbook": "Spellbook",
+      "tool-proficiency": "Alat yang dipilih di atas"
+    },
+    "noArmor": "Tanpa armor",
+    "chooseLanguages": "Bahasa (kamu juga mengetahui Common)",
+    "languageSlot": "Bahasa {{number}}",
+    "size": {
+      "small": "Small",
+      "medium": "Medium"
+    },
+    "abilitiesTitle": "Ability score",
+    "savingThrows": "Saving throw",
+    "skills": "Skill",
+    "proficient": "proficient",
+    "proficiencies": "Pelatihan dan bahasa",
+    "armorTraining": "Armor training",
+    "weapons": "Senjata",
+    "languages": "Bahasa",
+    "feats": "Feat",
+    "darkvision": "Darkvision",
+    "inventory": "Inventaris",
+    "gp": "{{amount}} GP",
+    "story": "Cerita",
+    "none": "Tidak ada",
+    "armor": {
+      "light": "Light",
+      "medium": "Medium",
+      "heavy": "Heavy",
+      "shield": "Shield"
+    },
+    "weapon": {
+      "simple": "Simple",
+      "martial": "Martial"
+    },
+    "stat": {
+      "armorClass": "Armor Class",
+      "hitPoints": "Hit Points",
+      "initiative": "Initiative",
+      "speed": "Speed",
+      "passivePerception": "Passive Perception",
+      "proficiencyBonus": "Proficiency Bonus"
+    },
+    "source": {
+      "base": "Score dasar",
+      "unarmored": "Tanpa armor (10)",
+      "proficiency": "Proficiency Bonus",
+      "passive": "Dasar pasif",
+      "abilityModifier": "Modifier {{ability}}",
+      "override": "Koreksi DM"
+    },
+    "overrideNote": "DM menetapkan {{value}} (aturan: {{base}})",
+    "ability": {
+      "str": "Strength",
+      "dex": "Dexterity",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Wisdom",
+      "cha": "Charisma"
+    },
+    "skill": {
+      "acrobatics": "Acrobatics",
+      "animal-handling": "Animal Handling",
+      "arcana": "Arcana",
+      "athletics": "Athletics",
+      "deception": "Deception",
+      "history": "History",
+      "insight": "Insight",
+      "intimidation": "Intimidation",
+      "investigation": "Investigation",
+      "medicine": "Medicine",
+      "nature": "Nature",
+      "perception": "Perception",
+      "performance": "Performance",
+      "persuasion": "Persuasion",
+      "religion": "Religion",
+      "sleight-of-hand": "Sleight of Hand",
+      "stealth": "Stealth",
+      "survival": "Survival"
+    }
   }
 }

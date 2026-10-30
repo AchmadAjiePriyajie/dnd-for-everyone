@@ -130,6 +130,31 @@ describe('character creation', () => {
     expect((await bobAgain.get(path)).status).toBe(200);
   });
 
+  it('lists_wizard_options_from_corpus', async () => {
+    const dataDir = await makeDataDir();
+    cleanup.unshift(() => removeDataDir(dataDir));
+    const server = await boot(dataDir);
+    const { campaignId, alice } = await seed(server);
+    const options = (await alice.client.get<any>(`/api/campaigns/${campaignId}/character-options?locale=id`)).body;
+    expect(options.classes).toHaveLength(12);
+    expect(options.backgrounds.map((b: { id: string }) => b.id)).toEqual(['background.acolyte', 'background.criminal', 'background.sage', 'background.soldier']);
+    expect(options.species).toHaveLength(9);
+    expect(options.originFeats.map((f: { id: string }) => f.id)).toContain('feat.alert');
+    expect(options.originFeats.every((f: { id: string }) => !f.id.startsWith('feat.boon'))).toBe(true);
+    expect(options.languages).toContain('Dwarvish');
+    expect(options.artisanTools).toHaveLength(17);
+    expect(options.allowedMethods).toEqual(['standard-array', 'point-buy', 'roll']);
+    // Nama lokal + nama asli EN untuk entri dan item paket awal.
+    const fighter = options.classes.find((c: { id: string }) => c.id === 'class.fighter');
+    expect(fighter).toMatchObject({ name: 'Fighter', originalName: 'Fighter', mechanics: { hitDie: 10, armorTraining: ['light', 'medium', 'heavy', 'shield'] } });
+    expect(fighter.mechanics.progression).toBeUndefined();
+    expect(options.names['equipment.chain-mail']).toBe('Chain Mail');
+    expect(options.armor).toMatchObject({ 'equipment.chain-mail': 'heavy', 'equipment.leather-armor': 'light' });
+    expect(options.armor['equipment.shield']).toBeUndefined();
+    expect(options.names['background.soldier']).toBe('Soldier');
+    expect((await new TestClient(server.app).get(`/api/campaigns/${campaignId}/character-options?locale=id`)).status).toBe(401);
+  });
+
   it('records_rolls_and_respects_dm_methods', async () => {
     const dataDir = await makeDataDir();
     cleanup.unshift(() => removeDataDir(dataDir));

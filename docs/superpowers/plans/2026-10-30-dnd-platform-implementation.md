@@ -178,15 +178,15 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 ### Task 7: Wizard karakter dan perhitungan dasar
 
-**Files:** Create `packages/shared/src/characters.ts`, `packages/rules/src/abilities.ts`, `character-stats.ts`, `apps/server/src/features/characters/service.ts`, `apps/web/src/features/characters/CharacterWizard.tsx`, `CharacterSheet.tsx`, migration `004-characters.sql`. Test `packages/rules/src/character-stats.test.ts`, `apps/server/src/features/characters/service.test.ts`. Create `apps/server/src/features/characters/characters.module.ts`, `characters.controller.ts`; import ContentModule, CommandsModule dan CampaignsModule.
+**Files:** Create `packages/shared/src/characters.ts`, `packages/rules/src/abilities.ts`, `character-stats.ts`, `apps/server/src/features/characters/service.ts`, `apps/web/src/features/characters/CharacterWizard.tsx`, `CharacterSheet.tsx`, migration `005-characters.sql` (004 dipakai bookmark referensi). Test `packages/rules/src/character-stats.test.ts`, `apps/server/src/features/characters/service.test.ts`. Create `apps/server/src/features/characters/characters.module.ts`, `characters.controller.ts`; import ContentModule, CommandsModule dan CampaignsModule.
 
 **Interfaces:** `abilityModifier(score: number): number`; `deriveCharacter(character: Character, catalog: ContentCatalog): DerivedCharacter`; `saveCharacterDraft(ctx: CommandContext, draft: CharacterDraft): Id`; `requireCharacterOwner(principal: Principal, characterId: Id): Member` di service karakter. Character includes ownership, class levels, origin choices and source IDs; derived fields separate base from DM override.
 
-- [ ] Tulis `derives_stats_from_origin_and_equipment`: `expect(abilityModifier(16)).toBe(3)`; `expect(abilityModifier(8)).toBe(-1)`; wizard tidak final tanpa pilihan wajib, draft pulih setelah reload, player lain tidak dapat mengedit.
-- [ ] Run kedua file test; expected FAIL.
-- [ ] Implementasikan standard array/point buy/roll tercatat, class/background/species/languages, origin feat dan equipment, skill/save/AC/HP/speed/initiative; konsep, motivasi dan party bonds; validasi pilihan/prerequisite dari corpus. Tambahkan transfer karakter eksplisit oleh DM dan penolakan edit oleh owner lama.
-- [ ] Run test sama; expected PASS dengan fixture equipment/armor training dan DM override; UI EN/ID menunjukkan asal kontribusi angka.
-- [ ] Commit `feat: add guided character creation`.
+- [x] Tulis `derives_stats_from_origin_and_equipment`: `expect(abilityModifier(16)).toBe(3)`; `expect(abilityModifier(8)).toBe(-1)`; wizard tidak final tanpa pilihan wajib, draft pulih setelah reload, player lain tidak dapat mengedit.
+- [x] Run kedua file test; expected FAIL.
+- [x] Implementasikan standard array/point buy/roll tercatat, class/background/species/languages, origin feat dan equipment, skill/save/AC/HP/speed/initiative; konsep, motivasi dan party bonds; validasi pilihan/prerequisite dari corpus. Tambahkan transfer karakter eksplisit oleh DM dan penolakan edit oleh owner lama.
+- [x] Run test sama; expected PASS dengan fixture equipment/armor training dan DM override; UI EN/ID menunjukkan asal kontribusi angka.
+- [x] Commit `feat: add guided character creation`.
 
 ### Task 8: Fitur class, Weapon Mastery dan Heroic Inspiration
 

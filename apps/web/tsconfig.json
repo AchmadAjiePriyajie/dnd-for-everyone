@@ -10,5 +10,5 @@
     "resolveJsonModule": true,
     "types": ["node", "vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vitest.config.ts", "../../packages/shared/src/**/*.ts", "../../scripts/audit-locales.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vitest.config.ts", "../../packages/shared/src/**/*.ts", "../../packages/rules/src/abilities.ts", "../../scripts/audit-locales.ts"]
 }

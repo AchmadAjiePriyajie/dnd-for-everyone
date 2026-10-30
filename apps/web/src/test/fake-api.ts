@@ -1,4 +1,5 @@
 import type { AccountView, ApiError, CampaignSummary } from '#shared/access';
+import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, emptyDraft } from '#shared/characters';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
@@ -19,6 +20,27 @@ export interface FakeServerState {
     entries: Record<string, ReferenceEntryView>;
     bookmarks: string[];
   };
+  characterOptions: CharacterOptions | null;
+  /** Derivasi palsu untuk test UI; aturan sebenarnya diuji di packages/rules. */
+  deriveCharacter: ((draft: CharacterDraft) => DerivedCharacter) | null;
+  characters: Record<string, FakeCharacterView>;
+}
+
+export interface FakeCharacterView {
+  character: {
+    id: string;
+    campaignId: string;
+    ownerAccountId: string;
+    status: 'draft' | 'final';
+    classLevels: Array<{ classId: string; level: number }>;
+    draft: CharacterDraft;
+    rolls: Array<{ dice: number[]; total: number }>;
+    overrides: Record<string, number>;
+    revision: number;
+    updatedAt: string;
+  };
+  derived: DerivedCharacter;
+  allowedMethods: string[];
 }
 
 const json = (status: number, body: unknown) =>
@@ -34,6 +56,9 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     campaigns: [],
     snapshots: {},
     reference: { search: () => [], entries: {}, bookmarks: [] },
+    characterOptions: null,
+    deriveCharacter: null,
+    characters: {},
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -93,6 +118,49 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     if (snapshot) {
       const snap = state.snapshots[snapshot[1]!];
       return snap ? json(200, snap) : error(403, 'FORBIDDEN');
+    }
+    const options = /^\/api\/campaigns\/([^/]+)\/character-options$/.exec(path);
+    if (options) return state.characterOptions ? json(200, state.characterOptions) : error(403, 'FORBIDDEN');
+    const characterPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)$/.exec(path);
+    if (characterPath) {
+      const found = state.characters[decodeURIComponent(characterPath[2]!)];
+      return found ? json(200, found) : error(403, 'FORBIDDEN');
+    }
+    const commandPath = /^\/api\/campaigns\/([^/]+)\/commands$/.exec(path);
+    if (commandPath && String(body?.kind).startsWith('character.')) {
+      const campaignId = decodeURIComponent(commandPath[1]!);
+      const id = body.targetId as string;
+      const derive = state.deriveCharacter ?? (() => ({ issues: [] }) as unknown as DerivedCharacter);
+      const result = (view: FakeCharacterView) => {
+        view.character.revision += 1;
+        return json(200, { targetId: id, entityRevision: view.character.revision, eventSequence: 1, value: { id } });
+      };
+      if (body.kind === 'character.create') {
+        if (state.characters[id]) return error(409, 'CHARACTER_EXISTS');
+        const draft = emptyDraft();
+        state.characters[id] = {
+          character: { id, campaignId, ownerAccountId: view().accountId, status: 'draft', classLevels: [], draft, rolls: [], overrides: {}, revision: 0, updatedAt: '' },
+          derived: derive(draft),
+          allowedMethods: state.characterOptions?.allowedMethods ?? [],
+        };
+        const snap = state.snapshots[campaignId];
+        snap?.characters?.push({ id, ownerAccountId: view().accountId, name: '', status: 'draft', classId: null, speciesId: null, level: 1 });
+        return result(state.characters[id]!);
+      }
+      const found = state.characters[id];
+      if (!found) return error(403, 'FORBIDDEN');
+      if (body.kind === 'character.save-draft') {
+        if (found.character.status === 'final') return error(409, 'CHARACTER_FINAL');
+        found.character.draft = body.payload.draft;
+        found.derived = derive(found.character.draft);
+        return result(found);
+      }
+      if (body.kind === 'character.finalize') {
+        if (found.derived.issues.length) return error(422, 'CHARACTER_INCOMPLETE', { count: found.derived.issues.length });
+        found.character.status = 'final';
+        return result(found);
+      }
+      return error(400, 'UNKNOWN_COMMAND');
     }
     if (/^\/api\/campaigns\/[^/]+\/commands$/.test(path)) {
       return json(200, { targetId: body.targetId, entityRevision: 1, eventSequence: 1, value: null });

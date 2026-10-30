@@ -94,7 +94,10 @@
     "noAccess": "You do not have access to this campaign.",
     "dmTools": "Dungeon Master tools",
     "inviteActive": "Active",
-    "openReference": "Rules reference"
+    "openReference": "Rules reference",
+    "characters": "Characters",
+    "noCharacters": "No characters yet. Each player creates their own.",
+    "createCharacter": "Create character"
   },
   "notFound": {
     "title": "Page not found",
@@ -148,5 +151,186 @@
     "quickHelp": "Quick help",
     "intro": "New to D&D? Start here, or search for any word you heard at the table. Reading a rule never spends anything.",
     "backToRoom": "Back to the room"
+  },
+  "character": {
+    "newCharacter": "New character",
+    "unnamed": "Unnamed character",
+    "level": "Level {{level}}",
+    "statusDraft": "Draft",
+    "steps": "Character creation steps",
+    "step": {
+      "concept": "Concept",
+      "species": "Species",
+      "background": "Background",
+      "class": "Class",
+      "abilities": "Abilities",
+      "equipment": "Equipment",
+      "review": "Review"
+    },
+    "back": "Back",
+    "next": "Next",
+    "save": {
+      "idle": "No changes yet",
+      "dirty": "Unsaved changes…",
+      "saving": "Saving…",
+      "saved": "All changes saved",
+      "error": "Not saved. Your input is kept here; we will retry when connected."
+    },
+    "reloadLatest": "Load the latest version",
+    "help": {
+      "concept": "Who is your character? A short idea is enough; you can refine it later.",
+      "species": "Species sets your size, Speed and special traits.",
+      "background": "Your background raises ability scores and gives an Origin feat, skills and a tool.",
+      "class": "Your class decides Hit Points, saving throws, armor training and skill choices.",
+      "abilities": "Pick a method allowed by your DM, then assign a score to each ability.",
+      "equipment": "Choose starting equipment, tools and two languages besides Common."
+    },
+    "field": {
+      "name": "Character name",
+      "concept": "Concept",
+      "motivation": "Motivation",
+      "partyBond": "Bond with the party",
+      "speciesId": "Species",
+      "size": "Size",
+      "backgroundId": "Background",
+      "backgroundIncrease": "Ability score increases",
+      "classId": "Class",
+      "abilityMethod": "Ability score method",
+      "baseScores": "Ability scores",
+      "rolls": "Rolled scores",
+      "classSkills": "Class skills",
+      "speciesSkills": "Species skill",
+      "featSkills": "Feat skills",
+      "extraOriginFeatId": "Extra Origin feat",
+      "languages": "Languages",
+      "toolChoices": "Tool proficiencies",
+      "classEquipment": "Class starting equipment",
+      "backgroundEquipment": "Background equipment",
+      "equippedArmorId": "Worn armor",
+      "shieldEquipped": "Carry the Shield"
+    },
+    "issue": {
+      "REQUIRED": "{{field}} is required.",
+      "COUNT": "{{field}}: choose {{expected}}.",
+      "INVALID": "{{field}} is not valid.",
+      "INVALID_VALUE": "{{field}}: “{{value}}” is not allowed.",
+      "NOT_ALLOWED": "{{field}} is not allowed here.",
+      "POINT_BUY": "Point Buy uses {{cost}} of {{budget}} points."
+    },
+    "issuesTitle": "Still needed",
+    "readyToFinalize": "Everything required is chosen.",
+    "finalize": "Finalize character",
+    "warnings": "Warnings",
+    "warning": {
+      "ARMOR_UNTRAINED": "No armor training for {{armor}}: Disadvantage on Strength and Dexterity D20 Tests, and no spellcasting.",
+      "SHIELD_UNTRAINED": "No training with {{armor}}: you gain no AC from it while untrained.",
+      "ARMOR_STRENGTH": "{{armor}} needs Strength {{strength}}: your Speed drops by 10 feet.",
+      "FEAT_CHOICES_PENDING": "{{feat}} has choices (such as spells) you will make later."
+    },
+    "chooseSkills": "Choose {{count}} skill(s)",
+    "featSkills": "{{feat}}: choose {{count}} skill(s)",
+    "increase21": "+2 to one ability and +1 to another",
+    "increase111": "+1 to each: {{abilities}}",
+    "plus2": "+2 to",
+    "plus1": "+1 to",
+    "backgroundGrants": "Also grants skills {{skills}} and the {{feat}} feat.",
+    "hitDie": "Hit Point Die d{{die}}",
+    "feet": "{{distance}} ft.",
+    "method": {
+      "standard-array": "Standard Array (15, 14, 13, 12, 10, 8)",
+      "point-buy": "Point Buy (27 points)",
+      "roll": "Roll 4d6, drop the lowest (recorded by the host)"
+    },
+    "rollScores": "Roll six scores",
+    "rolled": "Rolled: {{totals}}",
+    "pointBuyUsed": "Points used: {{cost}} of {{budget}}",
+    "toolChoice": "Tool choice {{number}}",
+    "toolVariant": "Which {{group}}?",
+    "toolVariantHint": "e.g. lute, dice",
+    "toolGroup": {
+      "musical-instrument": "Musical Instrument",
+      "gaming-set": "Gaming Set",
+      "tool-proficiency": "Tool chosen above"
+    },
+    "customItem": {
+      "spellbook": "Spellbook",
+      "tool-proficiency": "Tool chosen above"
+    },
+    "noArmor": "No armor",
+    "chooseLanguages": "Languages (you also know Common)",
+    "languageSlot": "Language {{number}}",
+    "size": {
+      "small": "Small",
+      "medium": "Medium"
+    },
+    "abilitiesTitle": "Ability scores",
+    "savingThrows": "Saving throws",
+    "skills": "Skills",
+    "proficient": "proficient",
+    "proficiencies": "Training and languages",
+    "armorTraining": "Armor training",
+    "weapons": "Weapons",
+    "languages": "Languages",
+    "feats": "Feats",
+    "darkvision": "Darkvision",
+    "inventory": "Inventory",
+    "gp": "{{amount}} GP",
+    "story": "Story",
+    "none": "None",
+    "armor": {
+      "light": "Light",
+      "medium": "Medium",
+      "heavy": "Heavy",
+      "shield": "Shields"
+    },
+    "weapon": {
+      "simple": "Simple",
+      "martial": "Martial"
+    },
+    "stat": {
+      "armorClass": "Armor Class",
+      "hitPoints": "Hit Points",
+      "initiative": "Initiative",
+      "speed": "Speed",
+      "passivePerception": "Passive Perception",
+      "proficiencyBonus": "Proficiency Bonus"
+    },
+    "source": {
+      "base": "Base score",
+      "unarmored": "Unarmored (10)",
+      "proficiency": "Proficiency Bonus",
+      "passive": "Passive base",
+      "abilityModifier": "{{ability}} modifier",
+      "override": "DM correction"
+    },
+    "overrideNote": "DM set {{value}} (rules give {{base}})",
+    "ability": {
+      "str": "Strength",
+      "dex": "Dexterity",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Wisdom",
+      "cha": "Charisma"
+    },
+    "skill": {
+      "acrobatics": "Acrobatics",
+      "animal-handling": "Animal Handling",
+      "arcana": "Arcana",
+      "athletics": "Athletics",
+      "deception": "Deception",
+      "history": "History",
+      "insight": "Insight",
+      "intimidation": "Intimidation",
+      "investigation": "Investigation",
+      "medicine": "Medicine",
+      "nature": "Nature",
+      "perception": "Perception",
+      "performance": "Performance",
+      "persuasion": "Persuasion",
+      "religion": "Religion",
+      "sleight-of-hand": "Sleight of Hand",
+      "stealth": "Stealth",
+      "survival": "Survival"
+    }
   }
 }

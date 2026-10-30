@@ -4,6 +4,7 @@ import type { AccountView, ApiError } from '#shared/access';
 import type { Locale } from '#shared/contracts';
 import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
+import { CharacterPage } from '../features/characters/CharacterPage';
 import { Lobby } from '../features/lobby/Lobby';
 import { ReferencePage } from '../features/reference/ReferencePage';
 import { api } from './api';
@@ -175,6 +176,9 @@ function Routes() {
   const route = useRoute();
   if (route.name === 'lobby') return <Lobby />;
   if (route.name === 'campaign') return <CampaignRoom key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'character') {
+    return <CharacterPage key={`${route.campaignId}/${route.characterId}`} campaignId={route.campaignId} characterId={route.characterId} />;
+  }
   if (route.name === 'reference') return <ReferencePage key={route.campaignId ?? ''} campaignId={route.campaignId} />;
   return (
     <section className="card">

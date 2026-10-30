@@ -193,3 +193,26 @@ export interface CharacterSummary {
   speciesId: Id | null;
   level: number;
 }
+
+/** Satu opsi wizard: nama lokal, nama asli EN, dan mekanik yang relevan untuk pilihan. */
+export interface CharacterOption {
+  id: Id;
+  name: string;
+  originalName: string;
+  translation: 'source' | 'translated' | 'fallback';
+  mechanics: Record<string, unknown>;
+}
+
+export interface CharacterOptions {
+  species: CharacterOption[];
+  backgrounds: CharacterOption[];
+  classes: CharacterOption[];
+  originFeats: CharacterOption[];
+  languages: string[];
+  artisanTools: CharacterOption[];
+  allowedMethods: AbilityMethod[];
+  /** Armor (bukan shield) yang dirujuk paket awal, dengan kategorinya. */
+  armor: Record<Id, 'light' | 'medium' | 'heavy'>;
+  /** Judul lokal untuk ID yang muncul di opsi/sheet (equipment, feat, dll.). */
+  names: Record<Id, string>;
+}

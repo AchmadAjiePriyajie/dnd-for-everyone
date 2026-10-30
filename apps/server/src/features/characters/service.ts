@@ -2,7 +2,7 @@ import { randomInt } from 'node:crypto';
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import type { DatabaseSync } from 'node:sqlite';
 import { z } from 'zod';
-import { rollAbilityScores } from '#rules/abilities';
+import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
 import { deriveCharacter } from '#rules/character-stats';
 import type { Member, Principal } from '#shared/access';
 import {
@@ -11,12 +11,14 @@ import {
   type Character,
   type CharacterDraft,
   characterDraftSchema,
+  type CharacterOption,
+  type CharacterOptions,
   type CharacterSummary,
   type DerivedCharacter,
   emptyDraft,
   OVERRIDE_FIELDS,
 } from '#shared/characters';
-import type { Id } from '#shared/contracts';
+import type { Id, Locale } from '#shared/contracts';
 import type { CommandContext } from '../../commands/registry.js';
 import { CommandsService } from '../../commands/dispatcher.js';
 import { DomainError, forbidden } from '../../common/domain-error.js';
@@ -121,6 +123,48 @@ export class CharactersService implements OnModuleInit {
     const allowedMethods = this.allowedMethods(db, campaignId);
     const character = this.toCharacter(db, row);
     return { character, derived: this.derive(character, allowedMethods), allowedMethods };
+  }
+
+  /** Opsi wizard dari corpus untuk anggota campaign; progression/fitur tidak dikirim. */
+  characterOptions(principal: Principal, campaignId: Id, locale: Locale): CharacterOptions {
+    this.campaigns.requireMember(principal, campaignId);
+    const names: Record<Id, string> = {};
+    const option = (id: Id, pick?: (mechanics: Record<string, unknown>) => Record<string, unknown>): CharacterOption => {
+      const entry = this.content.getContent(id, locale);
+      names[id] = entry.name;
+      const mechanics = (entry.mechanics ?? {}) as Record<string, unknown>;
+      return { id, name: entry.name, originalName: entry.originalName, translation: entry.translation, mechanics: pick ? pick(mechanics) : mechanics };
+    };
+    const ids = this.content.ids();
+    const ofKind = (kind: string) => ids.filter((id) => id.startsWith(`${kind}.`)).sort();
+    const withoutProgression = ({ progression: _p, features: _f, ...rest }: Record<string, unknown>) => rest;
+    const result: CharacterOptions = {
+      species: ofKind('species').map((id) => option(id)),
+      backgrounds: ofKind('background').map((id) => option(id)),
+      classes: ofKind('class').map((id) => option(id, withoutProgression)),
+      originFeats: ofKind('feat').filter((id) => this.content.getContent(id, 'en').mechanics?.category === 'origin').map((id) => option(id)),
+      languages: STANDARD_LANGUAGES,
+      artisanTools: ofKind('equipment')
+        .filter((id) => (this.content.getContent(id, 'en').mechanics?.tool as { artisan?: boolean } | undefined)?.artisan)
+        .map((id) => option(id)),
+      allowedMethods: this.allowedMethods(this.database.getHandle(), campaignId),
+      armor: {},
+      names,
+    };
+    // Judul untuk item/feat yang dirujuk opsi (paket awal, feat background, armor).
+    const referenced = new Set<Id>(['equipment.shield', 'equipment.musical-instrument', 'equipment.gaming-set']);
+    for (const entry of [...result.classes, ...result.backgrounds]) {
+      const mechanics = entry.mechanics as { startingEquipment?: Array<{ items: Array<{ id?: Id }> }>; feat?: Id; toolProficiencies?: { fixed: Id[] } };
+      for (const choice of mechanics.startingEquipment ?? []) for (const item of choice.items) if (item.id) referenced.add(item.id);
+      if (mechanics.feat) referenced.add(mechanics.feat);
+      for (const id of mechanics.toolProficiencies?.fixed ?? []) referenced.add(id);
+    }
+    for (const id of referenced) if (!names[id] && this.content.has(id)) names[id] = this.content.getContent(id, locale).name;
+    for (const id of referenced) {
+      const armor = this.content.has(id) ? (this.content.getContent(id, 'en').mechanics?.armor as { category?: string } | undefined) : undefined;
+      if (armor?.category && armor.category !== 'shield') result.armor[id] = armor.category as 'light' | 'medium' | 'heavy';
+    }
+    return result;
   }
 
   private createCharacter(ctx: CommandContext): { id: Id } {

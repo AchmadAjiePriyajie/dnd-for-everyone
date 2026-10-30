@@ -4,8 +4,8 @@ import type { ApiError, CreatedInvite, MemberView } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import { api } from '../../app/api';
 import { Icon, initials } from '../../app/icons';
-import { Link, routePath } from '../../app/router';
-import { refreshRoom, useRoomEntry } from '../../app/room-store';
+import { Link, navigate, routePath } from '../../app/router';
+import { refreshRoom, sendCommand, useConnectionStatus, useRoomEntry } from '../../app/room-store';
 import { Dialog, ErrorMessage, toApiError, useSession } from '../../app/ui';
 
 /** Room campaign: party, peran kamu, dan (khusus DM) undangan serta pengelolaan anggota. */
@@ -19,6 +19,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
   const [created, setCreated] = useState<CreatedInvite | null>(null);
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
+  const connection = useConnectionStatus();
 
   const run = async (action: () => Promise<unknown>) => {
     setBusy(true);
@@ -127,6 +128,51 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section className="card" aria-labelledby="characters-heading">
+          <h2 id="characters-heading">
+            <Icon name="user" />
+            {t('room.characters')}
+          </h2>
+          {(snapshot.characters ?? []).length === 0 ? (
+            <p className="muted">{t('room.noCharacters')}</p>
+          ) : (
+            <ul className="member-list">
+              {(snapshot.characters ?? []).map((character) => {
+                const owner = snapshot.members.find((member) => member.accountId === character.ownerAccountId);
+                const visible = isDm || character.ownerAccountId === snapshot.you.accountId;
+                return (
+                  <li key={character.id}>
+                    <span className="member-name">
+                      {visible ? (
+                        <Link href={routePath.character(campaignId, character.id)}>{character.name || t('character.unnamed')}</Link>
+                      ) : (
+                        character.name || t('character.unnamed')
+                      )}
+                      {owner && <span className="muted small"> · {owner.username}</span>}
+                    </span>
+                    <span className="badge">{character.status === 'final' ? t('character.level', { level: character.level }) : t('character.statusDraft')}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <button
+            type="button"
+            className="primary"
+            disabled={busy || connection !== 'connected'}
+            onClick={() =>
+              void run(async () => {
+                const characterId = `char-${globalThis.crypto.randomUUID()}`;
+                await sendCommand({ requestId: globalThis.crypto.randomUUID(), campaignId, targetId: characterId, kind: 'character.create', payload: {} });
+                navigate(routePath.character(campaignId, characterId));
+              })
+            }
+          >
+            <Icon name="plus" />
+            {t('room.createCharacter')}
+          </button>
         </section>
 
         {isDm && snapshot.dm && (
