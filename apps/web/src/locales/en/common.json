@@ -8,7 +8,8 @@
     "mainNav": "Main",
     "campaigns": "Campaigns",
     "signOut": "Sign out",
-    "signedInAs": "Signed in as {{username}}"
+    "signedInAs": "Signed in as {{username}}",
+    "tagline": "Run your D&D 2024 campaign on your own host."
   },
   "connection": {
     "label": "Connection",
@@ -41,7 +42,13 @@
     "bootstrapIntro": "No accounts exist yet. Create the first account; it will run campaigns as Dungeon Master.",
     "bootstrap": "Create host account",
     "usernameHint": "3–32 letters, numbers, dots, dashes or underscores.",
-    "passwordHint": "At least 8 characters."
+    "passwordHint": "At least 8 characters.",
+    "pitchTitle": "Your table. Your rules. Your server.",
+    "pitch1": "Runs on the Dungeon Master’s computer. Players only open a link.",
+    "pitch2": "Players join with a one-time invite code.",
+    "pitch3": "Everyone picks English or Bahasa Indonesia for themselves.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "lobby": {
     "title": "Your campaigns",
@@ -56,7 +63,9 @@
     "joinHeading": "Join a campaign",
     "inviteCode": "Invite code",
     "join": "Join",
-    "joining": "Joining…"
+    "joining": "Joining…",
+    "subtitle": "Pick up where your party left off, or gather a new one.",
+    "emptyTitle": "No campaigns yet"
   },
   "room": {
     "loading": "Loading campaign…",
@@ -81,7 +90,9 @@
     "inviteCreatedAt": "Created {{date}}",
     "inviteRevoked": "Revoked",
     "revoke": "Revoke",
-    "noAccess": "You do not have access to this campaign."
+    "noAccess": "You do not have access to this campaign.",
+    "dmTools": "Dungeon Master tools",
+    "inviteActive": "Active"
   },
   "notFound": {
     "title": "Page not found",

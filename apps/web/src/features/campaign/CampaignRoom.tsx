@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ApiError, CreatedInvite, MemberView } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import { api } from '../../app/api';
+import { Icon, initials } from '../../app/icons';
 import { Link, routePath } from '../../app/router';
 import { refreshRoom, useRoomEntry } from '../../app/room-store';
 import { Dialog, ErrorMessage, toApiError, useSession } from '../../app/ui';
@@ -38,49 +39,80 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
 
   if (!snapshot) {
     return (
-      <section className="card">
+      <div className="room">
+        <Link href={routePath.lobby()} className="back-link">
+          <Icon name="arrowLeft" />
+          {t('room.back')}
+        </Link>
         {entry?.error ? (
-          <>
-            <h1>{t('room.noAccess')}</h1>
+          <section className="card empty-state">
+            <Icon name="shield" className="empty-icon" />
+            <h1 className="empty-title">{t('room.noAccess')}</h1>
             <ErrorMessage error={entry.error} />
-          </>
+          </section>
         ) : (
-          <p className="muted">{t('room.loading')}</p>
+          <div className="room-banner skeleton" aria-busy="true">
+            <p className="muted">{t('room.loading')}</p>
+          </div>
         )}
-        <Link href={routePath.lobby()}>{t('room.back')}</Link>
-      </section>
+      </div>
     );
   }
 
   const isDm = snapshot.you.role === 'dm';
   const roleName = (role: 'dm' | 'player') => (role === 'dm' ? t('lobby.roleDm') : t('lobby.rolePlayer'));
   const dateFormat = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' });
+  const activeInvites = snapshot.dm?.invites.filter((invite) => !invite.revoked) ?? [];
+  const pastInvites = snapshot.dm?.invites.filter((invite) => invite.revoked) ?? [];
+  const orderedInvites = [...activeInvites, ...pastInvites];
 
   return (
     <div className="room">
-      <header className="room-header">
-        <Link href={routePath.lobby()} className="small">
-          ← {t('room.back')}
-        </Link>
-        <h1>{snapshot.campaign.title}</h1>
-        <p className="muted">
-          {t('room.youAre', { role: roleName(snapshot.you.role) })} · {t('lobby.ruleset', { ruleset: snapshot.campaign.ruleset })}
-        </p>
-        {entry.error && <ErrorMessage error={entry.error} />}
-        <ErrorMessage error={actionError} />
+      <Link href={routePath.lobby()} className="back-link">
+        <Icon name="arrowLeft" />
+        {t('room.back')}
+      </Link>
+      <header className="room-banner">
+        <span className="sigil sigil-lg" aria-hidden="true">
+          {initials(snapshot.campaign.title)}
+        </span>
+        <div className="room-heading">
+          <h1>{snapshot.campaign.title}</h1>
+          <p className="room-meta">
+            <span className={`badge badge-${snapshot.you.role}`}>
+              <Icon name={isDm ? 'crown' : 'user'} />
+              {t('room.youAre', { role: roleName(snapshot.you.role) })}
+            </span>
+            <span className="muted small">{t('lobby.ruleset', { ruleset: snapshot.campaign.ruleset })}</span>
+          </p>
+        </div>
       </header>
+      {entry.error && <ErrorMessage error={entry.error} />}
+      <ErrorMessage error={actionError} />
 
       <div className="room-grid">
         <section className="card" aria-labelledby="party-heading">
-          <h2 id="party-heading">{t('room.members')}</h2>
+          <h2 id="party-heading">
+            <Icon name="users" />
+            {t('room.members')}
+            <span className="count" aria-hidden="true">
+              {snapshot.members.length}
+            </span>
+          </h2>
           <ul className="member-list">
             {snapshot.members.map((member) => (
               <li key={member.accountId}>
+                <span className="avatar" aria-hidden="true" style={{ '--hue': hue(member.username) } as CSSProperties}>
+                  {initials(member.username)}
+                </span>
                 <span className="member-name">
                   {member.username}
                   {member.accountId === snapshot.you.accountId && <span className="muted"> ({t('room.you')})</span>}
                 </span>
-                <span className={`badge badge-${member.role}`}>{roleName(member.role)}</span>
+                <span className={`badge badge-${member.role}`}>
+                  <Icon name={member.role === 'dm' ? 'crown' : 'user'} />
+                  {roleName(member.role)}
+                </span>
                 {isDm && member.role === 'player' && (
                   <button type="button" className="danger small" disabled={busy} onClick={() => setRemoving(member)}>
                     {t('room.remove')}
@@ -92,8 +124,15 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
         </section>
 
         {isDm && snapshot.dm && (
-          <section className="card" aria-labelledby="invites-heading">
-            <h2 id="invites-heading">{t('room.invites')}</h2>
+          <section className="card dm-tools" aria-labelledby="invites-heading">
+            <p className="eyebrow">
+              <Icon name="crown" />
+              {t('room.dmTools')}
+            </p>
+            <h2 id="invites-heading">
+              <Icon name="ticket" />
+              {t('room.invites')}
+            </h2>
             <p className="muted">{t('room.invitesIntro')}</p>
             <button
               type="button"
@@ -106,26 +145,32 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
                 })
               }
             >
+              <Icon name="plus" />
               {t('room.createInvite')}
             </button>
-            {snapshot.dm.invites.length === 0 ? (
+            {orderedInvites.length === 0 ? (
               <p className="muted">{t('room.noInvites')}</p>
             ) : (
               <ul className="invite-list">
-                {snapshot.dm.invites.map((invite) => (
-                  <li key={invite.id}>
-                    <span>{t('room.inviteCreatedAt', { date: dateFormat.format(new Date(invite.createdAt)) })}</span>
+                {orderedInvites.map((invite) => (
+                  <li key={invite.id} className={invite.revoked ? 'is-revoked' : undefined}>
+                    <span className="invite-date">
+                      {t('room.inviteCreatedAt', { date: dateFormat.format(new Date(invite.createdAt)) })}
+                    </span>
                     {invite.revoked ? (
                       <span className="badge">{t('room.inviteRevoked')}</span>
                     ) : (
-                      <button
-                        type="button"
-                        className="small"
-                        disabled={busy}
-                        onClick={() => void run(() => api.revokeInvite(campaignId, invite.id))}
-                      >
-                        {t('room.revoke')}
-                      </button>
+                      <>
+                        <span className="badge badge-ok">{t('room.inviteActive')}</span>
+                        <button
+                          type="button"
+                          className="small"
+                          disabled={busy}
+                          onClick={() => void run(() => api.revokeInvite(campaignId, invite.id))}
+                        >
+                          {t('room.revoke')}
+                        </button>
+                      </>
                     )}
                   </li>
                 ))}
@@ -146,7 +191,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
               </button>
               <button
                 type="button"
-                className="danger"
+                className="danger solid"
                 disabled={busy}
                 onClick={async () => {
                   if (await run(() => api.removeMember(campaignId, removing.accountId))) setRemoving(null);
@@ -178,6 +223,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
                   }
                 }}
               >
+                <Icon name={copied ? 'check' : 'copy'} />
                 {copied ? t('room.copied') : t('room.copy')}
               </button>
               <button type="button" className="primary" onClick={() => setCreated(null)}>
@@ -188,7 +234,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
         >
           <p>{t('room.newInviteHelp')}</p>
           <input
-            className="invite-code"
+            className="invite-code mono"
             readOnly
             value={created.code}
             aria-label={t('room.newInvite')}
@@ -199,4 +245,11 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
       )}
     </div>
   );
+}
+
+/** Warna avatar stabil per nama (hanya dekorasi; nama tetap ditulis). */
+function hue(name: string): number {
+  let h = 0;
+  for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  return h;
 }

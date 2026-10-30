@@ -2,6 +2,7 @@ import { createContext, type ReactNode, useContext, useEffect, useId, useRef } f
 import { useTranslation } from 'react-i18next';
 import type { AccountView, ApiError } from '#shared/access';
 import { ApiClientError } from './api';
+import { Icon } from './icons';
 
 export interface Session {
   account: AccountView;
@@ -36,7 +37,8 @@ export function ErrorMessage({ error, id }: { error: ApiError | null | undefined
   if (!error) return null;
   return (
     <p className="error" role="alert" id={id}>
-      {text(error)}
+      <Icon name="alert" />
+      <span>{text(error)}</span>
     </p>
   );
 }

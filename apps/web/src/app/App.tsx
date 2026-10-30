@@ -6,6 +6,7 @@ import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
 import { Lobby } from '../features/lobby/Lobby';
 import { api } from './api';
+import { Icon, initials } from './icons';
 import { currentLocale, i18n, LOCALES, setLocale } from './i18n';
 import { resetRoomStore, useConnectionStatus } from './room-store';
 import { Link, navigate, routePath, useRoute } from './router';
@@ -31,6 +32,7 @@ export function App() {
 
 function Shell() {
   const { t } = useTranslation();
+  const route = useRoute();
   const [auth, setAuth] = useState<AuthPhase>({ phase: 'loading' });
   const [save, setSave] = useState<SaveState>('idle');
   const saveTicket = useRef(0);
@@ -57,6 +59,13 @@ function Shell() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // Konfirmasi "tersimpan" cukup sebentar; status gagal tetap terlihat.
+  useEffect(() => {
+    if (save !== 'saved') return;
+    const timer = setTimeout(() => setSave('idle'), 3000);
+    return () => clearTimeout(timer);
+  }, [save]);
 
   const expire = useCallback(() => {
     resetRoomStore();
@@ -99,11 +108,15 @@ function Shell() {
       </a>
       <header className="topbar">
         <Link href={routePath.lobby()} className="brand">
-          {t('app.name')}
+          <Icon name="d20" className="brand-mark" />
+          <span>{t('app.name')}</span>
         </Link>
         {session && (
           <nav aria-label={t('app.mainNav')}>
-            <Link href={routePath.lobby()}>{t('app.campaigns')}</Link>
+            <Link href={routePath.lobby()} aria-current={route.name === 'lobby' ? 'page' : undefined}>
+              <Icon name="scroll" />
+              {t('app.campaigns')}
+            </Link>
           </nav>
         )}
         <div className="topbar-tools">
@@ -111,15 +124,22 @@ function Shell() {
           <LanguageSelect onChange={changeLocale} />
           {session && (
             <>
-              <span className="account small">{t('app.signedInAs', { username: session.account.username })}</span>
-              <button type="button" className="small" onClick={() => void signOut()}>
-                {t('app.signOut')}
+              <span className="account" title={t('app.signedInAs', { username: session.account.username })}>
+                <span className="avatar avatar-sm" aria-hidden="true">
+                  {initials(session.account.username)}
+                </span>
+                <span className="account-name">{session.account.username}</span>
+              </span>
+              <button type="button" className="small ghost" onClick={() => void signOut()}>
+                <Icon name="logOut" />
+                <span className="signout-label">{t('app.signOut')}</span>
               </button>
             </>
           )}
         </div>
       </header>
-      <p className={`save-status save-${save}`} role="status">
+      <p className={`toast save-${save}`} role="status">
+        {save !== 'idle' && <Icon name={save === 'failed' ? 'alert' : save === 'saved' ? 'check' : 'globe'} />}
         {save === 'idle' ? '' : t(`save.${save}`)}
       </p>
       <main id="main" tabIndex={-1}>
@@ -164,7 +184,10 @@ function LanguageSelect({ onChange }: { onChange(locale: Locale): void }) {
   const id = useId();
   return (
     <div className="language">
-      <label htmlFor={id}>{t('app.language')}</label>
+      <label htmlFor={id}>
+        <Icon name="globe" />
+        <span className="language-label">{t('app.language')}</span>
+      </label>
       <select id={id} value={instance.language} onChange={(e) => onChange(e.target.value as Locale)}>
         {LOCALES.map((locale) => (
           <option key={locale} value={locale} lang={locale}>
@@ -179,6 +202,8 @@ function LanguageSelect({ onChange }: { onChange(locale: Locale): void }) {
 function ConnectionBadge() {
   const { t } = useTranslation();
   const status = useConnectionStatus();
+  // Di luar room tidak ada koneksi realtime yang perlu dilaporkan.
+  if (status === 'idle') return null;
   return (
     <span className={`connection connection-${status}`} role="status" title={t('connection.label')}>
       <span className="dot" aria-hidden="true" />

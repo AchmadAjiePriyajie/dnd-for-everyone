@@ -2,6 +2,7 @@ import { type FormEvent, useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ApiError, CampaignSummary } from '#shared/access';
 import { api } from '../../app/api';
+import { Icon, initials } from '../../app/icons';
 import { Link, navigate, routePath } from '../../app/router';
 import { ErrorMessage, toApiError, useSession } from '../../app/ui';
 
@@ -53,21 +54,44 @@ export function Lobby() {
 
   return (
     <div className="lobby">
-      <section className="card" aria-labelledby={ids.heading}>
-        <h1 id={ids.heading}>{t('lobby.title')}</h1>
+      <section className="lobby-main" aria-labelledby={ids.heading}>
+        <header className="page-header">
+          <h1 id={ids.heading}>{t('lobby.title')}</h1>
+          <p className="muted">{t('lobby.subtitle')}</p>
+        </header>
         <ErrorMessage error={loadError} />
-        {campaigns === null && !loadError && <p className="muted">{t('app.loading')}</p>}
-        {campaigns?.length === 0 && <p className="muted">{t('lobby.empty')}</p>}
+        {campaigns === null && !loadError && (
+          <ul className="campaign-grid" aria-busy="true" aria-label={t('app.loading')}>
+            <li className="campaign-card skeleton" />
+            <li className="campaign-card skeleton" />
+          </ul>
+        )}
+        {campaigns?.length === 0 && (
+          <div className="empty-state">
+            <Icon name="scroll" className="empty-icon" />
+            <p className="empty-title">{t('lobby.emptyTitle')}</p>
+            <p className="muted">{t('lobby.empty')}</p>
+          </div>
+        )}
         {campaigns && campaigns.length > 0 && (
-          <ul className="campaign-list">
+          <ul className="campaign-grid">
             {campaigns.map((campaign) => (
               <li key={campaign.id}>
-                <Link href={routePath.campaign(campaign.id)} className="campaign-link">
-                  <span className="campaign-title">{campaign.title}</span>
-                  <span className={`badge badge-${campaign.role}`}>
-                    {campaign.role === 'dm' ? t('lobby.roleDm') : t('lobby.rolePlayer')}
+                <Link href={routePath.campaign(campaign.id)} className="campaign-card">
+                  <span className="sigil" aria-hidden="true">
+                    {initials(campaign.title)}
                   </span>
-                  <span className="muted small">{t('lobby.ruleset', { ruleset: campaign.ruleset })}</span>
+                  <span className="campaign-body">
+                    <span className="campaign-title">{campaign.title}</span>
+                    <span className="campaign-meta">
+                      <span className={`badge badge-${campaign.role}`}>
+                        <Icon name={campaign.role === 'dm' ? 'crown' : 'user'} />
+                        {campaign.role === 'dm' ? t('lobby.roleDm') : t('lobby.rolePlayer')}
+                      </span>
+                      <span className="muted small">{t('lobby.ruleset', { ruleset: campaign.ruleset })}</span>
+                    </span>
+                  </span>
+                  <Icon name="chevronRight" className="card-chevron" />
                 </Link>
               </li>
             ))}
@@ -75,27 +99,39 @@ export function Lobby() {
         )}
       </section>
 
-      <div className="lobby-forms">
+      <div className="lobby-side">
         <section className="card">
-          <h2>{t('lobby.createHeading')}</h2>
+          <h2>
+            <Icon name="plus" />
+            {t('lobby.createHeading')}
+          </h2>
           <form onSubmit={handle('create')}>
             <div className="field">
               <label htmlFor={ids.title}>{t('lobby.campaignTitle')}</label>
               <input id={ids.title} value={title} maxLength={120} onChange={(e) => setTitle(e.target.value)} required />
             </div>
             <ErrorMessage error={createError} />
-            <button type="submit" className="primary" disabled={pending !== null || !title.trim()} aria-busy={pending === 'create'}>
+            <button
+              type="submit"
+              className="primary block"
+              disabled={pending !== null || !title.trim()}
+              aria-busy={pending === 'create'}
+            >
               {pending === 'create' ? t('lobby.creating') : t('lobby.create')}
             </button>
           </form>
         </section>
         <section className="card">
-          <h2>{t('lobby.joinHeading')}</h2>
+          <h2>
+            <Icon name="ticket" />
+            {t('lobby.joinHeading')}
+          </h2>
           <form onSubmit={handle('join')}>
             <div className="field">
               <label htmlFor={ids.invite}>{t('lobby.inviteCode')}</label>
               <input
                 id={ids.invite}
+                className="mono"
                 value={invite}
                 onChange={(e) => setInvite(e.target.value)}
                 autoComplete="off"
@@ -104,7 +140,12 @@ export function Lobby() {
               />
             </div>
             <ErrorMessage error={joinError} />
-            <button type="submit" disabled={pending !== null || !invite.trim()} aria-busy={pending === 'join'}>
+            <button
+              type="submit"
+              className="block"
+              disabled={pending !== null || !invite.trim()}
+              aria-busy={pending === 'join'}
+            >
               {pending === 'join' ? t('lobby.joining') : t('lobby.join')}
             </button>
           </form>

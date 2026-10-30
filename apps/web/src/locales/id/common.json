@@ -8,7 +8,8 @@
     "mainNav": "Utama",
     "campaigns": "Campaign",
     "signOut": "Keluar",
-    "signedInAs": "Masuk sebagai {{username}}"
+    "signedInAs": "Masuk sebagai {{username}}",
+    "tagline": "Jalankan campaign D&D 2024 di host milikmu sendiri."
   },
   "connection": {
     "label": "Koneksi",
@@ -41,7 +42,13 @@
     "bootstrapIntro": "Belum ada akun. Buat akun pertama; akun ini menjalankan campaign sebagai Dungeon Master.",
     "bootstrap": "Buat akun host",
     "usernameHint": "3–32 huruf, angka, titik, tanda hubung atau garis bawah.",
-    "passwordHint": "Minimal 8 karakter."
+    "passwordHint": "Minimal 8 karakter.",
+    "pitchTitle": "Mejamu. Aturanmu. Servermu.",
+    "pitch1": "Berjalan di komputer Dungeon Master. Player cukup membuka tautan.",
+    "pitch2": "Player bergabung dengan kode undangan sekali pakai.",
+    "pitch3": "Setiap orang memilih sendiri Bahasa Indonesia atau Inggris.",
+    "showPassword": "Tampilkan kata sandi",
+    "hidePassword": "Sembunyikan kata sandi"
   },
   "lobby": {
     "title": "Campaign kamu",
@@ -56,7 +63,9 @@
     "joinHeading": "Gabung campaign",
     "inviteCode": "Kode undangan",
     "join": "Gabung",
-    "joining": "Bergabung…"
+    "joining": "Bergabung…",
+    "subtitle": "Lanjutkan petualangan party-mu, atau kumpulkan party baru.",
+    "emptyTitle": "Belum ada campaign"
   },
   "room": {
     "loading": "Memuat campaign…",
@@ -81,7 +90,9 @@
     "inviteCreatedAt": "Dibuat {{date}}",
     "inviteRevoked": "Dicabut",
     "revoke": "Cabut",
-    "noAccess": "Kamu tidak punya akses ke campaign ini."
+    "noAccess": "Kamu tidak punya akses ke campaign ini.",
+    "dmTools": "Alat Dungeon Master",
+    "inviteActive": "Aktif"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",
