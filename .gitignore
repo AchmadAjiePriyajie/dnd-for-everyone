@@ -1,0 +1,16 @@
+# Koleksi referensi lokal (buku berlisensi) — tidak boleh masuk repo/build/backup
+docs/2024 (5.5e)/
+tmp/
+codex-session-*.md
+
+# Runtime dan build
+node_modules/
+data/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Workspace eksekusi plan
+.superpowers/

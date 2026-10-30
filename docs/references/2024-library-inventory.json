@@ -1,0 +1,485 @@
+{
+  "review_date": "2026-10-30",
+  "source_root": "docs/2024 (5.5e)",
+  "purpose": "Local reference review for platform design; not a public content package",
+  "counts": {
+    "files": 54,
+    "pdf": 49,
+    "png": 4,
+    "docx": 1,
+    "pdf_pages_from_extraction": 4190
+  },
+  "files": [
+    {
+      "path": "docs/2024 (5.5e)/Advice&Errata/Dungeon Master’s Guide (2024) (A&E).pdf",
+      "bytes": 85811,
+      "type": "pdf",
+      "review": "full_errata_text",
+      "pdf_pages_from_extraction": 3,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Advice&Errata/Monster Manual (2024) (A&E).pdf",
+      "bytes": 102768,
+      "type": "pdf",
+      "review": "full_errata_text",
+      "pdf_pages_from_extraction": 3,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Advice&Errata/Player’s Handbook (2024) (A&E).pdf",
+      "bytes": 143697,
+      "type": "pdf",
+      "review": "full_errata_text",
+      "pdf_pages_from_extraction": 8,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Borderlands Quest Goblin Trouble.pdf",
+      "bytes": 11841856,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 29,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Dragon Delves.pdf",
+      "bytes": 34165872,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 319,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Fated Flight of the Recluse.pdf",
+      "bytes": 19975070,
+      "type": "pdf",
+      "review": "all_pages_visual_scan",
+      "pdf_pages_from_extraction": 12,
+      "text_available": false,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Hold back the Dead.pdf",
+      "bytes": 2101037,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 30,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Scions of Elemental Evil.pdf",
+      "bytes": 18190623,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 61,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/The Tenebrous Stone.pdf",
+      "bytes": 2474461,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 5,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Oneshots/Uni and the Hunt for the Lost Horn.pdf",
+      "bytes": 15514610,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 84,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Heroes of the Borderlands/Heroes of the Borderlands.pdf",
+      "bytes": 16635559,
+      "type": "pdf",
+      "review": "structure_and_onboarding_text",
+      "pdf_pages_from_extraction": 263,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Contract with Dardew.pdf",
+      "bytes": 7248812,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 1,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Maps/Dungeon of Shadows & Shadow Dungeon (The Vanishing Gnome Dungeon).png",
+      "bytes": 4505026,
+      "type": "png",
+      "review": "full_image_visual"
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Maps/Farm Tunnels (Scream of the Crop Tunnel).png",
+      "bytes": 158303,
+      "type": "png",
+      "review": "full_image_visual"
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Maps/Hellfire Dome (Devil, Metal, Die).png",
+      "bytes": 150116,
+      "type": "png",
+      "review": "full_image_visual"
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Maps/Oakshore Docks (Ballad of Rat King).png",
+      "bytes": 172178,
+      "type": "png",
+      "review": "full_image_visual"
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Missing Poster.pdf",
+      "bytes": 6793436,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Two Sides of a Deal.pdf",
+      "bytes": 14333189,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Warning Note.pdf",
+      "bytes": 12987380,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Handouts/Writ of Authorization.pdf",
+      "bytes": 12107150,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf)/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf) Level 1.pdf",
+      "bytes": 811096,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf)/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf) Level 2.pdf",
+      "bytes": 815440,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf)/Welcome to the Hellfire Club Premade Dwarf Cleric (Nog the Dwarf) Level 3.pdf",
+      "bytes": 817145,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack)/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack) Level 1.pdf",
+      "bytes": 520221,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack)/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack) Level 2.pdf",
+      "bytes": 518476,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack)/Welcome to the Hellfire Club Premade Elf Rogue (Lady Applejack) Level 3.pdf",
+      "bytes": 521812,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin)/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin) Level 1.pdf",
+      "bytes": 626281,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin)/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin) Level 2.pdf",
+      "bytes": 626962,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin)/Welcome to the Hellfire Club Premade Halfling Paladin (Tayr the Paladin) Level 3.pdf",
+      "bytes": 629535,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold)/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold) Level 1.pdf",
+      "bytes": 526529,
+      "type": "pdf",
+      "review": "text_sample_and_first_page_visual",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold)/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold) Level 2.pdf",
+      "bytes": 529567,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold)/Welcome to the Hellfire Club Premade Human Fighter (Sundar the Bold) Level 3.pdf",
+      "bytes": 530293,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise)/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise) Level 1.pdf",
+      "bytes": 473134,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise)/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise) Level 2.pdf",
+      "bytes": 475230,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Premade Characters/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise)/Welcome to the Hellfire Club Premade Human Wizard (Will the Wise) Level 3.pdf",
+      "bytes": 477214,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Campaigns&Adventures/Starter Sets/Welcome to the Hellfire club/Welcome to the Hellfire Club.pdf",
+      "bytes": 19368970,
+      "type": "pdf",
+      "review": "structure_and_onboarding_text",
+      "pdf_pages_from_extraction": 104,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Core Rules/D&D Basic Rules (2024).pdf.pdf",
+      "bytes": 43061426,
+      "type": "pdf",
+      "review": "selected_rules_text",
+      "pdf_pages_from_extraction": 670,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Core Rules/Dungeon Master_s Guide (2024).pdf",
+      "bytes": 88827859,
+      "type": "pdf",
+      "review": "selected_rules_text_and_visual",
+      "pdf_pages_from_extraction": 388,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Core Rules/Monster Manual (2024).pdf",
+      "bytes": 86027946,
+      "type": "pdf",
+      "review": "selected_rules_text",
+      "pdf_pages_from_extraction": 390,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Core Rules/Player_s Handbook (2024).pdf",
+      "bytes": 88834798,
+      "type": "pdf",
+      "review": "selected_rules_text_and_visual",
+      "pdf_pages_from_extraction": 387,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/DnD Encounters Ravenloft Shadows of Sithicus Adventure.pdf",
+      "bytes": 55226186,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 29,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/Premade Characters/Dnd Encounters Season of Horror Crem.pdf",
+      "bytes": 3613829,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/Premade Characters/Dnd Encounters Season of Horror Eloin.pdf",
+      "bytes": 3451043,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/Premade Characters/Dnd Encounters Season of Horror Lividity.pdf",
+      "bytes": 3514964,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/Premade Characters/Dnd Encounters Season of Horror Wesley.pdf",
+      "bytes": 5561292,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/D&D Encounters/Season of Horror/Premade Characters/Dnd Encounters Season of Horror Zora.pdf",
+      "bytes": 3446379,
+      "type": "pdf",
+      "review": "indexed_or_character_text_sample",
+      "pdf_pages_from_extraction": 2,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Missing Books (2024).docx",
+      "bytes": 6708,
+      "type": "docx",
+      "review": "full_document_text"
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Astarion’s Book of Hungers.pdf",
+      "bytes": 25594545,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 68,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Character&Options/Forge of the Artificer.pdf",
+      "bytes": 9570897,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 162,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Character&Options/Forgotten Realms Heroes of Faerûn.pdf",
+      "bytes": 48789718,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 218,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Ravenloft_The Horrors Within.pdf",
+      "bytes": 144459325,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 296,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Settings&Lore/Magic The Gathering/Lorwyn/Lorwyn First Light.pdf",
+      "bytes": 66013415,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 55,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Settings&Lore/Official D&D/Toril (Forgotten Realms)/Forgotten Realms Adventures in Faerûn.pdf",
+      "bytes": 29314826,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 437,
+      "text_available": true,
+      "text_extraction_ok": true
+    },
+    {
+      "path": "docs/2024 (5.5e)/Supplements/Settings&Lore/Official D&D/Toril (Forgotten Realms)/Netheril/Netheril’s Fall.pdf",
+      "bytes": 10784845,
+      "type": "pdf",
+      "review": "structure_and_intro_text_sample",
+      "pdf_pages_from_extraction": 120,
+      "text_available": true,
+      "text_extraction_ok": true
+    }
+  ]
+}
