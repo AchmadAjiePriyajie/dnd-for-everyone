@@ -17,7 +17,7 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "locales:audit": "node scripts/audit-locales.ts",
-    "content:audit": "node -e \"console.error('content:audit belum tersedia; dibuat pada Task 5'); process.exit(1)\""
+    "content:audit": "node --conditions=source scripts/audit-content.ts"
   },
   "dependencies": {
     "@fastify/static": "10.1.8",
@@ -57,6 +57,10 @@
     "#shared/*": {
       "source": "./packages/shared/src/*.ts",
       "default": "./dist/packages/shared/src/*.js"
+    },
+    "#content/*": {
+      "source": "./packages/content/src/*.ts",
+      "default": "./dist/packages/content/src/*.js"
     }
   }
 }

@@ -5,6 +5,7 @@ import { AppController } from './app.controller.js';
 import { CommandsModule } from './commands/commands.module.js';
 import { ApiErrorFilter } from './common/api-error.filter.js';
 import { DomainEventsModule } from './common/domain-events.js';
+import { ContentModule } from './content/content.module.js';
 import { DatabaseModule } from './db/database.module.js';
 import { AuthModule } from './features/auth/auth.module.js';
 import { CampaignsModule } from './features/campaigns/campaigns.module.js';
@@ -31,6 +32,7 @@ export class AppModule {
         AppOptionsModule.forRoot(options),
         DatabaseModule,
         DomainEventsModule,
+        ContentModule,
         AuthModule,
         CampaignsModule,
         CommandsModule,

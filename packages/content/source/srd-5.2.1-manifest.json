@@ -1,0 +1,8376 @@
+{
+ "source": {
+  "title": "System Reference Document 5.2.1",
+  "version": "5.2.1",
+  "license": "CC-BY-4.0",
+  "url": "https://www.dndbeyond.com/srd",
+  "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+  "pages": 364
+ },
+ "entries": [
+  {
+   "id": "background.acolyte",
+   "name": "Acolyte",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "background.criminal",
+   "name": "Criminal",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "background.sage",
+   "name": "Sage",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "background.soldier",
+   "name": "Soldier",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "class.barbarian",
+   "name": "Barbarian",
+   "section": "Classes",
+   "page": 28
+  },
+  {
+   "id": "class.bard",
+   "name": "Bard",
+   "section": "Classes",
+   "page": 31
+  },
+  {
+   "id": "class.cleric",
+   "name": "Cleric",
+   "section": "Classes",
+   "page": 36
+  },
+  {
+   "id": "class.druid",
+   "name": "Druid",
+   "section": "Classes",
+   "page": 41
+  },
+  {
+   "id": "class.fighter",
+   "name": "Fighter",
+   "section": "Classes",
+   "page": 47
+  },
+  {
+   "id": "class.monk",
+   "name": "Monk",
+   "section": "Classes",
+   "page": 49
+  },
+  {
+   "id": "class.paladin",
+   "name": "Paladin",
+   "section": "Classes",
+   "page": 53
+  },
+  {
+   "id": "class.ranger",
+   "name": "Ranger",
+   "section": "Classes",
+   "page": 57
+  },
+  {
+   "id": "class.rogue",
+   "name": "Rogue",
+   "section": "Classes",
+   "page": 61
+  },
+  {
+   "id": "class.sorcerer",
+   "name": "Sorcerer",
+   "section": "Classes",
+   "page": 64
+  },
+  {
+   "id": "class.warlock",
+   "name": "Warlock",
+   "section": "Classes",
+   "page": 70
+  },
+  {
+   "id": "class.wizard",
+   "name": "Wizard",
+   "section": "Classes",
+   "page": 77
+  },
+  {
+   "id": "condition.blinded",
+   "name": "Blinded [Condition]",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "condition.charmed",
+   "name": "Charmed [Condition]",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "condition.deafened",
+   "name": "Deafened [Condition]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "condition.exhaustion",
+   "name": "Exhaustion [Condition]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "condition.frightened",
+   "name": "Frightened [Condition]",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "condition.grappled",
+   "name": "Grappled [Condition]",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "condition.incapacitated",
+   "name": "Incapacitated [Condition]",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "condition.invisible",
+   "name": "Invisible [Condition]",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "condition.paralyzed",
+   "name": "Paralyzed [Condition]",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "condition.petrified",
+   "name": "Petrified [Condition]",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "condition.poisoned",
+   "name": "Poisoned [Condition]",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "condition.prone",
+   "name": "Prone [Condition]",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "condition.restrained",
+   "name": "Restrained [Condition]",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "condition.stunned",
+   "name": "Stunned [Condition]",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "condition.unconscious",
+   "name": "Unconscious [Condition]",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "equipment.acid",
+   "name": "Acid",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.airship",
+   "name": "Airship",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.alchemists-fire",
+   "name": "Alchemist’s Fire",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.alchemists-supplies",
+   "name": "Alchemist’s Supplies",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.ammunition",
+   "name": "Ammunition",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.antitoxin",
+   "name": "Antitoxin",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.arcane-focus",
+   "name": "Arcane Focus",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.backpack",
+   "name": "Backpack",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.ball-bearings",
+   "name": "Ball Bearings",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.barrel",
+   "name": "Barrel",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.basket",
+   "name": "Basket",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.battleaxe",
+   "name": "Battleaxe",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.bedroll",
+   "name": "Bedroll",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.bell",
+   "name": "Bell",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.blanket",
+   "name": "Blanket",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.block-and-tackle",
+   "name": "Block and Tackle",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.blowgun",
+   "name": "Blowgun",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.book",
+   "name": "Book",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.bottle-glass",
+   "name": "Bottle, Glass",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.breastplate",
+   "name": "Breastplate",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.brewers-supplies",
+   "name": "Brewer’s Supplies",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.bucket",
+   "name": "Bucket",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.burglars-pack",
+   "name": "Burglar’s Pack",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.calligraphers-supplies",
+   "name": "Calligrapher’s Supplies",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.caltrops",
+   "name": "Caltrops",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.camel",
+   "name": "Camel",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.candle",
+   "name": "Candle",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.carpenters-tools",
+   "name": "Carpenter’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.carriage",
+   "name": "Carriage",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.cart",
+   "name": "Cart",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.cartographers-tools",
+   "name": "Cartographer’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.case-crossbow-bolt",
+   "name": "Case, Crossbow Bolt",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.case-map-or-scroll",
+   "name": "Case, Map or Scroll",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.chain",
+   "name": "Chain",
+   "section": "Equipment",
+   "page": 96
+  },
+  {
+   "id": "equipment.chain-mail",
+   "name": "Chain Mail",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.chain-shirt",
+   "name": "Chain Shirt",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.chariot",
+   "name": "Chariot",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.chest",
+   "name": "Chest",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.climbers-kit",
+   "name": "Climber’s Kit",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.clothes-fine",
+   "name": "Clothes, Fine",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.clothes-travelers",
+   "name": "Clothes, Traveler’s",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.club",
+   "name": "Club",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.cobblers-tools",
+   "name": "Cobbler’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.component-pouch",
+   "name": "Component Pouch",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.cooks-utensils",
+   "name": "Cook’s Utensils",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.costume",
+   "name": "Costume",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.crowbar",
+   "name": "Crowbar",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.dagger",
+   "name": "Dagger",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.dart",
+   "name": "Dart",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.diplomats-pack",
+   "name": "Diplomat’s Pack",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.disguise-kit",
+   "name": "Disguise Kit",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.druidic-focus",
+   "name": "Druidic Focus",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.dungeoneers-pack",
+   "name": "Dungeoneer’s Pack",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.elephant",
+   "name": "Elephant",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.entertainers-pack",
+   "name": "Entertainer’s Pack",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.explorers-pack",
+   "name": "Explorer’s Pack",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.feed-per-day",
+   "name": "Feed per day",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.flail",
+   "name": "Flail",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.flask",
+   "name": "Flask",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.forgery-kit",
+   "name": "Forgery Kit",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.galley",
+   "name": "Galley",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.gaming-set",
+   "name": "Gaming Set",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.glaive",
+   "name": "Glaive",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.glassblowers-tools",
+   "name": "Glassblower’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.grappling-hook",
+   "name": "Grappling Hook",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.greataxe",
+   "name": "Greataxe",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.greatclub",
+   "name": "Greatclub",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.greatsword",
+   "name": "Greatsword",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.halberd",
+   "name": "Halberd",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.half-plate-armor",
+   "name": "Half Plate Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.hand-crossbow",
+   "name": "Hand Crossbow",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.handaxe",
+   "name": "Handaxe",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.healers-kit",
+   "name": "Healer’s Kit",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.heavy-crossbow",
+   "name": "Heavy Crossbow",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.herbalism-kit",
+   "name": "Herbalism Kit",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.hide-armor",
+   "name": "Hide Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.holy-symbol",
+   "name": "Holy Symbol",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.holy-water",
+   "name": "Holy Water",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.horse-draft",
+   "name": "Horse, Draft",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.horse-riding",
+   "name": "Horse, Riding",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.hunting-trap",
+   "name": "Hunting Trap",
+   "section": "Equipment",
+   "page": 97
+  },
+  {
+   "id": "equipment.ink",
+   "name": "Ink",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.ink-pen",
+   "name": "Ink Pen",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.javelin",
+   "name": "Javelin",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.jewelers-tools",
+   "name": "Jeweler’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.jug",
+   "name": "Jug",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.keelboat",
+   "name": "Keelboat",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.ladder",
+   "name": "Ladder",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.lamp",
+   "name": "Lamp",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.lance",
+   "name": "Lance",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.lantern-bullseye",
+   "name": "Lantern, Bullseye",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.lantern-hooded",
+   "name": "Lantern, Hooded",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.leather-armor",
+   "name": "Leather Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.leatherworkers-tools",
+   "name": "Leatherworker’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.light-crossbow",
+   "name": "Light Crossbow",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.light-hammer",
+   "name": "Light Hammer",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.lock",
+   "name": "Lock",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.longbow",
+   "name": "Longbow",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.longship",
+   "name": "Longship",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.longsword",
+   "name": "Longsword",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.mace",
+   "name": "Mace",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.magnifying-glass",
+   "name": "Magnifying Glass",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.manacles",
+   "name": "Manacles",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.map",
+   "name": "Map",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.masons-tools",
+   "name": "Mason’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.mastiff",
+   "name": "Mastiff",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.maul",
+   "name": "Maul",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.mirror",
+   "name": "Mirror",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.morningstar",
+   "name": "Morningstar",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.mule",
+   "name": "Mule",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.musical-instrument",
+   "name": "Musical Instrument",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.musket",
+   "name": "Musket",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.navigators-tools",
+   "name": "Navigator’s Tools",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.net",
+   "name": "Net",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.oil",
+   "name": "Oil",
+   "section": "Equipment",
+   "page": 98
+  },
+  {
+   "id": "equipment.padded-armor",
+   "name": "Padded Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.painters-supplies",
+   "name": "Painter’s Supplies",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.paper",
+   "name": "Paper",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.parchment",
+   "name": "Parchment",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.perfume",
+   "name": "Perfume",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.pike",
+   "name": "Pike",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.pistol",
+   "name": "Pistol",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.plate-armor",
+   "name": "Plate Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.poison-basic",
+   "name": "Poison, Basic",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.poisoners-kit",
+   "name": "Poisoner’s Kit",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.pole",
+   "name": "Pole",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.pony",
+   "name": "Pony",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.pot-iron",
+   "name": "Pot, Iron",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.potion-of-healing",
+   "name": "Potion of Healing",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.potters-tools",
+   "name": "Potter’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.pouch",
+   "name": "Pouch",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.priests-pack",
+   "name": "Priest’s Pack",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.quarterstaff",
+   "name": "Quarterstaff",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.quiver",
+   "name": "Quiver",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.ram-portable",
+   "name": "Ram, Portable",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.rapier",
+   "name": "Rapier",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.rations",
+   "name": "Rations",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.ring-mail",
+   "name": "Ring Mail",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.robe",
+   "name": "Robe",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.rope",
+   "name": "Rope",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.rowboat",
+   "name": "Rowboat",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.sack",
+   "name": "Sack",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.saddle-exotic",
+   "name": "Saddle, Exotic",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.saddle-military",
+   "name": "Saddle, Military",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.saddle-riding",
+   "name": "Saddle, Riding",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.sailing-ship",
+   "name": "Sailing Ship",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.scale-mail",
+   "name": "Scale Mail",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.scholars-pack",
+   "name": "Scholar’s Pack",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.scimitar",
+   "name": "Scimitar",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.shield",
+   "name": "Shield",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.shortbow",
+   "name": "Shortbow",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.shortsword",
+   "name": "Shortsword",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.shovel",
+   "name": "Shovel",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.sickle",
+   "name": "Sickle",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.signal-whistle",
+   "name": "Signal Whistle",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.sled",
+   "name": "Sled",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.sling",
+   "name": "Sling",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.smiths-tools",
+   "name": "Smith’s Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "equipment.spear",
+   "name": "Spear",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.spell-scroll",
+   "name": "Spell Scroll",
+   "section": "Equipment",
+   "page": 99
+  },
+  {
+   "id": "equipment.spikes-iron",
+   "name": "Spikes, Iron",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.splint-armor",
+   "name": "Splint Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.spyglass",
+   "name": "Spyglass",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.stabling-per-day",
+   "name": "Stabling per day",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.string",
+   "name": "String",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.studded-leather-armor",
+   "name": "Studded Leather Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "equipment.tent",
+   "name": "Tent",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.thieves-tools",
+   "name": "Thieves’ Tools",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.tinderbox",
+   "name": "Tinderbox",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.tinkers-tools",
+   "name": "Tinker’s Tools",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.torch",
+   "name": "Torch",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.trident",
+   "name": "Trident",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.vial",
+   "name": "Vial",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.wagon",
+   "name": "Wagon",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.war-pick",
+   "name": "War Pick",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.warhammer",
+   "name": "Warhammer",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.warhorse",
+   "name": "Warhorse",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.warship",
+   "name": "Warship",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "equipment.waterskin",
+   "name": "Waterskin",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "equipment.weavers-tools",
+   "name": "Weaver’s Tools",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "equipment.whip",
+   "name": "Whip",
+   "section": "Equipment",
+   "page": 91
+  },
+  {
+   "id": "equipment.woodcarvers-tools",
+   "name": "Woodcarver’s Tools",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "feat.ability-score-improvement",
+   "name": "Ability Score Improvement",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.alert",
+   "name": "Alert",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.archery",
+   "name": "Archery",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.boon-of-combat-prowess",
+   "name": "Boon of Combat Prowess",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-dimensional-travel",
+   "name": "Boon of Dimensional Travel",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-fate",
+   "name": "Boon of Fate",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-irresistible-offense",
+   "name": "Boon of Irresistible Offense",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-spell-recall",
+   "name": "Boon of Spell Recall",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-the-night-spirit",
+   "name": "Boon of the Night Spirit",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.boon-of-truesight",
+   "name": "Boon of Truesight",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.defense",
+   "name": "Defense",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.grappler",
+   "name": "Grappler",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.great-weapon-fighting",
+   "name": "Great Weapon Fighting",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "feat.magic-initiate",
+   "name": "Magic Initiate",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.savage-attacker",
+   "name": "Savage Attacker",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.skilled",
+   "name": "Skilled",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "feat.two-weapon-fighting",
+   "name": "Two-Weapon Fighting",
+   "section": "Feats",
+   "page": 88
+  },
+  {
+   "id": "magic-item.adamantine-armor",
+   "name": "Adamantine Armor",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.ammunition-1-2-or-3",
+   "name": "Ammunition, +1, +2, or +3",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.ammunition-of-slaying",
+   "name": "Ammunition of Slaying",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.amulet-of-health",
+   "name": "Amulet of Health",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.amulet-of-proof-against-detection-and-location",
+   "name": "Amulet of Proof against Detection and Location",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.amulet-of-the-planes",
+   "name": "Amulet of the Planes",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.animated-shield",
+   "name": "Animated Shield",
+   "section": "Magic Items",
+   "page": 209
+  },
+  {
+   "id": "magic-item.apparatus-of-the-crab",
+   "name": "Apparatus of the Crab",
+   "section": "Magic Items",
+   "page": 210
+  },
+  {
+   "id": "magic-item.armor-1-2-or-3",
+   "name": "Armor, +1, +2, or +3",
+   "section": "Magic Items",
+   "page": 210
+  },
+  {
+   "id": "magic-item.armor-of-invulnerability",
+   "name": "Armor of Invulnerability",
+   "section": "Magic Items",
+   "page": 210
+  },
+  {
+   "id": "magic-item.armor-of-resistance",
+   "name": "Armor of Resistance",
+   "section": "Magic Items",
+   "page": 210
+  },
+  {
+   "id": "magic-item.armor-of-vulnerability",
+   "name": "Armor of Vulnerability",
+   "section": "Magic Items",
+   "page": 211
+  },
+  {
+   "id": "magic-item.arrow-catching-shield",
+   "name": "Arrow-Catching Shield",
+   "section": "Magic Items",
+   "page": 211
+  },
+  {
+   "id": "magic-item.bag-of-beans",
+   "name": "Bag of Beans",
+   "section": "Magic Items",
+   "page": 211
+  },
+  {
+   "id": "magic-item.bag-of-devouring",
+   "name": "Bag of Devouring",
+   "section": "Magic Items",
+   "page": 212
+  },
+  {
+   "id": "magic-item.bag-of-holding",
+   "name": "Bag of Holding",
+   "section": "Magic Items",
+   "page": 212
+  },
+  {
+   "id": "magic-item.bag-of-tricks",
+   "name": "Bag of Tricks",
+   "section": "Magic Items",
+   "page": 212
+  },
+  {
+   "id": "magic-item.bead-of-force",
+   "name": "Bead of Force",
+   "section": "Magic Items",
+   "page": 212
+  },
+  {
+   "id": "magic-item.bead-of-nourishment",
+   "name": "Bead of Nourishment",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.belt-of-dwarvenkind",
+   "name": "Belt of Dwarvenkind",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.belt-of-giant-strength",
+   "name": "Belt of Giant Strength",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.berserker-axe",
+   "name": "Berserker Axe",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.boots-of-elvenkind",
+   "name": "Boots of Elvenkind",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.boots-of-levitation",
+   "name": "Boots of Levitation",
+   "section": "Magic Items",
+   "page": 213
+  },
+  {
+   "id": "magic-item.boots-of-speed",
+   "name": "Boots of Speed",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.boots-of-striding-and-springing",
+   "name": "Boots of Striding and Springing",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.boots-of-the-winterlands",
+   "name": "Boots of the Winterlands",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.bowl-of-commanding-water-elementals",
+   "name": "Bowl of Commanding Water Elementals",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.bracers-of-archery",
+   "name": "Bracers of Archery",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.bracers-of-defense",
+   "name": "Bracers of Defense",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.brazier-of-commanding-fire-elementals",
+   "name": "Brazier of Commanding Fire Elementals",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.brooch-of-shielding",
+   "name": "Brooch of Shielding",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.broom-of-flying",
+   "name": "Broom of Flying",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.candle-of-invocation",
+   "name": "Candle of Invocation",
+   "section": "Magic Items",
+   "page": 214
+  },
+  {
+   "id": "magic-item.cape-of-the-mountebank",
+   "name": "Cape of the Mountebank",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.carpet-of-flying",
+   "name": "Carpet of Flying",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.censer-of-controlling-air-elementals",
+   "name": "Censer of Controlling Air Elementals",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.chime-of-opening",
+   "name": "Chime of Opening",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.circlet-of-blasting",
+   "name": "Circlet of Blasting",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.cloak-of-arachnida",
+   "name": "Cloak of Arachnida",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.cloak-of-displacement",
+   "name": "Cloak of Displacement",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.cloak-of-elvenkind",
+   "name": "Cloak of Elvenkind",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.cloak-of-invisibility",
+   "name": "Cloak of Invisibility",
+   "section": "Magic Items",
+   "page": 215
+  },
+  {
+   "id": "magic-item.cloak-of-protection",
+   "name": "Cloak of Protection",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.cloak-of-the-bat",
+   "name": "Cloak of the Bat",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.cloak-of-the-manta-ray",
+   "name": "Cloak of the Manta Ray",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.crystal-ball",
+   "name": "Crystal Ball",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.crystal-ball-of-mind-reading",
+   "name": "Crystal Ball of Mind Reading",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.crystal-ball-of-telepathy",
+   "name": "Crystal Ball of Telepathy",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.crystal-ball-of-true-seeing",
+   "name": "Crystal Ball of True Seeing",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.cube-of-force",
+   "name": "Cube of Force",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.cubic-gate",
+   "name": "Cubic Gate",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.dagger-of-venom",
+   "name": "Dagger of Venom",
+   "section": "Magic Items",
+   "page": 216
+  },
+  {
+   "id": "magic-item.dancing-sword",
+   "name": "Dancing Sword",
+   "section": "Magic Items",
+   "page": 217
+  },
+  {
+   "id": "magic-item.decanter-of-endless-water",
+   "name": "Decanter of Endless Water",
+   "section": "Magic Items",
+   "page": 217
+  },
+  {
+   "id": "magic-item.deck-of-illusions",
+   "name": "Deck of Illusions",
+   "section": "Magic Items",
+   "page": 217
+  },
+  {
+   "id": "magic-item.defender",
+   "name": "Defender",
+   "section": "Magic Items",
+   "page": 218
+  },
+  {
+   "id": "magic-item.demon-armor",
+   "name": "Demon Armor",
+   "section": "Magic Items",
+   "page": 218
+  },
+  {
+   "id": "magic-item.dimensional-shackles",
+   "name": "Dimensional Shackles",
+   "section": "Magic Items",
+   "page": 218
+  },
+  {
+   "id": "magic-item.dragon-orb",
+   "name": "Dragon Orb",
+   "section": "Magic Items",
+   "page": 218
+  },
+  {
+   "id": "magic-item.dragon-scale-mail",
+   "name": "Dragon Scale Mail",
+   "section": "Magic Items",
+   "page": 218
+  },
+  {
+   "id": "magic-item.dragon-slayer",
+   "name": "Dragon Slayer",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.dust-of-disappearance",
+   "name": "Dust of Disappearance",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.dust-of-dryness",
+   "name": "Dust of Dryness",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.dust-of-sneezing-and-choking",
+   "name": "Dust of Sneezing and Choking",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.dwarven-plate",
+   "name": "Dwarven Plate",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.dwarven-thrower",
+   "name": "Dwarven Thrower",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.efficient-quiver",
+   "name": "Efficient Quiver",
+   "section": "Magic Items",
+   "page": 219
+  },
+  {
+   "id": "magic-item.efreeti-bottle",
+   "name": "Efreeti Bottle",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.elemental-gem",
+   "name": "Elemental Gem",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.elixir-of-health",
+   "name": "Elixir of Health",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.elven-chain",
+   "name": "Elven Chain",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.energy-bow",
+   "name": "Energy Bow",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.eversmoking-bottle",
+   "name": "Eversmoking Bottle",
+   "section": "Magic Items",
+   "page": 220
+  },
+  {
+   "id": "magic-item.eyes-of-charming",
+   "name": "Eyes of Charming",
+   "section": "Magic Items",
+   "page": 221
+  },
+  {
+   "id": "magic-item.eyes-of-minute-seeing",
+   "name": "Eyes of Minute Seeing",
+   "section": "Magic Items",
+   "page": 221
+  },
+  {
+   "id": "magic-item.eyes-of-the-eagle",
+   "name": "Eyes of the Eagle",
+   "section": "Magic Items",
+   "page": 221
+  },
+  {
+   "id": "magic-item.feather-token",
+   "name": "Feather Token",
+   "section": "Magic Items",
+   "page": 221
+  },
+  {
+   "id": "magic-item.figurine-of-wondrous-power",
+   "name": "Figurine of Wondrous Power",
+   "section": "Magic Items",
+   "page": 221
+  },
+  {
+   "id": "magic-item.flame-tongue",
+   "name": "Flame Tongue",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.folding-boat",
+   "name": "Folding Boat",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.frost-brand",
+   "name": "Frost Brand",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.gauntlets-of-ogre-power",
+   "name": "Gauntlets of Ogre Power",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.gem-of-brightness",
+   "name": "Gem of Brightness",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.gem-of-seeing",
+   "name": "Gem of Seeing",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.giant-slayer",
+   "name": "Giant Slayer",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.glamoured-studded-leather",
+   "name": "Glamoured Studded Leather",
+   "section": "Magic Items",
+   "page": 223
+  },
+  {
+   "id": "magic-item.gloves-of-missile-snaring",
+   "name": "Gloves of Missile Snaring",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.gloves-of-swimming-and-climbing",
+   "name": "Gloves of Swimming and Climbing",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.gloves-of-thievery",
+   "name": "Gloves of Thievery",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.goggles-of-night",
+   "name": "Goggles of Night",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.hammer-of-thunderbolts",
+   "name": "Hammer of Thunderbolts",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.handy-haversack",
+   "name": "Handy Haversack",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.hat-of-disguise",
+   "name": "Hat of Disguise",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.hat-of-many-spells",
+   "name": "Hat of Many Spells",
+   "section": "Magic Items",
+   "page": 224
+  },
+  {
+   "id": "magic-item.headband-of-intellect",
+   "name": "Headband of Intellect",
+   "section": "Magic Items",
+   "page": 225
+  },
+  {
+   "id": "magic-item.helm-of-brilliance",
+   "name": "Helm of Brilliance",
+   "section": "Magic Items",
+   "page": 225
+  },
+  {
+   "id": "magic-item.helm-of-comprehending-languages",
+   "name": "Helm of Comprehending Languages",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.helm-of-telepathy",
+   "name": "Helm of Telepathy",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.helm-of-teleportation",
+   "name": "Helm of Teleportation",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.holy-avenger",
+   "name": "Holy Avenger",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.horn-of-blasting",
+   "name": "Horn of Blasting",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.horn-of-valhalla",
+   "name": "Horn of Valhalla",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.horseshoes-of-a-zephyr",
+   "name": "Horseshoes of a Zephyr",
+   "section": "Magic Items",
+   "page": 226
+  },
+  {
+   "id": "magic-item.horseshoes-of-speed",
+   "name": "Horseshoes of Speed",
+   "section": "Magic Items",
+   "page": 227
+  },
+  {
+   "id": "magic-item.immovable-rod",
+   "name": "Immovable Rod",
+   "section": "Magic Items",
+   "page": 227
+  },
+  {
+   "id": "magic-item.instant-fortress",
+   "name": "Instant Fortress",
+   "section": "Magic Items",
+   "page": 227
+  },
+  {
+   "id": "magic-item.ioun-stone",
+   "name": "Ioun Stone",
+   "section": "Magic Items",
+   "page": 227
+  },
+  {
+   "id": "magic-item.iron-bands",
+   "name": "Iron Bands",
+   "section": "Magic Items",
+   "page": 228
+  },
+  {
+   "id": "magic-item.iron-flask",
+   "name": "Iron Flask",
+   "section": "Magic Items",
+   "page": 228
+  },
+  {
+   "id": "magic-item.javelin-of-lightning",
+   "name": "Javelin of Lightning",
+   "section": "Magic Items",
+   "page": 228
+  },
+  {
+   "id": "magic-item.lantern-of-revealing",
+   "name": "Lantern of Revealing",
+   "section": "Magic Items",
+   "page": 228
+  },
+  {
+   "id": "magic-item.luck-blade",
+   "name": "Luck Blade",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.mace-of-disruption",
+   "name": "Mace of Disruption",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.mace-of-smiting",
+   "name": "Mace of Smiting",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.mace-of-terror",
+   "name": "Mace of Terror",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.mantle-of-spell-resistance",
+   "name": "Mantle of Spell Resistance",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.manual-of-bodily-health",
+   "name": "Manual of Bodily Health",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.manual-of-gainful-exercise",
+   "name": "Manual of Gainful Exercise",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.manual-of-golems",
+   "name": "Manual of Golems",
+   "section": "Magic Items",
+   "page": 229
+  },
+  {
+   "id": "magic-item.manual-of-quickness-of-action",
+   "name": "Manual of Quickness of Action",
+   "section": "Magic Items",
+   "page": 230
+  },
+  {
+   "id": "magic-item.marvelous-pigments",
+   "name": "Marvelous Pigments",
+   "section": "Magic Items",
+   "page": 230
+  },
+  {
+   "id": "magic-item.medallion-of-thoughts",
+   "name": "Medallion of Thoughts",
+   "section": "Magic Items",
+   "page": 230
+  },
+  {
+   "id": "magic-item.mirror-of-life-trapping",
+   "name": "Mirror of Life Trapping",
+   "section": "Magic Items",
+   "page": 230
+  },
+  {
+   "id": "magic-item.mithral-armor",
+   "name": "Mithral Armor",
+   "section": "Magic Items",
+   "page": 231
+  },
+  {
+   "id": "magic-item.mysterious-deck",
+   "name": "Mysterious Deck",
+   "section": "Magic Items",
+   "page": 231
+  },
+  {
+   "id": "magic-item.necklace-of-adaptation",
+   "name": "Necklace of Adaptation",
+   "section": "Magic Items",
+   "page": 232
+  },
+  {
+   "id": "magic-item.necklace-of-fireballs",
+   "name": "Necklace of Fireballs",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.necklace-of-prayer-beads",
+   "name": "Necklace of Prayer Beads",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.nine-lives-stealer",
+   "name": "Nine Lives Stealer",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.oathbow",
+   "name": "Oathbow",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.oil-of-etherealness",
+   "name": "Oil of Etherealness",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.oil-of-sharpness",
+   "name": "Oil of Sharpness",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.oil-of-slipperiness",
+   "name": "Oil of Slipperiness",
+   "section": "Magic Items",
+   "page": 233
+  },
+  {
+   "id": "magic-item.pearl-of-power",
+   "name": "Pearl of Power",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.periapt-of-health",
+   "name": "Periapt of Health",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.periapt-of-proof-against-poison",
+   "name": "Periapt of Proof against Poison",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.periapt-of-wound-closure",
+   "name": "Periapt of Wound Closure",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.philter-of-love",
+   "name": "Philter of Love",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.pipes-of-haunting",
+   "name": "Pipes of Haunting",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.pipes-of-the-sewers",
+   "name": "Pipes of the Sewers",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.plate-armor-of-etherealness",
+   "name": "Plate Armor of Etherealness",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.portable-hole",
+   "name": "Portable Hole",
+   "section": "Magic Items",
+   "page": 234
+  },
+  {
+   "id": "magic-item.potion-of-animal-friendship",
+   "name": "Potion of Animal Friendship",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-clairvoyance",
+   "name": "Potion of Clairvoyance",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-climbing",
+   "name": "Potion of Climbing",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-diminution",
+   "name": "Potion of Diminution",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-flying",
+   "name": "Potion of Flying",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-gaseous-form",
+   "name": "Potion of Gaseous Form",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-giant-strength",
+   "name": "Potion of Giant Strength",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-growth",
+   "name": "Potion of Growth",
+   "section": "Magic Items",
+   "page": 235
+  },
+  {
+   "id": "magic-item.potion-of-heroism",
+   "name": "Potion of Heroism",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-invisibility",
+   "name": "Potion of Invisibility",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-invulnerability",
+   "name": "Potion of Invulnerability",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-longevity",
+   "name": "Potion of Longevity",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-mind-reading",
+   "name": "Potion of Mind Reading",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-poison",
+   "name": "Potion of Poison",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-resistance",
+   "name": "Potion of Resistance",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-speed",
+   "name": "Potion of Speed",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-vitality",
+   "name": "Potion of Vitality",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potion-of-water-breathing",
+   "name": "Potion of Water Breathing",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.potions-of-healing",
+   "name": "Potions of Healing",
+   "section": "Magic Items",
+   "page": 236
+  },
+  {
+   "id": "magic-item.quarterstaff-of-the-acrobat",
+   "name": "Quarterstaff of the Acrobat",
+   "section": "Magic Items",
+   "page": 237
+  },
+  {
+   "id": "magic-item.ring-of-animal-influence",
+   "name": "Ring of Animal Influence",
+   "section": "Magic Items",
+   "page": 237
+  },
+  {
+   "id": "magic-item.ring-of-djinni-summoning",
+   "name": "Ring of Djinni Summoning",
+   "section": "Magic Items",
+   "page": 237
+  },
+  {
+   "id": "magic-item.ring-of-elemental-command",
+   "name": "Ring of Elemental Command",
+   "section": "Magic Items",
+   "page": 237
+  },
+  {
+   "id": "magic-item.ring-of-evasion",
+   "name": "Ring of Evasion",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-feather-falling",
+   "name": "Ring of Feather Falling",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-free-action",
+   "name": "Ring of Free Action",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-invisibility",
+   "name": "Ring of Invisibility",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-jumping",
+   "name": "Ring of Jumping",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-mind-shielding",
+   "name": "Ring of Mind Shielding",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-protection",
+   "name": "Ring of Protection",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-regeneration",
+   "name": "Ring of Regeneration",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-resistance",
+   "name": "Ring of Resistance",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-shooting-stars",
+   "name": "Ring of Shooting Stars",
+   "section": "Magic Items",
+   "page": 238
+  },
+  {
+   "id": "magic-item.ring-of-spell-storing",
+   "name": "Ring of Spell Storing",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-spell-turning",
+   "name": "Ring of Spell Turning",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-swimming",
+   "name": "Ring of Swimming",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-telekinesis",
+   "name": "Ring of Telekinesis",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-the-ram",
+   "name": "Ring of the Ram",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-three-wishes",
+   "name": "Ring of Three Wishes",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-warmth",
+   "name": "Ring of Warmth",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-water-walking",
+   "name": "Ring of Water Walking",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.ring-of-x-ray-vision",
+   "name": "Ring of X-ray Vision",
+   "section": "Magic Items",
+   "page": 239
+  },
+  {
+   "id": "magic-item.robe-of-eyes",
+   "name": "Robe of Eyes",
+   "section": "Magic Items",
+   "page": 240
+  },
+  {
+   "id": "magic-item.robe-of-scintillating-colors",
+   "name": "Robe of Scintillating Colors",
+   "section": "Magic Items",
+   "page": 240
+  },
+  {
+   "id": "magic-item.robe-of-stars",
+   "name": "Robe of Stars",
+   "section": "Magic Items",
+   "page": 240
+  },
+  {
+   "id": "magic-item.robe-of-the-archmagi",
+   "name": "Robe of the Archmagi",
+   "section": "Magic Items",
+   "page": 240
+  },
+  {
+   "id": "magic-item.robe-of-useful-items",
+   "name": "Robe of Useful Items",
+   "section": "Magic Items",
+   "page": 240
+  },
+  {
+   "id": "magic-item.rod-of-absorption",
+   "name": "Rod of Absorption",
+   "section": "Magic Items",
+   "page": 241
+  },
+  {
+   "id": "magic-item.rod-of-alertness",
+   "name": "Rod of Alertness",
+   "section": "Magic Items",
+   "page": 241
+  },
+  {
+   "id": "magic-item.rod-of-lordly-might",
+   "name": "Rod of Lordly Might",
+   "section": "Magic Items",
+   "page": 241
+  },
+  {
+   "id": "magic-item.rod-of-resurrection",
+   "name": "Rod of Resurrection",
+   "section": "Magic Items",
+   "page": 242
+  },
+  {
+   "id": "magic-item.rod-of-rulership",
+   "name": "Rod of Rulership",
+   "section": "Magic Items",
+   "page": 242
+  },
+  {
+   "id": "magic-item.rod-of-security",
+   "name": "Rod of Security",
+   "section": "Magic Items",
+   "page": 242
+  },
+  {
+   "id": "magic-item.rope-of-climbing",
+   "name": "Rope of Climbing",
+   "section": "Magic Items",
+   "page": 242
+  },
+  {
+   "id": "magic-item.rope-of-entanglement",
+   "name": "Rope of Entanglement",
+   "section": "Magic Items",
+   "page": 242
+  },
+  {
+   "id": "magic-item.scarab-of-protection",
+   "name": "Scarab of Protection",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.scimitar-of-speed",
+   "name": "Scimitar of Speed",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.sending-stones",
+   "name": "Sending Stones",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.sentinel-shield",
+   "name": "Sentinel Shield",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.shield-1-2-or-3",
+   "name": "Shield, +1, +2, or +3",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.shield-of-missile-attraction",
+   "name": "Shield of Missile Attraction",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.shield-of-the-cavalier",
+   "name": "Shield of the Cavalier",
+   "section": "Magic Items",
+   "page": 243
+  },
+  {
+   "id": "magic-item.slippers-of-spider-climbing",
+   "name": "Slippers of Spider Climbing",
+   "section": "Magic Items",
+   "page": 244
+  },
+  {
+   "id": "magic-item.sovereign-glue",
+   "name": "Sovereign Glue",
+   "section": "Magic Items",
+   "page": 244
+  },
+  {
+   "id": "magic-item.spell-scroll",
+   "name": "Spell Scroll",
+   "section": "Magic Items",
+   "page": 244
+  },
+  {
+   "id": "magic-item.spellguard-shield",
+   "name": "Spellguard Shield",
+   "section": "Magic Items",
+   "page": 244
+  },
+  {
+   "id": "magic-item.sphere-of-annihilation",
+   "name": "Sphere of Annihilation",
+   "section": "Magic Items",
+   "page": 244
+  },
+  {
+   "id": "magic-item.staff-of-charming",
+   "name": "Staff of Charming",
+   "section": "Magic Items",
+   "page": 245
+  },
+  {
+   "id": "magic-item.staff-of-fire",
+   "name": "Staff of Fire",
+   "section": "Magic Items",
+   "page": 245
+  },
+  {
+   "id": "magic-item.staff-of-frost",
+   "name": "Staff of Frost",
+   "section": "Magic Items",
+   "page": 245
+  },
+  {
+   "id": "magic-item.staff-of-healing",
+   "name": "Staff of Healing",
+   "section": "Magic Items",
+   "page": 245
+  },
+  {
+   "id": "magic-item.staff-of-power",
+   "name": "Staff of Power",
+   "section": "Magic Items",
+   "page": 245
+  },
+  {
+   "id": "magic-item.staff-of-striking",
+   "name": "Staff of Striking",
+   "section": "Magic Items",
+   "page": 246
+  },
+  {
+   "id": "magic-item.staff-of-swarming-insects",
+   "name": "Staff of Swarming Insects",
+   "section": "Magic Items",
+   "page": 246
+  },
+  {
+   "id": "magic-item.staff-of-the-magi",
+   "name": "Staff of the Magi",
+   "section": "Magic Items",
+   "page": 246
+  },
+  {
+   "id": "magic-item.staff-of-the-python",
+   "name": "Staff of the Python",
+   "section": "Magic Items",
+   "page": 247
+  },
+  {
+   "id": "magic-item.staff-of-the-woodlands",
+   "name": "Staff of the Woodlands",
+   "section": "Magic Items",
+   "page": 247
+  },
+  {
+   "id": "magic-item.staff-of-thunder-and-lightning",
+   "name": "Staff of Thunder and Lightning",
+   "section": "Magic Items",
+   "page": 247
+  },
+  {
+   "id": "magic-item.staff-of-withering",
+   "name": "Staff of Withering",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.stone-of-controlling-earth-elementals",
+   "name": "Stone of Controlling Earth Elementals",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.stone-of-good-luck-luckstone",
+   "name": "Stone of Good Luck (Luckstone)",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.sun-blade",
+   "name": "Sun Blade",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.sword-of-life-stealing",
+   "name": "Sword of Life Stealing",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.sword-of-sharpness",
+   "name": "Sword of Sharpness",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.sword-of-wounding",
+   "name": "Sword of Wounding",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.talisman-of-pure-good",
+   "name": "Talisman of Pure Good",
+   "section": "Magic Items",
+   "page": 248
+  },
+  {
+   "id": "magic-item.talisman-of-the-sphere",
+   "name": "Talisman of the Sphere",
+   "section": "Magic Items",
+   "page": 249
+  },
+  {
+   "id": "magic-item.talisman-of-ultimate-evil",
+   "name": "Talisman of Ultimate Evil",
+   "section": "Magic Items",
+   "page": 249
+  },
+  {
+   "id": "magic-item.thunderous-greatclub",
+   "name": "Thunderous Greatclub",
+   "section": "Magic Items",
+   "page": 249
+  },
+  {
+   "id": "magic-item.tome-of-clear-thought",
+   "name": "Tome of Clear Thought",
+   "section": "Magic Items",
+   "page": 249
+  },
+  {
+   "id": "magic-item.tome-of-leadership-and-influence",
+   "name": "Tome of Leadership and Influence",
+   "section": "Magic Items",
+   "page": 249
+  },
+  {
+   "id": "magic-item.tome-of-understanding",
+   "name": "Tome of Understanding",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.trident-of-fish-command",
+   "name": "Trident of Fish Command",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.universal-solvent",
+   "name": "Universal Solvent",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.vicious-weapon",
+   "name": "Vicious Weapon",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.vorpal-sword",
+   "name": "Vorpal Sword",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.wand-of-binding",
+   "name": "Wand of Binding",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.wand-of-enemy-detection",
+   "name": "Wand of Enemy Detection",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.wand-of-fear",
+   "name": "Wand of Fear",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.wand-of-fireballs",
+   "name": "Wand of Fireballs",
+   "section": "Magic Items",
+   "page": 250
+  },
+  {
+   "id": "magic-item.wand-of-lightning-bolts",
+   "name": "Wand of Lightning Bolts",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-magic-detection",
+   "name": "Wand of Magic Detection",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-magic-missiles",
+   "name": "Wand of Magic Missiles",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-paralysis",
+   "name": "Wand of Paralysis",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-polymorph",
+   "name": "Wand of Polymorph",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-secrets",
+   "name": "Wand of Secrets",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-the-war-mage-1-2-or-3",
+   "name": "Wand of the War Mage, +1, +2, or +3",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-web",
+   "name": "Wand of Web",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.wand-of-wonder",
+   "name": "Wand of Wonder",
+   "section": "Magic Items",
+   "page": 251
+  },
+  {
+   "id": "magic-item.weapon-1-2-or-3",
+   "name": "Weapon, +1, +2, or +3",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "magic-item.weapon-of-warning",
+   "name": "Weapon of Warning",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "magic-item.well-of-many-worlds",
+   "name": "Well of Many Worlds",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "magic-item.wind-fan",
+   "name": "Wind Fan",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "magic-item.winged-boots",
+   "name": "Winged Boots",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "magic-item.wings-of-flying",
+   "name": "Wings of Flying",
+   "section": "Magic Items",
+   "page": 253
+  },
+  {
+   "id": "monster.aboleth",
+   "name": "Aboleth",
+   "section": "Monsters A–Z",
+   "page": 258
+  },
+  {
+   "id": "monster.adult-black-dragon",
+   "name": "Adult Black Dragon",
+   "section": "Monsters A–Z",
+   "page": 264
+  },
+  {
+   "id": "monster.adult-blue-dragon",
+   "name": "Adult Blue Dragon",
+   "section": "Monsters A–Z",
+   "page": 266
+  },
+  {
+   "id": "monster.adult-brass-dragon",
+   "name": "Adult Brass Dragon",
+   "section": "Monsters A–Z",
+   "page": 268
+  },
+  {
+   "id": "monster.adult-bronze-dragon",
+   "name": "Adult Bronze Dragon",
+   "section": "Monsters A–Z",
+   "page": 270
+  },
+  {
+   "id": "monster.adult-copper-dragon",
+   "name": "Adult Copper Dragon",
+   "section": "Monsters A–Z",
+   "page": 276
+  },
+  {
+   "id": "monster.adult-gold-dragon",
+   "name": "Adult Gold Dragon",
+   "section": "Monsters A–Z",
+   "page": 291
+  },
+  {
+   "id": "monster.adult-green-dragon",
+   "name": "Adult Green Dragon",
+   "section": "Monsters A–Z",
+   "page": 294
+  },
+  {
+   "id": "monster.adult-red-dragon",
+   "name": "Adult Red Dragon",
+   "section": "Monsters A–Z",
+   "page": 318
+  },
+  {
+   "id": "monster.adult-silver-dragon",
+   "name": "Adult Silver Dragon",
+   "section": "Monsters A–Z",
+   "page": 324
+  },
+  {
+   "id": "monster.adult-white-dragon",
+   "name": "Adult White Dragon",
+   "section": "Monsters A–Z",
+   "page": 340
+  },
+  {
+   "id": "monster.air-elemental",
+   "name": "Air Elemental",
+   "section": "Monsters A–Z",
+   "page": 258
+  },
+  {
+   "id": "monster.allosaurus",
+   "name": "Allosaurus",
+   "section": "Animals",
+   "page": 344
+  },
+  {
+   "id": "monster.ancient-black-dragon",
+   "name": "Ancient Black Dragon",
+   "section": "Monsters A–Z",
+   "page": 265
+  },
+  {
+   "id": "monster.ancient-blue-dragon",
+   "name": "Ancient Blue Dragon",
+   "section": "Monsters A–Z",
+   "page": 267
+  },
+  {
+   "id": "monster.ancient-brass-dragon",
+   "name": "Ancient Brass Dragon",
+   "section": "Monsters A–Z",
+   "page": 269
+  },
+  {
+   "id": "monster.ancient-bronze-dragon",
+   "name": "Ancient Bronze Dragon",
+   "section": "Monsters A–Z",
+   "page": 271
+  },
+  {
+   "id": "monster.ancient-copper-dragon",
+   "name": "Ancient Copper Dragon",
+   "section": "Monsters A–Z",
+   "page": 277
+  },
+  {
+   "id": "monster.ancient-gold-dragon",
+   "name": "Ancient Gold Dragon",
+   "section": "Monsters A–Z",
+   "page": 292
+  },
+  {
+   "id": "monster.ancient-green-dragon",
+   "name": "Ancient Green Dragon",
+   "section": "Monsters A–Z",
+   "page": 294
+  },
+  {
+   "id": "monster.ancient-red-dragon",
+   "name": "Ancient Red Dragon",
+   "section": "Monsters A–Z",
+   "page": 319
+  },
+  {
+   "id": "monster.ancient-silver-dragon",
+   "name": "Ancient Silver Dragon",
+   "section": "Monsters A–Z",
+   "page": 325
+  },
+  {
+   "id": "monster.ancient-white-dragon",
+   "name": "Ancient White Dragon",
+   "section": "Monsters A–Z",
+   "page": 341
+  },
+  {
+   "id": "monster.animated-armor",
+   "name": "Animated Armor",
+   "section": "Monsters A–Z",
+   "page": 259
+  },
+  {
+   "id": "monster.animated-flying-sword",
+   "name": "Animated Flying Sword",
+   "section": "Monsters A–Z",
+   "page": 259
+  },
+  {
+   "id": "monster.animated-object",
+   "name": "Animated Object",
+   "section": "Spells",
+   "page": 109
+  },
+  {
+   "id": "monster.animated-rug-of-smothering",
+   "name": "Animated Rug of Smothering",
+   "section": "Monsters A–Z",
+   "page": 259
+  },
+  {
+   "id": "monster.ankheg",
+   "name": "Ankheg",
+   "section": "Monsters A–Z",
+   "page": 259
+  },
+  {
+   "id": "monster.ankylosaurus",
+   "name": "Ankylosaurus",
+   "section": "Animals",
+   "page": 344
+  },
+  {
+   "id": "monster.ape",
+   "name": "Ape",
+   "section": "Animals",
+   "page": 344
+  },
+  {
+   "id": "monster.archelon",
+   "name": "Archelon",
+   "section": "Animals",
+   "page": 344
+  },
+  {
+   "id": "monster.archmage",
+   "name": "Archmage",
+   "section": "Monsters A–Z",
+   "page": 305
+  },
+  {
+   "id": "monster.assassin",
+   "name": "Assassin",
+   "section": "Monsters A–Z",
+   "page": 260
+  },
+  {
+   "id": "monster.avatar-of-death",
+   "name": "Avatar of Death",
+   "section": "Magic Items",
+   "page": 232
+  },
+  {
+   "id": "monster.awakened-shrub",
+   "name": "Awakened Shrub",
+   "section": "Monsters A–Z",
+   "page": 260
+  },
+  {
+   "id": "monster.awakened-tree",
+   "name": "Awakened Tree",
+   "section": "Monsters A–Z",
+   "page": 260
+  },
+  {
+   "id": "monster.axe-beak",
+   "name": "Axe Beak",
+   "section": "Monsters A–Z",
+   "page": 260
+  },
+  {
+   "id": "monster.azer-sentinel",
+   "name": "Azer Sentinel",
+   "section": "Monsters A–Z",
+   "page": 261
+  },
+  {
+   "id": "monster.baboon",
+   "name": "Baboon",
+   "section": "Animals",
+   "page": 345
+  },
+  {
+   "id": "monster.badger",
+   "name": "Badger",
+   "section": "Animals",
+   "page": 345
+  },
+  {
+   "id": "monster.balor",
+   "name": "Balor",
+   "section": "Monsters A–Z",
+   "page": 261
+  },
+  {
+   "id": "monster.bandit",
+   "name": "Bandit",
+   "section": "Monsters A–Z",
+   "page": 261
+  },
+  {
+   "id": "monster.bandit-captain",
+   "name": "Bandit Captain",
+   "section": "Monsters A–Z",
+   "page": 261
+  },
+  {
+   "id": "monster.barbed-devil",
+   "name": "Barbed Devil",
+   "section": "Monsters A–Z",
+   "page": 262
+  },
+  {
+   "id": "monster.basilisk",
+   "name": "Basilisk",
+   "section": "Monsters A–Z",
+   "page": 262
+  },
+  {
+   "id": "monster.bat",
+   "name": "Bat",
+   "section": "Animals",
+   "page": 345
+  },
+  {
+   "id": "monster.bearded-devil",
+   "name": "Bearded Devil",
+   "section": "Monsters A–Z",
+   "page": 262
+  },
+  {
+   "id": "monster.behir",
+   "name": "Behir",
+   "section": "Monsters A–Z",
+   "page": 263
+  },
+  {
+   "id": "monster.berserker",
+   "name": "Berserker",
+   "section": "Monsters A–Z",
+   "page": 263
+  },
+  {
+   "id": "monster.black-bear",
+   "name": "Black Bear",
+   "section": "Animals",
+   "page": 345
+  },
+  {
+   "id": "monster.black-dragon-wyrmling",
+   "name": "Black Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 263
+  },
+  {
+   "id": "monster.black-pudding",
+   "name": "Black Pudding",
+   "section": "Monsters A–Z",
+   "page": 265
+  },
+  {
+   "id": "monster.blink-dog",
+   "name": "Blink Dog",
+   "section": "Monsters A–Z",
+   "page": 266
+  },
+  {
+   "id": "monster.blood-hawk",
+   "name": "Blood Hawk",
+   "section": "Animals",
+   "page": 345
+  },
+  {
+   "id": "monster.blue-dragon-wyrmling",
+   "name": "Blue Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 266
+  },
+  {
+   "id": "monster.boar",
+   "name": "Boar",
+   "section": "Animals",
+   "page": 346
+  },
+  {
+   "id": "monster.bone-devil",
+   "name": "Bone Devil",
+   "section": "Monsters A–Z",
+   "page": 267
+  },
+  {
+   "id": "monster.brass-dragon-wyrmling",
+   "name": "Brass Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 268
+  },
+  {
+   "id": "monster.bronze-dragon-wyrmling",
+   "name": "Bronze Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 269
+  },
+  {
+   "id": "monster.brown-bear",
+   "name": "Brown Bear",
+   "section": "Animals",
+   "page": 346
+  },
+  {
+   "id": "monster.bugbear-stalker",
+   "name": "Bugbear Stalker",
+   "section": "Monsters A–Z",
+   "page": 271
+  },
+  {
+   "id": "monster.bugbear-warrior",
+   "name": "Bugbear Warrior",
+   "section": "Monsters A–Z",
+   "page": 272
+  },
+  {
+   "id": "monster.bulette",
+   "name": "Bulette",
+   "section": "Monsters A–Z",
+   "page": 272
+  },
+  {
+   "id": "monster.camel",
+   "name": "Camel",
+   "section": "Animals",
+   "page": 346
+  },
+  {
+   "id": "monster.cat",
+   "name": "Cat",
+   "section": "Animals",
+   "page": 346
+  },
+  {
+   "id": "monster.centaur-trooper",
+   "name": "Centaur Trooper",
+   "section": "Monsters A–Z",
+   "page": 272
+  },
+  {
+   "id": "monster.chain-devil",
+   "name": "Chain Devil",
+   "section": "Monsters A–Z",
+   "page": 272
+  },
+  {
+   "id": "monster.chimera",
+   "name": "Chimera",
+   "section": "Monsters A–Z",
+   "page": 273
+  },
+  {
+   "id": "monster.chuul",
+   "name": "Chuul",
+   "section": "Monsters A–Z",
+   "page": 273
+  },
+  {
+   "id": "monster.clay-golem",
+   "name": "Clay Golem",
+   "section": "Monsters A–Z",
+   "page": 274
+  },
+  {
+   "id": "monster.cloaker",
+   "name": "Cloaker",
+   "section": "Monsters A–Z",
+   "page": 274
+  },
+  {
+   "id": "monster.cloud-giant",
+   "name": "Cloud Giant",
+   "section": "Monsters A–Z",
+   "page": 275
+  },
+  {
+   "id": "monster.cockatrice",
+   "name": "Cockatrice",
+   "section": "Monsters A–Z",
+   "page": 275
+  },
+  {
+   "id": "monster.commoner",
+   "name": "Commoner",
+   "section": "Monsters A–Z",
+   "page": 275
+  },
+  {
+   "id": "monster.constrictor-snake",
+   "name": "Constrictor Snake",
+   "section": "Animals",
+   "page": 346
+  },
+  {
+   "id": "monster.copper-dragon-wyrmling",
+   "name": "Copper Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 275
+  },
+  {
+   "id": "monster.couatl",
+   "name": "Couatl",
+   "section": "Monsters A–Z",
+   "page": 277
+  },
+  {
+   "id": "monster.crab",
+   "name": "Crab",
+   "section": "Animals",
+   "page": 347
+  },
+  {
+   "id": "monster.crocodile",
+   "name": "Crocodile",
+   "section": "Animals",
+   "page": 347
+  },
+  {
+   "id": "monster.cultist",
+   "name": "Cultist",
+   "section": "Monsters A–Z",
+   "page": 278
+  },
+  {
+   "id": "monster.cultist-fanatic",
+   "name": "Cultist Fanatic",
+   "section": "Monsters A–Z",
+   "page": 278
+  },
+  {
+   "id": "monster.darkmantle",
+   "name": "Darkmantle",
+   "section": "Monsters A–Z",
+   "page": 278
+  },
+  {
+   "id": "monster.death-dog",
+   "name": "Death Dog",
+   "section": "Monsters A–Z",
+   "page": 279
+  },
+  {
+   "id": "monster.deer",
+   "name": "Deer",
+   "section": "Animals",
+   "page": 347
+  },
+  {
+   "id": "monster.deva",
+   "name": "Deva",
+   "section": "Monsters A–Z",
+   "page": 279
+  },
+  {
+   "id": "monster.dire-wolf",
+   "name": "Dire Wolf",
+   "section": "Animals",
+   "page": 347
+  },
+  {
+   "id": "monster.djinni",
+   "name": "Djinni",
+   "section": "Monsters A–Z",
+   "page": 280
+  },
+  {
+   "id": "monster.doppelganger",
+   "name": "Doppelganger",
+   "section": "Monsters A–Z",
+   "page": 280
+  },
+  {
+   "id": "monster.draconic-spirit",
+   "name": "Draconic Spirit",
+   "section": "Spells",
+   "page": 166
+  },
+  {
+   "id": "monster.draft-horse",
+   "name": "Draft Horse",
+   "section": "Animals",
+   "page": 347
+  },
+  {
+   "id": "monster.dragon-turtle",
+   "name": "Dragon Turtle",
+   "section": "Monsters A–Z",
+   "page": 281
+  },
+  {
+   "id": "monster.dretch",
+   "name": "Dretch",
+   "section": "Monsters A–Z",
+   "page": 281
+  },
+  {
+   "id": "monster.drider",
+   "name": "Drider",
+   "section": "Monsters A–Z",
+   "page": 281
+  },
+  {
+   "id": "monster.druid",
+   "name": "Druid",
+   "section": "Monsters A–Z",
+   "page": 282
+  },
+  {
+   "id": "monster.dryad",
+   "name": "Dryad",
+   "section": "Monsters A–Z",
+   "page": 282
+  },
+  {
+   "id": "monster.dust-mephit",
+   "name": "Dust Mephit",
+   "section": "Monsters A–Z",
+   "page": 307
+  },
+  {
+   "id": "monster.eagle",
+   "name": "Eagle",
+   "section": "Animals",
+   "page": 348
+  },
+  {
+   "id": "monster.earth-elemental",
+   "name": "Earth Elemental",
+   "section": "Monsters A–Z",
+   "page": 282
+  },
+  {
+   "id": "monster.efreeti",
+   "name": "Efreeti",
+   "section": "Monsters A–Z",
+   "page": 283
+  },
+  {
+   "id": "monster.elephant",
+   "name": "Elephant",
+   "section": "Animals",
+   "page": 348
+  },
+  {
+   "id": "monster.elk",
+   "name": "Elk",
+   "section": "Animals",
+   "page": 348
+  },
+  {
+   "id": "monster.erinyes",
+   "name": "Erinyes",
+   "section": "Monsters A–Z",
+   "page": 283
+  },
+  {
+   "id": "monster.ettercap",
+   "name": "Ettercap",
+   "section": "Monsters A–Z",
+   "page": 284
+  },
+  {
+   "id": "monster.ettin",
+   "name": "Ettin",
+   "section": "Monsters A–Z",
+   "page": 284
+  },
+  {
+   "id": "monster.fire-elemental",
+   "name": "Fire Elemental",
+   "section": "Monsters A–Z",
+   "page": 284
+  },
+  {
+   "id": "monster.fire-giant",
+   "name": "Fire Giant",
+   "section": "Monsters A–Z",
+   "page": 285
+  },
+  {
+   "id": "monster.flesh-golem",
+   "name": "Flesh Golem",
+   "section": "Monsters A–Z",
+   "page": 285
+  },
+  {
+   "id": "monster.flying-snake",
+   "name": "Flying Snake",
+   "section": "Animals",
+   "page": 348
+  },
+  {
+   "id": "monster.frog",
+   "name": "Frog",
+   "section": "Animals",
+   "page": 348
+  },
+  {
+   "id": "monster.frost-giant",
+   "name": "Frost Giant",
+   "section": "Monsters A–Z",
+   "page": 285
+  },
+  {
+   "id": "monster.gargoyle",
+   "name": "Gargoyle",
+   "section": "Monsters A–Z",
+   "page": 286
+  },
+  {
+   "id": "monster.gelatinous-cube",
+   "name": "Gelatinous Cube",
+   "section": "Monsters A–Z",
+   "page": 286
+  },
+  {
+   "id": "monster.ghast",
+   "name": "Ghast",
+   "section": "Monsters A–Z",
+   "page": 287
+  },
+  {
+   "id": "monster.ghost",
+   "name": "Ghost",
+   "section": "Monsters A–Z",
+   "page": 287
+  },
+  {
+   "id": "monster.ghoul",
+   "name": "Ghoul",
+   "section": "Monsters A–Z",
+   "page": 288
+  },
+  {
+   "id": "monster.giant-ape",
+   "name": "Giant Ape",
+   "section": "Animals",
+   "page": 349
+  },
+  {
+   "id": "monster.giant-badger",
+   "name": "Giant Badger",
+   "section": "Animals",
+   "page": 349
+  },
+  {
+   "id": "monster.giant-bat",
+   "name": "Giant Bat",
+   "section": "Animals",
+   "page": 349
+  },
+  {
+   "id": "monster.giant-boar",
+   "name": "Giant Boar",
+   "section": "Animals",
+   "page": 349
+  },
+  {
+   "id": "monster.giant-centipede",
+   "name": "Giant Centipede",
+   "section": "Animals",
+   "page": 349
+  },
+  {
+   "id": "monster.giant-constrictor-snake",
+   "name": "Giant Constrictor Snake",
+   "section": "Animals",
+   "page": 350
+  },
+  {
+   "id": "monster.giant-crab",
+   "name": "Giant Crab",
+   "section": "Animals",
+   "page": 350
+  },
+  {
+   "id": "monster.giant-crocodile",
+   "name": "Giant Crocodile",
+   "section": "Animals",
+   "page": 350
+  },
+  {
+   "id": "monster.giant-eagle",
+   "name": "Giant Eagle",
+   "section": "Animals",
+   "page": 350
+  },
+  {
+   "id": "monster.giant-elk",
+   "name": "Giant Elk",
+   "section": "Animals",
+   "page": 351
+  },
+  {
+   "id": "monster.giant-fire-beetle",
+   "name": "Giant Fire Beetle",
+   "section": "Animals",
+   "page": 351
+  },
+  {
+   "id": "monster.giant-fly",
+   "name": "Giant Fly",
+   "section": "Magic Items",
+   "page": 222
+  },
+  {
+   "id": "monster.giant-frog",
+   "name": "Giant Frog",
+   "section": "Animals",
+   "page": 351
+  },
+  {
+   "id": "monster.giant-goat",
+   "name": "Giant Goat",
+   "section": "Animals",
+   "page": 351
+  },
+  {
+   "id": "monster.giant-hyena",
+   "name": "Giant Hyena",
+   "section": "Animals",
+   "page": 352
+  },
+  {
+   "id": "monster.giant-insect",
+   "name": "Giant Insect",
+   "section": "Spells",
+   "page": 136
+  },
+  {
+   "id": "monster.giant-lizard",
+   "name": "Giant Lizard",
+   "section": "Animals",
+   "page": 352
+  },
+  {
+   "id": "monster.giant-octopus",
+   "name": "Giant Octopus",
+   "section": "Animals",
+   "page": 352
+  },
+  {
+   "id": "monster.giant-owl",
+   "name": "Giant Owl",
+   "section": "Animals",
+   "page": 352
+  },
+  {
+   "id": "monster.giant-rat",
+   "name": "Giant Rat",
+   "section": "Animals",
+   "page": 353
+  },
+  {
+   "id": "monster.giant-scorpion",
+   "name": "Giant Scorpion",
+   "section": "Animals",
+   "page": 353
+  },
+  {
+   "id": "monster.giant-seahorse",
+   "name": "Giant Seahorse",
+   "section": "Animals",
+   "page": 353
+  },
+  {
+   "id": "monster.giant-shark",
+   "name": "Giant Shark",
+   "section": "Animals",
+   "page": 353
+  },
+  {
+   "id": "monster.giant-spider",
+   "name": "Giant Spider",
+   "section": "Animals",
+   "page": 353
+  },
+  {
+   "id": "monster.giant-toad",
+   "name": "Giant Toad",
+   "section": "Animals",
+   "page": 354
+  },
+  {
+   "id": "monster.giant-venomous-snake",
+   "name": "Giant Venomous Snake",
+   "section": "Animals",
+   "page": 354
+  },
+  {
+   "id": "monster.giant-vulture",
+   "name": "Giant Vulture",
+   "section": "Animals",
+   "page": 354
+  },
+  {
+   "id": "monster.giant-wasp",
+   "name": "Giant Wasp",
+   "section": "Animals",
+   "page": 354
+  },
+  {
+   "id": "monster.giant-weasel",
+   "name": "Giant Weasel",
+   "section": "Animals",
+   "page": 355
+  },
+  {
+   "id": "monster.giant-wolf-spider",
+   "name": "Giant Wolf Spider",
+   "section": "Animals",
+   "page": 355
+  },
+  {
+   "id": "monster.gibbering-mouther",
+   "name": "Gibbering Mouther",
+   "section": "Monsters A–Z",
+   "page": 288
+  },
+  {
+   "id": "monster.glabrezu",
+   "name": "Glabrezu",
+   "section": "Monsters A–Z",
+   "page": 289
+  },
+  {
+   "id": "monster.gladiator",
+   "name": "Gladiator",
+   "section": "Monsters A–Z",
+   "page": 289
+  },
+  {
+   "id": "monster.gnoll-warrior",
+   "name": "Gnoll Warrior",
+   "section": "Monsters A–Z",
+   "page": 289
+  },
+  {
+   "id": "monster.goat",
+   "name": "Goat",
+   "section": "Animals",
+   "page": 355
+  },
+  {
+   "id": "monster.goblin-boss",
+   "name": "Goblin Boss",
+   "section": "Monsters A–Z",
+   "page": 290
+  },
+  {
+   "id": "monster.goblin-minion",
+   "name": "Goblin Minion",
+   "section": "Monsters A–Z",
+   "page": 290
+  },
+  {
+   "id": "monster.goblin-warrior",
+   "name": "Goblin Warrior",
+   "section": "Monsters A–Z",
+   "page": 290
+  },
+  {
+   "id": "monster.gold-dragon-wyrmling",
+   "name": "Gold Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 290
+  },
+  {
+   "id": "monster.gorgon",
+   "name": "Gorgon",
+   "section": "Monsters A–Z",
+   "page": 292
+  },
+  {
+   "id": "monster.gray-ooze",
+   "name": "Gray Ooze",
+   "section": "Monsters A–Z",
+   "page": 293
+  },
+  {
+   "id": "monster.green-dragon-wyrmling",
+   "name": "Green Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 293
+  },
+  {
+   "id": "monster.green-hag",
+   "name": "Green Hag",
+   "section": "Monsters A–Z",
+   "page": 295
+  },
+  {
+   "id": "monster.grick",
+   "name": "Grick",
+   "section": "Monsters A–Z",
+   "page": 295
+  },
+  {
+   "id": "monster.griffon",
+   "name": "Griffon",
+   "section": "Monsters A–Z",
+   "page": 295
+  },
+  {
+   "id": "monster.grimlock",
+   "name": "Grimlock",
+   "section": "Monsters A–Z",
+   "page": 296
+  },
+  {
+   "id": "monster.guard",
+   "name": "Guard",
+   "section": "Monsters A–Z",
+   "page": 296
+  },
+  {
+   "id": "monster.guard-captain",
+   "name": "Guard Captain",
+   "section": "Monsters A–Z",
+   "page": 296
+  },
+  {
+   "id": "monster.guardian-naga",
+   "name": "Guardian Naga",
+   "section": "Monsters A–Z",
+   "page": 296
+  },
+  {
+   "id": "monster.half-dragon",
+   "name": "Half-Dragon",
+   "section": "Monsters A–Z",
+   "page": 297
+  },
+  {
+   "id": "monster.harpy",
+   "name": "Harpy",
+   "section": "Monsters A–Z",
+   "page": 297
+  },
+  {
+   "id": "monster.hawk",
+   "name": "Hawk",
+   "section": "Animals",
+   "page": 355
+  },
+  {
+   "id": "monster.hell-hound",
+   "name": "Hell Hound",
+   "section": "Monsters A–Z",
+   "page": 297
+  },
+  {
+   "id": "monster.hezrou",
+   "name": "Hezrou",
+   "section": "Monsters A–Z",
+   "page": 298
+  },
+  {
+   "id": "monster.hill-giant",
+   "name": "Hill Giant",
+   "section": "Monsters A–Z",
+   "page": 298
+  },
+  {
+   "id": "monster.hippogriff",
+   "name": "Hippogriff",
+   "section": "Monsters A–Z",
+   "page": 298
+  },
+  {
+   "id": "monster.hippopotamus",
+   "name": "Hippopotamus",
+   "section": "Animals",
+   "page": 355
+  },
+  {
+   "id": "monster.hobgoblin-captain",
+   "name": "Hobgoblin Captain",
+   "section": "Monsters A–Z",
+   "page": 299
+  },
+  {
+   "id": "monster.hobgoblin-warrior",
+   "name": "Hobgoblin Warrior",
+   "section": "Monsters A–Z",
+   "page": 298
+  },
+  {
+   "id": "monster.homunculus",
+   "name": "Homunculus",
+   "section": "Monsters A–Z",
+   "page": 299
+  },
+  {
+   "id": "monster.horned-devil",
+   "name": "Horned Devil",
+   "section": "Monsters A–Z",
+   "page": 299
+  },
+  {
+   "id": "monster.hunter-shark",
+   "name": "Hunter Shark",
+   "section": "Animals",
+   "page": 356
+  },
+  {
+   "id": "monster.hydra",
+   "name": "Hydra",
+   "section": "Monsters A–Z",
+   "page": 300
+  },
+  {
+   "id": "monster.hyena",
+   "name": "Hyena",
+   "section": "Animals",
+   "page": 356
+  },
+  {
+   "id": "monster.ice-devil",
+   "name": "Ice Devil",
+   "section": "Monsters A–Z",
+   "page": 300
+  },
+  {
+   "id": "monster.ice-mephit",
+   "name": "Ice Mephit",
+   "section": "Monsters A–Z",
+   "page": 307
+  },
+  {
+   "id": "monster.imp",
+   "name": "Imp",
+   "section": "Monsters A–Z",
+   "page": 300
+  },
+  {
+   "id": "monster.incubus",
+   "name": "Incubus",
+   "section": "Monsters A–Z",
+   "page": 301
+  },
+  {
+   "id": "monster.invisible-stalker",
+   "name": "Invisible Stalker",
+   "section": "Monsters A–Z",
+   "page": 301
+  },
+  {
+   "id": "monster.iron-golem",
+   "name": "Iron Golem",
+   "section": "Monsters A–Z",
+   "page": 302
+  },
+  {
+   "id": "monster.jackal",
+   "name": "Jackal",
+   "section": "Animals",
+   "page": 356
+  },
+  {
+   "id": "monster.killer-whale",
+   "name": "Killer Whale",
+   "section": "Animals",
+   "page": 356
+  },
+  {
+   "id": "monster.knight",
+   "name": "Knight",
+   "section": "Monsters A–Z",
+   "page": 302
+  },
+  {
+   "id": "monster.kobold-warrior",
+   "name": "Kobold Warrior",
+   "section": "Monsters A–Z",
+   "page": 302
+  },
+  {
+   "id": "monster.kraken",
+   "name": "Kraken",
+   "section": "Monsters A–Z",
+   "page": 303
+  },
+  {
+   "id": "monster.lamia",
+   "name": "Lamia",
+   "section": "Monsters A–Z",
+   "page": 303
+  },
+  {
+   "id": "monster.lemure",
+   "name": "Lemure",
+   "section": "Monsters A–Z",
+   "page": 304
+  },
+  {
+   "id": "monster.lich",
+   "name": "Lich",
+   "section": "Monsters A–Z",
+   "page": 304
+  },
+  {
+   "id": "monster.lion",
+   "name": "Lion",
+   "section": "Animals",
+   "page": 356
+  },
+  {
+   "id": "monster.lizard",
+   "name": "Lizard",
+   "section": "Animals",
+   "page": 357
+  },
+  {
+   "id": "monster.mage",
+   "name": "Mage",
+   "section": "Monsters A–Z",
+   "page": 305
+  },
+  {
+   "id": "monster.magma-mephit",
+   "name": "Magma Mephit",
+   "section": "Monsters A–Z",
+   "page": 307
+  },
+  {
+   "id": "monster.magmin",
+   "name": "Magmin",
+   "section": "Monsters A–Z",
+   "page": 305
+  },
+  {
+   "id": "monster.mammoth",
+   "name": "Mammoth",
+   "section": "Animals",
+   "page": 357
+  },
+  {
+   "id": "monster.manticore",
+   "name": "Manticore",
+   "section": "Monsters A–Z",
+   "page": 306
+  },
+  {
+   "id": "monster.marilith",
+   "name": "Marilith",
+   "section": "Monsters A–Z",
+   "page": 306
+  },
+  {
+   "id": "monster.mastiff",
+   "name": "Mastiff",
+   "section": "Animals",
+   "page": 357
+  },
+  {
+   "id": "monster.medusa",
+   "name": "Medusa",
+   "section": "Monsters A–Z",
+   "page": 306
+  },
+  {
+   "id": "monster.merfolk-skirmisher",
+   "name": "Merfolk Skirmisher",
+   "section": "Monsters A–Z",
+   "page": 308
+  },
+  {
+   "id": "monster.merrow",
+   "name": "Merrow",
+   "section": "Monsters A–Z",
+   "page": 308
+  },
+  {
+   "id": "monster.mimic",
+   "name": "Mimic",
+   "section": "Monsters A–Z",
+   "page": 308
+  },
+  {
+   "id": "monster.minotaur-of-baphomet",
+   "name": "Minotaur of Baphomet",
+   "section": "Monsters A–Z",
+   "page": 309
+  },
+  {
+   "id": "monster.minotaur-skeleton",
+   "name": "Minotaur Skeleton",
+   "section": "Monsters A–Z",
+   "page": 326
+  },
+  {
+   "id": "monster.mule",
+   "name": "Mule",
+   "section": "Animals",
+   "page": 357
+  },
+  {
+   "id": "monster.mummy",
+   "name": "Mummy",
+   "section": "Monsters A–Z",
+   "page": 309
+  },
+  {
+   "id": "monster.mummy-lord",
+   "name": "Mummy Lord",
+   "section": "Monsters A–Z",
+   "page": 309
+  },
+  {
+   "id": "monster.nalfeshnee",
+   "name": "Nalfeshnee",
+   "section": "Monsters A–Z",
+   "page": 310
+  },
+  {
+   "id": "monster.night-hag",
+   "name": "Night Hag",
+   "section": "Monsters A–Z",
+   "page": 311
+  },
+  {
+   "id": "monster.nightmare",
+   "name": "Nightmare",
+   "section": "Monsters A–Z",
+   "page": 311
+  },
+  {
+   "id": "monster.noble",
+   "name": "Noble",
+   "section": "Monsters A–Z",
+   "page": 312
+  },
+  {
+   "id": "monster.ochre-jelly",
+   "name": "Ochre Jelly",
+   "section": "Monsters A–Z",
+   "page": 312
+  },
+  {
+   "id": "monster.octopus",
+   "name": "Octopus",
+   "section": "Animals",
+   "page": 357
+  },
+  {
+   "id": "monster.ogre",
+   "name": "Ogre",
+   "section": "Monsters A–Z",
+   "page": 312
+  },
+  {
+   "id": "monster.ogre-zombie",
+   "name": "Ogre Zombie",
+   "section": "Animals",
+   "page": 344
+  },
+  {
+   "id": "monster.oni",
+   "name": "Oni",
+   "section": "Monsters A–Z",
+   "page": 312
+  },
+  {
+   "id": "monster.otherworldly-steed",
+   "name": "Otherworldly Steed",
+   "section": "Spells",
+   "page": 131
+  },
+  {
+   "id": "monster.otyugh",
+   "name": "Otyugh",
+   "section": "Monsters A–Z",
+   "page": 313
+  },
+  {
+   "id": "monster.owl",
+   "name": "Owl",
+   "section": "Animals",
+   "page": 358
+  },
+  {
+   "id": "monster.owlbear",
+   "name": "Owlbear",
+   "section": "Monsters A–Z",
+   "page": 313
+  },
+  {
+   "id": "monster.panther",
+   "name": "Panther",
+   "section": "Animals",
+   "page": 358
+  },
+  {
+   "id": "monster.pegasus",
+   "name": "Pegasus",
+   "section": "Monsters A–Z",
+   "page": 313
+  },
+  {
+   "id": "monster.phase-spider",
+   "name": "Phase Spider",
+   "section": "Monsters A–Z",
+   "page": 313
+  },
+  {
+   "id": "monster.piranha",
+   "name": "Piranha",
+   "section": "Animals",
+   "page": 358
+  },
+  {
+   "id": "monster.pirate",
+   "name": "Pirate",
+   "section": "Monsters A–Z",
+   "page": 314
+  },
+  {
+   "id": "monster.pirate-captain",
+   "name": "Pirate Captain",
+   "section": "Monsters A–Z",
+   "page": 314
+  },
+  {
+   "id": "monster.pit-fiend",
+   "name": "Pit Fiend",
+   "section": "Monsters A–Z",
+   "page": 314
+  },
+  {
+   "id": "monster.planetar",
+   "name": "Planetar",
+   "section": "Monsters A–Z",
+   "page": 315
+  },
+  {
+   "id": "monster.plesiosaurus",
+   "name": "Plesiosaurus",
+   "section": "Animals",
+   "page": 358
+  },
+  {
+   "id": "monster.polar-bear",
+   "name": "Polar Bear",
+   "section": "Animals",
+   "page": 359
+  },
+  {
+   "id": "monster.pony",
+   "name": "Pony",
+   "section": "Animals",
+   "page": 359
+  },
+  {
+   "id": "monster.priest",
+   "name": "Priest",
+   "section": "Monsters A–Z",
+   "page": 316
+  },
+  {
+   "id": "monster.priest-acolyte",
+   "name": "Priest Acolyte",
+   "section": "Monsters A–Z",
+   "page": 316
+  },
+  {
+   "id": "monster.pseudodragon",
+   "name": "Pseudodragon",
+   "section": "Monsters A–Z",
+   "page": 316
+  },
+  {
+   "id": "monster.pteranodon",
+   "name": "Pteranodon",
+   "section": "Animals",
+   "page": 359
+  },
+  {
+   "id": "monster.purple-worm",
+   "name": "Purple Worm",
+   "section": "Monsters A–Z",
+   "page": 316
+  },
+  {
+   "id": "monster.quasit",
+   "name": "Quasit",
+   "section": "Monsters A–Z",
+   "page": 317
+  },
+  {
+   "id": "monster.rakshasa",
+   "name": "Rakshasa",
+   "section": "Monsters A–Z",
+   "page": 317
+  },
+  {
+   "id": "monster.rat",
+   "name": "Rat",
+   "section": "Animals",
+   "page": 359
+  },
+  {
+   "id": "monster.raven",
+   "name": "Raven",
+   "section": "Animals",
+   "page": 359
+  },
+  {
+   "id": "monster.red-dragon-wyrmling",
+   "name": "Red Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 318
+  },
+  {
+   "id": "monster.reef-shark",
+   "name": "Reef Shark",
+   "section": "Animals",
+   "page": 360
+  },
+  {
+   "id": "monster.remorhaz",
+   "name": "Remorhaz",
+   "section": "Monsters A–Z",
+   "page": 319
+  },
+  {
+   "id": "monster.rhinoceros",
+   "name": "Rhinoceros",
+   "section": "Animals",
+   "page": 360
+  },
+  {
+   "id": "monster.riding-horse",
+   "name": "Riding Horse",
+   "section": "Animals",
+   "page": 360
+  },
+  {
+   "id": "monster.roc",
+   "name": "Roc",
+   "section": "Monsters A–Z",
+   "page": 320
+  },
+  {
+   "id": "monster.roper",
+   "name": "Roper",
+   "section": "Monsters A–Z",
+   "page": 320
+  },
+  {
+   "id": "monster.rust-monster",
+   "name": "Rust Monster",
+   "section": "Monsters A–Z",
+   "page": 320
+  },
+  {
+   "id": "monster.saber-toothed-tiger",
+   "name": "Saber-Toothed Tiger",
+   "section": "Animals",
+   "page": 360
+  },
+  {
+   "id": "monster.sahuagin-warrior",
+   "name": "Sahuagin Warrior",
+   "section": "Monsters A–Z",
+   "page": 321
+  },
+  {
+   "id": "monster.salamander",
+   "name": "Salamander",
+   "section": "Monsters A–Z",
+   "page": 321
+  },
+  {
+   "id": "monster.satyr",
+   "name": "Satyr",
+   "section": "Monsters A–Z",
+   "page": 321
+  },
+  {
+   "id": "monster.scorpion",
+   "name": "Scorpion",
+   "section": "Animals",
+   "page": 360
+  },
+  {
+   "id": "monster.scout",
+   "name": "Scout",
+   "section": "Monsters A–Z",
+   "page": 322
+  },
+  {
+   "id": "monster.sea-hag",
+   "name": "Sea Hag",
+   "section": "Monsters A–Z",
+   "page": 322
+  },
+  {
+   "id": "monster.seahorse",
+   "name": "Seahorse",
+   "section": "Animals",
+   "page": 361
+  },
+  {
+   "id": "monster.shadow",
+   "name": "Shadow",
+   "section": "Monsters A–Z",
+   "page": 322
+  },
+  {
+   "id": "monster.shambling-mound",
+   "name": "Shambling Mound",
+   "section": "Monsters A–Z",
+   "page": 323
+  },
+  {
+   "id": "monster.shield-guardian",
+   "name": "Shield Guardian",
+   "section": "Monsters A–Z",
+   "page": 323
+  },
+  {
+   "id": "monster.shrieker-fungus",
+   "name": "Shrieker Fungus",
+   "section": "Monsters A–Z",
+   "page": 286
+  },
+  {
+   "id": "monster.silver-dragon-wyrmling",
+   "name": "Silver Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 324
+  },
+  {
+   "id": "monster.skeleton",
+   "name": "Skeleton",
+   "section": "Monsters A–Z",
+   "page": 325
+  },
+  {
+   "id": "monster.solar",
+   "name": "Solar",
+   "section": "Monsters A–Z",
+   "page": 326
+  },
+  {
+   "id": "monster.specter",
+   "name": "Specter",
+   "section": "Monsters A–Z",
+   "page": 327
+  },
+  {
+   "id": "monster.sphinx-of-lore",
+   "name": "Sphinx of Lore",
+   "section": "Monsters A–Z",
+   "page": 327
+  },
+  {
+   "id": "monster.sphinx-of-valor",
+   "name": "Sphinx of Valor",
+   "section": "Monsters A–Z",
+   "page": 328
+  },
+  {
+   "id": "monster.sphinx-of-wonder",
+   "name": "Sphinx of Wonder",
+   "section": "Monsters A–Z",
+   "page": 327
+  },
+  {
+   "id": "monster.spider",
+   "name": "Spider",
+   "section": "Animals",
+   "page": 361
+  },
+  {
+   "id": "monster.spirit-naga",
+   "name": "Spirit Naga",
+   "section": "Monsters A–Z",
+   "page": 329
+  },
+  {
+   "id": "monster.sprite",
+   "name": "Sprite",
+   "section": "Monsters A–Z",
+   "page": 329
+  },
+  {
+   "id": "monster.spy",
+   "name": "Spy",
+   "section": "Monsters A–Z",
+   "page": 329
+  },
+  {
+   "id": "monster.steam-mephit",
+   "name": "Steam Mephit",
+   "section": "Monsters A–Z",
+   "page": 308
+  },
+  {
+   "id": "monster.stirge",
+   "name": "Stirge",
+   "section": "Monsters A–Z",
+   "page": 329
+  },
+  {
+   "id": "monster.stone-giant",
+   "name": "Stone Giant",
+   "section": "Monsters A–Z",
+   "page": 330
+  },
+  {
+   "id": "monster.stone-golem",
+   "name": "Stone Golem",
+   "section": "Monsters A–Z",
+   "page": 330
+  },
+  {
+   "id": "monster.storm-giant",
+   "name": "Storm Giant",
+   "section": "Monsters A–Z",
+   "page": 330
+  },
+  {
+   "id": "monster.succubus",
+   "name": "Succubus",
+   "section": "Monsters A–Z",
+   "page": 331
+  },
+  {
+   "id": "monster.swarm-of-bats",
+   "name": "Swarm of Bats",
+   "section": "Animals",
+   "page": 361
+  },
+  {
+   "id": "monster.swarm-of-crawling-claws",
+   "name": "Swarm of Crawling Claws",
+   "section": "Monsters A–Z",
+   "page": 278
+  },
+  {
+   "id": "monster.swarm-of-insects",
+   "name": "Swarm of Insects",
+   "section": "Animals",
+   "page": 361
+  },
+  {
+   "id": "monster.swarm-of-piranhas",
+   "name": "Swarm of Piranhas",
+   "section": "Animals",
+   "page": 362
+  },
+  {
+   "id": "monster.swarm-of-rats",
+   "name": "Swarm of Rats",
+   "section": "Animals",
+   "page": 362
+  },
+  {
+   "id": "monster.swarm-of-ravens",
+   "name": "Swarm of Ravens",
+   "section": "Animals",
+   "page": 362
+  },
+  {
+   "id": "monster.swarm-of-venomous-snakes",
+   "name": "Swarm of Venomous Snakes",
+   "section": "Animals",
+   "page": 362
+  },
+  {
+   "id": "monster.tarrasque",
+   "name": "Tarrasque",
+   "section": "Monsters A–Z",
+   "page": 331
+  },
+  {
+   "id": "monster.tiger",
+   "name": "Tiger",
+   "section": "Animals",
+   "page": 363
+  },
+  {
+   "id": "monster.tough",
+   "name": "Tough",
+   "section": "Monsters A–Z",
+   "page": 332
+  },
+  {
+   "id": "monster.tough-boss",
+   "name": "Tough Boss",
+   "section": "Monsters A–Z",
+   "page": 332
+  },
+  {
+   "id": "monster.treant",
+   "name": "Treant",
+   "section": "Monsters A–Z",
+   "page": 333
+  },
+  {
+   "id": "monster.triceratops",
+   "name": "Triceratops",
+   "section": "Animals",
+   "page": 363
+  },
+  {
+   "id": "monster.troll",
+   "name": "Troll",
+   "section": "Monsters A–Z",
+   "page": 333
+  },
+  {
+   "id": "monster.troll-limb",
+   "name": "Troll Limb",
+   "section": "Monsters A–Z",
+   "page": 333
+  },
+  {
+   "id": "monster.tyrannosaurus-rex",
+   "name": "Tyrannosaurus Rex",
+   "section": "Animals",
+   "page": 363
+  },
+  {
+   "id": "monster.unicorn",
+   "name": "Unicorn",
+   "section": "Monsters A–Z",
+   "page": 334
+  },
+  {
+   "id": "monster.vampire",
+   "name": "Vampire",
+   "section": "Monsters A–Z",
+   "page": 335
+  },
+  {
+   "id": "monster.vampire-familiar",
+   "name": "Vampire Familiar",
+   "section": "Monsters A–Z",
+   "page": 334
+  },
+  {
+   "id": "monster.vampire-spawn",
+   "name": "Vampire Spawn",
+   "section": "Monsters A–Z",
+   "page": 334
+  },
+  {
+   "id": "monster.venomous-snake",
+   "name": "Venomous Snake",
+   "section": "Animals",
+   "page": 363
+  },
+  {
+   "id": "monster.violet-fungus",
+   "name": "Violet Fungus",
+   "section": "Monsters A–Z",
+   "page": 286
+  },
+  {
+   "id": "monster.vrock",
+   "name": "Vrock",
+   "section": "Monsters A–Z",
+   "page": 336
+  },
+  {
+   "id": "monster.vulture",
+   "name": "Vulture",
+   "section": "Animals",
+   "page": 363
+  },
+  {
+   "id": "monster.warhorse",
+   "name": "Warhorse",
+   "section": "Animals",
+   "page": 364
+  },
+  {
+   "id": "monster.warhorse-skeleton",
+   "name": "Warhorse Skeleton",
+   "section": "Monsters A–Z",
+   "page": 326
+  },
+  {
+   "id": "monster.warrior-infantry",
+   "name": "Warrior Infantry",
+   "section": "Monsters A–Z",
+   "page": 336
+  },
+  {
+   "id": "monster.warrior-veteran",
+   "name": "Warrior Veteran",
+   "section": "Monsters A–Z",
+   "page": 337
+  },
+  {
+   "id": "monster.water-elemental",
+   "name": "Water Elemental",
+   "section": "Monsters A–Z",
+   "page": 337
+  },
+  {
+   "id": "monster.weasel",
+   "name": "Weasel",
+   "section": "Animals",
+   "page": 364
+  },
+  {
+   "id": "monster.werebear",
+   "name": "Werebear",
+   "section": "Monsters A–Z",
+   "page": 337
+  },
+  {
+   "id": "monster.wereboar",
+   "name": "Wereboar",
+   "section": "Monsters A–Z",
+   "page": 338
+  },
+  {
+   "id": "monster.wererat",
+   "name": "Wererat",
+   "section": "Monsters A–Z",
+   "page": 338
+  },
+  {
+   "id": "monster.weretiger",
+   "name": "Weretiger",
+   "section": "Monsters A–Z",
+   "page": 339
+  },
+  {
+   "id": "monster.werewolf",
+   "name": "Werewolf",
+   "section": "Monsters A–Z",
+   "page": 339
+  },
+  {
+   "id": "monster.white-dragon-wyrmling",
+   "name": "White Dragon Wyrmling",
+   "section": "Monsters A–Z",
+   "page": 339
+  },
+  {
+   "id": "monster.wight",
+   "name": "Wight",
+   "section": "Monsters A–Z",
+   "page": 341
+  },
+  {
+   "id": "monster.will-o-wisp",
+   "name": "Will-o’-Wisp",
+   "section": "Monsters A–Z",
+   "page": 341
+  },
+  {
+   "id": "monster.winter-wolf",
+   "name": "Winter Wolf",
+   "section": "Monsters A–Z",
+   "page": 342
+  },
+  {
+   "id": "monster.wolf",
+   "name": "Wolf",
+   "section": "Animals",
+   "page": 364
+  },
+  {
+   "id": "monster.worg",
+   "name": "Worg",
+   "section": "Monsters A–Z",
+   "page": 342
+  },
+  {
+   "id": "monster.wraith",
+   "name": "Wraith",
+   "section": "Monsters A–Z",
+   "page": 342
+  },
+  {
+   "id": "monster.wyvern",
+   "name": "Wyvern",
+   "section": "Monsters A–Z",
+   "page": 343
+  },
+  {
+   "id": "monster.xorn",
+   "name": "Xorn",
+   "section": "Monsters A–Z",
+   "page": 343
+  },
+  {
+   "id": "monster.young-black-dragon",
+   "name": "Young Black Dragon",
+   "section": "Monsters A–Z",
+   "page": 264
+  },
+  {
+   "id": "monster.young-blue-dragon",
+   "name": "Young Blue Dragon",
+   "section": "Monsters A–Z",
+   "page": 266
+  },
+  {
+   "id": "monster.young-brass-dragon",
+   "name": "Young Brass Dragon",
+   "section": "Monsters A–Z",
+   "page": 268
+  },
+  {
+   "id": "monster.young-bronze-dragon",
+   "name": "Young Bronze Dragon",
+   "section": "Monsters A–Z",
+   "page": 270
+  },
+  {
+   "id": "monster.young-copper-dragon",
+   "name": "Young Copper Dragon",
+   "section": "Monsters A–Z",
+   "page": 276
+  },
+  {
+   "id": "monster.young-gold-dragon",
+   "name": "Young Gold Dragon",
+   "section": "Monsters A–Z",
+   "page": 291
+  },
+  {
+   "id": "monster.young-green-dragon",
+   "name": "Young Green Dragon",
+   "section": "Monsters A–Z",
+   "page": 293
+  },
+  {
+   "id": "monster.young-red-dragon",
+   "name": "Young Red Dragon",
+   "section": "Monsters A–Z",
+   "page": 318
+  },
+  {
+   "id": "monster.young-silver-dragon",
+   "name": "Young Silver Dragon",
+   "section": "Monsters A–Z",
+   "page": 324
+  },
+  {
+   "id": "monster.young-white-dragon",
+   "name": "Young White Dragon",
+   "section": "Monsters A–Z",
+   "page": 340
+  },
+  {
+   "id": "monster.zombie",
+   "name": "Zombie",
+   "section": "Monsters A–Z",
+   "page": 343
+  },
+  {
+   "id": "rule.ability-check",
+   "name": "Ability Check",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.ability-score-and-modifier",
+   "name": "Ability Score and Modifier",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.action",
+   "name": "Action",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.actions",
+   "name": "Actions",
+   "section": "Playing the Game",
+   "page": 9
+  },
+  {
+   "id": "rule.activating-a-magic-item",
+   "name": "Activating a Magic Item",
+   "section": "Magic Items",
+   "page": 206
+  },
+  {
+   "id": "rule.advantage",
+   "name": "Advantage",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.adventure",
+   "name": "Adventure",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.adventuring-gear",
+   "name": "Adventuring Gear",
+   "section": "Equipment",
+   "page": 94
+  },
+  {
+   "id": "rule.alignment",
+   "name": "Alignment",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.ally",
+   "name": "Ally",
+   "section": "Rules Glossary",
+   "page": 176
+  },
+  {
+   "id": "rule.area-of-effect",
+   "name": "Area of Effect",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.armor",
+   "name": "Armor",
+   "section": "Equipment",
+   "page": 92
+  },
+  {
+   "id": "rule.armor-class",
+   "name": "Armor Class",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.armor-training",
+   "name": "Armor Training",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.attack",
+   "name": "Attack [Action]",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.attack-roll",
+   "name": "Attack Roll",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.attitude",
+   "name": "Attitude",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.attunement",
+   "name": "Attunement",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.blindsight",
+   "name": "Blindsight",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.bloodied",
+   "name": "Bloodied",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.bonus-action",
+   "name": "Bonus Action",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.breaking-objects",
+   "name": "Breaking Objects",
+   "section": "Rules Glossary",
+   "page": 177
+  },
+  {
+   "id": "rule.brewing-potions-of-healing",
+   "name": "Brewing Potions of Healing",
+   "section": "Equipment",
+   "page": 103
+  },
+  {
+   "id": "rule.bright-light",
+   "name": "Bright Light",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.burning",
+   "name": "Burning [Hazard]",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.burrow-speed",
+   "name": "Burrow Speed",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.campaign",
+   "name": "Campaign",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.cantrip",
+   "name": "Cantrip",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.carrying-capacity",
+   "name": "Carrying Capacity",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.casting-spells",
+   "name": "Casting Spells",
+   "section": "Spells",
+   "page": 104
+  },
+  {
+   "id": "rule.challenge-rating",
+   "name": "Challenge Rating",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.character-backgrounds",
+   "name": "Character Backgrounds",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "rule.character-sheet",
+   "name": "Character Sheet",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.character-species",
+   "name": "Character Species",
+   "section": "Character Origins",
+   "page": 83
+  },
+  {
+   "id": "rule.choose-a-character-sheet",
+   "name": "Choose a Character Sheet",
+   "section": "Character Creation",
+   "page": 19
+  },
+  {
+   "id": "rule.climb-speed",
+   "name": "Climb Speed",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.climbing",
+   "name": "Climbing",
+   "section": "Rules Glossary",
+   "page": 178
+  },
+  {
+   "id": "rule.coins",
+   "name": "Coins",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "rule.combat",
+   "name": "Combat",
+   "section": "Playing the Game",
+   "page": 13
+  },
+  {
+   "id": "rule.combat-encounters",
+   "name": "Combat Encounters",
+   "section": "Gameplay Toolbox",
+   "page": 202
+  },
+  {
+   "id": "rule.concentration",
+   "name": "Concentration",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.condition",
+   "name": "Condition",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.cone",
+   "name": "Cone [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.cover",
+   "name": "Cover",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.crafting-magic-items",
+   "name": "Crafting Magic Items",
+   "section": "Magic Items",
+   "page": 206
+  },
+  {
+   "id": "rule.crafting-nonmagical-items",
+   "name": "Crafting Nonmagical Items",
+   "section": "Equipment",
+   "page": 103
+  },
+  {
+   "id": "rule.crawling",
+   "name": "Crawling",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.create-your-character",
+   "name": "Create Your Character",
+   "section": "Character Creation",
+   "page": 19
+  },
+  {
+   "id": "rule.creating-a-background",
+   "name": "Creating a Background",
+   "section": "Gameplay Toolbox",
+   "page": 192
+  },
+  {
+   "id": "rule.creature",
+   "name": "Creature",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.creature-type",
+   "name": "Creature Type",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.critical-hit",
+   "name": "Critical Hit",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.cube",
+   "name": "Cube [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.cursed-items",
+   "name": "Cursed Items",
+   "section": "Magic Items",
+   "page": 206
+  },
+  {
+   "id": "rule.curses",
+   "name": "Curses",
+   "section": "Rules Glossary",
+   "page": 179
+  },
+  {
+   "id": "rule.curses-and-magical-contagions",
+   "name": "Curses and Magical Contagions",
+   "section": "Gameplay Toolbox",
+   "page": 193
+  },
+  {
+   "id": "rule.cylinder",
+   "name": "Cylinder [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.d20-test",
+   "name": "D20 Test",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.d20-tests",
+   "name": "D20 Tests",
+   "section": "Playing the Game",
+   "page": 6
+  },
+  {
+   "id": "rule.damage",
+   "name": "Damage",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.damage-and-healing",
+   "name": "Damage and Healing",
+   "section": "Playing the Game",
+   "page": 16
+  },
+  {
+   "id": "rule.damage-roll",
+   "name": "Damage Roll",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.damage-threshold",
+   "name": "Damage Threshold",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.damage-types",
+   "name": "Damage Types",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.darkness",
+   "name": "Darkness",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.darkvision",
+   "name": "Darkvision",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.dash",
+   "name": "Dash [Action]",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.dead",
+   "name": "Dead",
+   "section": "Rules Glossary",
+   "page": 180
+  },
+  {
+   "id": "rule.death-saving-throw",
+   "name": "Death Saving Throw",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.dehydration",
+   "name": "Dehydration [Hazard]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.difficult-terrain",
+   "name": "Difficult Terrain",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.difficulty-class",
+   "name": "Difficulty Class",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.dim-light",
+   "name": "Dim Light",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.disadvantage",
+   "name": "Disadvantage",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.disengage",
+   "name": "Disengage [Action]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.dodge",
+   "name": "Dodge [Action]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.emanation",
+   "name": "Emanation [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.encounter",
+   "name": "Encounter",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.enemy",
+   "name": "Enemy",
+   "section": "Rules Glossary",
+   "page": 181
+  },
+  {
+   "id": "rule.environmental-effects",
+   "name": "Environmental Effects",
+   "section": "Gameplay Toolbox",
+   "page": 195
+  },
+  {
+   "id": "rule.experience-points",
+   "name": "Experience Points",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.expertise",
+   "name": "Expertise",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.exploration",
+   "name": "Exploration",
+   "section": "Playing the Game",
+   "page": 11
+  },
+  {
+   "id": "rule.falling",
+   "name": "Falling [Hazard]",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.fear-and-mental-stress",
+   "name": "Fear and Mental Stress",
+   "section": "Gameplay Toolbox",
+   "page": 196
+  },
+  {
+   "id": "rule.feat-descriptions",
+   "name": "Feat Descriptions",
+   "section": "Feats",
+   "page": 87
+  },
+  {
+   "id": "rule.fly-speed",
+   "name": "Fly Speed",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.flying",
+   "name": "Flying",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.food-drink-and-lodging",
+   "name": "Food, Drink, and Lodging",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "rule.friendly",
+   "name": "Friendly [Attitude]",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.gaining-spells",
+   "name": "Gaining Spells",
+   "section": "Spells",
+   "page": 104
+  },
+  {
+   "id": "rule.grappling",
+   "name": "Grappling",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.hazard",
+   "name": "Hazard",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.healing",
+   "name": "Healing",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.heavily-obscured",
+   "name": "Heavily Obscured",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.help",
+   "name": "Help [Action]",
+   "section": "Rules Glossary",
+   "page": 182
+  },
+  {
+   "id": "rule.heroic-inspiration",
+   "name": "Heroic Inspiration",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.hide",
+   "name": "Hide [Action]",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.high-jump",
+   "name": "High Jump",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.hirelings",
+   "name": "Hirelings",
+   "section": "Equipment",
+   "page": 102
+  },
+  {
+   "id": "rule.hit-point-dice",
+   "name": "Hit Point Dice",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.hit-points",
+   "name": "Hit Points",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.hostile",
+   "name": "Hostile [Attitude]",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.hover",
+   "name": "Hover",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.illusions",
+   "name": "Illusions",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.immunity",
+   "name": "Immunity",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.improvised-weapons",
+   "name": "Improvised Weapons",
+   "section": "Rules Glossary",
+   "page": 183
+  },
+  {
+   "id": "rule.indifferent",
+   "name": "Indifferent [Attitude]",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.influence",
+   "name": "Influence [Action]",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.initiative",
+   "name": "Initiative",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.jumping",
+   "name": "Jumping",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.knocking-out-a-creature",
+   "name": "Knocking Out a Creature",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.level-advancement",
+   "name": "Level Advancement",
+   "section": "Character Creation",
+   "page": 23
+  },
+  {
+   "id": "rule.lifestyle-expenses",
+   "name": "Lifestyle Expenses",
+   "section": "Equipment",
+   "page": 101
+  },
+  {
+   "id": "rule.lightly-obscured",
+   "name": "Lightly Obscured",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.line",
+   "name": "Line [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.long-jump",
+   "name": "Long Jump",
+   "section": "Rules Glossary",
+   "page": 184
+  },
+  {
+   "id": "rule.long-rest",
+   "name": "Long Rest",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.magic",
+   "name": "Magic [Action]",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.magic-item-categories",
+   "name": "Magic Item Categories",
+   "section": "Magic Items",
+   "page": 204
+  },
+  {
+   "id": "rule.magic-item-rarity",
+   "name": "Magic Item Rarity",
+   "section": "Magic Items",
+   "page": 205
+  },
+  {
+   "id": "rule.magic-item-resilience",
+   "name": "Magic Item Resilience",
+   "section": "Magic Items",
+   "page": 206
+  },
+  {
+   "id": "rule.magic-items",
+   "name": "Magic Items",
+   "section": "Equipment",
+   "page": 102
+  },
+  {
+   "id": "rule.magical-effect",
+   "name": "Magical Effect",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.malnutrition",
+   "name": "Malnutrition [Hazard]",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.mastery-cleave",
+   "name": "Cleave (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-graze",
+   "name": "Graze (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-nick",
+   "name": "Nick (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-push",
+   "name": "Push (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-sap",
+   "name": "Sap (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-slow",
+   "name": "Slow (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-topple",
+   "name": "Topple (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.mastery-vex",
+   "name": "Vex (Mastery Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.monster",
+   "name": "Monster",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.mounts-and-vehicles",
+   "name": "Mounts and Vehicles",
+   "section": "Equipment",
+   "page": 100
+  },
+  {
+   "id": "rule.multiclassing",
+   "name": "Multiclassing",
+   "section": "Character Creation",
+   "page": 24
+  },
+  {
+   "id": "rule.nonplayer-character",
+   "name": "Nonplayer Character",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.object",
+   "name": "Object",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.occupied-space",
+   "name": "Occupied Space",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.opportunity-attacks",
+   "name": "Opportunity Attacks",
+   "section": "Rules Glossary",
+   "page": 185
+  },
+  {
+   "id": "rule.parts-of-a-stat-block",
+   "name": "Parts of a Stat Block",
+   "section": "Monsters",
+   "page": 254
+  },
+  {
+   "id": "rule.passive-perception",
+   "name": "Passive Perception",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.per-day",
+   "name": "Per Day",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.player-character",
+   "name": "Player Character",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.poison",
+   "name": "Poison",
+   "section": "Gameplay Toolbox",
+   "page": 197
+  },
+  {
+   "id": "rule.possession",
+   "name": "Possession",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.proficiency",
+   "name": "Proficiency",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.proficiency-overview",
+   "name": "Proficiency",
+   "section": "Playing the Game",
+   "page": 8
+  },
+  {
+   "id": "rule.property-ammunition",
+   "name": "Ammunition (Weapon Property)",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "rule.property-finesse",
+   "name": "Finesse (Weapon Property)",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "rule.property-heavy",
+   "name": "Heavy (Weapon Property)",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "rule.property-light",
+   "name": "Light (Weapon Property)",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "rule.property-loading",
+   "name": "Loading (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.property-range",
+   "name": "Range (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.property-reach",
+   "name": "Reach (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.property-thrown",
+   "name": "Thrown (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.property-two-handed",
+   "name": "Two-Handed (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.property-versatile",
+   "name": "Versatile (Weapon Property)",
+   "section": "Equipment",
+   "page": 90
+  },
+  {
+   "id": "rule.reach",
+   "name": "Reach",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.reaction",
+   "name": "Reaction",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.ready",
+   "name": "Ready [Action]",
+   "section": "Rules Glossary",
+   "page": 186
+  },
+  {
+   "id": "rule.resistance",
+   "name": "Resistance",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.rhythm-of-play",
+   "name": "Rhythm of Play",
+   "section": "Playing the Game",
+   "page": 5
+  },
+  {
+   "id": "rule.ritual",
+   "name": "Ritual",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.round-down",
+   "name": "Round Down",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.save",
+   "name": "Save",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.saving-throw",
+   "name": "Saving Throw",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.scribing-spell-scrolls",
+   "name": "Scribing Spell Scrolls",
+   "section": "Equipment",
+   "page": 103
+  },
+  {
+   "id": "rule.search",
+   "name": "Search [Action]",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.sentient-magic-items",
+   "name": "Sentient Magic Items",
+   "section": "Magic Items",
+   "page": 207
+  },
+  {
+   "id": "rule.shape-shifting",
+   "name": "Shape-Shifting",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.short-rest",
+   "name": "Short Rest",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.simultaneous-effects",
+   "name": "Simultaneous Effects",
+   "section": "Rules Glossary",
+   "page": 187
+  },
+  {
+   "id": "rule.size",
+   "name": "Size",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.skill",
+   "name": "Skill",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.social-interaction",
+   "name": "Social Interaction",
+   "section": "Playing the Game",
+   "page": 10
+  },
+  {
+   "id": "rule.speed",
+   "name": "Speed",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.spell",
+   "name": "Spell",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.spell-attack",
+   "name": "Spell Attack",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.spellcasting",
+   "name": "Spellcasting",
+   "section": "Equipment",
+   "page": 102
+  },
+  {
+   "id": "rule.spellcasting-focus",
+   "name": "Spellcasting Focus",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.sphere",
+   "name": "Sphere [Area of Effect]",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.stable",
+   "name": "Stable",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.starting-at-higher-levels",
+   "name": "Starting at Higher Levels",
+   "section": "Character Creation",
+   "page": 24
+  },
+  {
+   "id": "rule.stat-block",
+   "name": "Stat Block",
+   "section": "Rules Glossary",
+   "page": 188
+  },
+  {
+   "id": "rule.stat-block-overview",
+   "name": "Stat Block Overview",
+   "section": "Monsters",
+   "page": 254
+  },
+  {
+   "id": "rule.study",
+   "name": "Study [Action]",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "rule.suffocation",
+   "name": "Suffocation [Hazard]",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "rule.surprise",
+   "name": "Surprise",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "rule.swim-speed",
+   "name": "Swim Speed",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "rule.swimming",
+   "name": "Swimming",
+   "section": "Rules Glossary",
+   "page": 189
+  },
+  {
+   "id": "rule.target",
+   "name": "Target",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.telepathy",
+   "name": "Telepathy",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.teleportation",
+   "name": "Teleportation",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.temporary-hit-points",
+   "name": "Temporary Hit Points",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.the-next-dawn",
+   "name": "“The Next Dawn”",
+   "section": "Magic Items",
+   "page": 206
+  },
+  {
+   "id": "rule.the-six-abilities",
+   "name": "The Six Abilities",
+   "section": "Playing the Game",
+   "page": 5
+  },
+  {
+   "id": "rule.tools",
+   "name": "Tools",
+   "section": "Equipment",
+   "page": 93
+  },
+  {
+   "id": "rule.traps",
+   "name": "Traps",
+   "section": "Gameplay Toolbox",
+   "page": 199
+  },
+  {
+   "id": "rule.travel-pace",
+   "name": "Travel Pace",
+   "section": "Gameplay Toolbox",
+   "page": 192
+  },
+  {
+   "id": "rule.tremorsense",
+   "name": "Tremorsense",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.trinkets",
+   "name": "Trinkets",
+   "section": "Character Creation",
+   "page": 26
+  },
+  {
+   "id": "rule.truesight",
+   "name": "Truesight",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.unarmed-strike",
+   "name": "Unarmed Strike",
+   "section": "Rules Glossary",
+   "page": 190
+  },
+  {
+   "id": "rule.unoccupied-space",
+   "name": "Unoccupied Space",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "rule.utilize",
+   "name": "Utilize [Action]",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "rule.vulnerability",
+   "name": "Vulnerability",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "rule.weapon",
+   "name": "Weapon",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "rule.weapon-attack",
+   "name": "Weapon Attack",
+   "section": "Rules Glossary",
+   "page": 191
+  },
+  {
+   "id": "rule.weapons",
+   "name": "Weapons",
+   "section": "Equipment",
+   "page": 89
+  },
+  {
+   "id": "species.dragonborn",
+   "name": "Dragonborn",
+   "section": "Character Origins",
+   "page": 84
+  },
+  {
+   "id": "species.dwarf",
+   "name": "Dwarf",
+   "section": "Character Origins",
+   "page": 84
+  },
+  {
+   "id": "species.elf",
+   "name": "Elf",
+   "section": "Character Origins",
+   "page": 84
+  },
+  {
+   "id": "species.gnome",
+   "name": "Gnome",
+   "section": "Character Origins",
+   "page": 85
+  },
+  {
+   "id": "species.goliath",
+   "name": "Goliath",
+   "section": "Character Origins",
+   "page": 85
+  },
+  {
+   "id": "species.halfling",
+   "name": "Halfling",
+   "section": "Character Origins",
+   "page": 86
+  },
+  {
+   "id": "species.human",
+   "name": "Human",
+   "section": "Character Origins",
+   "page": 86
+  },
+  {
+   "id": "species.orc",
+   "name": "Orc",
+   "section": "Character Origins",
+   "page": 86
+  },
+  {
+   "id": "species.tiefling",
+   "name": "Tiefling",
+   "section": "Character Origins",
+   "page": 86
+  },
+  {
+   "id": "spell.acid-arrow",
+   "name": "Acid Arrow",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.acid-splash",
+   "name": "Acid Splash",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.aid",
+   "name": "Aid",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.alarm",
+   "name": "Alarm",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.alter-self",
+   "name": "Alter Self",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.animal-friendship",
+   "name": "Animal Friendship",
+   "section": "Spells",
+   "page": 107
+  },
+  {
+   "id": "spell.animal-messenger",
+   "name": "Animal Messenger",
+   "section": "Spells",
+   "page": 108
+  },
+  {
+   "id": "spell.animal-shapes",
+   "name": "Animal Shapes",
+   "section": "Spells",
+   "page": 108
+  },
+  {
+   "id": "spell.animate-dead",
+   "name": "Animate Dead",
+   "section": "Spells",
+   "page": 108
+  },
+  {
+   "id": "spell.animate-objects",
+   "name": "Animate Objects",
+   "section": "Spells",
+   "page": 108
+  },
+  {
+   "id": "spell.antilife-shell",
+   "name": "Antilife Shell",
+   "section": "Spells",
+   "page": 109
+  },
+  {
+   "id": "spell.antimagic-field",
+   "name": "Antimagic Field",
+   "section": "Spells",
+   "page": 109
+  },
+  {
+   "id": "spell.antipathy-sympathy",
+   "name": "Antipathy/Sympathy",
+   "section": "Spells",
+   "page": 109
+  },
+  {
+   "id": "spell.arcane-eye",
+   "name": "Arcane Eye",
+   "section": "Spells",
+   "page": 110
+  },
+  {
+   "id": "spell.arcane-hand",
+   "name": "Arcane Hand",
+   "section": "Spells",
+   "page": 110
+  },
+  {
+   "id": "spell.arcane-lock",
+   "name": "Arcane Lock",
+   "section": "Spells",
+   "page": 110
+  },
+  {
+   "id": "spell.arcane-sword",
+   "name": "Arcane Sword",
+   "section": "Spells",
+   "page": 110
+  },
+  {
+   "id": "spell.arcanists-magic-aura",
+   "name": "Arcanist’s Magic Aura",
+   "section": "Spells",
+   "page": 110
+  },
+  {
+   "id": "spell.astral-projection",
+   "name": "Astral Projection",
+   "section": "Spells",
+   "page": 111
+  },
+  {
+   "id": "spell.augury",
+   "name": "Augury",
+   "section": "Spells",
+   "page": 111
+  },
+  {
+   "id": "spell.aura-of-life",
+   "name": "Aura of Life",
+   "section": "Spells",
+   "page": 111
+  },
+  {
+   "id": "spell.awaken",
+   "name": "Awaken",
+   "section": "Spells",
+   "page": 111
+  },
+  {
+   "id": "spell.bane",
+   "name": "Bane",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.banishment",
+   "name": "Banishment",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.barkskin",
+   "name": "Barkskin",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.beacon-of-hope",
+   "name": "Beacon of Hope",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.befuddlement",
+   "name": "Befuddlement",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.bestow-curse",
+   "name": "Bestow Curse",
+   "section": "Spells",
+   "page": 112
+  },
+  {
+   "id": "spell.black-tentacles",
+   "name": "Black Tentacles",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.blade-barrier",
+   "name": "Blade Barrier",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.bless",
+   "name": "Bless",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.blight",
+   "name": "Blight",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.blindness-deafness",
+   "name": "Blindness/Deafness",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.blink",
+   "name": "Blink",
+   "section": "Spells",
+   "page": 113
+  },
+  {
+   "id": "spell.blur",
+   "name": "Blur",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.burning-hands",
+   "name": "Burning Hands",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.call-lightning",
+   "name": "Call Lightning",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.calm-emotions",
+   "name": "Calm Emotions",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.chain-lightning",
+   "name": "Chain Lightning",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.charm-monster",
+   "name": "Charm Monster",
+   "section": "Spells",
+   "page": 114
+  },
+  {
+   "id": "spell.charm-person",
+   "name": "Charm Person",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.chill-touch",
+   "name": "Chill Touch",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.chromatic-orb",
+   "name": "Chromatic Orb",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.circle-of-death",
+   "name": "Circle of Death",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.clairvoyance",
+   "name": "Clairvoyance",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.clone",
+   "name": "Clone",
+   "section": "Spells",
+   "page": 115
+  },
+  {
+   "id": "spell.cloudkill",
+   "name": "Cloudkill",
+   "section": "Spells",
+   "page": 116
+  },
+  {
+   "id": "spell.color-spray",
+   "name": "Color Spray",
+   "section": "Spells",
+   "page": 116
+  },
+  {
+   "id": "spell.command",
+   "name": "Command",
+   "section": "Spells",
+   "page": 116
+  },
+  {
+   "id": "spell.commune",
+   "name": "Commune",
+   "section": "Spells",
+   "page": 116
+  },
+  {
+   "id": "spell.commune-with-nature",
+   "name": "Commune with Nature",
+   "section": "Spells",
+   "page": 116
+  },
+  {
+   "id": "spell.comprehend-languages",
+   "name": "Comprehend Languages",
+   "section": "Spells",
+   "page": 117
+  },
+  {
+   "id": "spell.compulsion",
+   "name": "Compulsion",
+   "section": "Spells",
+   "page": 117
+  },
+  {
+   "id": "spell.cone-of-cold",
+   "name": "Cone of Cold",
+   "section": "Spells",
+   "page": 117
+  },
+  {
+   "id": "spell.confusion",
+   "name": "Confusion",
+   "section": "Spells",
+   "page": 117
+  },
+  {
+   "id": "spell.conjure-animals",
+   "name": "Conjure Animals",
+   "section": "Spells",
+   "page": 117
+  },
+  {
+   "id": "spell.conjure-celestial",
+   "name": "Conjure Celestial",
+   "section": "Spells",
+   "page": 118
+  },
+  {
+   "id": "spell.conjure-elemental",
+   "name": "Conjure Elemental",
+   "section": "Spells",
+   "page": 118
+  },
+  {
+   "id": "spell.conjure-fey",
+   "name": "Conjure Fey",
+   "section": "Spells",
+   "page": 118
+  },
+  {
+   "id": "spell.conjure-minor-elementals",
+   "name": "Conjure Minor Elementals",
+   "section": "Spells",
+   "page": 118
+  },
+  {
+   "id": "spell.conjure-woodland-beings",
+   "name": "Conjure Woodland Beings",
+   "section": "Spells",
+   "page": 118
+  },
+  {
+   "id": "spell.contact-other-plane",
+   "name": "Contact Other Plane",
+   "section": "Spells",
+   "page": 119
+  },
+  {
+   "id": "spell.contagion",
+   "name": "Contagion",
+   "section": "Spells",
+   "page": 119
+  },
+  {
+   "id": "spell.contingency",
+   "name": "Contingency",
+   "section": "Spells",
+   "page": 119
+  },
+  {
+   "id": "spell.continual-flame",
+   "name": "Continual Flame",
+   "section": "Spells",
+   "page": 119
+  },
+  {
+   "id": "spell.control-water",
+   "name": "Control Water",
+   "section": "Spells",
+   "page": 119
+  },
+  {
+   "id": "spell.control-weather",
+   "name": "Control Weather",
+   "section": "Spells",
+   "page": 120
+  },
+  {
+   "id": "spell.counterspell",
+   "name": "Counterspell",
+   "section": "Spells",
+   "page": 120
+  },
+  {
+   "id": "spell.create-food-and-water",
+   "name": "Create Food and Water",
+   "section": "Spells",
+   "page": 120
+  },
+  {
+   "id": "spell.create-or-destroy-water",
+   "name": "Create or Destroy Water",
+   "section": "Spells",
+   "page": 121
+  },
+  {
+   "id": "spell.create-undead",
+   "name": "Create Undead",
+   "section": "Spells",
+   "page": 121
+  },
+  {
+   "id": "spell.creation",
+   "name": "Creation",
+   "section": "Spells",
+   "page": 121
+  },
+  {
+   "id": "spell.cure-wounds",
+   "name": "Cure Wounds",
+   "section": "Spells",
+   "page": 121
+  },
+  {
+   "id": "spell.dancing-lights",
+   "name": "Dancing Lights",
+   "section": "Spells",
+   "page": 121
+  },
+  {
+   "id": "spell.darkness",
+   "name": "Darkness",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.darkvision",
+   "name": "Darkvision",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.daylight",
+   "name": "Daylight",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.death-ward",
+   "name": "Death Ward",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.delayed-blast-fireball",
+   "name": "Delayed Blast Fireball",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.demiplane",
+   "name": "Demiplane",
+   "section": "Spells",
+   "page": 122
+  },
+  {
+   "id": "spell.detect-evil-and-good",
+   "name": "Detect Evil and Good",
+   "section": "Spells",
+   "page": 123
+  },
+  {
+   "id": "spell.detect-magic",
+   "name": "Detect Magic",
+   "section": "Spells",
+   "page": 123
+  },
+  {
+   "id": "spell.detect-poison-and-disease",
+   "name": "Detect Poison and Disease",
+   "section": "Spells",
+   "page": 123
+  },
+  {
+   "id": "spell.detect-thoughts",
+   "name": "Detect Thoughts",
+   "section": "Spells",
+   "page": 123
+  },
+  {
+   "id": "spell.dimension-door",
+   "name": "Dimension Door",
+   "section": "Spells",
+   "page": 123
+  },
+  {
+   "id": "spell.disguise-self",
+   "name": "Disguise Self",
+   "section": "Spells",
+   "page": 124
+  },
+  {
+   "id": "spell.disintegrate",
+   "name": "Disintegrate",
+   "section": "Spells",
+   "page": 124
+  },
+  {
+   "id": "spell.dispel-evil-and-good",
+   "name": "Dispel Evil and Good",
+   "section": "Spells",
+   "page": 124
+  },
+  {
+   "id": "spell.dispel-magic",
+   "name": "Dispel Magic",
+   "section": "Spells",
+   "page": 124
+  },
+  {
+   "id": "spell.dissonant-whispers",
+   "name": "Dissonant Whispers",
+   "section": "Spells",
+   "page": 124
+  },
+  {
+   "id": "spell.divination",
+   "name": "Divination",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.divine-favor",
+   "name": "Divine Favor",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.divine-smite",
+   "name": "Divine Smite",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.divine-word",
+   "name": "Divine Word",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.dominate-beast",
+   "name": "Dominate Beast",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.dominate-monster",
+   "name": "Dominate Monster",
+   "section": "Spells",
+   "page": 125
+  },
+  {
+   "id": "spell.dominate-person",
+   "name": "Dominate Person",
+   "section": "Spells",
+   "page": 126
+  },
+  {
+   "id": "spell.dragons-breath",
+   "name": "Dragon’s Breath",
+   "section": "Spells",
+   "page": 126
+  },
+  {
+   "id": "spell.dream",
+   "name": "Dream",
+   "section": "Spells",
+   "page": 126
+  },
+  {
+   "id": "spell.druidcraft",
+   "name": "Druidcraft",
+   "section": "Spells",
+   "page": 126
+  },
+  {
+   "id": "spell.earthquake",
+   "name": "Earthquake",
+   "section": "Spells",
+   "page": 127
+  },
+  {
+   "id": "spell.eldritch-blast",
+   "name": "Eldritch Blast",
+   "section": "Spells",
+   "page": 127
+  },
+  {
+   "id": "spell.elementalism",
+   "name": "Elementalism",
+   "section": "Spells",
+   "page": 127
+  },
+  {
+   "id": "spell.enhance-ability",
+   "name": "Enhance Ability",
+   "section": "Spells",
+   "page": 127
+  },
+  {
+   "id": "spell.enlarge-reduce",
+   "name": "Enlarge/Reduce",
+   "section": "Spells",
+   "page": 127
+  },
+  {
+   "id": "spell.ensnaring-strike",
+   "name": "Ensnaring Strike",
+   "section": "Spells",
+   "page": 128
+  },
+  {
+   "id": "spell.entangle",
+   "name": "Entangle",
+   "section": "Spells",
+   "page": 128
+  },
+  {
+   "id": "spell.enthrall",
+   "name": "Enthrall",
+   "section": "Spells",
+   "page": 128
+  },
+  {
+   "id": "spell.etherealness",
+   "name": "Etherealness",
+   "section": "Spells",
+   "page": 128
+  },
+  {
+   "id": "spell.expeditious-retreat",
+   "name": "Expeditious Retreat",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.eyebite",
+   "name": "Eyebite",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.fabricate",
+   "name": "Fabricate",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.faerie-fire",
+   "name": "Faerie Fire",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.faithful-hound",
+   "name": "Faithful Hound",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.false-life",
+   "name": "False Life",
+   "section": "Spells",
+   "page": 129
+  },
+  {
+   "id": "spell.fear",
+   "name": "Fear",
+   "section": "Spells",
+   "page": 130
+  },
+  {
+   "id": "spell.feather-fall",
+   "name": "Feather Fall",
+   "section": "Spells",
+   "page": 130
+  },
+  {
+   "id": "spell.find-familiar",
+   "name": "Find Familiar",
+   "section": "Spells",
+   "page": 130
+  },
+  {
+   "id": "spell.find-steed",
+   "name": "Find Steed",
+   "section": "Spells",
+   "page": 130
+  },
+  {
+   "id": "spell.find-the-path",
+   "name": "Find the Path",
+   "section": "Spells",
+   "page": 131
+  },
+  {
+   "id": "spell.find-traps",
+   "name": "Find Traps",
+   "section": "Spells",
+   "page": 131
+  },
+  {
+   "id": "spell.finger-of-death",
+   "name": "Finger of Death",
+   "section": "Spells",
+   "page": 131
+  },
+  {
+   "id": "spell.fire-bolt",
+   "name": "Fire Bolt",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.fire-shield",
+   "name": "Fire Shield",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.fire-storm",
+   "name": "Fire Storm",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.fireball",
+   "name": "Fireball",
+   "section": "Spells",
+   "page": 131
+  },
+  {
+   "id": "spell.flame-blade",
+   "name": "Flame Blade",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.flame-strike",
+   "name": "Flame Strike",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.flaming-sphere",
+   "name": "Flaming Sphere",
+   "section": "Spells",
+   "page": 132
+  },
+  {
+   "id": "spell.flesh-to-stone",
+   "name": "Flesh to Stone",
+   "section": "Spells",
+   "page": 133
+  },
+  {
+   "id": "spell.floating-disk",
+   "name": "Floating Disk",
+   "section": "Spells",
+   "page": 133
+  },
+  {
+   "id": "spell.fly",
+   "name": "Fly",
+   "section": "Spells",
+   "page": 133
+  },
+  {
+   "id": "spell.fog-cloud",
+   "name": "Fog Cloud",
+   "section": "Spells",
+   "page": 133
+  },
+  {
+   "id": "spell.forbiddance",
+   "name": "Forbiddance",
+   "section": "Spells",
+   "page": 133
+  },
+  {
+   "id": "spell.forcecage",
+   "name": "Forcecage",
+   "section": "Spells",
+   "page": 134
+  },
+  {
+   "id": "spell.foresight",
+   "name": "Foresight",
+   "section": "Spells",
+   "page": 134
+  },
+  {
+   "id": "spell.freedom-of-movement",
+   "name": "Freedom of Movement",
+   "section": "Spells",
+   "page": 134
+  },
+  {
+   "id": "spell.freezing-sphere",
+   "name": "Freezing Sphere",
+   "section": "Spells",
+   "page": 134
+  },
+  {
+   "id": "spell.gaseous-form",
+   "name": "Gaseous Form",
+   "section": "Spells",
+   "page": 134
+  },
+  {
+   "id": "spell.gate",
+   "name": "Gate",
+   "section": "Spells",
+   "page": 135
+  },
+  {
+   "id": "spell.geas",
+   "name": "Geas",
+   "section": "Spells",
+   "page": 135
+  },
+  {
+   "id": "spell.gentle-repose",
+   "name": "Gentle Repose",
+   "section": "Spells",
+   "page": 135
+  },
+  {
+   "id": "spell.giant-insect",
+   "name": "Giant Insect",
+   "section": "Spells",
+   "page": 135
+  },
+  {
+   "id": "spell.glibness",
+   "name": "Glibness",
+   "section": "Spells",
+   "page": 136
+  },
+  {
+   "id": "spell.globe-of-invulnerability",
+   "name": "Globe of Invulnerability",
+   "section": "Spells",
+   "page": 136
+  },
+  {
+   "id": "spell.glyph-of-warding",
+   "name": "Glyph of Warding",
+   "section": "Spells",
+   "page": 136
+  },
+  {
+   "id": "spell.goodberry",
+   "name": "Goodberry",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.grease",
+   "name": "Grease",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.greater-invisibility",
+   "name": "Greater Invisibility",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.greater-restoration",
+   "name": "Greater Restoration",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.guardian-of-faith",
+   "name": "Guardian of Faith",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.guards-and-wards",
+   "name": "Guards and Wards",
+   "section": "Spells",
+   "page": 137
+  },
+  {
+   "id": "spell.guidance",
+   "name": "Guidance",
+   "section": "Spells",
+   "page": 138
+  },
+  {
+   "id": "spell.guiding-bolt",
+   "name": "Guiding Bolt",
+   "section": "Spells",
+   "page": 138
+  },
+  {
+   "id": "spell.gust-of-wind",
+   "name": "Gust of Wind",
+   "section": "Spells",
+   "page": 138
+  },
+  {
+   "id": "spell.hallow",
+   "name": "Hallow",
+   "section": "Spells",
+   "page": 138
+  },
+  {
+   "id": "spell.hallucinatory-terrain",
+   "name": "Hallucinatory Terrain",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.harm",
+   "name": "Harm",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.haste",
+   "name": "Haste",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.heal",
+   "name": "Heal",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.healing-word",
+   "name": "Healing Word",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.heat-metal",
+   "name": "Heat Metal",
+   "section": "Spells",
+   "page": 139
+  },
+  {
+   "id": "spell.hellish-rebuke",
+   "name": "Hellish Rebuke",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.heroes-feast",
+   "name": "Heroes’ Feast",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.heroism",
+   "name": "Heroism",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.hex",
+   "name": "Hex",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.hideous-laughter",
+   "name": "Hideous Laughter",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.hold-monster",
+   "name": "Hold Monster",
+   "section": "Spells",
+   "page": 140
+  },
+  {
+   "id": "spell.hold-person",
+   "name": "Hold Person",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.holy-aura",
+   "name": "Holy Aura",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.hunters-mark",
+   "name": "Hunter’s Mark",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.hypnotic-pattern",
+   "name": "Hypnotic Pattern",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.ice-knife",
+   "name": "Ice Knife",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.ice-storm",
+   "name": "Ice Storm",
+   "section": "Spells",
+   "page": 141
+  },
+  {
+   "id": "spell.identify",
+   "name": "Identify",
+   "section": "Spells",
+   "page": 142
+  },
+  {
+   "id": "spell.illusory-script",
+   "name": "Illusory Script",
+   "section": "Spells",
+   "page": 142
+  },
+  {
+   "id": "spell.imprisonment",
+   "name": "Imprisonment",
+   "section": "Spells",
+   "page": 142
+  },
+  {
+   "id": "spell.incendiary-cloud",
+   "name": "Incendiary Cloud",
+   "section": "Spells",
+   "page": 142
+  },
+  {
+   "id": "spell.inflict-wounds",
+   "name": "Inflict Wounds",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.insect-plague",
+   "name": "Insect Plague",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.instant-summons",
+   "name": "Instant Summons",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.invisibility",
+   "name": "Invisibility",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.irresistible-dance",
+   "name": "Irresistible Dance",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.jump",
+   "name": "Jump",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.knock",
+   "name": "Knock",
+   "section": "Spells",
+   "page": 143
+  },
+  {
+   "id": "spell.legend-lore",
+   "name": "Legend Lore",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.lesser-restoration",
+   "name": "Lesser Restoration",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.levitate",
+   "name": "Levitate",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.light",
+   "name": "Light",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.lightning-bolt",
+   "name": "Lightning Bolt",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.locate-animals-or-plants",
+   "name": "Locate Animals or Plants",
+   "section": "Spells",
+   "page": 144
+  },
+  {
+   "id": "spell.locate-creature",
+   "name": "Locate Creature",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.locate-object",
+   "name": "Locate Object",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.longstrider",
+   "name": "Longstrider",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.mage-armor",
+   "name": "Mage Armor",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.mage-hand",
+   "name": "Mage Hand",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.magic-circle",
+   "name": "Magic Circle",
+   "section": "Spells",
+   "page": 145
+  },
+  {
+   "id": "spell.magic-jar",
+   "name": "Magic Jar",
+   "section": "Spells",
+   "page": 146
+  },
+  {
+   "id": "spell.magic-missile",
+   "name": "Magic Missile",
+   "section": "Spells",
+   "page": 146
+  },
+  {
+   "id": "spell.magic-mouth",
+   "name": "Magic Mouth",
+   "section": "Spells",
+   "page": 146
+  },
+  {
+   "id": "spell.magic-weapon",
+   "name": "Magic Weapon",
+   "section": "Spells",
+   "page": 146
+  },
+  {
+   "id": "spell.magnificent-mansion",
+   "name": "Magnificent Mansion",
+   "section": "Spells",
+   "page": 147
+  },
+  {
+   "id": "spell.major-image",
+   "name": "Major Image",
+   "section": "Spells",
+   "page": 147
+  },
+  {
+   "id": "spell.mass-cure-wounds",
+   "name": "Mass Cure Wounds",
+   "section": "Spells",
+   "page": 147
+  },
+  {
+   "id": "spell.mass-heal",
+   "name": "Mass Heal",
+   "section": "Spells",
+   "page": 147
+  },
+  {
+   "id": "spell.mass-healing-word",
+   "name": "Mass Healing Word",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.mass-suggestion",
+   "name": "Mass Suggestion",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.maze",
+   "name": "Maze",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.meld-into-stone",
+   "name": "Meld into Stone",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.mending",
+   "name": "Mending",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.message",
+   "name": "Message",
+   "section": "Spells",
+   "page": 148
+  },
+  {
+   "id": "spell.meteor-swarm",
+   "name": "Meteor Swarm",
+   "section": "Spells",
+   "page": 149
+  },
+  {
+   "id": "spell.mind-blank",
+   "name": "Mind Blank",
+   "section": "Spells",
+   "page": 149
+  },
+  {
+   "id": "spell.mind-spike",
+   "name": "Mind Spike",
+   "section": "Spells",
+   "page": 149
+  },
+  {
+   "id": "spell.minor-illusion",
+   "name": "Minor Illusion",
+   "section": "Spells",
+   "page": 149
+  },
+  {
+   "id": "spell.mirage-arcane",
+   "name": "Mirage Arcane",
+   "section": "Spells",
+   "page": 149
+  },
+  {
+   "id": "spell.mirror-image",
+   "name": "Mirror Image",
+   "section": "Spells",
+   "page": 150
+  },
+  {
+   "id": "spell.mislead",
+   "name": "Mislead",
+   "section": "Spells",
+   "page": 150
+  },
+  {
+   "id": "spell.misty-step",
+   "name": "Misty Step",
+   "section": "Spells",
+   "page": 150
+  },
+  {
+   "id": "spell.modify-memory",
+   "name": "Modify Memory",
+   "section": "Spells",
+   "page": 150
+  },
+  {
+   "id": "spell.moonbeam",
+   "name": "Moonbeam",
+   "section": "Spells",
+   "page": 150
+  },
+  {
+   "id": "spell.move-earth",
+   "name": "Move Earth",
+   "section": "Spells",
+   "page": 151
+  },
+  {
+   "id": "spell.nondetection",
+   "name": "Nondetection",
+   "section": "Spells",
+   "page": 151
+  },
+  {
+   "id": "spell.pass-without-trace",
+   "name": "Pass without Trace",
+   "section": "Spells",
+   "page": 151
+  },
+  {
+   "id": "spell.passwall",
+   "name": "Passwall",
+   "section": "Spells",
+   "page": 151
+  },
+  {
+   "id": "spell.phantasmal-force",
+   "name": "Phantasmal Force",
+   "section": "Spells",
+   "page": 151
+  },
+  {
+   "id": "spell.phantasmal-killer",
+   "name": "Phantasmal Killer",
+   "section": "Spells",
+   "page": 152
+  },
+  {
+   "id": "spell.phantom-steed",
+   "name": "Phantom Steed",
+   "section": "Spells",
+   "page": 152
+  },
+  {
+   "id": "spell.planar-ally",
+   "name": "Planar Ally",
+   "section": "Spells",
+   "page": 152
+  },
+  {
+   "id": "spell.planar-binding",
+   "name": "Planar Binding",
+   "section": "Spells",
+   "page": 152
+  },
+  {
+   "id": "spell.plane-shift",
+   "name": "Plane Shift",
+   "section": "Spells",
+   "page": 153
+  },
+  {
+   "id": "spell.plant-growth",
+   "name": "Plant Growth",
+   "section": "Spells",
+   "page": 153
+  },
+  {
+   "id": "spell.poison-spray",
+   "name": "Poison Spray",
+   "section": "Spells",
+   "page": 153
+  },
+  {
+   "id": "spell.polymorph",
+   "name": "Polymorph",
+   "section": "Spells",
+   "page": 153
+  },
+  {
+   "id": "spell.power-word-heal",
+   "name": "Power Word Heal",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.power-word-kill",
+   "name": "Power Word Kill",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.power-word-stun",
+   "name": "Power Word Stun",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.prayer-of-healing",
+   "name": "Prayer of Healing",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.prestidigitation",
+   "name": "Prestidigitation",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.prismatic-spray",
+   "name": "Prismatic Spray",
+   "section": "Spells",
+   "page": 154
+  },
+  {
+   "id": "spell.prismatic-wall",
+   "name": "Prismatic Wall",
+   "section": "Spells",
+   "page": 155
+  },
+  {
+   "id": "spell.private-sanctum",
+   "name": "Private Sanctum",
+   "section": "Spells",
+   "page": 156
+  },
+  {
+   "id": "spell.produce-flame",
+   "name": "Produce Flame",
+   "section": "Spells",
+   "page": 156
+  },
+  {
+   "id": "spell.programmed-illusion",
+   "name": "Programmed Illusion",
+   "section": "Spells",
+   "page": 156
+  },
+  {
+   "id": "spell.project-image",
+   "name": "Project Image",
+   "section": "Spells",
+   "page": 156
+  },
+  {
+   "id": "spell.protection-from-energy",
+   "name": "Protection from Energy",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.protection-from-evil-and-good",
+   "name": "Protection from Evil and Good",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.protection-from-poison",
+   "name": "Protection from Poison",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.purify-food-and-drink",
+   "name": "Purify Food and Drink",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.raise-dead",
+   "name": "Raise Dead",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.ray-of-enfeeblement",
+   "name": "Ray of Enfeeblement",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.ray-of-frost",
+   "name": "Ray of Frost",
+   "section": "Spells",
+   "page": 157
+  },
+  {
+   "id": "spell.ray-of-sickness",
+   "name": "Ray of Sickness",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.regenerate",
+   "name": "Regenerate",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.reincarnate",
+   "name": "Reincarnate",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.remove-curse",
+   "name": "Remove Curse",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.resilient-sphere",
+   "name": "Resilient Sphere",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.resistance",
+   "name": "Resistance",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.resurrection",
+   "name": "Resurrection",
+   "section": "Spells",
+   "page": 158
+  },
+  {
+   "id": "spell.reverse-gravity",
+   "name": "Reverse Gravity",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.revivify",
+   "name": "Revivify",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.rope-trick",
+   "name": "Rope Trick",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.sacred-flame",
+   "name": "Sacred Flame",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.sanctuary",
+   "name": "Sanctuary",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.scorching-ray",
+   "name": "Scorching Ray",
+   "section": "Spells",
+   "page": 159
+  },
+  {
+   "id": "spell.scrying",
+   "name": "Scrying",
+   "section": "Spells",
+   "page": 160
+  },
+  {
+   "id": "spell.searing-smite",
+   "name": "Searing Smite",
+   "section": "Spells",
+   "page": 160
+  },
+  {
+   "id": "spell.secret-chest",
+   "name": "Secret Chest",
+   "section": "Spells",
+   "page": 160
+  },
+  {
+   "id": "spell.see-invisibility",
+   "name": "See Invisibility",
+   "section": "Spells",
+   "page": 160
+  },
+  {
+   "id": "spell.seeming",
+   "name": "Seeming",
+   "section": "Spells",
+   "page": 160
+  },
+  {
+   "id": "spell.sending",
+   "name": "Sending",
+   "section": "Spells",
+   "page": 161
+  },
+  {
+   "id": "spell.sequester",
+   "name": "Sequester",
+   "section": "Spells",
+   "page": 161
+  },
+  {
+   "id": "spell.shapechange",
+   "name": "Shapechange",
+   "section": "Spells",
+   "page": 161
+  },
+  {
+   "id": "spell.shatter",
+   "name": "Shatter",
+   "section": "Spells",
+   "page": 161
+  },
+  {
+   "id": "spell.shield",
+   "name": "Shield",
+   "section": "Spells",
+   "page": 161
+  },
+  {
+   "id": "spell.shield-of-faith",
+   "name": "Shield of Faith",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.shillelagh",
+   "name": "Shillelagh",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.shining-smite",
+   "name": "Shining Smite",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.shocking-grasp",
+   "name": "Shocking Grasp",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.silence",
+   "name": "Silence",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.silent-image",
+   "name": "Silent Image",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.simulacrum",
+   "name": "Simulacrum",
+   "section": "Spells",
+   "page": 162
+  },
+  {
+   "id": "spell.sleep",
+   "name": "Sleep",
+   "section": "Spells",
+   "page": 163
+  },
+  {
+   "id": "spell.sleet-storm",
+   "name": "Sleet Storm",
+   "section": "Spells",
+   "page": 163
+  },
+  {
+   "id": "spell.slow",
+   "name": "Slow",
+   "section": "Spells",
+   "page": 163
+  },
+  {
+   "id": "spell.sorcerous-burst",
+   "name": "Sorcerous Burst",
+   "section": "Spells",
+   "page": 163
+  },
+  {
+   "id": "spell.spare-the-dying",
+   "name": "Spare the Dying",
+   "section": "Spells",
+   "page": 163
+  },
+  {
+   "id": "spell.speak-with-animals",
+   "name": "Speak with Animals",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.speak-with-dead",
+   "name": "Speak with Dead",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.speak-with-plants",
+   "name": "Speak with Plants",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.spider-climb",
+   "name": "Spider Climb",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.spike-growth",
+   "name": "Spike Growth",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.spirit-guardians",
+   "name": "Spirit Guardians",
+   "section": "Spells",
+   "page": 164
+  },
+  {
+   "id": "spell.spiritual-weapon",
+   "name": "Spiritual Weapon",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.starry-wisp",
+   "name": "Starry Wisp",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.stinking-cloud",
+   "name": "Stinking Cloud",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.stone-shape",
+   "name": "Stone Shape",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.stoneskin",
+   "name": "Stoneskin",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.storm-of-vengeance",
+   "name": "Storm of Vengeance",
+   "section": "Spells",
+   "page": 165
+  },
+  {
+   "id": "spell.suggestion",
+   "name": "Suggestion",
+   "section": "Spells",
+   "page": 166
+  },
+  {
+   "id": "spell.summon-dragon",
+   "name": "Summon Dragon",
+   "section": "Spells",
+   "page": 166
+  },
+  {
+   "id": "spell.sunbeam",
+   "name": "Sunbeam",
+   "section": "Spells",
+   "page": 166
+  },
+  {
+   "id": "spell.sunburst",
+   "name": "Sunburst",
+   "section": "Spells",
+   "page": 167
+  },
+  {
+   "id": "spell.symbol",
+   "name": "Symbol",
+   "section": "Spells",
+   "page": 167
+  },
+  {
+   "id": "spell.telekinesis",
+   "name": "Telekinesis",
+   "section": "Spells",
+   "page": 167
+  },
+  {
+   "id": "spell.telepathic-bond",
+   "name": "Telepathic Bond",
+   "section": "Spells",
+   "page": 168
+  },
+  {
+   "id": "spell.teleport",
+   "name": "Teleport",
+   "section": "Spells",
+   "page": 168
+  },
+  {
+   "id": "spell.teleportation-circle",
+   "name": "Teleportation Circle",
+   "section": "Spells",
+   "page": 168
+  },
+  {
+   "id": "spell.thaumaturgy",
+   "name": "Thaumaturgy",
+   "section": "Spells",
+   "page": 169
+  },
+  {
+   "id": "spell.thunderwave",
+   "name": "Thunderwave",
+   "section": "Spells",
+   "page": 169
+  },
+  {
+   "id": "spell.time-stop",
+   "name": "Time Stop",
+   "section": "Spells",
+   "page": 169
+  },
+  {
+   "id": "spell.tiny-hut",
+   "name": "Tiny Hut",
+   "section": "Spells",
+   "page": 169
+  },
+  {
+   "id": "spell.tongues",
+   "name": "Tongues",
+   "section": "Spells",
+   "page": 169
+  },
+  {
+   "id": "spell.transport-via-plants",
+   "name": "Transport via Plants",
+   "section": "Spells",
+   "page": 170
+  },
+  {
+   "id": "spell.tree-stride",
+   "name": "Tree Stride",
+   "section": "Spells",
+   "page": 170
+  },
+  {
+   "id": "spell.true-polymorph",
+   "name": "True Polymorph",
+   "section": "Spells",
+   "page": 170
+  },
+  {
+   "id": "spell.true-resurrection",
+   "name": "True Resurrection",
+   "section": "Spells",
+   "page": 170
+  },
+  {
+   "id": "spell.true-seeing",
+   "name": "True Seeing",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.true-strike",
+   "name": "True Strike",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.tsunami",
+   "name": "Tsunami",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.unseen-servant",
+   "name": "Unseen Servant",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.vampiric-touch",
+   "name": "Vampiric Touch",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.vicious-mockery",
+   "name": "Vicious Mockery",
+   "section": "Spells",
+   "page": 171
+  },
+  {
+   "id": "spell.vitriolic-sphere",
+   "name": "Vitriolic Sphere",
+   "section": "Spells",
+   "page": 172
+  },
+  {
+   "id": "spell.wall-of-fire",
+   "name": "Wall of Fire",
+   "section": "Spells",
+   "page": 172
+  },
+  {
+   "id": "spell.wall-of-force",
+   "name": "Wall of Force",
+   "section": "Spells",
+   "page": 172
+  },
+  {
+   "id": "spell.wall-of-ice",
+   "name": "Wall of Ice",
+   "section": "Spells",
+   "page": 172
+  },
+  {
+   "id": "spell.wall-of-stone",
+   "name": "Wall of Stone",
+   "section": "Spells",
+   "page": 173
+  },
+  {
+   "id": "spell.wall-of-thorns",
+   "name": "Wall of Thorns",
+   "section": "Spells",
+   "page": 173
+  },
+  {
+   "id": "spell.warding-bond",
+   "name": "Warding Bond",
+   "section": "Spells",
+   "page": 173
+  },
+  {
+   "id": "spell.water-breathing",
+   "name": "Water Breathing",
+   "section": "Spells",
+   "page": 173
+  },
+  {
+   "id": "spell.water-walk",
+   "name": "Water Walk",
+   "section": "Spells",
+   "page": 173
+  },
+  {
+   "id": "spell.web",
+   "name": "Web",
+   "section": "Spells",
+   "page": 174
+  },
+  {
+   "id": "spell.weird",
+   "name": "Weird",
+   "section": "Spells",
+   "page": 174
+  },
+  {
+   "id": "spell.wind-walk",
+   "name": "Wind Walk",
+   "section": "Spells",
+   "page": 174
+  },
+  {
+   "id": "spell.wind-wall",
+   "name": "Wind Wall",
+   "section": "Spells",
+   "page": 174
+  },
+  {
+   "id": "spell.wish",
+   "name": "Wish",
+   "section": "Spells",
+   "page": 175
+  },
+  {
+   "id": "spell.word-of-recall",
+   "name": "Word of Recall",
+   "section": "Spells",
+   "page": 175
+  },
+  {
+   "id": "spell.zone-of-truth",
+   "name": "Zone of Truth",
+   "section": "Spells",
+   "page": 175
+  },
+  {
+   "id": "subclass.champion",
+   "name": "Champion",
+   "section": "Classes",
+   "page": 49
+  },
+  {
+   "id": "subclass.circle-of-the-land",
+   "name": "Circle of the Land",
+   "section": "Classes",
+   "page": 46
+  },
+  {
+   "id": "subclass.college-of-lore",
+   "name": "College of Lore",
+   "section": "Classes",
+   "page": 35
+  },
+  {
+   "id": "subclass.draconic-sorcery",
+   "name": "Draconic Sorcery",
+   "section": "Classes",
+   "page": 69
+  },
+  {
+   "id": "subclass.evoker",
+   "name": "Evoker",
+   "section": "Classes",
+   "page": 82
+  },
+  {
+   "id": "subclass.fiend-patron",
+   "name": "Fiend Patron",
+   "section": "Classes",
+   "page": 76
+  },
+  {
+   "id": "subclass.hunter",
+   "name": "Hunter",
+   "section": "Classes",
+   "page": 61
+  },
+  {
+   "id": "subclass.life-domain",
+   "name": "Life Domain",
+   "section": "Classes",
+   "page": 40
+  },
+  {
+   "id": "subclass.oath-of-devotion",
+   "name": "Oath of Devotion",
+   "section": "Classes",
+   "page": 56
+  },
+  {
+   "id": "subclass.path-of-the-berserker",
+   "name": "Path of the Berserker",
+   "section": "Classes",
+   "page": 30
+  },
+  {
+   "id": "subclass.thief",
+   "name": "Thief",
+   "section": "Classes",
+   "page": 64
+  },
+  {
+   "id": "subclass.warrior-of-the-open-hand",
+   "name": "Warrior of the Open Hand",
+   "section": "Classes",
+   "page": 52
+  }
+ ]
+}
