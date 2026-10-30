@@ -21,6 +21,7 @@ ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "packages", "content"
 OUT = os.path.join(ROOT, "data", "en", "rules.json")
 # Bagian bab yang berakhir sebelum daftar entri berdiri sendiri.
 STOP_AT = {"Background Descriptions", "Species Descriptions", "Origin Feats"}
+SUMMARY_TABLE_PAGES = {91, 95}
 STANDALONE_SECTIONS = {"Properties", "Mastery Properties", "Artisan’s Tools", "Other Tools", "Adventuring Gear"}
 
 
@@ -77,9 +78,9 @@ def main(work: str) -> None:
             if heading and heading[2].size == 12.0 and chapter == "equipment" and current_section in STANDALONE_SECTIONS:
                 # Entri sendiri (properti, tool, gear): lewati sampai heading berikutnya.
                 skip_until = next((h[0] for h in heads if h[0] > i), stop)
-            # Tabel ringkasan Adventuring Gear (hlm. 95) milik bagian ini walau
-            # tercetak di tengah daftar gear.
-            if skip_until is not None and i < skip_until and line.page != 95:
+            # Tabel ringkasan (Weapons hlm. 91, Adventuring Gear hlm. 95) milik bagian
+            # ini walau tercetak di tengah daftar entri.
+            if skip_until is not None and i < skip_until and line.page not in SUMMARY_TABLE_PAGES:
                 continue
             block.append(line)
         base = slug(text)
@@ -97,7 +98,8 @@ def main(work: str) -> None:
             continue
         stop = equipment_heads[index + 1][0]
         prefix, label = ("property", "Weapon Property") if current_section == "Properties" else ("mastery", "Mastery Property")
-        add(f"rule.{prefix}-{slug(text)}", text, label, build_body(lines[end:stop], words), "Equipment", head.page)
+        block = [line for line in lines[end:stop] if line.page not in SUMMARY_TABLE_PAGES]
+        add(f"rule.{prefix}-{slug(text)}", text, label, build_body(block, words), "Equipment", head.page)
 
     missing = sorted(i for i in manifest if (i.startswith("rule.") or i.startswith("condition.")) and i not in entries)
     if missing:
