@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import {
   type AccountView,
   type AuthState,
   credentialsBody,
+  localeBody,
   loginBody,
   type Principal,
   registerBody,
@@ -80,5 +81,14 @@ export class AuthController {
   @UseGuards(SessionGuard)
   me(@CurrentPrincipal() principal: Principal): AccountView {
     return this.auth.account(principal);
+  }
+
+  @Put('me/locale')
+  @UseGuards(SessionGuard)
+  setLocale(
+    @CurrentPrincipal() principal: Principal,
+    @Body(new SchemaValidationPipe(localeBody)) body: z.infer<typeof localeBody>,
+  ): AccountView {
+    return this.auth.setLocale(principal, body.locale);
   }
 }

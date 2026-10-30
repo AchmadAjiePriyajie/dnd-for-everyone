@@ -4,14 +4,16 @@ import type { LogLevel } from '@nestjs/common';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import type { AppOptions } from './app-options.js';
 import { AppModule } from './app.module.js';
+import { registerWeb } from './web.js';
 
 export type { AppOptions } from './app-options.js';
 
 /** Konfigurasi bersama untuk runtime dan test harness. */
-export function configureApp(app: NestFastifyApplication): void {
+export async function configureApp(app: NestFastifyApplication, options: AppOptions): Promise<void> {
   app.setGlobalPrefix('api');
   // Socket.IO memakai server HTTP yang sama (path /socket.io).
   app.useWebSocketAdapter(new IoAdapter(app));
+  await registerWeb(app, options.webDir);
 }
 
 export async function createApp(
@@ -21,7 +23,7 @@ export async function createApp(
   const app = await NestFactory.create<NestFastifyApplication>(AppModule.forRoot(options), new FastifyAdapter(), {
     logger,
   });
-  configureApp(app);
+  await configureApp(app, options);
   await app.init();
   await app.getHttpAdapter().getInstance().ready();
   return app;

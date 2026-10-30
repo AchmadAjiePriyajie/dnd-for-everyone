@@ -1,6 +1,7 @@
 import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, Logger } from '@nestjs/common';
-import type { FastifyReply } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { ApiError } from '#shared/access';
+import { canServeSpa, isSpaNavigation, sendSpaIndex } from '../web.js';
 import { DomainError } from './domain-error.js';
 
 const HTTP_CODES: Record<number, string> = {
@@ -22,6 +23,17 @@ export class ApiErrorFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
     if (host.getType() !== 'http') throw exception;
     const reply = host.switchToHttp().getResponse<FastifyReply>();
+    const request = host.switchToHttp().getRequest<FastifyRequest>();
+    // Navigasi frontend yang tidak dikenal server → index.html (hanya bila build tersedia).
+    if (
+      exception instanceof HttpException &&
+      exception.getStatus() === 404 &&
+      isSpaNavigation(request) &&
+      canServeSpa(reply)
+    ) {
+      sendSpaIndex(reply);
+      return;
+    }
     let status = 500;
     let body: ApiError = { code: 'INTERNAL', params: {} };
     if (exception instanceof DomainError) {

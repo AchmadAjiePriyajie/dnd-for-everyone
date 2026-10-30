@@ -1,6 +1,6 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import type { Id } from '#shared/contracts';
+import type { Id, Locale } from '#shared/contracts';
 import type { AccountView, AuthState, Principal } from '#shared/access';
 import { DomainError } from '../../common/domain-error.js';
 import { DomainEvents } from '../../common/domain-events.js';
@@ -116,6 +116,12 @@ export class AuthService {
       | undefined;
     if (!row) throw new DomainError('UNAUTHENTICATED', 401);
     return { accountId: row.id, username: row.username, locale: row.locale };
+  }
+
+  /** Preferensi bahasa UI per akun; tidak memengaruhi state/rules campaign. */
+  setLocale(principal: Principal, locale: Locale): AccountView {
+    this.db.prepare('UPDATE accounts SET locale = ? WHERE id = ?').run(locale, principal.accountId);
+    return this.account(principal);
   }
 
   private findAccountByUsername(username: string) {

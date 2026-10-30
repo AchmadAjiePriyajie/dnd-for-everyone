@@ -1,0 +1,188 @@
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import type { AccountView, ApiError } from '#shared/access';
+import type { Locale } from '#shared/contracts';
+import { AuthScreen } from '../features/auth/AuthScreen';
+import { CampaignRoom } from '../features/campaign/CampaignRoom';
+import { Lobby } from '../features/lobby/Lobby';
+import { api } from './api';
+import { currentLocale, i18n, LOCALES, setLocale } from './i18n';
+import { resetRoomStore, useConnectionStatus } from './room-store';
+import { Link, navigate, routePath, useRoute } from './router';
+import { ErrorMessage, type Session, SessionContext, toApiError } from './ui';
+
+type AuthPhase =
+  | { phase: 'loading' }
+  | { phase: 'error'; error: ApiError }
+  | { phase: 'anonymous'; bootstrapRequired: boolean }
+  | { phase: 'authenticated'; account: AccountView };
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'failed';
+
+const LOCALE_NAMES: Record<Locale, string> = { en: 'English', id: 'Bahasa Indonesia' };
+
+export function App() {
+  return (
+    <I18nextProvider i18n={i18n}>
+      <Shell />
+    </I18nextProvider>
+  );
+}
+
+function Shell() {
+  const { t } = useTranslation();
+  const [auth, setAuth] = useState<AuthPhase>({ phase: 'loading' });
+  const [save, setSave] = useState<SaveState>('idle');
+  const saveTicket = useRef(0);
+
+  const authenticate = useCallback((account: AccountView) => {
+    // Preferensi akun menang atas preferensi browser setelah login.
+    if (account.locale && account.locale !== currentLocale()) setLocale(account.locale);
+    setAuth({ phase: 'authenticated', account });
+  }, []);
+
+  const load = useCallback(async () => {
+    setAuth({ phase: 'loading' });
+    try {
+      const state = await api.authState();
+      if (state.authenticated) authenticate(await api.me());
+      else setAuth({ phase: 'anonymous', bootstrapRequired: state.bootstrapRequired });
+    } catch (error) {
+      const apiError = toApiError(error);
+      if (apiError.code === 'UNAUTHENTICATED') setAuth({ phase: 'anonymous', bootstrapRequired: false });
+      else setAuth({ phase: 'error', error: apiError });
+    }
+  }, [authenticate]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const expire = useCallback(() => {
+    resetRoomStore();
+    setSave('idle');
+    setAuth({ phase: 'anonymous', bootstrapRequired: false });
+  }, []);
+
+  const signOut = useCallback(async () => {
+    try {
+      await api.logout();
+    } catch {
+      // Sesi lokal tetap ditutup; server membersihkan sesi kedaluwarsa.
+    }
+    expire();
+    navigate(routePath.lobby());
+  }, [expire]);
+
+  const account = auth.phase === 'authenticated' ? auth.account : null;
+  const session = useMemo<Session | null>(() => (account ? { account, signOut, expire } : null), [account, signOut, expire]);
+
+  const changeLocale = (locale: Locale) => {
+    setLocale(locale);
+    if (!account) return;
+    const ticket = ++saveTicket.current;
+    setSave('saving');
+    api.setLocale(locale).then(
+      () => ticket === saveTicket.current && setSave('saved'),
+      (error) => {
+        if (ticket !== saveTicket.current) return;
+        if (toApiError(error).code === 'UNAUTHENTICATED') expire();
+        else setSave('failed');
+      },
+    );
+  };
+
+  return (
+    <div className="shell">
+      <a className="skip-link" href="#main">
+        {t('app.skipToContent')}
+      </a>
+      <header className="topbar">
+        <Link href={routePath.lobby()} className="brand">
+          {t('app.name')}
+        </Link>
+        {session && (
+          <nav aria-label={t('app.mainNav')}>
+            <Link href={routePath.lobby()}>{t('app.campaigns')}</Link>
+          </nav>
+        )}
+        <div className="topbar-tools">
+          {session && <ConnectionBadge />}
+          <LanguageSelect onChange={changeLocale} />
+          {session && (
+            <>
+              <span className="account small">{t('app.signedInAs', { username: session.account.username })}</span>
+              <button type="button" className="small" onClick={() => void signOut()}>
+                {t('app.signOut')}
+              </button>
+            </>
+          )}
+        </div>
+      </header>
+      <p className={`save-status save-${save}`} role="status">
+        {save === 'idle' ? '' : t(`save.${save}`)}
+      </p>
+      <main id="main" tabIndex={-1}>
+        {auth.phase === 'loading' && <p className="muted">{t('app.loading')}</p>}
+        {auth.phase === 'error' && (
+          <section className="card">
+            <ErrorMessage error={auth.error} />
+            <button type="button" onClick={() => void load()}>
+              {t('app.retry')}
+            </button>
+          </section>
+        )}
+        {auth.phase === 'anonymous' && (
+          <AuthScreen bootstrapRequired={auth.bootstrapRequired} onAuthenticated={authenticate} />
+        )}
+        {session && (
+          <SessionContext.Provider value={session}>
+            <Routes />
+          </SessionContext.Provider>
+        )}
+      </main>
+    </div>
+  );
+}
+
+function Routes() {
+  const { t } = useTranslation();
+  const route = useRoute();
+  if (route.name === 'lobby') return <Lobby />;
+  if (route.name === 'campaign') return <CampaignRoom key={route.campaignId} campaignId={route.campaignId} />;
+  return (
+    <section className="card">
+      <h1>{t('notFound.title')}</h1>
+      <p>{t('notFound.body')}</p>
+      <Link href={routePath.lobby()}>{t('room.back')}</Link>
+    </section>
+  );
+}
+
+function LanguageSelect({ onChange }: { onChange(locale: Locale): void }) {
+  const { t, i18n: instance } = useTranslation();
+  const id = useId();
+  return (
+    <div className="language">
+      <label htmlFor={id}>{t('app.language')}</label>
+      <select id={id} value={instance.language} onChange={(e) => onChange(e.target.value as Locale)}>
+        {LOCALES.map((locale) => (
+          <option key={locale} value={locale} lang={locale}>
+            {LOCALE_NAMES[locale]}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function ConnectionBadge() {
+  const { t } = useTranslation();
+  const status = useConnectionStatus();
+  return (
+    <span className={`connection connection-${status}`} role="status" title={t('connection.label')}>
+      <span className="dot" aria-hidden="true" />
+      {t(`connection.${status}`)}
+    </span>
+  );
+}

@@ -33,7 +33,7 @@ export async function startTestServer(options: Partial<AppOptions> = {}): Promis
   const app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter(), {
     logger: false,
   });
-  configureApp(app);
+  await configureApp(app, { ...options, dataDir });
   try {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();

@@ -1,0 +1,405 @@
+:root {
+  --bg: #f6f3ee;
+  --surface: #ffffff;
+  --text: #1f1b16;
+  --muted: #5f574d;
+  --border: #d9d0c3;
+  --accent: #7a2e1f;
+  --accent-text: #ffffff;
+  --danger: #a3221a;
+  --ok: #2f6b3a;
+  --warn: #8a5a00;
+  --focus: #1d5fbf;
+  --radius: 10px;
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17140f;
+    --surface: #221e18;
+    --text: #f1ece4;
+    --muted: #b9ae9f;
+    --border: #3d362c;
+    --accent: #d9775f;
+    --accent-text: #17140f;
+    --danger: #ff8a7f;
+    --ok: #7fcf8c;
+    --warn: #f0c060;
+    --focus: #7fb0ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Teks panjang (judul campaign, nama, terjemahan ID) tidak boleh merusak layout. */
+h1,
+h2,
+p,
+li,
+label,
+button,
+.badge {
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--surface);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.topbar nav a {
+  text-decoration: none;
+}
+
+.topbar-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-left: auto;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.connection {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.connection .dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+
+.connection-connected .dot {
+  background: var(--ok);
+}
+
+.connection-connecting .dot,
+.connection-syncing .dot {
+  background: var(--warn);
+}
+
+.connection-disconnected {
+  color: var(--danger);
+}
+
+.connection-disconnected .dot {
+  background: var(--danger);
+}
+
+.save-status {
+  min-height: 1.5rem;
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.save-failed {
+  color: var(--danger);
+}
+
+main {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 3rem;
+}
+
+main:focus {
+  outline: none;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.auth {
+  max-width: 28rem;
+  margin: 2rem auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  min-width: 0;
+}
+
+.language select {
+  min-height: 2.25rem;
+}
+
+button {
+  min-height: 2.75rem;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+button.small,
+.small {
+  font-size: 0.9rem;
+}
+
+button.small {
+  min-height: 2.25rem;
+  padding: 0.2rem 0.75rem;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+button.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+button.link {
+  border: none;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  padding: 0.4rem 0;
+  margin-top: 0.75rem;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.badge-dm {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lobby-forms,
+.room-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+.lobby-forms .card,
+.room-grid .card {
+  margin-bottom: 0;
+}
+
+.campaign-list,
+.member-list,
+.invite-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.campaign-list li + li,
+.member-list li + li,
+.invite-list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.campaign-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.75rem 0.25rem;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.campaign-title {
+  font-weight: 600;
+  flex: 1 1 12rem;
+}
+
+.member-list li,
+.invite-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+}
+
+.member-name {
+  flex: 1 1 10rem;
+}
+
+.invite-list li span:first-child {
+  flex: 1 1 10rem;
+}
+
+.room-header {
+  margin-bottom: 1rem;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 20;
+}
+
+.dialog {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  width: min(100%, 28rem);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.invite-code {
+  width: 100%;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 40rem) {
+  .topbar-tools {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .account {
+    display: none;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button {
+    transition: background-color 0.15s;
+  }
+}

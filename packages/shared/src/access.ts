@@ -55,6 +55,7 @@ export const registerBody = z.strictObject({
   password: passwordSchema,
 });
 export const joinBody = z.strictObject({ invite: inviteCodeSchema });
+export const localeBody = z.strictObject({ locale: localeSchema });
 export const createCampaignBody = z.strictObject({ title: z.string().trim().min(1).max(120) });
 
 export interface AuthState {
