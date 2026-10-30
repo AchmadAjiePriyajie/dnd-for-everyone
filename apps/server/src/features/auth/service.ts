@@ -3,9 +3,11 @@ import { Injectable } from '@nestjs/common';
 import type { Id } from '#shared/contracts';
 import type { AccountView, AuthState, Principal } from '#shared/access';
 import { DomainError } from '../../common/domain-error.js';
+import { DomainEvents } from '../../common/domain-events.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { transaction } from '../../db/transaction.js';
 import { addPlayerMember, findActiveInvite, hashSecret } from '../campaigns/access.js';
+import { recordMemberJoined } from '../campaigns/service.js';
 import { DUMMY_HASH, hashPassword, verifyPassword } from './password.js';
 import { RateLimiter } from './rate-limit.js';
 
@@ -24,7 +26,10 @@ export class AuthService {
   readonly loginLimiter = new RateLimiter(10, 15 * 60 * 1000);
   readonly joinLimiter = new RateLimiter(20, 15 * 60 * 1000);
 
-  constructor(private readonly database: DatabaseService) {}
+  constructor(
+    private readonly database: DatabaseService,
+    private readonly events: DomainEvents,
+  ) {}
 
   private get db() {
     return this.database.getHandle();
@@ -53,14 +58,17 @@ export class AuthService {
     if (!findActiveInvite(this.db, invite)) throw inviteInvalid();
     if (this.findAccountByUsername(username)) throw usernameTaken();
     const passwordHash = await hashPassword(password);
-    return transaction(this.db, () => {
+    const outcome = transaction(this.db, () => {
       const active = findActiveInvite(this.db, invite);
       if (!active) throw inviteInvalid();
       if (this.findAccountByUsername(username)) throw usernameTaken();
       const accountId = this.insertAccount(username, passwordHash, false);
-      addPlayerMember(this.db, active.campaignId, accountId, new Date().toISOString());
-      return { accountId };
+      const now = new Date().toISOString();
+      const { member } = addPlayerMember(this.db, active.campaignId, accountId, now);
+      return { principal: { accountId }, campaignId: active.campaignId, sequence: recordMemberJoined(this.db, member, now) };
     });
+    this.events.publish('room.changed', { campaignId: outcome.campaignId, eventSequence: outcome.sequence });
+    return outcome.principal;
   }
 
   async login(username: string, password: string, clientKey: string): Promise<Principal> {
@@ -95,9 +103,11 @@ export class AuthService {
   }
 
   revokeSession(token: string): void {
+    const tokenHash = hashSecret(token);
     this.db
       .prepare('UPDATE auth_sessions SET revoked_at = ? WHERE token_hash = ? AND revoked_at IS NULL')
-      .run(new Date().toISOString(), hashSecret(token));
+      .run(new Date().toISOString(), tokenHash);
+    this.events.publish('session.revoked', { tokenHash });
   }
 
   account(principal: Principal): AccountView {

@@ -1,8 +1,11 @@
 import { randomBytes, randomUUID } from 'node:crypto';
+import type { DatabaseSync } from 'node:sqlite';
 import { Injectable } from '@nestjs/common';
 import type { Id } from '#shared/contracts';
 import type { CampaignSummary, CreatedInvite, InviteView, Member, MemberView, Principal, Role } from '#shared/access';
+import { appendEvent } from '../../commands/events.js';
 import { DomainError, forbidden } from '../../common/domain-error.js';
+import { DomainEvents } from '../../common/domain-events.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { transaction } from '../../db/transaction.js';
 import { addPlayerMember, findActiveInvite, findActiveMember, hashSecret } from './access.js';
@@ -25,7 +28,10 @@ const toSummary = (row: CampaignRow): CampaignSummary => ({
 
 @Injectable()
 export class CampaignsService {
-  constructor(private readonly database: DatabaseService) {}
+  constructor(
+    private readonly database: DatabaseService,
+    private readonly events: DomainEvents,
+  ) {}
 
   private get db() {
     return this.database.getHandle();
@@ -126,11 +132,18 @@ export class CampaignsService {
 
   /** Akun yang sudah ada bergabung lewat undangan; role yang ada tidak berubah. */
   joinWithInvite(principal: Principal, code: string): Member {
-    return transaction(this.db, () => {
+    const { member, sequence } = transaction(this.db, () => {
       const invite = findActiveInvite(this.db, code);
       if (!invite) throw new DomainError('INVITE_INVALID', 400);
-      return addPlayerMember(this.db, invite.campaignId, principal.accountId, new Date().toISOString());
+      const now = new Date().toISOString();
+      const joined = addPlayerMember(this.db, invite.campaignId, principal.accountId, now);
+      const seq = joined.changed ? recordMemberJoined(this.db, joined.member, now) : undefined;
+      return { member: joined.member, sequence: seq };
     });
+    if (sequence !== undefined) {
+      this.events.publish('room.changed', { campaignId: member.campaignId, eventSequence: sequence });
+    }
+    return member;
   }
 
   removeMember(principal: Principal, campaignId: Id, accountId: Id): void {
@@ -138,8 +151,34 @@ export class CampaignsService {
     const target = findActiveMember(this.db, campaignId, accountId);
     if (!target) throw new DomainError('MEMBER_NOT_FOUND', 404);
     if (target.role === 'dm') throw new DomainError('CANNOT_REMOVE_DM', 400);
-    this.db
-      .prepare('UPDATE campaign_members SET removed_at = ? WHERE campaign_id = ? AND account_id = ?')
-      .run(new Date().toISOString(), campaignId, accountId);
+    const now = new Date().toISOString();
+    const eventSequence = transaction(this.db, () => {
+      this.db
+        .prepare('UPDATE campaign_members SET removed_at = ? WHERE campaign_id = ? AND account_id = ?')
+        .run(now, campaignId, accountId);
+      return appendEvent(this.db, {
+        campaignId,
+        kind: 'member.removed',
+        targetId: accountId,
+        actorAccountId: principal.accountId,
+        data: { accountId },
+        now,
+      });
+    });
+    // Cabut subscription dulu, baru umumkan perubahan ke anggota yang tersisa.
+    this.events.publish('member.removed', { campaignId, accountId });
+    this.events.publish('room.changed', { campaignId, eventSequence });
   }
+}
+
+/** Event keanggotaan baru; dipanggil di dalam transaksi pemanggil. */
+export function recordMemberJoined(db: DatabaseSync, member: Member, now: string): number {
+  return appendEvent(db, {
+    campaignId: member.campaignId,
+    kind: 'member.joined',
+    targetId: member.accountId,
+    actorAccountId: member.accountId,
+    data: { accountId: member.accountId },
+    now,
+  });
 }

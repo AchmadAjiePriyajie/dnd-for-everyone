@@ -32,7 +32,12 @@ export function findActiveInvite(db: DatabaseSync, code: string): { id: Id; camp
  * Tambah/aktifkan ulang keanggotaan player. Role yang sudah ada (misal DM yang
  * memakai undangan campaign-nya sendiri) tidak pernah diubah oleh undangan.
  */
-export function addPlayerMember(db: DatabaseSync, campaignId: Id, accountId: Id, now: string): Member {
+export function addPlayerMember(
+  db: DatabaseSync,
+  campaignId: Id,
+  accountId: Id,
+  now: string,
+): { member: Member; changed: boolean } {
   const existing = db
     .prepare('SELECT role, removed_at FROM campaign_members WHERE campaign_id = ? AND account_id = ?')
     .get(campaignId, accountId) as { role: Role; removed_at: string | null } | undefined;
@@ -40,12 +45,12 @@ export function addPlayerMember(db: DatabaseSync, campaignId: Id, accountId: Id,
     db.prepare(
       `INSERT INTO campaign_members (campaign_id, account_id, role, joined_at) VALUES (?, ?, 'player', ?)`,
     ).run(campaignId, accountId, now);
-    return { campaignId, accountId, role: 'player' };
+    return { member: { campaignId, accountId, role: 'player' }, changed: true };
   }
   if (existing.removed_at !== null) {
     db.prepare(
       `UPDATE campaign_members SET removed_at = NULL, joined_at = ? WHERE campaign_id = ? AND account_id = ?`,
     ).run(now, campaignId, accountId);
   }
-  return { campaignId, accountId, role: existing.role };
+  return { member: { campaignId, accountId, role: existing.role }, changed: existing.removed_at !== null };
 }
