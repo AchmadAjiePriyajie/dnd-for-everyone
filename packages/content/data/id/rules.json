@@ -215,6 +215,12 @@
    "sourceHash": "b8c255c645c44bb8"
   },
   {
+   "id": "rule.brewing-potions-of-healing",
+   "name": "Meracik Potion of Healing",
+   "body": "Karakter yang memiliki proficiency dengan Herbalism Kit dapat membuat *Potion of Healing*. Untuk itu diperlukan kit tersebut dan bahan mentah senilai 25 GP selama 1 hari (8 jam kerja).",
+   "sourceHash": "f08f984ec3cd3463"
+  },
+  {
    "id": "rule.bright-light",
    "name": "Bright Light",
    "body": "Bright Light adalah pencahayaan normal. *Lihat juga* “Playing the Game” (“Exploration”).",
@@ -258,10 +264,22 @@
    "sourceHash": "d9274d5d3429bdc7"
   },
   {
+   "id": "rule.character-backgrounds",
+   "name": "Background Karakter",
+   "body": "Background karaktermu adalah kumpulan ciri yang mewakili tempat dan pekerjaan yang paling membentuk karaktermu sebelum ia memulai kehidupan berpetualang.\n\n### Bagian-Bagian Background\n\nBackground mencakup bagian-bagian berikut.\n\n#### Ability Score\n\nBackground mencantumkan tiga ability score karaktermu. Naikkan satu sebesar 2 dan satu lainnya sebesar 1, atau naikkan ketiganya masing-masing sebesar 1. Tidak satu pun kenaikan ini boleh membuat skor melebihi 20.\n\n#### Feat\n\nBackground memberi karaktermu satu Origin feat tertentu (dijelaskan di “Feats”).\n\n#### Skill Proficiency\n\nBackground memberi karaktermu proficiency pada dua skill tertentu.\n\n#### Tool Proficiency\n\nSetiap background memberi karakter proficiency dengan satu tool—entah tool tertentu atau satu yang dipilih dari kategori Artisan’s Tools. Tool dijelaskan di “Equipment.”\n\n#### Equipment\n\nSetiap background menawarkan pilihan antara satu paket perlengkapan atau 50 GP.",
+   "sourceHash": "e70676f197982827"
+  },
+  {
    "id": "rule.character-sheet",
    "name": "Character Sheet",
    "body": "Character sheet adalah catatan kertas atau digital yang kamu pakai untuk mencatat informasi karaktermu. *Lihat juga* “Character Creation.”",
    "sourceHash": "77e967a2e252a16f"
+  },
+  {
+   "id": "rule.choose-a-character-sheet",
+   "name": "Pilih Character Sheet",
+   "body": "Kamu akan mencatat detail utama karaktermu di character sheet. Di sepanjang bab ini, kami memakai istilah “character sheet” untuk apa pun yang kamu pakai mencatat detail karaktermu, baik character sheet cetak, character sheet digital, maupun kertas biasa. Pilih jenis sheet yang cocok untukmu, lalu mulailah membuat karakter!",
+   "sourceHash": "9784c263326853bb"
   },
   {
    "id": "rule.climb-speed",
@@ -274,6 +292,12 @@
    "name": "Memanjat",
    "body": "Saat kamu memanjat, setiap kaki pergerakan memakan 1 kaki tambahan (2 kaki tambahan di Difficult Terrain). Kamu mengabaikan biaya tambahan ini jika kamu memiliki Climb Speed dan memakainya untuk memanjat.\n\nAtas kebijakan GM, memanjat permukaan licin atau permukaan dengan sedikit pegangan mungkin memerlukan check Strength (Athletics) DC 15 yang berhasil.",
    "sourceHash": "7acbd656b6bb11cd"
+  },
+  {
+   "id": "rule.coins",
+   "name": "Koin",
+   "body": "Karakter sering menemukan koin dalam petualangan dan dapat membelanjakannya di toko, penginapan, dan usaha lain. Koin hadir dalam berbagai pecahan berdasarkan nilai relatif bahannya. Tabel Coin Values mencantumkan koin dan nilainya relatif terhadap Gold Piece, yaitu koin utama permainan. Misalnya, 100 Copper Piece bernilai 1 Gold Piece.\n\nSatu koin beratnya sekitar sepertiga ons, jadi lima puluh koin beratnya satu pon.\n\n**Nilai Koin**\n\n| Koin | Nilai dalam GP |\n|---|---|\n| Copper Piece (CP) | 1/100 |\n| Silver Piece (SP) | 1/10 |\n| Electrum Piece (EP) | 1/2 |\n| Gold Piece (GP) | 1 |\n| Platinum Piece (PP) | 10 |",
+   "sourceHash": "bb6e00c226d0873d"
   },
   {
    "id": "rule.concentration",
@@ -299,6 +323,12 @@
    "name": "Cover",
    "body": "Cover memberikan tingkat perlindungan tertentu bagi target di baliknya. Ada tiga tingkat cover, masing-masing memberi manfaat berbeda bagi target: Half Cover (bonus +2 pada AC dan saving throw Dexterity), Three-Quarters Cover (bonus +5 pada AC dan saving throw Dexterity), dan Total Cover (tidak bisa ditargetkan secara langsung). Jika berada di balik lebih dari satu tingkat cover, target hanya mendapat manfaat dari tingkat yang paling melindungi. *Lihat juga* “Playing the Game” (“Combat”).",
    "sourceHash": "ac90a887846995e2"
+  },
+  {
+   "id": "rule.crafting-nonmagical-items",
+   "name": "Membuat Item Nonmagis",
+   "body": "Untuk membuat item nonmagis, kamu memerlukan tool, bahan mentah, dan waktu, yang masing-masing dijelaskan di bawah. Jika kamu memenuhi syaratnya, kamu membuat item itu, dan kamu bisa memakainya atau menjualnya dengan harga normal.\n\n### Tool\n\nBagian “Tools” di “Equipment” mencantumkan tool yang diperlukan untuk membuat item tertentu. GM menentukan tool yang diperlukan untuk item yang tidak tercantum di sana. Kamu harus memakai tool yang diperlukan untuk membuat item dan memiliki proficiency dengan tool itu. Siapa pun yang membantumu juga harus memiliki proficiency dengannya.\n\n### Bahan Mentah\n\nUntuk membuat item, kamu memerlukan bahan mentah senilai setengah harga belinya (bulatkan ke bawah). Misalnya, kamu memerlukan bahan mentah senilai 750 GP untuk membuat Plate Armor, yang dijual seharga 1,500 GP. GM menentukan apakah bahan mentah yang sesuai tersedia.\n\n### Waktu\n\nUntuk menentukan berapa hari (bekerja 8 jam sehari) yang diperlukan untuk membuat item, bagi harga belinya dalam GP dengan 10 (bulatkan pecahan ke atas menjadi satu hari). Misalnya, kamu memerlukan 5 hari untuk membuat Heavy Crossbow, yang dijual seharga 50 GP.\n\nJika suatu item memerlukan beberapa hari, hari-hari itu tidak harus berturut-turut.\n\nKarakter dapat menggabungkan upaya untuk mempersingkat waktu pembuatan. Bagi waktu yang diperlukan untuk membuat item dengan jumlah karakter yang mengerjakannya. Biasanya hanya satu karakter lain yang dapat membantumu, tetapi GM bisa mengizinkan lebih banyak pembantu.",
+   "sourceHash": "7ead9ca3f97aa960"
   },
   {
    "id": "rule.crawling",
@@ -330,6 +360,12 @@
    "summary": "[Area of Effect]",
    "body": "Cube adalah area of effect yang membentang dalam garis lurus dari titik asal yang terletak di mana saja pada salah satu sisi Cube. Efek yang menciptakan Cube menyebutkan ukurannya, yaitu panjang setiap rusuknya. Titik asal Cube tidak termasuk dalam area of effect kecuali pembuatnya memutuskan lain.",
    "sourceHash": "6fa9ebcdd5638c76"
+  },
+  {
+   "id": "rule.cursed-items",
+   "name": "Item Terkutuk",
+   "body": "Deskripsi magic item menyebutkan apakah item itu membawa kutukan. Sebagian besar cara mengidentifikasi item, termasuk spell *Identify*, gagal mengungkap kutukan semacam itu. Attunement dengan item terkutuk tidak dapat diakhiri secara sukarela kecuali kutukannya dipatahkan terlebih dahulu, misalnya dengan spell *Remove Curse*.",
+   "sourceHash": "39435a8e92a46a64"
   },
   {
    "id": "rule.curses",
@@ -489,6 +525,12 @@
    "sourceHash": "d1209bd7a682141d"
   },
   {
+   "id": "rule.feat-descriptions",
+   "name": "Deskripsi Feat",
+   "body": "Feat berikut disusun per kategori—Origin, General, Fighting Style, atau Epic Boon—dan diurutkan menurut abjad di setiap kategori.\n\n### Bagian-Bagian Feat\n\nDeskripsi feat memuat bagian-bagian berikut, yang disajikan setelah nama feat.\n\n***Kategori.*** Setiap feat termasuk dalam satu kategori, yang dicantumkan pada feat itu. Jika kamu diminta memilih feat dari kategori tertentu, seperti kategori Origin, kategori itu harus tercantum di bawah nama feat. Jika kamu diminta memilih feat tanpa kategori tertentu, kamu bisa memilih dari kategori mana pun.\n\n***Prasyarat.*** Untuk mengambil feat, kamu harus memenuhi prasyarat apa pun dalam deskripsinya kecuali suatu fitur mengizinkanmu mengambil feat itu tanpa prasyarat. Jika prasyarat mencakup suatu class, kamu harus memiliki setidaknya 1 level di class itu untuk mengambil feat tersebut.\n\n***Manfaat.*** Manfaat feat dijelaskan setelah prasyarat apa pun dicantumkan. Jika kamu memiliki suatu feat, kamu mendapat manfaatnya.\n\n***Repeatable.*** Feat hanya dapat diambil sekali kecuali deskripsinya menyatakan lain dalam subbagian “Repeatable”.",
+   "sourceHash": "c9de3fa742247b9d"
+  },
+  {
    "id": "rule.fly-speed",
    "name": "Fly Speed",
    "body": "Fly Speed dapat dipakai untuk bergerak di udara. Selama kamu memiliki Fly Speed, kamu bisa tetap melayang di udara sampai kamu mendarat, jatuh, atau mati. *Lihat juga* “Flying” dan “Speed.”",
@@ -501,11 +543,23 @@
    "sourceHash": "df1a237500451c1f"
   },
   {
+   "id": "rule.food-drink-and-lodging",
+   "name": "Makanan, Minuman, dan Penginapan",
+   "body": "Tabel Food, Drink, and Lodging memberikan harga makanan dan penginapan untuk satu malam. Harga penginapan dan makan harian sudah termasuk dalam biaya gaya hidupmu.\n\n**Makanan, Minuman, dan Penginapan**\n\n| Item | Biaya | Item | Biaya |\n|---|---|---|---|\n| Ale (cangkir) | 4 CP | Comfortable | 8 SP |\n| Roti (bongkah) | 2 CP | Wealthy | 2 GP |\n| Keju (potong) | 1 SP | Aristocratic | 4 GP |\n| Menginap di Penginapan per Hari |  | Makan |  |\n| Squalid | 7 CP | Squalid | 1 CP |\n| Poor | 1 SP | Poor | 2 CP |\n| Modest | 5 SP | Modest | 1 SP |\n\n| Item | Biaya | Item | Biaya |\n|---|---|---|---|\n| Comfortable | 2 SP | Anggur (botol) |  |\n| Wealthy | 3 SP | Biasa | 2 SP |\n| Aristocratic | 6 SP | Istimewa | 10 GP |",
+   "sourceHash": "84fd3a02fc0b248a"
+  },
+  {
    "id": "rule.friendly",
    "name": "Friendly",
    "summary": "[Attitude]",
    "body": "Makhluk Friendly memandangmu dengan baik. Kamu memiliki Advantage pada ability check untuk memengaruhi makhluk Friendly. *Lihat juga* “Influence.”",
    "sourceHash": "9f19789889687276"
+  },
+  {
+   "id": "rule.gaining-spells",
+   "name": "Memperoleh Spell",
+   "body": "Sebelum bisa merapal spell, kamu harus menyiapkan spell itu dalam pikiranmu atau memiliki akses ke spell itu dari magic item, seperti *Spell Scroll*. Fitur-fiturmu menentukan spell mana yang bisa kamu akses, jika ada; apakah kamu selalu menyiapkan spell tertentu; dan apakah kamu bisa mengubah daftar spell yang kamu siapkan.\n\n### Menyiapkan Spell\n\nJika kamu memiliki daftar spell level 1+ yang kamu siapkan, fitur spellcasting-mu menentukan kapan kamu bisa mengubah daftar itu dan berapa spell yang bisa diubah, seperti dirangkum di tabel Spell Preparation by Class.\n\n**Persiapan Spell per Class**\n\n| Class | Ubah Saat Kamu … | Jumlah Spell |\n|---|---|---|\n| Bard | Naik level | Satu |\n| Cleric | Menyelesaikan Long Rest | Berapa pun |\n| Druid | Menyelesaikan Long Rest | Berapa pun |\n| Paladin | Menyelesaikan Long Rest | Satu |\n| Ranger | Menyelesaikan Long Rest | Satu |\n| Sorcerer | Naik level | Satu |\n| Warlock | Naik level | Satu |\n| Wizard | Menyelesaikan Long Rest | Berapa pun |\n\nSebagian besar monster spellcaster tidak mengubah daftar spell yang disiapkannya, tetapi GM bebas mengubahnya.\n\n### Spell yang Selalu Disiapkan\n\nFitur tertentu bisa memberimu spell yang selalu kamu siapkan. Jika kamu juga memiliki daftar spell yang disiapkan yang dapat kamu ubah, spell yang selalu disiapkan tidak dihitung dalam jumlah spell di daftar itu.",
+   "sourceHash": "4fb389f0a741c4a3"
   },
   {
    "id": "rule.glossary-conventions",
@@ -562,6 +616,12 @@
    "name": "High Jump",
    "body": "Saat kamu melakukan High Jump, kamu melompat ke udara setinggi 3 kaki ditambah modifier Strength-mu (minimum 0 kaki) jika kamu bergerak setidaknya 10 kaki dengan berjalan kaki tepat sebelum melompat. Saat kamu melakukan High Jump dari posisi diam, kamu hanya bisa melompat setengah jarak itu. Bagaimanapun, setiap kaki lompatan memakan satu kaki pergerakan.\n\nKamu bisa merentangkan lengan setengah tinggi badanmu di atas kepala saat melompat. Dengan demikian, kamu dapat menjangkau jarak setinggi lompatan ditambah 1½ kali tinggi badanmu.",
    "sourceHash": "1f3a459e97ab11e1"
+  },
+  {
+   "id": "rule.hirelings",
+   "name": "Pekerja Sewaan",
+   "body": "Pekerja sewaan terampil mencakup siapa pun yang disewa untuk melakukan jasa yang melibatkan proficiency (termasuk senjata, tool, atau skill): tentara bayaran, perajin, juru tulis, dan sejenisnya. Upah di tabel Hirelings adalah upah minimum; beberapa pekerja ahli meminta upah lebih tinggi. Pekerja tak terlatih disewa untuk pekerjaan yang tidak memerlukan proficiency tertentu; termasuk buruh dan kuli angkut.\n\n**Pekerja Sewaan**\n\n| Jasa | Biaya |\n|---|---|\n| Pekerja terampil | 2 GP per hari |\n| Pekerja tak terlatih | 2 SP per hari |\n| Kurir | 2 CP per mil |",
+   "sourceHash": "86851ae1b4d7f1a3"
   },
   {
    "id": "rule.hit-point-dice",
@@ -639,6 +699,12 @@
    "sourceHash": "2b6baa7b72bd2e3c"
   },
   {
+   "id": "rule.lifestyle-expenses",
+   "name": "Biaya Gaya Hidup",
+   "body": "Biaya gaya hidup merangkum biaya hidup di dunia fantasi. Biaya ini mencakup penginapan, makanan, perawatan perlengkapan, dan kebutuhan lain.\n\nDi awal setiap minggu atau bulan (pilihan GM), pilih gaya hidup di bawah—Wretched, Squalid, Poor, Modest, Comfortable, Wealthy, atau Aristocratic—dan bayar harga untuk mempertahankan gaya hidup itu.\n\nGaya hidup tidak memiliki konsekuensi bawaan, tetapi GM bisa mempertimbangkannya saat menentukan risiko atau cara orang lain memandang karaktermu.\n\n### Wretched (Gratis)\n\nKamu bertahan hidup dari keberuntungan dan belas kasihan. Kamu sering terpapar bahaya alam karena tidur di luar.\n\n### Squalid (1 SP per Hari)\n\nKamu mengeluarkan uang seminimal mungkin untuk kebutuhanmu. Kamu mungkin terpapar kondisi tidak sehat dan penjahat oportunis.\n\n### Poor (2 SP per Hari)\n\nKamu berhemat untuk kebutuhanmu.\n\n### Modest (1 GP per Hari)\n\nKamu menghidupi dirimu pada tingkat rata-rata.\n\n### Comfortable (2 GP per Hari)\n\nKamu membelanjakan secukupnya untuk kebutuhanmu dan menikmati sedikit kemewahan.\n\n### Wealthy (4 GP per Hari)\n\nKamu terbiasa dengan hal-hal yang lebih mewah dalam hidup dan mungkin memiliki pelayan.\n\n### Aristocratic (10 GP per Hari)\n\nKamu membayar untuk yang terbaik dan mungkin memiliki staf yang menunjang gaya hidupmu. Orang lain memperhatikan kekayaanmu dan mungkin mendorongmu untuk berbagi, entah secara sah atau tidak.",
+   "sourceHash": "5a64325164eeb37c"
+  },
+  {
    "id": "rule.lightly-obscured",
    "name": "Lightly Obscured",
    "body": "Kamu memiliki Disadvantage pada check Wisdom (Perception) untuk melihat sesuatu di ruang yang Lightly Obscured. *Lihat juga* “Dim Light” dan “Playing the Game” (“Exploration”).",
@@ -669,6 +735,12 @@
    "summary": "[Action]",
    "body": "Saat kamu mengambil Magic action, kamu merapal spell yang casting time-nya satu action atau memakai fitur atau magic item yang memerlukan Magic action untuk diaktifkan.\n\nJika kamu merapal spell yang casting time-nya 1 menit atau lebih, kamu harus mengambil Magic action pada setiap giliran selama perapalan itu, dan kamu harus mempertahankan Concentration selama melakukannya. Jika Concentration-mu terputus, spell itu gagal, tetapi kamu tidak menghabiskan spell slot. *Lihat juga* “Concentration.”",
    "sourceHash": "f6802fe4d8ec0339"
+  },
+  {
+   "id": "rule.magic-item-resilience",
+   "name": "Ketahanan Magic Item",
+   "body": "Magic item setidaknya sama awetnya dengan item nonmagis sejenis. Sebagian besar magic item, selain Potion dan Scroll, memiliki Resistance terhadap semua damage. Artifact hanya dapat dihancurkan dengan cara khusus tertentu. Selain itu, Artifact kebal terhadap damage. Mengetahui cara menghancurkan Artifact biasanya memerlukan penelitian atau penyelesaian sebuah quest.",
+   "sourceHash": "3a7bfccaf5edc013"
   },
   {
    "id": "rule.magical-effect",
@@ -919,6 +991,12 @@
    "sourceHash": "a819082f058b4670"
   },
   {
+   "id": "rule.scribing-spell-scrolls",
+   "name": "Menulis Spell Scroll",
+   "body": "Seorang spellcaster dapat memindahkan spell ke gulungan dan membuat *Spell Scroll*, dengan aturan di bawah.\n\n### Waktu dan Biaya\n\nMenulis gulungan memerlukan waktu dan uang berdasarkan level spell, seperti tercantum di tabel Spell Scroll Costs. Untuk setiap hari penulisan, kamu harus bekerja 8 jam. Jika suatu gulungan memerlukan beberapa hari, hari-hari itu tidak harus berturut-turut.\n\n### Prasyarat Penulis\n\nUntuk menulis gulungan, kamu harus memiliki proficiency pada skill Arcana atau dengan Calligrapher’s Supplies dan menyiapkan spell itu setiap hari selama penulisan. Kamu juga harus menyediakan komponen Material apa pun yang diperlukan spell itu; jika spell itu menghabiskan komponen Material-nya, komponen itu baru habis saat kamu menyelesaikan gulungan. Spell dalam gulungan memakai spell save DC dan bonus spell attack-mu.\n\n### Cantrip\n\nJika spell yang ditulis adalah cantrip, versi dalam gulungan bekerja seolah-olah perapalnya selevel denganmu.\n\n**Biaya Spell Scroll**\n\n| Level Spell | Waktu | Biaya |\n|---|---|---|\n| Cantrip | 1 hari | 15 GP |\n| 1 | 1 hari | 25 GP |\n| 2 | 3 hari | 100 GP |\n| 3 | 5 hari | 150 GP |\n| 4 | 10 hari | 1,000 GP |\n| 5 | 25 hari | 1,500 GP |\n| 6 | 40 hari | 10,000 GP |\n| 7 | 50 hari | 12,500 GP |\n| 8 | 60 hari | 15,000 GP |\n| 9 | 120 hari | 50,000 GP |",
+   "sourceHash": "9cd6f11d9be7fad9"
+  },
+  {
    "id": "rule.search",
    "name": "Search",
    "summary": "[Action]",
@@ -974,6 +1052,12 @@
    "sourceHash": "564b3470db493437"
   },
   {
+   "id": "rule.spellcasting",
+   "name": "Jasa Spellcasting",
+   "body": "Sebagian besar permukiman memiliki orang yang bersedia merapal spell dengan imbalan. Jika suatu spell memiliki komponen mahal, tambahkan harga komponen itu ke biaya yang tercantum di tabel Spellcasting Services. Semakin tinggi level spell yang diinginkan, semakin sulit mencari orang yang bisa merapalnya.\n\n**Jasa Spellcasting**\n\n| Level Spell | Ketersediaan | Biaya |\n|---|---|---|\n| Cantrip | Desa, kota kecil, atau kota besar | 30 GP |\n| 1 | Desa, kota kecil, atau kota besar | 50 GP |\n| 2 | Desa, kota kecil, atau kota besar | 200 GP |\n| 3 | Hanya kota kecil atau kota besar | 300 GP |\n| 4–5 | Hanya kota kecil atau kota besar | 2,000 GP |\n| 6–8 | Hanya kota besar | 20,000 GP |\n| 9 | Hanya kota besar | 100,000 GP |",
+   "sourceHash": "de09dcb945f0b769"
+  },
+  {
    "id": "rule.spellcasting-focus",
    "name": "Spellcasting Focus",
    "body": "Spellcasting Focus adalah benda yang dapat dipakai makhluk tertentu sebagai pengganti komponen Material suatu spell jika material itu tidak habis dipakai spell dan tidak memiliki harga yang disebutkan. Beberapa class mengizinkan anggotanya memakai jenis Spellcasting Focus tertentu. *Lihat juga* “Spells” (“Casting Spells”).",
@@ -997,6 +1081,12 @@
    "name": "Stat Block",
    "body": "Stat block berisi statistik permainan suatu monster. Setiap stat block memuat informasi berikut yang disajikan setelah nama monster.\n\n***Size.*** Monster berukuran Tiny, Small, Medium, Large, Huge, atau Gargantuan. *Lihat juga* “Size.”\n\n***Creature Type.*** Entri ini mencatat golongan makhluk monster itu, beserta tag deskriptif apa pun. *Lihat juga* “Creature Type.”\n\n***Alignment.*** Alignment disarankan untuk monster itu, sedangkan GM menentukan alignment sebenarnya. *Lihat juga* “Alignment.”\n\n***AC, Initiative, dan HP.*** Entri ini memberikan Armor Class, Initiative, dan Hit Points monster, yang dijelaskan di “Playing the Game.” Dalam kurung setelah Hit Points, tercantum Hit Point Dice monster beserta kontribusi Constitution-nya, jika ada, pada Hit Points. Setelah modifier Initiative tercantum skor Initiative. Beberapa makhluk yang diciptakan sihir tidak memiliki informasi Hit Dice dan Initiative.\n\n***Speed.*** Di sini tercantum Speed monster beserta speed khusus apa pun. *Lihat juga* “Burrow Speed,” “Climb Speed,” “Fly Speed,” dan “Swim Speed.”\n\n***Ability Score.*** Sebuah tabel memuat ability score monster, modifier-nya, dan modifier saving throw-nya, yang semuanya dijelaskan di “Playing the Game.”\n\n***Skill.*** Entri ini mencantumkan skill proficiency monster, jika ada. *Lihat juga* “Playing the Game” (“Proficiency”).\n\n***Resistance dan Vulnerability.*** Entri ini mencantumkan Resistance dan Vulnerability monster, jika ada. *Lihat juga* “Resistance” dan “Vulnerability.”\n\n***Immunity.*** Bagian ini mencantumkan Immunity monster terhadap damage dan condition, jika ada. *Lihat juga* “Immunity.”\n\n***Gear.*** Jika monster memiliki perlengkapan yang dapat diberikan atau diambil, perlengkapan itu dicantumkan di entri ini.\n\n***Senses.*** Entri ini mencantumkan indra khusus monster, seperti Darkvision, dan Passive Perception-nya. *Lihat juga* “Passive Perception.”\n\n***Bahasa.*** Entri ini mencantumkan bahasa apa pun yang dikuasai monster.\n\n***CR.*** Challenge Rating meringkas ancaman yang ditimbulkan monster dan dijelaskan di “Monsters.” Setelahnya tercantum Experience Points yang diterima karakter karena mengalahkan monster itu serta Proficiency Bonus-nya. Beberapa makhluk yang diciptakan sihir tidak memiliki CR. *Lihat juga* “Challenge Rating” dan “Experience Points.”\n\n***Trait.*** Trait monster, jika ada, adalah fitur yang aktif setiap saat atau dalam situasi tertentu.\n\n***Action.*** Monster dapat mengambil action ini di samping action yang dijelaskan di glossary ini. *Lihat juga* “Playing the Game” (“Actions”).\n\n***Bonus Action.*** Jika monster memiliki pilihan Bonus Action, pilihan itu dicantumkan di bagian ini.\n\n***Reaction.*** Jika monster dapat mengambil Reaction khusus, Reaction itu dicantumkan di bagian ini.\n\n***Notasi Serangan.*** Entri serangan monster dimulai dengan menyebutkan apakah serangan itu melee atau ranged, lalu memberikan bonus attack roll, reach atau jangkauannya, dan apa yang terjadi jika kena. Serangan ditujukan pada satu target kecuali entrinya menyatakan lain.\n\n***Notasi Efek Saving Throw.*** Jika suatu efek memaksa saving throw, entri efek itu dimulai dengan menyebutkan jenis saving throw yang diperlukan, lalu memberikan DC save, keterangan makhluk mana yang harus melakukan save, dan apa yang terjadi jika save gagal atau berhasil.\n\n***Notasi Damage.*** Stat block biasanya memberikan angka tetap sekaligus ekspresi dadu untuk setiap kejadian damage. Misalnya, sebuah serangan bisa memberikan 4 (1d4 + 2) damage jika kena. GM menentukan apakah kamu memakai angka tetap atau ekspresi dadu dalam kurung; kamu tidak memakai keduanya.",
    "sourceHash": "b52cd5b08c94f423"
+  },
+  {
+   "id": "rule.stat-block-overview",
+   "name": "Ikhtisar Stat Block",
+   "body": "Monster memiliki stat block yang berisi aturan yang diperlukan untuk memakainya dalam permainan. Stat block dibagi menjadi bagian-bagian berikut:\n\n**Nama dan Detail Umum.** Nama monster diikuti ukurannya, creature type (beserta tag deskriptif apa pun), dan alignment-nya.\n\n**Sorotan Combat.** Armor Class, Hit Points, Speed, dan Initiative tercantum di sini.\n\n**Ability Score.** Ability score, ability modifier, dan saving throw monster tercantum di sini.\n\n**Detail Lain.** Entri Senses, Languages, dan CR monster muncul di sini. Detail tambahan muncul pada beberapa monster, seperti skill proficiency, Resistance, Immunity, dan Gear. Jika monster tidak memiliki detail itu, entrinya tidak muncul.\n\n**Trait.** Karakteristik monster yang aktif setiap saat atau dalam situasi tertentu muncul di sini.\n\n**Action.** Monster dapat mengambil action di sini di samping action di “Playing the Game.”\n\n**Bonus Action.** Bagian ini memuat Bonus Action monster, jika ada.\n\n**Reaction dan Legendary Action.** Bagian-bagian ini memuat Reaction dan Legendary Action, jika ada.",
+   "sourceHash": "5232a91ce6cf2665"
   },
   {
    "id": "rule.study",
@@ -1053,6 +1143,18 @@
    "name": "Temporary Hit Points",
    "body": "Temporary Hit Points diberikan oleh efek tertentu dan berfungsi sebagai penyangga agar Hit Points sebenarnya tidak berkurang. *Lihat juga* “Playing the Game” (“Damage and Healing”).",
    "sourceHash": "813607ed8c7f5916"
+  },
+  {
+   "id": "rule.the-next-dawn",
+   "name": "“Fajar Berikutnya”",
+   "body": "Magic item sering memiliki charge atau sifat yang terisi ulang pada fajar berikutnya atau waktu lain yang ditentukan. Jika item semacam itu berada di dunia atau plane of existence tempat peristiwa yang ditentukan itu tidak terjadi, GM menentukan kapan item itu terisi ulang.",
+   "sourceHash": "4b98b11d65885e51"
+  },
+  {
+   "id": "rule.tools",
+   "name": "Tool",
+   "body": "Tool membantumu melakukan ability check khusus, membuat item tertentu, atau keduanya. Deskripsi tool mencakup harga dan beratnya, serta entri berikut:\n\n**Ability.** Entri ini mencantumkan ability yang dipakai saat melakukan ability check dengan tool itu.\n\n**Utilize.** Entri ini mencantumkan hal-hal yang bisa kamu lakukan dengan tool itu saat mengambil Utilize action. Kamu bisa melakukan salah satu hal itu setiap kali mengambil action tersebut. Entri ini juga memberikan DC untuk action itu.\n\n**Craft.** Entri ini mencantumkan apa, jika ada, yang bisa kamu buat dengan tool itu. Untuk aturan pembuatan, lihat “Crafting Nonmagical Items,” “Brewing Potions of Healing,” dan “Scribing Spell Scrolls” di bagian akhir “Equipment.”\n\n**Variants.** Entri ini muncul jika tool memiliki varian, yang dicantumkan. Masing-masing memerlukan proficiency tersendiri.\n\n### Tool Proficiency\n\nJika kamu memiliki proficiency dengan suatu tool, tambahkan Proficiency Bonus-mu pada ability check apa pun yang kamu lakukan dengan tool itu. Jika kamu juga memiliki proficiency pada skill yang dipakai dalam check itu, kamu juga memiliki Advantage pada check tersebut.\n\nFitur-fiturmu bisa memberimu proficiency dengan suatu tool. Monster memiliki proficiency dengan tool apa pun di stat block-nya.\n\n### Artisan’s Tools\n\nSetiap Artisan’s Tools berfokus pada pembuatan item dan menjalankan suatu kerajinan. Masing-masing tool ini memerlukan proficiency tersendiri.\n\n### Tool Lainnya",
+   "sourceHash": "bc8fc39efa465473"
   },
   {
    "id": "rule.tremorsense",
