@@ -32,11 +32,11 @@ async function tempDir(): Promise<string> {
   return dir;
 }
 
-/** Folder migrasi uji: 001 asli ditambah file SQL tambahan. */
+/** Folder migrasi uji: semua migrasi asli ditambah file SQL tambahan bernomor tinggi. */
 async function migrationsWith(extra: Record<string, string>): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), 'dnd-migrations-'));
   cleanup.unshift(() => removeDataDir(dir));
-  await copyFile(join(MIGRATIONS_DIR, '001-host.sql'), join(dir, '001-host.sql'));
+  for (const file of await readdir(MIGRATIONS_DIR)) await copyFile(join(MIGRATIONS_DIR, file), join(dir, file));
   for (const [name, sql] of Object.entries(extra)) await writeFile(join(dir, name), sql);
   return dir;
 }
@@ -144,7 +144,7 @@ describe('persistent application host', () => {
   it('rolls_back_failed_migration_without_half_schema', async () => {
     const dataDir = await tempDir();
     const migrationsDir = await migrationsWith({
-      '002-broken.sql': 'CREATE TABLE half_installed (x INTEGER);\nINSERT INTO table_that_does_not_exist VALUES (1);\n',
+      '900-broken.sql': 'CREATE TABLE half_installed (x INTEGER);\nINSERT INTO table_that_does_not_exist VALUES (1);\n',
     });
     await expect(startTestServer({ dataDir, migrationsDir })).rejects.toThrow();
 
@@ -154,7 +154,8 @@ describe('persistent application host', () => {
       dbPath,
       (db) => db.prepare('SELECT version FROM schema_migrations ORDER BY version').all() as { version: number }[],
     );
-    expect(versions.map((v) => v.version)).toEqual([1]);
+    expect(versions.map((v) => v.version)).not.toContain(900);
+    expect(versions.map((v) => v.version)).toContain(1);
   });
 
   it('backs_up_existing_database_before_migrating', async () => {
@@ -163,7 +164,7 @@ describe('persistent application host', () => {
     const { body } = await health(first);
     await first.close();
 
-    const migrationsDir = await migrationsWith({ '002-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
+    const migrationsDir = await migrationsWith({ '900-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
     await tracked(startTestServer({ dataDir, migrationsDir }));
 
     const backups = await readdir(join(dataDir, 'backups'));
@@ -184,16 +185,16 @@ describe('persistent application host', () => {
     // File biasa bernama "backups" membuat pembuatan folder backup gagal.
     await writeFile(join(dataDir, 'backups'), 'not a directory');
 
-    const migrationsDir = await migrationsWith({ '002-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
+    const migrationsDir = await migrationsWith({ '900-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
     await expect(startTestServer({ dataDir, migrationsDir })).rejects.toThrow();
     expect(tableNames(join(dataDir, DATABASE_FILE))).not.toContain('extra_feature');
   });
 
   it('refuses_database_from_newer_app_version', async () => {
     const dataDir = await tempDir();
-    const migrationsDir = await migrationsWith({ '002-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
+    const migrationsDir = await migrationsWith({ '900-extra.sql': 'CREATE TABLE extra_feature (x INTEGER);\n' });
     await (await startTestServer({ dataDir, migrationsDir })).close();
-    // Aplikasi lama hanya mengenal 001; database sudah memiliki 002.
+    // Aplikasi "lama" tidak mengenal 900; database sudah memilikinya.
     await expect(startTestServer({ dataDir })).rejects.toThrow(/unknown to this application/);
   });
 
@@ -209,7 +210,7 @@ describe('persistent application host', () => {
     const res = await server.app.inject({ method: 'GET', url: '/api/unknown' });
     expect(res.statusCode).toBe(404);
     expect(res.headers['content-type']).toMatch(/application\/json/);
-    expect((res.json() as { statusCode: number }).statusCode).toBe(404);
+    expect(res.json()).toEqual({ code: 'NOT_FOUND', params: {} });
   });
 
   it('closes_database_on_shutdown', async () => {
