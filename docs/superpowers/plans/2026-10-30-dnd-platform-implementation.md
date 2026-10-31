@@ -300,11 +300,13 @@ Catatan implementasi: combat dimulai dalam fase persiapan initiative, lalu DM me
 
 **Interfaces:** `rollDice(expression: string, randomInt: (min:number,maxExclusive:number)=>number): RollResult`; `resolveD20(input: D20Input, randomInt: RandomInt): D20Result`; `applyDamage(state: HitPointState, input: DamageInput): HitPointState`. Type definitions in `packages/shared/src/combat.ts`; crypto.randomInt is production source, injectable deterministic generator only in tests.
 
-- [ ] Tulis `validates_dice_and_applies_critical_dice`: `2d6+3` dengan kedua dadu 1 menghasilkan 5; expression/code invalid ditolak; advantage/disadvantage mengikuti fixture; critical menggandakan damage dice, bukan modifier.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan grammar dadu terbatas (maksimum awal 100 dice, 1.000 sides, ekspresi 100 karakter), attack/check/save/heal, HP/temp HP/conditions/death saves dan resistance/immunity/vulnerability sesuai data; duplicate requestId mengembalikan roll lama.
-- [ ] Run test sama; expected PASS untuk audience DM/public, invalid modifier/dice counts dan deterministic fixtures. Raw rolls tidak otomatis memakai slot tanpa action/resolution.
-- [ ] Commit `feat: add authoritative dice and damage`.
+- [x] Tulis `validates_dice_and_applies_critical_dice`: `2d6+3` dengan kedua dadu 1 menghasilkan 5; expression/code invalid ditolak; advantage/disadvantage mengikuti fixture; critical menggandakan damage dice, bukan modifier.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan grammar dadu terbatas (maksimum awal 100 dice, 1.000 sides, ekspresi 100 karakter), attack/check/save/heal, HP/temp HP/conditions/death saves dan resistance/immunity/vulnerability sesuai data; duplicate requestId mengembalikan roll lama.
+- [x] Run test sama; expected PASS untuk audience DM/public, invalid modifier/dice counts dan deterministic fixtures. Raw rolls tidak otomatis memakai slot tanpa action/resolution.
+- [x] Commit `feat: add authoritative dice and damage`.
+
+Catatan implementasi: migrasi `014-rolls-vitals.sql` menyimpan history roll dan vitals monster; vitals karakter tetap pada resources sheet. Modifier d20 dimasukkan manual. Roll bersifat independen dari biaya dan efek; DM menerapkan damage/heal/temp HP secara eksplisit. Defense monster dibaca dari data terstruktur, sedangkan defense karakter/efek sementara dapat memakai profil override DM. Kondisi dicatat; pembatasan aksi dan Speed 0 dasar diterapkan sesuai SRD 2024. Efek fitur/condition lainnya tetap diputuskan di meja sampai guided actions tersedia. Death save dikunci per combat dan turn, bukan nomor turn global; retry UI memakai envelope asli saat hasil command belum pasti.
 
 ### Task 17: Spell/feature actions dan penggunaan monster
 

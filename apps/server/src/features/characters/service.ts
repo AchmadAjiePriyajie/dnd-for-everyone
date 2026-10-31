@@ -6,6 +6,7 @@ import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
 import { advancementStatus } from '#rules/advancement';
 import { availableFeatures } from '#rules/class-features';
 import { deriveCharacter } from '#rules/character-stats';
+import { cannotAct, normalizeVitals } from '#rules/damage';
 import { startingResources } from '#rules/equipment';
 import { deriveSpellcasting } from '#rules/spellcasting';
 import { masteryGrants } from '#rules/weapon-mastery';
@@ -164,6 +165,7 @@ export class CharactersService implements OnModuleInit {
       name: character.draft.name, ownerAccountId: character.ownerAccountId,
       speedFeet: derived.speed.value,
       hp: { current: derived.currentHitPoints, max: derived.hitPoints.value, temp: character.resources.hp.temp },
+      vitals: normalizeVitals(character.resources.vitals, derived.currentHitPoints),
     };
   }
 
@@ -220,6 +222,16 @@ export class CharactersService implements OnModuleInit {
   }
 
   writeResources(ctx: CommandContext, characterId: Id, resources: CharacterResources): void {
+    const row = this.row(ctx.db, characterId);
+    if (row) {
+      const character = this.toCharacter(ctx.db, row);
+      if (resources.vitals || resources.hp.damage !== character.resources.hp.damage) {
+        const current = deriveCharacter({ ...character, resources }, this.content.catalog()).currentHitPoints;
+        const vitals = normalizeVitals(resources.vitals, current);
+        const incapacitated = cannotAct({ hp: { current }, vitals });
+        resources = { ...resources, vitals, concentration: incapacitated ? null : resources.concentration };
+      }
+    }
     ctx.db.prepare('UPDATE characters SET resources = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(resources), ctx.now, characterId);
   }
 

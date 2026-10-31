@@ -2055,3 +2055,39 @@ button:disabled {
   cursor: pointer;
   padding: 0.6rem 0;
 }
+
+.dice-tray {
+  display: grid;
+  gap: 1rem;
+}
+
+.roll-history {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.75rem;
+}
+
+.roll-details {
+  border: 1px solid var(--gold);
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.roll-details .badge {
+  margin-inline-start: 0.5rem;
+}
+
+.vitals-panel {
+  margin-block: 0.75rem;
+}
+
+.vitals-panel summary {
+  cursor: pointer;
+  padding-block: 0.6rem;
+}
+
+.vitals-panel select[multiple] {
+  width: 100%;
+  min-height: 7rem;
+}

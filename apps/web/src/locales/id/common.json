@@ -174,7 +174,15 @@
     "COMBATANT_EXISTS": "Karakter itu sudah ada dalam combat ini.",
     "COMBAT_LIMIT": "Satu combat dapat memuat paling banyak 200 makhluk.",
     "TOKEN_LINK_INVALID": "Pilih token yang belum terhubung untuk makhluk ini pada peta combat.",
-    "HP_LINKED": "HP ini terhubung ke sheet karakter atau combat. Ubah HP melalui sheet atau pelacak combat."
+    "HP_LINKED": "HP ini terhubung ke sheet karakter atau combat. Ubah HP melalui sheet atau pelacak combat.",
+    "DICE_INVALID": "Gunakan penjumlahan atau pengurangan dadu dan bilangan bulat: maksimal 100 dadu, 1000 sisi, dan 100 karakter.",
+    "D20_INVALID": "Masukkan modifier bilangan bulat dari -100 hingga 100 dan angka target yang valid.",
+    "ROLL_EXISTS": "ID lemparan itu sudah dipakai.",
+    "ROLL_PRIVATE_REQUIRED": "Makhluk ini tersembunyi. Pilih lemparan privat.",
+    "CONDITION_IMMUNE": "Makhluk ini kebal terhadap salah satu kondisi tersebut.",
+    "DEATH_SAVE_INVALID": "Death save belum tersedia atau sudah dilempar pada giliran ini.",
+    "COMBAT_CANNOT_ACT": "Makhluk ini tidak dapat melakukan aksi atau gerakan itu dalam kondisinya saat ini.",
+    "COMMAND_UNCERTAIN": "Host mungkin sudah menyimpan perintah sebelum respons terputus. Ulangi perintah yang sama untuk mengambil hasilnya."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -936,6 +944,7 @@
   },
   "combat": {
     "title": "Pelacak combat",
+    "retryCommand": "Ulangi perintah yang sama",
     "open": "Combat",
     "start": "Siapkan combat",
     "template": "Template encounter",
@@ -983,5 +992,27 @@
     "hpMethod": "HP monster",
     "average": "Rata-rata stat block",
     "rolled": "Lempar di server"
+  },
+  "dice": {
+    "title": "Baki dadu", "expression": "Ekspresi dadu", "roll": "Lempar dadu", "rollD20": "Lempar d20",
+    "manualHelp": "Lemparan manual memakai modifier yang kamu masukkan. Lemparan tidak memakai aksi atau slot dan tidak menerapkan damage. DM menerapkan efek secara terpisah.",
+    "critical": "Damage kritis: gandakan dadu saja", "criticalResult": "Critical Hit / dadu damage tambahan",
+    "audience": "Penerima lemparan", "public": "Publik", "private": "DM dan pelempar", "actor": "Lempar sebagai", "generic": "Lemparan umum",
+    "testKind": "Jenis tes", "modifier": "Modifier (manual)", "dc": "DC / AC (opsional)", "advantage": "Advantage", "disadvantage": "Disadvantage",
+    "retry": "Ulangi lemparan yang sama", "discardRetry": "Buang percobaan ulang", "details": "Rincian lemparan", "total": "Total: {{total}}", "modifierValue": "Modifier: {{modifier}}",
+    "kept": "Dilempar {{rolls}}; dipakai {{kept}}", "success": "Berhasil", "failure": "Gagal",
+    "kind": { "dice": "Dadu", "check": "Ability check", "attack": "Attack roll", "save": "Saving throw", "initiative": "Initiative", "death": "Death save" }
+  },
+  "vitals": {
+    "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",
+    "dead": "Mati", "stable": "Stabil", "deathSave": "Lempar death save", "stabilize": "Stabilkan (keputusan DM)",
+    "change": "Perubahan HP", "amount": "Jumlah", "damageType": "Jenis damage", "criticalDamage": "Damage dari Critical Hit",
+    "replaceTemp": "Ganti HP sementara meskipun lebih rendah", "apply": "Terapkan perubahan HP", "conditions": "Kondisi", "exhaustion": "Tingkat Exhaustion",
+    "monsterSaves": "Gunakan death saves untuk monster ini", "saveConditions": "Simpan kondisi dan pertahanan", "reload": "Buang draft dan muat terbaru", "reloadHp": "Buang draft HP dan muat terbaru",
+    "manualHelp": "Kondisi dicatat; putuskan efek fitur lain di meja permainan. Pertahanan monster mengikuti stat block. Override mengganti seluruh profil pertahanan; pilihan kosong berarti tidak ada. Gunakan untuk pertahanan karakter atau efek sementara.",
+    "defenses": "Override pertahanan", "resistances": "Resistance", "vulnerabilities": "Vulnerability", "immunities": "Kekebalan damage", "conditionImmunities": "Kekebalan kondisi",
+    "kind": { "damage": "Damage", "heal": "Pemulihan", "temp": "HP sementara" },
+    "damage": { "acid": "Asam", "bludgeoning": "Hantaman", "cold": "Dingin", "fire": "Api", "force": "Force", "lightning": "Petir", "necrotic": "Nekrotik", "piercing": "Tusukan", "poison": "Racun", "psychic": "Psikis", "radiant": "Radiant", "slashing": "Tebasan", "thunder": "Guntur" },
+    "condition": { "blinded": "Buta", "charmed": "Terpesona", "deafened": "Tuli", "exhaustion": "Kelelahan", "frightened": "Ketakutan", "grappled": "Dicengkeram", "incapacitated": "Tidak Berdaya", "invisible": "Tidak Terlihat", "paralyzed": "Lumpuh", "petrified": "Membatu", "poisoned": "Keracunan", "prone": "Tersungkur", "restrained": "Terkekang", "stunned": "Terpana", "unconscious": "Tidak Sadar" }
   }
 }

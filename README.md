@@ -128,8 +128,36 @@ budget dengan alasan yang tercatat. HP karakter mengikuti sheet; HP monster
 disimpan pada instance combat tanpa mengubah template. Untuk token yang HP-nya
 sudah terhubung, ubah HP melalui sheet atau pelacak combat.
 
-Saat ini pelacak memakai initiative dan koreksi manual. Dadu umum, resolusi
-damage, serta otomasi spell/feature dijadwalkan pada task berikutnya.
+### Dadu dan HP
+
+Di halaman **Combat**, gunakan **Baki dadu** untuk ekspresi seperti `2d6+3`,
+ability check, attack roll, saving throw, atau initiative. Masukkan modifier
+manual dan DC/AC jika diperlukan. Advantage dan Disadvantage saling meniadakan.
+Untuk mengisi initiative combat secara otomatis, pilih makhluk pada **Lempar
+sebagai** saat fase persiapan.
+
+Semua dadu dilempar server. Ekspresi dibatasi 100 karakter, 100 dadu aktual,
+dan 1000 sisi per dadu. Damage kritis menggandakan dadu, bukan modifier.
+Pilih penerima **Publik** atau **DM dan pelempar**; lemparan makhluk tersembunyi
+harus privat. Jika jawaban jaringan hilang, **Ulangi lemparan yang sama** memakai
+request yang sama sehingga hasil tidak dilempar ulang.
+
+Jika respons perubahan HP atau command combat terputus, gunakan **Ulangi perintah
+yang sama**. Aplikasi menyimpan envelope semula agar damage tidak diterapkan dua kali.
+
+Lemparan tidak memakai slot atau budget aksi dan tidak menerapkan damage.
+DM menerapkan hasil melalui **Kelola HP dan kondisi** pada makhluk yang dituju.
+Resistance, Immunity, dan Vulnerability monster mengikuti data stat block.
+Override pertahanan mengganti seluruh profil; isian kosong berarti tidak ada
+pertahanan tersebut. Gunakan profil ini untuk pertahanan karakter atau efek
+sementara yang belum memiliki data terstruktur.
+
+HP sementara diserap lebih dahulu dan tidak ditumpuk. Karakter pada HP 0
+melakukan death save pada gilirannya; tiga kegagalan berarti mati, tiga sukses
+berarti stabil, dan hasil 20 memulihkan 1 HP. Monster mati pada HP 0 secara
+default; DM dapat mengaktifkan death saves untuk monster tertentu. HP dan
+kondisi tersimpan bersama data campaign. Otomasi spell/feature serta pending
+resolution dilanjutkan pada task berikutnya.
 
 ## Development
 

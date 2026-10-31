@@ -5,14 +5,17 @@ import type { CombatantView, CombatView, TurnBudget } from '#shared/combat';
 import type { Id, JsonValue, Locale } from '#shared/contracts';
 import type { EncounterView, MonsterInstance } from '#shared/encounters';
 import type { Token } from '#shared/scenes';
+import type { CommandEnvelope } from '#shared/commands';
 import { api } from '../../app/api';
 import { Icon } from '../../app/icons';
 import { Link, routePath } from '../../app/router';
 import { refreshRoom, sendCommand, useConnectionStatus, useRoomEntry } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
 import { ActionPanel } from './ActionPanel';
+import { DiceTray } from './DiceTray';
+import { VitalsPanel } from './VitalsPanel';
 
-type RunCommand = (kind: string, payload?: JsonValue) => Promise<boolean>;
+type RunCommand = (kind: string, payload?: JsonValue, revision?: number) => Promise<boolean>;
 type Correction = { initiative?: number; tieOrder?: number; hpCurrent?: number; speedFeet?: number; hidden?: boolean; defeated?: boolean; budget?: TurnBudget };
 
 export function CombatTracker({ campaignId }: { campaignId: Id }) {
@@ -22,6 +25,7 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
   const connected = useConnectionStatus() === 'connected';
   const [error, setError] = useState<ApiError | null>(null);
   const [busy, setBusy] = useState(false);
+  const [uncertain, setUncertain] = useState<CommandEnvelope | null>(null);
   const [templates, setTemplates] = useState<EncounterView[]>([]);
   const [monsters, setMonsters] = useState<MonsterInstance[]>([]);
   const [templateId, setTemplateId] = useState('');
@@ -29,7 +33,7 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
   const [tokens, setTokens] = useState<Token[]>([]);
   const isDm = snapshot?.you.role === 'dm';
   const combat = snapshot?.combat;
-  const disabled = busy || !connected;
+  const disabled = busy || !connected || Boolean(uncertain);
   const locale = i18n.language as Locale;
   const formId = useId();
 
@@ -51,22 +55,28 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
     return () => { cancelled = true; };
   }, [campaignId, isDm, battleSceneId, sequence]);
 
-  const run: RunCommand = async (kind, payload = {}) => {
-    if (disabled) return false;
-    setBusy(true); setError(null);
+  const execute = async (command: CommandEnvelope): Promise<boolean> => {
+    if (busy || !connected) return false;
+    setBusy(true); setError(null); setUncertain(command);
     try {
-      const starting = kind === 'combat.start';
-      await sendCommand({
-        requestId: globalThis.crypto.randomUUID(), campaignId, targetId: starting ? globalThis.crypto.randomUUID() : combat!.id,
-        kind, payload, ...(starting ? {} : { expectedRevision: combat!.revision }),
-      });
+      await sendCommand(command);
+      setUncertain(null);
       await refreshRoom(campaignId);
       return true;
     } catch (cause) {
-      setError(toApiError(cause));
+      const failure = toApiError(cause);
+      setError(failure.code === 'OFFLINE' ? { code: 'COMMAND_UNCERTAIN', params: {} } : failure);
+      if (failure.code !== 'OFFLINE') setUncertain(null);
       await refreshRoom(campaignId);
       return false;
     } finally { setBusy(false); }
+  };
+  const run: RunCommand = async (kind, payload = {}, revision) => {
+    if (disabled) return false;
+    const starting = kind === 'combat.start';
+    return execute({ requestId: globalThis.crypto.randomUUID(), campaignId, targetId: starting ? globalThis.crypto.randomUUID() : combat!.id,
+      kind, payload, ...(starting ? {} : { expectedRevision: revision ?? combat!.revision }),
+    });
   };
 
   return (
@@ -76,9 +86,11 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
         <div><p className="eyebrow">{snapshot?.campaign.title}</p><h1>{t('combat.title')}</h1></div>
         <Link href={routePath.scenes(campaignId)} className="button-link">{t('scenes.open')}</Link>
       </header>
-      <ErrorMessage error={entry?.error ?? error} />
+      <ErrorMessage error={uncertain && error ? error : entry?.error ?? error} />
+      {uncertain && !busy ? <button disabled={busy || !connected} onClick={() => void execute(uncertain)}>{t('combat.retryCommand')}</button> : null}
       {!snapshot ? <p aria-busy="true">{t('app.loading')}</p> : (
         <>
+          <DiceTray campaignId={campaignId} combat={combat} accountId={snapshot.you.accountId} isDm={Boolean(isDm)} records={snapshot.rolls ?? []} />
           {isDm && (!combat || combat.status === 'ended') ? (
             <section className="card">
               <h2>{t('combat.start')}</h2>
@@ -130,6 +142,7 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
                     creature={creature} active={combat.activeId === creature.id} disabled={disabled || combat.status !== 'active'}
                     onSpend={(resource, amount) => void run('combat.spend', { combatantId: creature.id, resource, ...(amount === undefined ? {} : { amount }) })}
                   /> : null}
+                  {creature.hp && (isDm || creature.ownerAccountId === snapshot.you.accountId) ? <VitalsPanel creature={creature} combat={combat} isDm={Boolean(isDm)} disabled={disabled || combat.status === 'ended'} run={run} /> : null}
                   {isDm && combat.status !== 'ended' ? <CombatantCorrection creature={creature} combat={combat} tokens={tokens} disabled={disabled} run={run} /> : null}
                 </li>)}
               </ol>

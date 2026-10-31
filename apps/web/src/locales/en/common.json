@@ -174,7 +174,15 @@
     "COMBATANT_EXISTS": "That character is already in this combat.",
     "COMBAT_LIMIT": "A combat can contain at most 200 creatures.",
     "TOKEN_LINK_INVALID": "Choose an unlinked token for this creature on the combat's battle map.",
-    "HP_LINKED": "These Hit Points are linked to a character sheet or combat. Edit them on the sheet or combat tracker."
+    "HP_LINKED": "These Hit Points are linked to a character sheet or combat. Edit them on the sheet or combat tracker.",
+    "DICE_INVALID": "Use sums or subtractions of dice and integers: at most 100 dice, 1000 sides, and 100 characters.",
+    "D20_INVALID": "Enter a whole-number modifier from -100 to 100 and a valid target number.",
+    "ROLL_EXISTS": "That roll ID has already been used.",
+    "ROLL_PRIVATE_REQUIRED": "This creature is hidden. Choose a private roll.",
+    "CONDITION_IMMUNE": "This creature is immune to one of those conditions.",
+    "DEATH_SAVE_INVALID": "A death save is not available now, or was already rolled this turn.",
+    "COMBAT_CANNOT_ACT": "This creature cannot perform that action or movement in its current state.",
+    "COMMAND_UNCERTAIN": "The host may have saved this command before the response was lost. Retry the same command to recover its result."
   },
   "reference": {
     "title": "Rules reference",
@@ -936,6 +944,7 @@
   },
   "combat": {
     "title": "Combat tracker",
+    "retryCommand": "Retry same command",
     "open": "Combat",
     "start": "Prepare combat",
     "template": "Encounter template",
@@ -983,5 +992,27 @@
     "hpMethod": "Monster HP",
     "average": "Stat block average",
     "rolled": "Roll on the server"
+  },
+  "dice": {
+    "title": "Dice tray", "expression": "Dice expression", "roll": "Roll dice", "rollD20": "Roll d20",
+    "manualHelp": "Manual rolls use the modifier you enter. Rolls do not spend actions or slots, or apply damage. The DM applies effects separately.",
+    "critical": "Critical damage: double dice only", "criticalResult": "Critical hit / extra damage dice",
+    "audience": "Roll audience", "public": "Public", "private": "DM and roller", "actor": "Roll as", "generic": "General roll",
+    "testKind": "Test type", "modifier": "Modifier (manual)", "dc": "DC / AC (optional)", "advantage": "Advantage", "disadvantage": "Disadvantage",
+    "retry": "Retry same roll", "discardRetry": "Discard retry", "details": "Roll details", "total": "Total: {{total}}", "modifierValue": "Modifier: {{modifier}}",
+    "kept": "Rolled {{rolls}}; kept {{kept}}", "success": "Success", "failure": "Failure",
+    "kind": { "dice": "Dice", "check": "Ability check", "attack": "Attack roll", "save": "Saving throw", "initiative": "Initiative", "death": "Death save" }
+  },
+  "vitals": {
+    "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",
+    "dead": "Dead", "stable": "Stable", "deathSave": "Roll death save", "stabilize": "Stabilize (DM decision)",
+    "change": "Hit Point change", "amount": "Amount", "damageType": "Damage type", "criticalDamage": "Damage from a Critical Hit",
+    "replaceTemp": "Replace Temporary HP even if lower", "apply": "Apply Hit Point change", "conditions": "Conditions", "exhaustion": "Exhaustion level",
+    "monsterSaves": "Use death saves for this monster", "saveConditions": "Save conditions and defenses", "reload": "Discard draft and load latest", "reloadHp": "Discard HP draft and load latest",
+    "manualHelp": "Conditions are tracked; resolve other feature effects at the table. Monster defenses come from the stat block. Saving an override replaces the entire defense profile; empty selections mean none. Use it for character or temporary defenses.",
+    "defenses": "Override defenses", "resistances": "Resistances", "vulnerabilities": "Vulnerabilities", "immunities": "Damage immunities", "conditionImmunities": "Condition immunities",
+    "kind": { "damage": "Damage", "heal": "Healing", "temp": "Temporary HP" },
+    "damage": { "acid": "Acid", "bludgeoning": "Bludgeoning", "cold": "Cold", "fire": "Fire", "force": "Force", "lightning": "Lightning", "necrotic": "Necrotic", "piercing": "Piercing", "poison": "Poison", "psychic": "Psychic", "radiant": "Radiant", "slashing": "Slashing", "thunder": "Thunder" },
+    "condition": { "blinded": "Blinded", "charmed": "Charmed", "deafened": "Deafened", "exhaustion": "Exhaustion", "frightened": "Frightened", "grappled": "Grappled", "incapacitated": "Incapacitated", "invisible": "Invisible", "paralyzed": "Paralyzed", "petrified": "Petrified", "poisoned": "Poisoned", "prone": "Prone", "restrained": "Restrained", "stunned": "Stunned", "unconscious": "Unconscious" }
   }
 }

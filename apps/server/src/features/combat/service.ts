@@ -5,10 +5,11 @@ import { z } from 'zod';
 import { advanceTurn, freshTurnBudget, initiativeOrder } from '#rules/turns';
 import { evaluateFormula, parseFormula } from '#rules/formula';
 import { movementCost } from '#rules/movement';
+import { cannotAct, cannotMove, normalizeVitals } from '#rules/damage';
 import type { Member, Principal } from '#shared/access';
 import {
   bindTokenSchema, combatantTargetSchema, correctCombatantSchema, reinforcementSchema, setTurnSchema, spendTurnSchema, startCombatSchema,
-  type Combat, type Combatant, type CombatView, type Reinforcement, type TurnBudget,
+  type Combat, type Combatant, type CombatView, type Reinforcement, type TurnBudget, type VitalState,
 } from '#shared/combat';
 import type { Id, JsonValue } from '#shared/contracts';
 import type { EncounterTemplate } from '#shared/encounters';
@@ -28,7 +29,7 @@ interface CombatRow {
 }
 interface CombatantRow {
   id: Id; name: string; character_id: Id | null; monster_id: Id | null; token_id: Id | null; owner_account_id: Id | null;
-  initiative: number; tie_order: number; hidden: number; defeated: number; speed_feet: number; diagonals_moved: number; hp: string; budget: string;
+  initiative: number; tie_order: number; hidden: number; defeated: number; speed_feet: number; diagonals_moved: number; hp: string; budget: string; vitals: string;
 }
 interface MonsterStats { hp?: { average?: number; formula?: string }; speed?: { walk?: number } }
 const empty = z.strictObject({});
@@ -120,6 +121,14 @@ export class CombatService implements OnModuleInit {
     return this.project(db, member, combat);
   }
 
+  /** Internal feature API for rolls/effects, always inside the caller's command transaction. */
+  readState(db: DatabaseSync, campaignId: Id, combatId: Id): Combat | null { return this.load(db, campaignId, combatId); }
+  writeState(ctx: CommandContext, combat: Combat): void {
+    this.save(ctx, combat);
+    if (ctx.targetId !== combat.id) this.bumpRevision(ctx, combat.id);
+  }
+  isVisible(db: DatabaseSync, member: Member, creature: Combatant): boolean { return this.visible(db, member, creature); }
+
   /** Called inside token.move's transaction; dispatcher replays never enter here twice. */
   consumeMovement(ctx: CommandContext, token: { id: Id; character_id: Id | null; scene_id: Id }, path: GridPoint[], grid: GridSettings, override: boolean): number | null {
     const row = ctx.db.prepare(`SELECT c.id FROM combats c JOIN combatants a ON a.campaign_id = c.campaign_id AND a.combat_id = c.id
@@ -132,6 +141,7 @@ export class CombatService implements OnModuleInit {
     const creature = combat.combatants.find((c) => c.tokenId === token.id || (c.characterId !== null && c.characterId === token.character_id))!;
     this.requireControl(ctx, combat, creature);
     this.requireActive(combat);
+    if (!override && cannotMove(creature)) throw new DomainError('COMBAT_CANNOT_ACT', 409);
     const feet = movementCost(path, grid, creature.diagonalsMoved);
     if (!override && (combat.activeId !== creature.id || creature.defeated)) throw new DomainError('COMBAT_NOT_YOUR_TURN', 409);
     if (!override && feet > creature.budget.movement) throw new DomainError('MOVE_OVER_BUDGET', 409, { costFeet: feet, speed: creature.budget.movement });
@@ -190,6 +200,7 @@ export class CombatService implements OnModuleInit {
     const creature = combat.combatants.find((c) => c.id === input.combatantId);
     this.requireControl(ctx, combat, creature);
     this.requireActive(combat);
+    if (input.resource === 'movement' ? cannotMove(creature!) : cannotAct(creature!)) throw new DomainError('COMBAT_CANNOT_ACT', 409);
     if (creature!.defeated || (input.resource !== 'reaction' && combat.activeId !== creature!.id)) throw new DomainError('COMBAT_NOT_YOUR_TURN', 409);
     const amount = input.amount ?? 1;
     if (input.resource !== 'movement' && amount !== 1) throw new DomainError('VALIDATION_FAILED', 400);
@@ -218,6 +229,7 @@ export class CombatService implements OnModuleInit {
         this.bumpRevision(ctx, character.id);
       }
       creature.hp.current = hpCurrent;
+      creature.vitals = normalizeVitals(creature.vitals, hpCurrent, creature.characterId ? 'saves' : 'instant');
     }
     Object.assign(creature, patch);
     if (creature.defeated && combat.activeId === creature.id) combat = advanceTurn(combat);
@@ -304,12 +316,13 @@ export class CombatService implements OnModuleInit {
     const rows = db.prepare('SELECT * FROM combatants WHERE campaign_id = ? AND combat_id = ?').all(campaignId, combatId) as unknown as CombatantRow[];
     const combatants = rows.map((c): Combatant => {
       const creature: Combatant = { id: c.id, name: c.name, characterId: c.character_id, monsterId: c.monster_id, tokenId: c.token_id, ownerAccountId: c.owner_account_id, initiative: c.initiative, tieOrder: c.tie_order, hidden: Boolean(c.hidden), defeated: Boolean(c.defeated), speedFeet: c.speed_feet, diagonalsMoved: c.diagonals_moved, hp: JSON.parse(c.hp) as Combatant['hp'], budget: JSON.parse(c.budget) as TurnBudget };
+      creature.vitals = normalizeVitals(JSON.parse(c.vitals) as VitalState, creature.hp.current, creature.characterId ? 'saves' : 'instant');
       if (creature.characterId) {
         // A deleted character leaves a defeated historical combatant rather than breaking room sync.
         const exists = db.prepare("SELECT 1 FROM characters WHERE campaign_id = ? AND id = ? AND status = 'final'").get(campaignId, creature.characterId);
         if (exists) {
           const stats = this.characters.combatStats(db, campaignId, creature.characterId);
-          creature.hp = stats.hp; creature.ownerAccountId = stats.ownerAccountId; creature.name = stats.name;
+          creature.hp = stats.hp; creature.ownerAccountId = stats.ownerAccountId; creature.name = stats.name; creature.vitals = stats.vitals;
           const sourceRevision = db.prepare('SELECT revision FROM entity_revisions WHERE campaign_id = ? AND target_id = ?').get(campaignId, creature.characterId) as { revision: number } | undefined;
           creature.characterRevision = sourceRevision?.revision ?? 0;
         } else { creature.defeated = true; creature.ownerAccountId = null; }
@@ -325,11 +338,11 @@ export class CombatService implements OnModuleInit {
   private save(ctx: CommandContext, combat: Combat): void {
     ctx.db.prepare('UPDATE combats SET status = ?, round = ?, turn = ?, active_id = ?, updated_at = ? WHERE campaign_id = ? AND id = ?')
       .run(combat.status, combat.round, combat.turn, combat.activeId, ctx.now, ctx.campaignId, combat.id);
-    const statement = ctx.db.prepare(`INSERT INTO combatants (id, campaign_id, combat_id, name, character_id, monster_id, token_id, owner_account_id, initiative, tie_order, hidden, defeated, speed_feet, diagonals_moved, hp, budget)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    const statement = ctx.db.prepare(`INSERT INTO combatants (id, campaign_id, combat_id, name, character_id, monster_id, token_id, owner_account_id, initiative, tie_order, hidden, defeated, speed_feet, diagonals_moved, hp, budget, vitals)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT (campaign_id, id) DO UPDATE SET name=excluded.name, token_id=excluded.token_id, owner_account_id=excluded.owner_account_id, initiative=excluded.initiative, tie_order=excluded.tie_order,
-        hidden=excluded.hidden, defeated=excluded.defeated, speed_feet=excluded.speed_feet, diagonals_moved=excluded.diagonals_moved, hp=excluded.hp, budget=excluded.budget`);
-    for (const c of combat.combatants) statement.run(c.id, ctx.campaignId, combat.id, c.name, c.characterId, c.monsterId, c.tokenId, c.ownerAccountId, c.initiative, c.tieOrder, +c.hidden, +c.defeated, c.speedFeet, c.diagonalsMoved, JSON.stringify(c.hp), JSON.stringify(c.budget));
+        hidden=excluded.hidden, defeated=excluded.defeated, speed_feet=excluded.speed_feet, diagonals_moved=excluded.diagonals_moved, hp=excluded.hp, budget=excluded.budget, vitals=excluded.vitals`);
+    for (const c of combat.combatants) statement.run(c.id, ctx.campaignId, combat.id, c.name, c.characterId, c.monsterId, c.tokenId, c.ownerAccountId, c.initiative, c.tieOrder, +c.hidden, +c.defeated, c.speedFeet, c.diagonalsMoved, JSON.stringify(c.hp), JSON.stringify(c.budget), JSON.stringify(c.vitals ?? {}));
   }
 
   private bumpRevision(ctx: CommandContext, targetId: Id): void {
@@ -353,7 +366,7 @@ export class CombatService implements OnModuleInit {
     if (member.role === 'dm') return combat;
     const combatants = combat.combatants.filter((c) => this.visible(db, member, c)).map((c) => ({
       id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated,
-      ...(c.ownerAccountId === member.accountId ? { hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) } : {}),
+      ...(c.ownerAccountId === member.accountId ? { hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) } : {}),
     }));
     const scene = combat.sceneId ? db.prepare('SELECT shared FROM scenes WHERE campaign_id = ? AND id = ?').get(member.campaignId, combat.sceneId) as { shared: number } | undefined : undefined;
     return { id: combat.id, campaignId: combat.campaignId, name: combat.name, sceneId: scene?.shared ? combat.sceneId : null, status: combat.status, round: combat.round, turn: combat.turn, activeId: combatants.some((c) => c.id === combat.activeId) ? combat.activeId : null, combatants, revision: combat.revision };
