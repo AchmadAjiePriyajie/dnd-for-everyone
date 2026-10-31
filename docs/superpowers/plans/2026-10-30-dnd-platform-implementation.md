@@ -262,11 +262,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `storeAsset(principal: Principal, campaignId: Id, upload: AssetUpload): Promise<Asset>`; `projectScene(principal: Principal, sceneId: Id): SceneView`; asset GET memeriksa membership/visibility, bukan akses static path. Scene coordinates disimpan dalam satuan grid, bukan pixel viewport.
 
-- [ ] Tulis `hides_tokens_and_rejects_hostile_uploads`: `expect(playerView.tokens.some(t=>t.id===hiddenId)).toBe(false)`; file type palsu, path traversal dan asset campaign lain gagal; batas awal upload 20 MiB dan 40 megapixel diuji di boundary.
-- [ ] Run `npm run test -- apps/server/src/features/scenes/access.test.ts`; expected FAIL.
-- [ ] Implementasikan upload lokal PNG/JPEG/WebP dengan validasi signature/dimensi, asset reference, grid calibration, tokens ber-owner, pan/zoom dan fallback kontrol DOM. Node:sqlite hanya metadata; bytes di direktori asset terkontrol.
-- [ ] Run test sama; expected PASS untuk private/public handout dan hidden monster tanpa HP/stat rahasia pada response/error.
-- [ ] Commit `feat: add secure scenes and tokens`.
+- [x] Tulis `hides_tokens_and_rejects_hostile_uploads`: `expect(playerView.tokens.some(t=>t.id===hiddenId)).toBe(false)`; file type palsu, path traversal dan asset campaign lain gagal; batas awal upload 20 MiB dan 40 megapixel diuji di boundary.
+- [x] Run `npm run test -- apps/server/src/features/scenes/access.test.ts`; expected FAIL.
+- [x] Implementasikan upload lokal PNG/JPEG/WebP dengan validasi signature/dimensi, asset reference, grid calibration, tokens ber-owner, pan/zoom dan fallback kontrol DOM. Node:sqlite hanya metadata; bytes di direktori asset terkontrol.
+- [x] Run test sama; expected PASS untuk private/public handout dan hidden monster tanpa HP/stat rahasia pada response/error.
+- [x] Commit `feat: add secure scenes and tokens`.
 
 ### Task 14: Movement, jarak, ping, AoE dan reveal manual
 

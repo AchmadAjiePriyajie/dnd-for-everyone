@@ -159,7 +159,11 @@
     "NOTE_LINK_INVALID": "A linked note no longer exists.",
     "HOMEBREW_INVALID": "That homebrew entry does not match the rules data format ({{issue}}).",
     "HOMEBREW_FORMULA": "Only dice, numbers and ability/proficiency/level names are allowed in formulas ({{path}}).",
-    "MONSTER_UNAVAILABLE": "That monster is not available in this campaign (unknown or not approved homebrew)."
+    "MONSTER_UNAVAILABLE": "That monster is not available in this campaign (unknown or not approved homebrew).",
+    "ASSET_INVALID": "That file is not a valid PNG, JPEG or WebP image.",
+    "ASSET_TOO_LARGE": "That image is too large (at most 20 MiB and 40 megapixels).",
+    "ASSET_NOT_SHAREABLE": "A scene background must be an image shared with the party.",
+    "TOKEN_OUT_OF_BOUNDS": "That position is outside the map ({{columns}} × {{rows}} squares)."
   },
   "reference": {
     "title": "Rules reference",
@@ -808,5 +812,70 @@
     "saveDm": "Save and approve",
     "duplicateLabel": "Copy an SRD entry (ID)",
     "duplicate": "Copy as homebrew"
+  },
+  "scenes": {
+    "open": "Map",
+    "title": "Scenes and map",
+    "pick": "Scene",
+    "notShared": "not shared",
+    "emptyDm": "No scenes yet. Create one with a blank grid or an uploaded map.",
+    "emptyPlayer": "The DM has not shared a map yet. Play can go on without one.",
+    "mapControls": "Map controls",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "panLeft": "Pan left",
+    "panUp": "Pan up",
+    "panDown": "Pan down",
+    "panRight": "Pan right",
+    "resetView": "Reset view",
+    "mapLabel": "{{name}}, {{columns}} by {{rows}} squares",
+    "tokenLabel": "{{label}}, column {{column}}, row {{row}}",
+    "keyboardHint": "Tab to a token, then use the arrow keys to move your own token one square. You can also drag it.",
+    "dmPanel": "Map and tokens",
+    "share": "Show to players",
+    "unshare": "Hide from players",
+    "editScene": "Edit scene",
+    "newScene": "New scene",
+    "name": "Scene name",
+    "background": "Background image",
+    "blankGrid": "Blank grid",
+    "upload": "Upload map (PNG, JPEG, WebP)",
+    "uploadVisibility": "Who can see the upload",
+    "visibilityParty": "Party (safe to show)",
+    "visibilityDm": "DM only",
+    "uploadHint": "Only upload maps that are safe for players to see; keep secret maps as DM-only handouts.",
+    "grid": {
+      "columns": "Columns",
+      "rows": "Rows",
+      "cellPixels": "Square size in image (px)",
+      "offsetX": "Image offset X (px)",
+      "offsetY": "Image offset Y (px)",
+      "feetPerCell": "Feet per square"
+    },
+    "saveScene": "Save scene",
+    "tokens": "Tokens",
+    "kind": {
+      "character": "Character",
+      "monster": "Monster",
+      "npc": "NPC",
+      "object": "Object"
+    },
+    "hiddenBadge": "Hidden",
+    "selectedToken": "Selected: {{label}}",
+    "reveal": "Reveal this token",
+    "hide": "Hide this token",
+    "removeToken": "Remove token",
+    "addToken": "Add token",
+    "tokenName": "Token name",
+    "tokenKind": "Kind",
+    "owner": "Controlled by",
+    "ownerDm": "DM",
+    "token": {
+      "x": "Column",
+      "y": "Row",
+      "size": "Size (squares)"
+    },
+    "tokenHp": "HP (DM only)",
+    "placeHidden": "Place hidden"
   }
 }

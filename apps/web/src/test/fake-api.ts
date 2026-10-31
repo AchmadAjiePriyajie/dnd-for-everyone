@@ -18,6 +18,7 @@ import {
 } from '#shared/characters';
 import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
+import type { Asset, SceneView } from '#shared/scenes';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
@@ -47,6 +48,8 @@ export interface FakeServerState {
   monsters: MonsterInstance[];
   encounters: EncounterView[];
   homebrew: HomebrewView[];
+  scenes: Record<string, SceneView>;
+  assets: Asset[];
   /** Jawaban khusus untuk command non-karakter; undefined = ack biasa. */
   onCommand?: (body: { kind: string; targetId: string; payload: unknown; expectedRevision?: number }) => Response | undefined;
 }
@@ -99,6 +102,8 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     monsters: [],
     encounters: [],
     homebrew: [],
+    scenes: {},
+    assets: [],
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -111,7 +116,7 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
   const handler = async (input: RequestInfo | URL, init: RequestInit = {}) => {
     const url = new URL(typeof input === 'string' ? input : input.toString(), 'http://localhost');
     const method = (init.method ?? 'GET').toUpperCase();
-    const body = init.body ? JSON.parse(String(init.body)) : undefined;
+    const body = typeof init.body === 'string' ? JSON.parse(init.body) : init.body ? { binary: true, contentType: (init.headers as Record<string, string> | undefined)?.['content-type'] } : undefined;
     const path = url.pathname;
     requests.push({ method, path, body });
 
@@ -251,6 +256,17 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     if (/^\/api\/campaigns\/[^/]+\/monsters$/.test(path)) return json(200, state.monsters);
     if (/^\/api\/campaigns\/[^/]+\/encounters$/.test(path)) return json(200, state.encounters);
     if (/^\/api\/campaigns\/[^/]+\/homebrew$/.test(path)) return json(200, state.homebrew);
+    const scenePath = /^\/api\/campaigns\/([^/]+)\/scenes\/([^/]+)$/.exec(path);
+    if (scenePath) {
+      const found = state.scenes[decodeURIComponent(scenePath[2]!)];
+      return found ? json(200, found) : error(403, 'FORBIDDEN');
+    }
+    if (/^\/api\/campaigns\/[^/]+\/assets$/.test(path)) {
+      if (method === 'GET') return json(200, state.assets);
+      const asset: Asset = { id: `asset-${state.assets.length + 1}`, campaignId: 'camp-1', name: url.searchParams.get('name') ?? '', mime: 'image/png', width: 640, height: 480, bytes: 1, visibility: (url.searchParams.get('visibility') ?? 'party') as Asset['visibility'] };
+      state.assets.push(asset);
+      return json(201, asset);
+    }
     const notePath = /^\/api\/campaigns\/([^/]+)\/notes\/([^/]+)$/.exec(path);
     if (notePath) {
       const found = state.notes[decodeURIComponent(notePath[2]!)];

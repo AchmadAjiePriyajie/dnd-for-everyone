@@ -4,6 +4,7 @@ import type { LogLevel } from '@nestjs/common';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import type { AppOptions } from './app-options.js';
 import { AppModule } from './app.module.js';
+import { ASSET_MIME_TYPES, MAX_ASSET_BYTES } from '#shared/scenes';
 import { registerWeb } from './web.js';
 
 export type { AppOptions } from './app-options.js';
@@ -13,6 +14,12 @@ export async function configureApp(app: NestFastifyApplication, options: AppOpti
   app.setGlobalPrefix('api');
   // Socket.IO memakai server HTTP yang sama (path /socket.io).
   app.useWebSocketAdapter(new IoAdapter(app));
+  // Upload asset berupa body biner mentah; batas ukuran diperiksa saat membaca stream, sebelum seluruh
+  // file di-buffer. Tipe lain tetap ditolak 415 oleh Fastify.
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .addContentTypeParser([...ASSET_MIME_TYPES], { parseAs: 'buffer', bodyLimit: MAX_ASSET_BYTES }, (_request, body, done) => done(null, body));
   await registerWeb(app, options.webDir);
 }
 

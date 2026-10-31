@@ -45,6 +45,16 @@ export class TestClient {
     return { status: res.statusCode, headers: res.headers, body: (text ? JSON.parse(text) : undefined) as T };
   }
 
+  /** Request dengan body/respons biner (upload dan unduh asset). */
+  async raw(method: 'GET' | 'POST', url: string, body?: Buffer, contentType?: string): Promise<{ status: number; headers: HttpResult['headers']; body: Buffer }> {
+    const headers: Record<string, string> = { host: 'localhost' };
+    if (this.origin) headers.origin = this.origin;
+    if (this.cookie) headers.cookie = this.cookie;
+    if (contentType) headers['content-type'] = contentType;
+    const res = await this.app.inject({ method, url, headers, ...(body === undefined ? {} : { payload: body }) });
+    return { status: res.statusCode, headers: res.headers, body: res.rawPayload };
+  }
+
   get<T = any>(url: string) {
     return this.request<T>('GET', url);
   }

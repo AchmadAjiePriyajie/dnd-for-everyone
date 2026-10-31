@@ -12,6 +12,7 @@ import { CampaignsModule } from './features/campaigns/campaigns.module.js';
 import { CharactersModule } from './features/characters/characters.module.js';
 import { EncountersModule } from './features/encounters/encounters.module.js';
 import { NotesModule } from './features/notes/notes.module.js';
+import { ScenesModule } from './features/scenes/scenes.module.js';
 import { ReferenceModule } from './features/reference/reference.module.js';
 import { RealtimeModule } from './realtime/realtime.module.js';
 
@@ -43,6 +44,7 @@ export class AppModule {
         CharactersModule,
         NotesModule,
         EncountersModule,
+        ScenesModule,
         CommandsModule,
         RealtimeModule,
       ],

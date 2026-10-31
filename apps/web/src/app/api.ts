@@ -11,6 +11,7 @@ import type { Id, Locale } from '#shared/contracts';
 import type { AdvancementChoice, AdvancementPreview, CharacterOptions, RestPreview } from '#shared/characters';
 import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
+import type { Asset, AssetVisibility, SceneView } from '#shared/scenes';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { CharacterView } from '../features/characters/types';
 import type { RoomSnapshot } from '#shared/room';
@@ -35,6 +36,24 @@ function isApiError(value: unknown): value is ApiError {
     typeof (value as ApiError).code === 'string' &&
     typeof (value as ApiError).params === 'object'
   );
+}
+
+/** URL unduh asset; browser mengirim cookie sesi, server memeriksa membership dan visibility. */
+export const assetUrl = (campaignId: Id, assetId: Id) => `${campaignPath(campaignId)}/assets/${encodeURIComponent(assetId)}`;
+
+/** Upload biner mentah (bukan JSON); tipe file diperiksa ulang server dari isinya. */
+async function upload<T>(path: string, file: Blob): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(path, { method: 'POST', credentials: 'same-origin', headers: { accept: 'application/json', 'content-type': file.type }, body: file });
+  } catch {
+    throw offlineError();
+  }
+  const data: unknown = await response.json().catch(() => undefined);
+  if (!response.ok) {
+    throw new ApiClientError(response.status, isApiError(data) ? { code: data.code, params: data.params ?? {} } : { code: response.status === 413 ? 'PAYLOAD_TOO_LARGE' : 'INTERNAL', params: {} });
+  }
+  return data as T;
 }
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
@@ -91,6 +110,10 @@ export const api = {
   monsters: (campaignId: Id, locale: Locale) => request<MonsterInstance[]>('GET', `${campaignPath(campaignId)}/monsters?locale=${locale}`),
   encounters: (campaignId: Id) => request<EncounterView[]>('GET', `${campaignPath(campaignId)}/encounters`),
   homebrew: (campaignId: Id) => request<HomebrewView[]>('GET', `${campaignPath(campaignId)}/homebrew`),
+  scene: (campaignId: Id, sceneId: Id) => request<SceneView>('GET', `${campaignPath(campaignId)}/scenes/${encodeURIComponent(sceneId)}`),
+  assets: (campaignId: Id) => request<Asset[]>('GET', `${campaignPath(campaignId)}/assets`),
+  uploadAsset: (campaignId: Id, file: Blob, name: string, visibility: AssetVisibility) =>
+    upload<Asset>(`${campaignPath(campaignId)}/assets?${new URLSearchParams({ name, visibility })}`, file),
   note: (campaignId: Id, noteId: Id) => request<NoteView>('GET', `${campaignPath(campaignId)}/notes/${encodeURIComponent(noteId)}`),
   restPreview: (campaignId: Id, characterId: Id, rest: 'short' | 'long') =>
     request<RestPreview>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}/rest-preview?rest=${rest}`),

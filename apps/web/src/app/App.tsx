@@ -8,6 +8,7 @@ import { CharacterPage } from '../features/characters/CharacterPage';
 import { EncounterBuilder } from '../features/encounters/EncounterBuilder';
 import { HomebrewEditor } from '../features/encounters/HomebrewEditor';
 import { NotesPage } from '../features/notes/PartyJournal';
+import { ScenesPage } from '../features/scenes/BattleMap';
 import { Lobby } from '../features/lobby/Lobby';
 import { ReferencePage } from '../features/reference/ReferencePage';
 import { api } from './api';
@@ -186,6 +187,7 @@ function Routes() {
   if (route.name === 'notes') return <NotesPage key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'encounters') return <EncounterBuilder key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'homebrew') return <HomebrewEditor key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'scenes') return <ScenesPage key={route.campaignId} campaignId={route.campaignId} />;
   return (
     <section className="card">
       <h1>{t('notFound.title')}</h1>

@@ -2,6 +2,7 @@ import type { Id } from './contracts.js';
 import type { InviteView, MemberView, Role } from './access.js';
 import type { CharacterSummary } from './characters.js';
 import type { CheatSheetRow, NoteSummary } from './notes.js';
+import type { SceneSummary } from './scenes.js';
 
 /**
  * Projection room per peserta. Field khusus DM berada di `dm` dan tidak pernah
@@ -17,5 +18,7 @@ export interface RoomSnapshot {
   characters?: CharacterSummary[];
   /** Catatan yang boleh dilihat peserta ini (judul saja; isi lewat GET notes/:id). */
   notes?: NoteSummary[];
+  /** Scene yang boleh dilihat peserta (token lewat GET scenes/:id). */
+  scenes?: SceneSummary[];
   dm?: { invites: InviteView[]; cheatSheet?: CheatSheetRow[] };
 }

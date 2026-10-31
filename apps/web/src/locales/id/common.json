@@ -159,7 +159,11 @@
     "NOTE_LINK_INVALID": "Catatan yang ditautkan sudah tidak ada.",
     "HOMEBREW_INVALID": "Entri homebrew itu tidak sesuai format data aturan ({{issue}}).",
     "HOMEBREW_FORMULA": "Formula hanya boleh berisi dadu, angka, dan nama ability/proficiency/level ({{path}}).",
-    "MONSTER_UNAVAILABLE": "Monster itu tidak tersedia di campaign ini (tidak dikenal atau homebrew belum disetujui)."
+    "MONSTER_UNAVAILABLE": "Monster itu tidak tersedia di campaign ini (tidak dikenal atau homebrew belum disetujui).",
+    "ASSET_INVALID": "File itu bukan gambar PNG, JPEG atau WebP yang valid.",
+    "ASSET_TOO_LARGE": "Gambar terlalu besar (maksimal 20 MiB dan 40 megapixel).",
+    "ASSET_NOT_SHAREABLE": "Latar scene harus gambar yang dibagikan ke party.",
+    "TOKEN_OUT_OF_BOUNDS": "Posisi itu di luar peta ({{columns}} × {{rows}} kotak)."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -808,5 +812,70 @@
     "saveDm": "Simpan dan setujui",
     "duplicateLabel": "Salin entri SRD (ID)",
     "duplicate": "Salin sebagai homebrew"
+  },
+  "scenes": {
+    "open": "Peta",
+    "title": "Scene dan peta",
+    "pick": "Scene",
+    "notShared": "belum dibagikan",
+    "emptyDm": "Belum ada scene. Buat dengan grid kosong atau peta yang diunggah.",
+    "emptyPlayer": "DM belum membagikan peta. Permainan tetap bisa berjalan tanpa peta.",
+    "mapControls": "Kontrol peta",
+    "zoomIn": "Perbesar",
+    "zoomOut": "Perkecil",
+    "panLeft": "Geser ke kiri",
+    "panUp": "Geser ke atas",
+    "panDown": "Geser ke bawah",
+    "panRight": "Geser ke kanan",
+    "resetView": "Atur ulang tampilan",
+    "mapLabel": "{{name}}, {{columns}} × {{rows}} kotak",
+    "tokenLabel": "{{label}}, kolom {{column}}, baris {{row}}",
+    "keyboardHint": "Tab ke token, lalu pakai tombol panah untuk menggerakkan token milikmu satu kotak. Bisa juga diseret.",
+    "dmPanel": "Peta dan token",
+    "share": "Tampilkan ke pemain",
+    "unshare": "Sembunyikan dari pemain",
+    "editScene": "Edit scene",
+    "newScene": "Scene baru",
+    "name": "Nama scene",
+    "background": "Gambar latar",
+    "blankGrid": "Grid kosong",
+    "upload": "Unggah peta (PNG, JPEG, WebP)",
+    "uploadVisibility": "Siapa yang bisa melihat unggahan",
+    "visibilityParty": "Party (aman ditampilkan)",
+    "visibilityDm": "Hanya DM",
+    "uploadHint": "Unggah hanya peta yang aman dilihat pemain; simpan peta rahasia sebagai handout khusus DM.",
+    "grid": {
+      "columns": "Kolom",
+      "rows": "Baris",
+      "cellPixels": "Ukuran kotak di gambar (px)",
+      "offsetX": "Geser gambar X (px)",
+      "offsetY": "Geser gambar Y (px)",
+      "feetPerCell": "Kaki per kotak"
+    },
+    "saveScene": "Simpan scene",
+    "tokens": "Token",
+    "kind": {
+      "character": "Karakter",
+      "monster": "Monster",
+      "npc": "NPC",
+      "object": "Objek"
+    },
+    "hiddenBadge": "Tersembunyi",
+    "selectedToken": "Dipilih: {{label}}",
+    "reveal": "Tampilkan token ini",
+    "hide": "Sembunyikan token ini",
+    "removeToken": "Hapus token",
+    "addToken": "Tambah token",
+    "tokenName": "Nama token",
+    "tokenKind": "Jenis",
+    "owner": "Dikendalikan oleh",
+    "ownerDm": "DM",
+    "token": {
+      "x": "Kolom",
+      "y": "Baris",
+      "size": "Ukuran (kotak)"
+    },
+    "tokenHp": "HP (khusus DM)",
+    "placeHidden": "Tempatkan tersembunyi"
   }
 }
