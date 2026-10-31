@@ -2163,3 +2163,8 @@ button:disabled {
 .map-token.standing-bloodied circle { stroke: var(--danger); stroke-width: 0.1; }
 .map-token.standing-defeated { opacity: 0.45; }
 .action-targets .checkbox-label { min-width: 0; overflow-wrap: anywhere; }
+
+/* Monster picker fits the screen: filters fold away, the list scrolls inside the card. */
+.monster-filter-panel { margin-bottom: 0.5rem; }
+.monster-filter-panel > summary { cursor: pointer; color: var(--gold-text); font-weight: 600; padding: 0.25rem 0; }
+.monster-scroll { max-height: max(12rem, calc(100vh - 25rem)); overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }

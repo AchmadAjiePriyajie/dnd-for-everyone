@@ -129,6 +129,8 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
             <label htmlFor={`${id}-q`}>{t('encounters.search')}</label>
             <input id={`${id}-q`} type="search" value={filters.query} onChange={(event) => setFilter({ query: event.target.value })} />
           </div>
+          <details className="monster-filter-panel" open={filtersActive}>
+            <summary>{t('encounters.moreFilters')}</summary>
           <div className="field-row monster-filters">
             {(['minCr', 'maxCr'] as const).map((field) => (
               <div key={field} className="field">
@@ -186,6 +188,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               </select>
             </div>
           </div>
+          </details>
           <p className="row-actions">
             <span className="muted small" role="status">
               {t('encounters.resultCount', { shown: filtered.length, total: matching.length })}
@@ -197,6 +200,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
             )}
           </p>
           {matching.length === 0 && <p className="muted">{t('encounters.noMatches')}</p>}
+          <div className="monster-scroll">
           <ul className="row-list">
             {filtered.map((monster) => (
               <li key={monster.id}>
@@ -213,6 +217,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               </li>
             ))}
           </ul>
+          </div>
           <Pager label={t('encounters.monsterList')} page={paged.page} pages={paged.pages} onPage={paged.setPage} />
         </section>
 

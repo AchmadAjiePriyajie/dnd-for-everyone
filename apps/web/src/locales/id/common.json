@@ -722,6 +722,7 @@
     }
   },
   "encounters": {
+    "moreFilters": "Filter lainnya",
     "monsterList": "Monster",
     "open": "Encounter",
     "title": "Penyusun encounter",

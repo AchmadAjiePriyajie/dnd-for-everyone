@@ -722,6 +722,7 @@
     }
   },
   "encounters": {
+    "moreFilters": "More filters",
     "monsterList": "Monsters",
     "open": "Encounters",
     "title": "Encounter builder",

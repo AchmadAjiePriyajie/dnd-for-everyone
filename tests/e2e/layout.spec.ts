@@ -38,6 +38,17 @@ test('no_horizontal_overflow_in_en_and_id', async ({ browser, baseURL }) => {
         await noHorizontalOverflow(page, where(`combat ${who}`));
       }
 
+      await dmPage.goto(`/campaigns/${table.campaignId}/encounters`);
+      await expect(dmPage.getByRole('region', { name: locale === 'en' ? 'Monsters' : 'Monster' }).getByRole('listitem').first()).toBeVisible();
+      await noHorizontalOverflow(dmPage, where('encounters'));
+      const overflowing = await dmPage.evaluate(() => [...document.querySelectorAll('main *')].filter((el) => el.getBoundingClientRect().right > document.documentElement.clientWidth + 1).map((el) => `${el.tagName}.${el.className}`).slice(0, 5));
+      expect(overflowing, where('encounters elements past the viewport')).toEqual([]);
+      if (viewport.width >= 768) {
+        // The monster picker fits the screen: filters fold away and the list scrolls inside the card.
+        const picker = await dmPage.getByRole('region', { name: locale === 'en' ? 'Monsters' : 'Monster' }).boundingBox();
+        expect(picker!.height, where('monster picker height')).toBeLessThanOrEqual(viewport.height);
+      }
+
       await playerPage.goto(`/campaigns/${table.campaignId}/characters/${table.characterId}`);
       await expect(playerPage.getByRole('tablist', { name: locale === 'en' ? 'Character sections' : 'Bagian karakter' })).toBeVisible();
       await noHorizontalOverflow(playerPage, where('character sheet'));
