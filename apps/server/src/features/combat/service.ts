@@ -125,6 +125,22 @@ export class CombatService implements OnModuleInit {
   /** Feature services (guided actions) register start-of-turn work; listeners may mutate the creature before it is saved. */
   onTurnStart(listener: (ctx: CommandContext, combat: Combat, creature: Combatant) => void): void { this.turnListeners.push(listener); }
 
+  /** Session pause/resume: pauses an active combat (true) or resumes a paused one (false); returns whether it changed. */
+  setPausedForSession(ctx: CommandContext, combatId: Id, paused: boolean): boolean {
+    const combat = this.load(ctx.db, ctx.campaignId, combatId);
+    if (!combat || combat.status !== (paused ? 'active' : 'paused')) return false;
+    combat.status = paused ? 'paused' : 'active';
+    this.save(ctx, combat);
+    this.bumpRevision(ctx, combat.id);
+    return true;
+  }
+
+  /** Latest combat that has not ended (session links). */
+  openCombatId(db: DatabaseSync, campaignId: Id): Id | null {
+    const row = db.prepare("SELECT id FROM combats WHERE campaign_id = ? AND status != 'ended' ORDER BY created_at DESC, rowid DESC LIMIT 1").get(campaignId) as { id: Id } | undefined;
+    return row?.id ?? null;
+  }
+
   /** Internal feature API for rolls/effects, always inside the caller's command transaction. */
   readState(db: DatabaseSync, campaignId: Id, combatId: Id): Combat | null { return this.load(db, campaignId, combatId); }
   writeState(ctx: CommandContext, combat: Combat): void {

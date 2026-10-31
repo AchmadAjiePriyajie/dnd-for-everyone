@@ -182,7 +182,8 @@ export class ResolutionsService implements OnModuleInit {
     resolution.phase = resolution.proposed.length > 0 ? 'awaitingDecision' : 'resolved';
   }
 
-  private list(db: DatabaseSync, member: Member): Resolution[] {
+  /** Member's filtered view (also used by session resume). */
+  list(db: DatabaseSync, member: Member): Resolution[] {
     const rows = db.prepare(`SELECT record FROM resolutions WHERE campaign_id = ? AND (phase IN ('pending', 'awaitingDecision') OR id IN
       (SELECT id FROM resolutions WHERE campaign_id = ? AND phase IN ('resolved', 'cancelled') ORDER BY updated_at DESC, rowid DESC LIMIT ?)) ORDER BY created_at, rowid`)
       .all(member.campaignId, member.campaignId, CLOSED_IN_SNAPSHOT) as Array<{ record: string }>;

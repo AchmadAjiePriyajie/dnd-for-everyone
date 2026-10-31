@@ -89,6 +89,9 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </p>
         </div>
         <div className="banner-actions">
+          <Link href={routePath.session(campaignId)} className="button-link">
+            <Icon name="eye" />{t('session.open')}{snapshot.session && snapshot.session.status !== 'ended' ? ` · ${t(`session.status.${snapshot.session.status}`)}` : ''}
+          </Link>
           <Link href={routePath.combat(campaignId)} className="button-link">
             <Icon name="shield" />{t('combat.open')}
           </Link>

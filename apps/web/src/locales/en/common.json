@@ -183,6 +183,9 @@
     "DEATH_SAVE_INVALID": "A death save is not available now, or was already rolled this turn.",
     "COMBAT_CANNOT_ACT": "This creature cannot perform that action or movement in its current state.",
     "ACTION_INVALID": "This action cannot be taken now ({{issue}}).",
+    "SESSION_EXISTS": "A session is already running or paused.",
+    "SESSION_ENDED": "This session has ended.",
+    "SESSION_NOT_ACTIVE": "This session is not in a state that allows that.",
     "RESOLUTION_CLOSED": "This resolution is already closed.",
     "RESOLUTION_REACTIONS_PENDING": "Reactions are still offered; decide them or commit without waiting.",
     "REACTION_NOT_OFFERED": "That reaction is not offered for this resolution.",
@@ -1156,6 +1159,84 @@
     "correctionReason": "Correction reason",
     "compensate": "Undo Hit Point changes",
     "resolveHere": "Hit Point changes are decided in Open resolutions."
+  },
+  "session": {
+    "open": "Session",
+    "title": "Play session",
+    "start": "Start session",
+    "sessionTitle": "Session title (optional)",
+    "history": "Sessions",
+    "none": "No session yet.",
+    "heading": "Session {{number}}: {{title}}",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "ended": "Ended"
+    },
+    "playTime": "Play time: {{minutes}} min",
+    "combatLink": "Combat {{name}}, round {{round}}.",
+    "openResolutions": "{{count}} open resolution(s)",
+    "sceneLink": "Scene: {{name}}.",
+    "pause": "Pause session",
+    "resume": "Resume session",
+    "end": "End session",
+    "recap": "Recap",
+    "recapShared": "Recap for the party",
+    "recapDm": "DM-only notes",
+    "noRecap": "No recap yet.",
+    "save": {
+      "saved": "Saved",
+      "unsaved": "Unsaved changes",
+      "saving": "Saving…",
+      "failed": "Not saved. Check the connection and retry.",
+      "conflict": "Someone saved a newer version. Your draft is kept."
+    },
+    "saveRetry": "Retry save",
+    "loadLatest": "Discard draft and load latest",
+    "journal": "Journal",
+    "noJournal": "No journal entries yet.",
+    "private": "Private",
+    "journalEntry": "Journal entry",
+    "visibility": "Who can read it",
+    "party": "The whole party",
+    "privateOption": "Only me and the DM",
+    "addJournal": "Add to journal",
+    "ruleNotes": "Rule questions to check after the session",
+    "checked": "Checked: {{text}}",
+    "openRule": "Open rule",
+    "ruleNote": "Rule question",
+    "addRuleNote": "Note rule question",
+    "log": "Session log",
+    "logOther": "Other change ({{kind}})",
+    "logKind": {
+      "session": {
+        "start": "Session started",
+        "pause": "Session paused",
+        "resume": "Session resumed",
+        "end": "Session ended",
+        "recap": "Recap updated",
+        "journal": "Journal entry added",
+        "rule-note": "Rule question noted",
+        "rule-note-resolve": "Rule question checked",
+        "link": "Session scene changed"
+      },
+      "combat": {
+        "start": "Combat prepared",
+        "begin": "Combat started",
+        "next": "Combat: next turn",
+        "pause": "Combat paused",
+        "resume": "Combat resumed",
+        "end": "Combat ended",
+        "act": "Action taken",
+        "update": "Combat correction"
+      },
+      "resolution": {
+        "decide": "Resolution decided"
+      },
+      "token": {
+        "move": "Token moved"
+      }
+    }
   },
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",

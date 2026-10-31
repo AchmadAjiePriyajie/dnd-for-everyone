@@ -10,6 +10,7 @@ import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
 import type { AdvancementChoice, AdvancementPreview, CharacterOptions, RestPreview } from '#shared/characters';
 import type { ActionInput, ActionOption, ActionPreview } from '#shared/combat';
+import type { SessionSummary, SessionView } from '#shared/sessions';
 import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
 import type { Asset, AssetVisibility, SceneView } from '#shared/scenes';
@@ -111,6 +112,8 @@ export const api = {
   monsters: (campaignId: Id, locale: Locale) => request<MonsterInstance[]>('GET', `${campaignPath(campaignId)}/monsters?locale=${locale}`),
   encounters: (campaignId: Id) => request<EncounterView[]>('GET', `${campaignPath(campaignId)}/encounters`),
   homebrew: (campaignId: Id) => request<HomebrewView[]>('GET', `${campaignPath(campaignId)}/homebrew`),
+  sessions: (campaignId: Id) => request<SessionSummary[]>('GET', `${campaignPath(campaignId)}/sessions`),
+  sessionView: (campaignId: Id, sessionId: Id) => request<SessionView>('GET', `${campaignPath(campaignId)}/sessions/${encodeURIComponent(sessionId)}/resume`),
   actionOptions: (campaignId: Id, combatId: Id, combatantId: Id, locale: Locale) =>
     request<ActionOption[]>('GET', `${campaignPath(campaignId)}/combats/${encodeURIComponent(combatId)}/combatants/${encodeURIComponent(combatantId)}/actions?locale=${locale}`),
   actionPreview: (campaignId: Id, combatId: Id, input: ActionInput, locale: Locale) =>

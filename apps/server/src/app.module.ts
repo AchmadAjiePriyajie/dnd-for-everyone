@@ -14,6 +14,7 @@ import { CombatModule } from './features/combat/combat.module.js';
 import { EncountersModule } from './features/encounters/encounters.module.js';
 import { NotesModule } from './features/notes/notes.module.js';
 import { ScenesModule } from './features/scenes/scenes.module.js';
+import { SessionsModule } from './features/sessions/sessions.module.js';
 import { ReferenceModule } from './features/reference/reference.module.js';
 import { RealtimeModule } from './realtime/realtime.module.js';
 
@@ -47,6 +48,7 @@ export class AppModule {
         NotesModule,
         EncountersModule,
         ScenesModule,
+        SessionsModule,
         CommandsModule,
         RealtimeModule,
       ],

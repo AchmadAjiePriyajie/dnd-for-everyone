@@ -346,11 +346,13 @@ Catatan implementasi: migrasi `016-resolutions.sql` (nomor 009 sudah dipakai). `
 
 **Interfaces:** `startSession(ctx: CommandContext, campaignId: Id): PlaySession`; `pauseSession(ctx: CommandContext, sessionId: Id): PlaySession`; `resumeSession(principal: Principal, sessionId: Id): SessionView`. Session links existing scene/combat/resolutions, bukan membuat salinan state yang dapat bertentangan.
 
-- [ ] Tulis `resumes_committed_state_after_host_restart`: `expect(resumed.turnId).toBe(saved.turnId)` dan HP/tokens/resources/pending resolution sama; recap rahasia disaring.
-- [ ] Run `npm run test -- apps/server/src/features/sessions/resume.test.ts`; expected FAIL.
-- [ ] Implementasikan session lifecycle, waktu/recap/journal, log terstruktur yang dirender EN/ID per peserta, serta referensi keputusan aturan untuk dicek setelah sesi.
-- [ ] Run test sama; expected PASS untuk campaign tanpa active combat, draft belum di-ack dan resume session yang telah berakhir.
-- [ ] Commit `feat: add session history and resume`.
+- [x] Tulis `resumes_committed_state_after_host_restart`: `expect(resumed.turnId).toBe(saved.turnId)` dan HP/tokens/resources/pending resolution sama; recap rahasia disaring.
+- [x] Run `npm run test -- apps/server/src/features/sessions/resume.test.ts`; expected FAIL.
+- [x] Implementasikan session lifecycle, waktu/recap/journal, log terstruktur yang dirender EN/ID per peserta, serta referensi keputusan aturan untuk dicek setelah sesi.
+- [x] Run test sama; expected PASS untuk campaign tanpa active combat, draft belum di-ack dan resume session yang telah berakhir.
+- [x] Commit `feat: add session history and resume`.
+
+Catatan implementasi: migrasi `017-play-sessions.sql` (nomor 010 sudah dipakai). `resumeSession(principal, campaignId, sessionId)` membaca combat, scene dan resolusi melalui proyeksi yang sudah ada; sesi hanya menyimpan tautan `sceneId`/`combatId`, waktu bermain per segmen, recap (bagian party dan khusus DM), journal (party/pribadi) dan pertanyaan aturan. Jeda sesi menjeda combat yang berjalan dan lanjut sesi menjalankannya lagi. Log sesi berasal dari `campaign_events` dalam rentang sequence sesi; player hanya menerima jenis peristiwa umum tanpa data. Recap memakai autosave dengan revisi sehingga draft yang belum di-ack tidak pernah menimpa versi lebih baru.
 
 ### Task 20: Tutorial orisinal dan perjalanan pemula
 

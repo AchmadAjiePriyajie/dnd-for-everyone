@@ -191,6 +191,22 @@ dengan **Batalkan perubahan Hit Points**; riwayat tetap tersimpan. Resolusi
 tetap ada setelah reload atau restart host. Saat perangkat offline, tombol
 combat dinonaktifkan sampai tersambung dan tersinkron kembali.
 
+## Sesi bermain
+
+Buka **Sesi** dari room campaign. DM menekan **Mulai sesi**, lalu **Jeda sesi**,
+**Lanjutkan sesi**, atau **Akhiri sesi**. Menjeda sesi juga menjeda combat yang
+sedang berjalan, dan melanjutkan sesi menjalankannya kembali. Sesi hanya
+menautkan scene dan combat yang ada, sehingga setelah reload, reconnect, atau
+restart host, giliran, HP, token, resource, dan resolusi terbuka tampil sesuai
+data terakhir yang tersimpan.
+
+DM menulis **Recap untuk party** dan **Catatan khusus DM**; editor menyimpan
+otomatis dan menunjukkan status tersimpan, belum tersimpan, atau gagal. Player
+hanya melihat recap untuk party. Semua anggota dapat menambah entri journal
+untuk seluruh party atau hanya untuk dirinya dan DM. DM dapat mencatat
+pertanyaan aturan untuk diperiksa setelah sesi. Log sesi tampil dalam bahasa
+masing-masing peserta; player hanya melihat peristiwa umum sesi dan combat.
+
 ## Development
 
 Install dependency dengan `npm ci`, lalu gunakan dua terminal dari root project.

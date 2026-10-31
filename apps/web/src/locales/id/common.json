@@ -183,6 +183,9 @@
     "DEATH_SAVE_INVALID": "Death save belum tersedia atau sudah dilempar pada giliran ini.",
     "COMBAT_CANNOT_ACT": "Makhluk ini tidak dapat melakukan aksi atau gerakan itu dalam kondisinya saat ini.",
     "ACTION_INVALID": "Aksi ini tidak dapat dilakukan sekarang ({{issue}}).",
+    "SESSION_EXISTS": "Masih ada sesi yang berjalan atau dijeda.",
+    "SESSION_ENDED": "Sesi ini sudah berakhir.",
+    "SESSION_NOT_ACTIVE": "Status sesi ini tidak mengizinkan perintah tersebut.",
     "RESOLUTION_CLOSED": "Resolusi ini sudah ditutup.",
     "RESOLUTION_REACTIONS_PENDING": "Masih ada reaksi yang ditawarkan; putuskan dulu atau terapkan tanpa menunggu.",
     "REACTION_NOT_OFFERED": "Reaksi itu tidak ditawarkan untuk resolusi ini.",
@@ -1156,6 +1159,84 @@
     "correctionReason": "Alasan koreksi",
     "compensate": "Batalkan perubahan Hit Points",
     "resolveHere": "Perubahan Hit Points diputuskan di Resolusi terbuka."
+  },
+  "session": {
+    "open": "Sesi",
+    "title": "Sesi bermain",
+    "start": "Mulai sesi",
+    "sessionTitle": "Judul sesi (opsional)",
+    "history": "Daftar sesi",
+    "none": "Belum ada sesi.",
+    "heading": "Sesi {{number}}: {{title}}",
+    "status": {
+      "active": "Berjalan",
+      "paused": "Dijeda",
+      "ended": "Selesai"
+    },
+    "playTime": "Waktu bermain: {{minutes}} menit",
+    "combatLink": "Combat {{name}}, ronde {{round}}.",
+    "openResolutions": "{{count}} resolusi terbuka",
+    "sceneLink": "Scene: {{name}}.",
+    "pause": "Jeda sesi",
+    "resume": "Lanjutkan sesi",
+    "end": "Akhiri sesi",
+    "recap": "Recap",
+    "recapShared": "Recap untuk party",
+    "recapDm": "Catatan khusus DM",
+    "noRecap": "Belum ada recap.",
+    "save": {
+      "saved": "Tersimpan",
+      "unsaved": "Perubahan belum disimpan",
+      "saving": "Menyimpan…",
+      "failed": "Belum tersimpan. Periksa koneksi lalu coba lagi.",
+      "conflict": "Ada versi yang lebih baru. Draft kamu tetap disimpan di sini."
+    },
+    "saveRetry": "Coba simpan lagi",
+    "loadLatest": "Buang draft dan muat versi terbaru",
+    "journal": "Journal",
+    "noJournal": "Belum ada entri journal.",
+    "private": "Pribadi",
+    "journalEntry": "Entri journal",
+    "visibility": "Siapa yang boleh membaca",
+    "party": "Seluruh party",
+    "privateOption": "Hanya aku dan DM",
+    "addJournal": "Tambahkan ke journal",
+    "ruleNotes": "Pertanyaan aturan untuk dicek setelah sesi",
+    "checked": "Sudah dicek: {{text}}",
+    "openRule": "Buka aturan",
+    "ruleNote": "Pertanyaan aturan",
+    "addRuleNote": "Catat pertanyaan aturan",
+    "log": "Log sesi",
+    "logOther": "Perubahan lain ({{kind}})",
+    "logKind": {
+      "session": {
+        "start": "Sesi dimulai",
+        "pause": "Sesi dijeda",
+        "resume": "Sesi dilanjutkan",
+        "end": "Sesi berakhir",
+        "recap": "Recap diperbarui",
+        "journal": "Entri journal ditambahkan",
+        "rule-note": "Pertanyaan aturan dicatat",
+        "rule-note-resolve": "Pertanyaan aturan diperiksa",
+        "link": "Scene sesi diganti"
+      },
+      "combat": {
+        "start": "Combat disiapkan",
+        "begin": "Combat dimulai",
+        "next": "Combat: giliran berikutnya",
+        "pause": "Combat dijeda",
+        "resume": "Combat dilanjutkan",
+        "end": "Combat berakhir",
+        "act": "Aksi dilakukan",
+        "update": "Koreksi combat"
+      },
+      "resolution": {
+        "decide": "Resolusi diputuskan"
+      },
+      "token": {
+        "move": "Token dipindahkan"
+      }
+    }
   },
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",

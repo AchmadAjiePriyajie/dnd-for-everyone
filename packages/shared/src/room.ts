@@ -4,6 +4,7 @@ import type { CharacterSummary } from './characters.js';
 import type { CheatSheetRow, NoteSummary } from './notes.js';
 import type { SceneSummary } from './scenes.js';
 import type { CombatView, Resolution, RollRecord } from './combat.js';
+import type { SessionSummary } from './sessions.js';
 
 /**
  * Projection room per peserta. Field khusus DM berada di `dm` dan tidak pernah
@@ -26,5 +27,7 @@ export interface RoomSnapshot {
   rolls?: RollRecord[];
   /** Open resolutions plus the latest closed ones, filtered/redacted per member. */
   resolutions?: Resolution[];
+  /** Current (active/paused) play session, else the latest one. */
+  session?: SessionSummary | null;
   dm?: { invites: InviteView[]; cheatSheet?: CheatSheetRow[] };
 }
