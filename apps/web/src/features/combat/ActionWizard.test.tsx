@@ -18,7 +18,7 @@ const snapshot = (role: 'dm' | 'player'): RoomSnapshot => ({ campaignId: 'camp-1
   you: { accountId: role === 'dm' ? 'dm' : 'alice', role }, members: [], combat: combat(), rolls: [], ...(role === 'dm' ? { dm: { invites: [] } } : {}),
 });
 const cure: ActionOption = { id: 'spell:class.cleric:spell.cure-wounds', kind: 'spell', name: 'Cure Wounds', originalName: 'Cure Wounds', sourceId: 'spell.cure-wounds', cost: 'action', damage: [],
-  heal: { dice: '2d8', bonus: 2 }, rangeFeet: 5, spell: { level: 1, concentration: false, duration: 'Instantaneous', upcastDice: '2d8', upcastTarget: 'heal', upcastManual: false },
+  heal: { dice: '2d8', bonus: 2 }, rangeFeet: 5, spell: { level: 1, school: 'abjuration', concentration: false, duration: 'Instantaneous', upcastDice: '2d8', upcastTarget: 'heal', upcastManual: false },
   automation: 'assisted', notes: ['SPELL_EFFECT_REVIEW'], text: 'A creature you touch regains Hit Points.' };
 const preview = (input: ActionInput, issues: string[] = []): ActionPreview => ({ sourceId: 'spell.cure-wounds', optionId: input.optionId, actorId: 'hero', targetIds: input.targetIds, name: 'Cure Wounds',
   cost: { turn: 'action', slot: { level: input.slotLevel ?? 1, pact: false }, feature: null, uses: null, legendary: 0 }, automation: 'assisted', rolls: [],
