@@ -722,7 +722,55 @@
     "save": "Save encounter",
     "new": "New encounter",
     "saved": "Saved encounters",
-    "edit": "Edit"
+    "edit": "Edit",
+    "minCr": "Minimum CR",
+    "creatureType": "Creature type",
+    "anyType": "Any type",
+    "size": "Size",
+    "anySize": "Any size",
+    "source": "Source",
+    "sourceOption": {
+      "all": "SRD and homebrew",
+      "srd": "SRD only",
+      "homebrew": "Homebrew only"
+    },
+    "sortBy": "Sort by",
+    "sort": {
+      "name-asc": "Name (A–Z)",
+      "name-desc": "Name (Z–A)",
+      "cr-asc": "CR (low to high)",
+      "cr-desc": "CR (high to low)",
+      "xp-asc": "XP (low to high)",
+      "xp-desc": "XP (high to low)"
+    },
+    "resultCount": "Showing {{shown}} of {{total}}",
+    "clearFilters": "Clear filters",
+    "noMatches": "No monsters match these filters.",
+    "showMore": "Show {{count}} more",
+    "type": {
+      "aberration": "Aberration",
+      "beast": "Beast",
+      "celestial": "Celestial",
+      "construct": "Construct",
+      "dragon": "Dragon",
+      "elemental": "Elemental",
+      "fey": "Fey",
+      "fiend": "Fiend",
+      "giant": "Giant",
+      "humanoid": "Humanoid",
+      "monstrosity": "Monstrosity",
+      "ooze": "Ooze",
+      "plant": "Plant",
+      "undead": "Undead"
+    },
+    "sizeName": {
+      "tiny": "Tiny",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "huge": "Huge",
+      "gargantuan": "Gargantuan"
+    }
   },
   "homebrew": {
     "open": "Homebrew",

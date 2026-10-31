@@ -115,6 +115,52 @@ describe('encounter builder', () => {
     const estimate = screen.getByRole('group', { name: 'Difficulty estimate' });
     expect(within(estimate).getByText('A monster has no valid XP value; fix it before estimating.')).toBeTruthy();
   });
+
+  it('filters_by_type_and_sorts_with_paging', async () => {
+    const many = Array.from({ length: 45 }, (_, index) => ({
+      id: `monster.rat-${index}`,
+      name: `Rat ${String(index).padStart(2, '0')}`,
+      originalName: `Rat ${index}`,
+      cr: '0',
+      xp: 10,
+      creatureTypes: ['beast'],
+      size: ['tiny'],
+      homebrew: false,
+    }));
+    fake = installFakeApi({
+      snapshots: { 'camp-1': snapshot('dm') },
+      monsters: [
+        ...many,
+        { id: 'monster.ogre', name: 'Ogre', originalName: 'Ogre', cr: '2', xp: 450, creatureTypes: ['giant'], size: ['large'], homebrew: false },
+        { id: 'monster.hill-giant', name: 'Hill Giant', originalName: 'Hill Giant', cr: '5', xp: 1800, creatureTypes: ['giant'], size: ['huge'], homebrew: false },
+        { id: 'hb-mud', name: 'Mudling', originalName: 'Mudling', cr: '1/4', xp: 50, creatureTypes: ['elemental'], size: ['small'], homebrew: true },
+      ],
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/encounters');
+    const user = userEvent.setup();
+    render(<App />);
+
+    const picker = await screen.findByRole('region', { name: 'Monsters' });
+    const rows = () => within(picker).getAllByRole('listitem').map((item) => item.textContent ?? '');
+    // 48 monster: 40 pertama tampil, sisanya lewat "Tampilkan lagi".
+    expect(within(picker).getByText('Showing 40 of 48')).toBeTruthy();
+    await user.click(within(picker).getByRole('button', { name: 'Show 8 more' }));
+    expect(within(picker).getByText('Showing 48 of 48')).toBeTruthy();
+
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Creature type' }), 'giant');
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Sort by' }), 'cr-desc');
+    expect(rows().map((text) => text.split(' ·')[0]!.trim())).toEqual(['Hill Giant', 'Ogre']);
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Size' }), 'large');
+    expect(within(picker).getByText('Showing 1 of 1')).toBeTruthy();
+
+    await user.click(within(picker).getByRole('button', { name: 'Clear filters' }));
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Source' }), 'homebrew');
+    expect(rows()).toHaveLength(1);
+    expect(rows()[0]).toContain('Mudling');
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Minimum CR' }), '1');
+    expect(within(picker).getByText('No monsters match these filters.')).toBeTruthy();
+  });
+
 });
 
 describe('homebrew editor', () => {

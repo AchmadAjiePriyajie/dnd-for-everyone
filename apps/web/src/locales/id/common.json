@@ -722,7 +722,55 @@
     "save": "Simpan encounter",
     "new": "Encounter baru",
     "saved": "Encounter tersimpan",
-    "edit": "Edit"
+    "edit": "Edit",
+    "minCr": "CR minimum",
+    "creatureType": "Tipe makhluk",
+    "anyType": "Semua tipe",
+    "size": "Ukuran",
+    "anySize": "Semua ukuran",
+    "source": "Sumber",
+    "sourceOption": {
+      "all": "SRD dan homebrew",
+      "srd": "Hanya SRD",
+      "homebrew": "Hanya homebrew"
+    },
+    "sortBy": "Urutkan",
+    "sort": {
+      "name-asc": "Nama (A–Z)",
+      "name-desc": "Nama (Z–A)",
+      "cr-asc": "CR (rendah ke tinggi)",
+      "cr-desc": "CR (tinggi ke rendah)",
+      "xp-asc": "XP (rendah ke tinggi)",
+      "xp-desc": "XP (tinggi ke rendah)"
+    },
+    "resultCount": "Menampilkan {{shown}} dari {{total}}",
+    "clearFilters": "Hapus filter",
+    "noMatches": "Tidak ada monster yang cocok dengan filter ini.",
+    "showMore": "Tampilkan {{count}} lagi",
+    "type": {
+      "aberration": "Aberration",
+      "beast": "Beast",
+      "celestial": "Celestial",
+      "construct": "Construct",
+      "dragon": "Dragon",
+      "elemental": "Elemental",
+      "fey": "Fey",
+      "fiend": "Fiend",
+      "giant": "Giant",
+      "humanoid": "Humanoid",
+      "monstrosity": "Monstrosity",
+      "ooze": "Ooze",
+      "plant": "Plant",
+      "undead": "Undead"
+    },
+    "sizeName": {
+      "tiny": "Tiny",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "huge": "Huge",
+      "gargantuan": "Gargantuan"
+    }
   },
   "homebrew": {
     "open": "Homebrew",

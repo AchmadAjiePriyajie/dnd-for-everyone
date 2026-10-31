@@ -9,13 +9,11 @@ import { Icon } from '../../app/icons';
 import { Link, routePath } from '../../app/router';
 import { sendCommand, useRoomEntry } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
+import { CR_STEPS, crValue, defaultMonsterFilters, filterMonsters, MONSTER_SORTS, type MonsterFilters, type MonsterSort } from './monster-filters';
 
-/** "1/4" → 0.25; tanpa CR → NaN (tidak lolos filter CR, tidak memicu risiko CR). */
-const crValue = (cr: string | null) => {
-  if (cr === null) return Number.NaN;
-  const [top, bottom] = cr.split('/');
-  return bottom ? Number(top) / Number(bottom) : Number(top);
-};
+/** Jumlah monster per halaman daftar; "Tampilkan lagi" menambah sebanyak ini. */
+const PAGE_SIZE = 40;
+const SIZE_ORDER = ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan'];
 
 const emptyTemplate = (): EncounterTemplate => ({ name: '', target: 'moderate', party: { mode: 'levels', levels: [1, 1, 1, 1] }, monsters: [], difficultTerrain: false, notes: '' });
 
@@ -31,8 +29,8 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
   const [monsters, setMonsters] = useState<MonsterInstance[]>([]);
   const [saved, setSaved] = useState<EncounterView[]>([]);
   const [editing, setEditing] = useState<{ id: Id; revision: number | null; template: EncounterTemplate }>(() => ({ id: globalThis.crypto.randomUUID(), revision: null, template: emptyTemplate() }));
-  const [query, setQuery] = useState('');
-  const [maxCr, setMaxCr] = useState('');
+  const [filters, setFilters] = useState<MonsterFilters>(defaultMonsterFilters);
+  const [shown, setShown] = useState(PAGE_SIZE);
   const [levelsText, setLevelsText] = useState('1, 1, 1, 1');
   const [error, setError] = useState<ApiError | null>(null);
   const [busy, setBusy] = useState(false);
@@ -46,10 +44,15 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
   const template = editing.template;
   const update = (patch: Partial<EncounterTemplate>) => setEditing((current) => ({ ...current, template: { ...current.template, ...patch } }));
   const byId = useMemo(() => new Map(monsters.map((monster) => [monster.id, monster])), [monsters]);
-  const filtered = monsters
-    .filter((monster) => !query.trim() || `${monster.name} ${monster.originalName}`.toLowerCase().includes(query.trim().toLowerCase()))
-    .filter((monster) => !maxCr || crValue(monster.cr) <= Number(maxCr))
-    .slice(0, 40);
+  const matching = useMemo(() => filterMonsters(monsters, filters), [monsters, filters]);
+  const filtered = matching.slice(0, shown);
+  const creatureTypes = useMemo(() => [...new Set(monsters.flatMap((monster) => monster.creatureTypes))].sort(), [monsters]);
+  const sizes = useMemo(() => SIZE_ORDER.filter((size) => monsters.some((monster) => monster.size.includes(size))), [monsters]);
+  const setFilter = (patch: Partial<MonsterFilters>) => {
+    setFilters((current) => ({ ...current, ...patch }));
+    setShown(PAGE_SIZE);
+  };
+  const filtersActive = JSON.stringify({ ...filters, sort: 'name-asc' }) !== JSON.stringify(defaultMonsterFilters());
   const finalCharacters = (snapshot?.characters ?? []).filter((character) => character.status === 'final');
 
   // Estimasi langsung di client memakai fungsi aturan yang sama; error input = koreksi, bukan difficulty.
@@ -122,29 +125,87 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
       <div className="notes-layout">
         <section className="card" aria-labelledby={`${id}-monsters`}>
           <h2 id={`${id}-monsters`}>{t('encounters.monsters')}</h2>
-          <div className="field-row">
+          <div className="field">
+            <label htmlFor={`${id}-q`}>{t('encounters.search')}</label>
+            <input id={`${id}-q`} type="search" value={filters.query} onChange={(event) => setFilter({ query: event.target.value })} />
+          </div>
+          <div className="field-row monster-filters">
+            {(['minCr', 'maxCr'] as const).map((field) => (
+              <div key={field} className="field">
+                <label htmlFor={`${id}-${field}`}>{t(`encounters.${field}`)}</label>
+                <select id={`${id}-${field}`} value={filters[field]} onChange={(event) => setFilter({ [field]: event.target.value })}>
+                  <option value="">{t('encounters.anyCr')}</option>
+                  {CR_STEPS.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
             <div className="field">
-              <label htmlFor={`${id}-q`}>{t('encounters.search')}</label>
-              <input id={`${id}-q`} type="search" value={query} onChange={(event) => setQuery(event.target.value)} />
+              <label htmlFor={`${id}-type`}>{t('encounters.creatureType')}</label>
+              <select id={`${id}-type`} value={filters.creatureType} onChange={(event) => setFilter({ creatureType: event.target.value })}>
+                <option value="">{t('encounters.anyType')}</option>
+                {creatureTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {t(`encounters.type.${type}`, { defaultValue: type })}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="field">
-              <label htmlFor={`${id}-cr`}>{t('encounters.maxCr')}</label>
-              <select id={`${id}-cr`} value={maxCr} onChange={(event) => setMaxCr(event.target.value)}>
-                <option value="">{t('encounters.anyCr')}</option>
-                {['0.25', '0.5', '1', '2', '3', '5', '8', '10', '15', '20', '30'].map((value) => (
-                  <option key={value} value={value}>
-                    {value}
+              <label htmlFor={`${id}-size`}>{t('encounters.size')}</label>
+              <select id={`${id}-size`} value={filters.size} onChange={(event) => setFilter({ size: event.target.value })}>
+                <option value="">{t('encounters.anySize')}</option>
+                {sizes.map((size) => (
+                  <option key={size} value={size}>
+                    {t(`encounters.sizeName.${size}`, { defaultValue: size })}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label htmlFor={`${id}-source`}>{t('encounters.source')}</label>
+              <select id={`${id}-source`} value={filters.source} onChange={(event) => setFilter({ source: event.target.value as MonsterFilters['source'] })}>
+                {(['all', 'srd', 'homebrew'] as const).map((source) => (
+                  <option key={source} value={source}>
+                    {t(`encounters.sourceOption.${source}`)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label htmlFor={`${id}-sort`}>{t('encounters.sortBy')}</label>
+              <select id={`${id}-sort`} value={filters.sort} onChange={(event) => setFilter({ sort: event.target.value as MonsterSort })}>
+                {MONSTER_SORTS.map((sort) => (
+                  <option key={sort} value={sort}>
+                    {t(`encounters.sort.${sort}`)}
                   </option>
                 ))}
               </select>
             </div>
           </div>
+          <p className="row-actions">
+            <span className="muted small" role="status">
+              {t('encounters.resultCount', { shown: filtered.length, total: matching.length })}
+            </span>
+            {filtersActive && (
+              <button type="button" onClick={() => setFilter({ ...defaultMonsterFilters(), sort: filters.sort })}>
+                {t('encounters.clearFilters')}
+              </button>
+            )}
+          </p>
+          {matching.length === 0 && <p className="muted">{t('encounters.noMatches')}</p>}
           <ul className="row-list">
             {filtered.map((monster) => (
               <li key={monster.id}>
                 <span className="row-main">
                   {monster.name} {monster.homebrew && <span className="badge">{t('encounters.homebrew')}</span>}
-                  <span className="muted small"> · CR {monster.cr ?? '—'} · {monster.xp ?? '—'} XP</span>
+                  <span className="muted small">
+                    {' '}
+                    · CR {monster.cr ?? '—'} · {monster.xp ?? '—'} XP · {monster.creatureTypes.map((type) => t(`encounters.type.${type}`, { defaultValue: type })).join(', ')}
+                  </span>
                 </span>
                 <button type="button" aria-label={t('encounters.add', { name: monster.name })} onClick={() => addMonster(monster.id)}>
                   <Icon name="plus" />
@@ -152,6 +213,13 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               </li>
             ))}
           </ul>
+          {matching.length > filtered.length && (
+            <p>
+              <button type="button" onClick={() => setShown((current) => current + PAGE_SIZE)}>
+                {t('encounters.showMore', { count: Math.min(PAGE_SIZE, matching.length - filtered.length) })}
+              </button>
+            </p>
+          )}
         </section>
 
         <section className="card" aria-labelledby={`${id}-builder`}>
