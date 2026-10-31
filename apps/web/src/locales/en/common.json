@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Campaign Table",
+    "name": "Campfire Tales",
+    "credits": "Credits",
     "skipToContent": "Skip to content",
     "retry": "Try again",
     "loading": "Loading…",
@@ -9,7 +10,7 @@
     "campaigns": "Campaigns",
     "signOut": "Sign out",
     "signedInAs": "Signed in as {{username}}",
-    "tagline": "Run your D&D 2024 campaign on your own host.",
+    "tagline": "Run your 2024-rules fantasy campaign on your own host.",
     "reference": "Reference"
   },
   "connection": {
@@ -215,7 +216,7 @@
     "sourceCampaign": "Campaign content, shown only to members allowed to see it.",
     "translatedNote": "Unofficial app translation; the English source is kept.",
     "quickHelp": "Quick help",
-    "intro": "New to D&D? Start here, or search for any word you heard at the table. Reading a rule never spends anything.",
+    "intro": "New to tabletop roleplaying? Start here, or search for any word you heard at the table. Reading a rule never spends anything.",
     "backToRoom": "Back to the room"
   },
   "character": {
@@ -1237,6 +1238,15 @@
         "move": "Token moved"
       }
     }
+  },
+  "credits": {
+    "title": "Credits",
+    "rules": "Rules content",
+    "srd": "This work includes material from the System Reference Document 5.2.1 (SRD 5.2.1) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).",
+    "icons": "Icons",
+    "iconsBody": "Fantasy icons from {{site}}, licensed {{license}}.",
+    "fonts": "Fonts",
+    "fontsBody": "Cinzel and Crimson Pro, SIL Open Font License 1.1, bundled with the app."
   },
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",

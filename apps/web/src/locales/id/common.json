@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Meja Campaign",
+    "name": "Campfire Tales",
+    "credits": "Kredit",
     "skipToContent": "Lompat ke konten",
     "retry": "Coba lagi",
     "loading": "Memuat…",
@@ -9,7 +10,7 @@
     "campaigns": "Campaign",
     "signOut": "Keluar",
     "signedInAs": "Masuk sebagai {{username}}",
-    "tagline": "Jalankan campaign D&D 2024 di host milikmu sendiri.",
+    "tagline": "Jalankan campaign fantasy aturan 2024 di host milikmu sendiri.",
     "reference": "Referensi"
   },
   "connection": {
@@ -215,7 +216,7 @@
     "sourceCampaign": "Konten campaign, hanya ditampilkan kepada anggota yang berhak.",
     "translatedNote": "Terjemahan aplikasi (tidak resmi); teks sumber bahasa Inggris tetap tersedia.",
     "quickHelp": "Bantuan cepat",
-    "intro": "Baru mengenal D&D? Mulai dari sini, atau cari kata apa pun yang kamu dengar di meja. Membaca aturan tidak pernah menghabiskan apa pun.",
+    "intro": "Baru mengenal permainan peran di meja? Mulai dari sini, atau cari kata apa pun yang kamu dengar di meja. Membaca aturan tidak pernah menghabiskan apa pun.",
     "backToRoom": "Kembali ke room"
   },
   "character": {
@@ -1237,6 +1238,15 @@
         "move": "Token dipindahkan"
       }
     }
+  },
+  "credits": {
+    "title": "Kredit",
+    "rules": "Konten aturan",
+    "srd": "Karya ini memuat materi dari System Reference Document 5.2.1 (SRD 5.2.1) oleh Wizards of the Coast LLC, tersedia di https://www.dndbeyond.com/srd. SRD 5.2.1 dilisensikan di bawah Creative Commons Attribution 4.0 International License (CC BY 4.0).",
+    "icons": "Ikon",
+    "iconsBody": "Ikon fantasy dari {{site}}, berlisensi {{license}}.",
+    "fonts": "Font",
+    "fontsBody": "Cinzel dan Crimson Pro, SIL Open Font License 1.1, dibundel bersama aplikasi."
   },
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",

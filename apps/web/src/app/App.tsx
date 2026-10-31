@@ -8,6 +8,7 @@ import { CharacterPage } from '../features/characters/CharacterPage';
 import { EncounterBuilder } from '../features/encounters/EncounterBuilder';
 import { CombatTracker } from '../features/combat/CombatTracker';
 import { SessionJournal } from '../features/sessions/SessionJournal';
+import { Credits } from '../features/credits/Credits';
 import { HomebrewEditor } from '../features/encounters/HomebrewEditor';
 import { NotesPage } from '../features/notes/PartyJournal';
 import { ScenesPage } from '../features/scenes/BattleMap';
@@ -67,6 +68,8 @@ function Shell() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => { document.title = t('app.name'); }, [t]);
 
   // Konfirmasi "tersimpan" cukup sebentar; status gagal tetap terlihat.
   useEffect(() => {
@@ -164,7 +167,8 @@ function Shell() {
             </button>
           </section>
         )}
-        {auth.phase === 'anonymous' && (
+        {route.name === 'credits' && !session ? <Credits /> : null}
+        {auth.phase === 'anonymous' && route.name !== 'credits' && (
           <AuthScreen bootstrapRequired={auth.bootstrapRequired} onAuthenticated={authenticate} />
         )}
         {session && (
@@ -173,6 +177,7 @@ function Shell() {
           </SessionContext.Provider>
         )}
       </main>
+      <footer className="app-footer"><Link href={routePath.credits()}>{t('app.credits')}</Link></footer>
     </div>
   );
 }
@@ -181,6 +186,7 @@ function Routes() {
   const { t } = useTranslation();
   const route = useRoute();
   if (route.name === 'lobby') return <Lobby />;
+  if (route.name === 'credits') return <Credits />;
   if (route.name === 'campaign') return <CampaignRoom key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'character') {
     return <CharacterPage key={`${route.campaignId}/${route.characterId}`} campaignId={route.campaignId} characterId={route.characterId} />;

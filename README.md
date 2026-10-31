@@ -1,4 +1,4 @@
-# DND for Everyone
+# Campfire Tales
 
 Platform untuk mengelola permainan Dungeons & Dragons dengan campaign, karakter,
 referensi aturan, encounter, catatan, dan battle map. Aplikasi memakai React + Vite

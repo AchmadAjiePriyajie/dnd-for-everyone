@@ -79,6 +79,7 @@ const EXTRA_ATTACKS: Record<string, number> = { 'extra-attack': 2, 'two-extra-at
 
 interface SpellMechanics {
   level: number;
+  school: string;
   castingTime: { amount: number; unit: string };
   range: { type: string; distance?: number };
   duration: { concentration: boolean };
@@ -98,7 +99,7 @@ function spellOption(catalog: ContentCatalog, spellId: Id, cls: { classId: Id; s
     cost: CAST_COST[mechanics.castingTime.unit] ?? 'action', damage: [], automation: 'manual', notes, text: local.body,
     rangeFeet: mechanics.range.type === 'feet' ? mechanics.range.distance ?? null : mechanics.range.type === 'touch' ? 5 : null,
     spell: {
-      level: mechanics.level, concentration: mechanics.duration.concentration,
+      level: mechanics.level, school: mechanics.school, concentration: mechanics.duration.concentration,
       duration: /\*\*Duration:\*\* ([^\n]+)/.exec(body)?.[1]?.trim() ?? '', upcastDice: null, upcastTarget: null, upcastManual: false,
     },
   };

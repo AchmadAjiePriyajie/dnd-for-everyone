@@ -17,7 +17,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "locales:audit": "node scripts/audit-locales.ts",
-    "content:audit": "node --conditions=source scripts/audit-content.ts"
+    "content:audit": "node --conditions=source scripts/audit-content.ts",
+    "icons:build": "node scripts/build-icons.mjs"
   },
   "dependencies": {
     "@fastify/static": "10.1.8",
@@ -40,6 +41,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@iconify-json/game-icons": "^1.2.4",
     "@nestjs/testing": "12.3.2",
     "@playwright/test": "^1.64.1",
     "@swc/core": "1.16.20",

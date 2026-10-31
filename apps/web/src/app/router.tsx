@@ -12,11 +12,13 @@ export type Route =
   | { name: 'scenes'; campaignId: string }
   | { name: 'combat'; campaignId: string }
   | { name: 'session'; campaignId: string }
+  | { name: 'credits' }
   | { name: 'not-found' };
 
 export function parseRoute(pathname: string): Route {
   if (pathname === '/' || pathname === '') return { name: 'lobby' };
   if (/^\/reference\/?$/.test(pathname)) return { name: 'reference' };
+  if (/^\/credits\/?$/.test(pathname)) return { name: 'credits' };
   const character = /^\/campaigns\/([^/]+)\/characters\/([^/]+)\/?$/.exec(pathname);
   if (character) {
     try {
@@ -47,6 +49,7 @@ export function parseRoute(pathname: string): Route {
 
 export const routePath = {
   lobby: () => '/',
+  credits: () => '/credits',
   campaign: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}`,
   character: (campaignId: string, characterId: string) =>
     `/campaigns/${encodeURIComponent(campaignId)}/characters/${encodeURIComponent(characterId)}`,

@@ -191,7 +191,7 @@ export interface ActionOption {
   heal?: { dice: string; bonus: number };
   /** Spell range in feet (touch = 5); null = self/area/sight: the DM checks targets. */
   rangeFeet?: number | null;
-  spell?: { level: number; concentration: boolean; duration: string; upcastDice: string | null; upcastTarget: 'damage' | 'heal' | null; upcastManual: boolean };
+  spell?: { level: number; school: string; concentration: boolean; duration: string; upcastDice: string | null; upcastTarget: 'damage' | 'heal' | null; upcastManual: boolean };
   uses?: ActionUses;
   multiattack?: { count: number | null; names: string[]; alternatives: boolean };
   /** Legendary action cost in uses, and whether it is limited to once per round. */
