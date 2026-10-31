@@ -91,7 +91,7 @@ export function TokenPanel({ campaignId, scene, assets, members, selected, onSel
     });
     if (placed) setToken((current) => ({ ...current, label: '' }));
   };
-  const gridField = (field: keyof GridSettings, min: number, max: number) => (
+  const gridField = (field: 'columns' | 'rows' | 'cellPixels' | 'offsetX' | 'offsetY' | 'feetPerCell', min: number, max: number) => (
     <div key={field} className="field">
       <label htmlFor={`${id}-${field}`}>{t(`scenes.grid.${field}`)}</label>
       <input id={`${id}-${field}`} type="number" min={min} max={max} value={grid[field]} onChange={(event) => setGrid({ ...grid, [field]: Number(event.target.value) })} />

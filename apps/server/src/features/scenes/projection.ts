@@ -1,7 +1,7 @@
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import type { Member, Principal } from '#shared/access';
 import type { Id } from '#shared/contracts';
-import type { GridSettings, SceneView, Token } from '#shared/scenes';
+import type { AreaMarker, FogState, GridSettings, SceneView, Token } from '#shared/scenes';
 import { forbidden } from '../../common/domain-error.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { ProjectionService } from '../../realtime/projection.js';
@@ -37,6 +37,14 @@ export class ScenesProjection implements OnModuleInit {
     const scene = this.scenes.scene(db, campaignId, sceneId);
     if (!scene || (member.role !== 'dm' && !scene.shared)) throw forbidden();
     const revision = db.prepare('SELECT revision FROM entity_revisions WHERE campaign_id = ? AND target_id = ?').get(campaignId, scene.id) as { revision: number } | undefined;
+    const fog = JSON.parse(scene.fog) as FogState;
+    const markers = (
+      db.prepare('SELECT id, owner_account_id, marker FROM map_markers WHERE campaign_id = ? AND scene_id = ? ORDER BY created_at, id').all(campaignId, scene.id) as Array<{
+        id: Id;
+        owner_account_id: Id;
+        marker: string;
+      }>
+    ).map((row) => ({ ...(JSON.parse(row.marker) as Omit<AreaMarker, 'id' | 'ownerAccountId'>), id: row.id, ownerAccountId: row.owner_account_id }));
     return {
       id: scene.id,
       name: scene.name,
@@ -44,8 +52,10 @@ export class ScenesProjection implements OnModuleInit {
       grid: JSON.parse(scene.grid) as GridSettings,
       tokens: this.scenes
         .tokens(db, campaignId, scene.id)
-        .filter((token) => member.role === 'dm' || !token.hidden)
+        .filter((token) => this.scenes.seenBy(token, member, fog))
         .map((token) => this.token(token, member)),
+      markers,
+      fog,
       revision: revision?.revision ?? 0,
       ...(member.role === 'dm' ? { shared: Boolean(scene.shared) } : {}),
     };

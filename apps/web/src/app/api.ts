@@ -111,6 +111,7 @@ export const api = {
   encounters: (campaignId: Id) => request<EncounterView[]>('GET', `${campaignPath(campaignId)}/encounters`),
   homebrew: (campaignId: Id) => request<HomebrewView[]>('GET', `${campaignPath(campaignId)}/homebrew`),
   scene: (campaignId: Id, sceneId: Id) => request<SceneView>('GET', `${campaignPath(campaignId)}/scenes/${encodeURIComponent(sceneId)}`),
+  ping: (campaignId: Id, sceneId: Id, x: number, y: number) => request<void>('POST', `${campaignPath(campaignId)}/scenes/${encodeURIComponent(sceneId)}/ping`, { x, y }),
   assets: (campaignId: Id) => request<Asset[]>('GET', `${campaignPath(campaignId)}/assets`),
   uploadAsset: (campaignId: Id, file: Blob, name: string, visibility: AssetVisibility) =>
     upload<Asset>(`${campaignPath(campaignId)}/assets?${new URLSearchParams({ name, visibility })}`, file),

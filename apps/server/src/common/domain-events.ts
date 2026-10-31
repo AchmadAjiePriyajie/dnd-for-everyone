@@ -6,6 +6,8 @@ export interface DomainEventMap {
   'room.changed': { campaignId: Id; eventSequence: number };
   'member.removed': { campaignId: Id; accountId: Id };
   'session.revoked': { tokenHash: string };
+  /** Ping peta sementara; tidak disimpan. `dmOnly` bila scene belum dibagikan. */
+  'map.ping': { campaignId: Id; sceneId: Id; x: number; y: number; accountId: Id; dmOnly: boolean };
 }
 
 type Listener<K extends keyof DomainEventMap> = (event: DomainEventMap[K]) => void;

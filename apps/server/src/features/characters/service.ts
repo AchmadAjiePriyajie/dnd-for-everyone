@@ -147,6 +147,13 @@ export class CharactersService implements OnModuleInit {
     });
   }
 
+  /** Speed berjalan karakter dari sheet (feet), atau null bila karakter tidak ada di campaign. */
+  speedFeet(db: DatabaseSync, campaignId: Id, characterId: Id): number | null {
+    const row = this.row(db, characterId);
+    if (!row || row.campaign_id !== campaignId) return null;
+    return deriveCharacter(this.toCharacter(db, row), this.content.catalog()).speed.value;
+  }
+
   /** Membership pemilik karakter; selain pemilik (termasuk DM) ditolak untuk edit wizard. */
   requireCharacterOwner(principal: Principal, characterId: Id): Member {
     const row = this.row(this.database.getHandle(), characterId);

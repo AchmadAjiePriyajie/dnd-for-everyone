@@ -1922,3 +1922,71 @@ button:disabled {
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
+
+
+.battle-column {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+}
+
+.difficult-cell {
+  fill: color-mix(in srgb, var(--warn) 18%, transparent);
+}
+
+.aoe-cell {
+  fill: color-mix(in srgb, var(--accent) 30%, transparent);
+  stroke: var(--accent);
+  stroke-width: 0.03;
+}
+
+.aoe-origin {
+  fill: var(--accent);
+}
+
+.ruler line {
+  stroke: var(--focus);
+  stroke-width: 0.08;
+  stroke-dasharray: 0.2 0.15;
+}
+
+.ruler text {
+  fill: var(--focus);
+  font-weight: 700;
+}
+
+.ping {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.12;
+  animation: ping-pulse 1s ease-out infinite;
+}
+
+@keyframes ping-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ping {
+    animation: none;
+  }
+}
+
+.fog {
+  fill: #0d0906;
+}
+
+.reveal-layer.is-dm .fog {
+  opacity: 0.45;
+}

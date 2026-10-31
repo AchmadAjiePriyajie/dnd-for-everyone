@@ -191,4 +191,52 @@ describe('scenes and assets', () => {
     expect((await send(dm, campaignId, 'tok-ambush', 'token.update', { hidden: false })).status).toBe(200);
     expect((await alice.client.get<SceneView>(scenePath)).body.tokens.map((token) => token.id)).toContain('tok-ambush');
   });
+  it('validates_moves_fog_markers_and_ping', async () => {
+    const { dm, campaignId, alice, bob } = await seed();
+    const grid = { columns: 12, rows: 10, cellPixels: 50, offsetX: 0, offsetY: 0, feetPerCell: 5, difficult: [{ x: 3, y: 1 }], enforceSpeed: true };
+    await send(dm, campaignId, 'scene-cave', 'scene.save', { name: 'Cragmaw Cave', assetId: null, grid });
+    await send(dm, campaignId, 'scene-cave', 'scene.share', { shared: true }, 1);
+    await send(dm, campaignId, 'tok-alice', 'token.place', { sceneId: 'scene-cave', label: 'Brakka', kind: 'character', ownerAccountId: alice.accountId, x: 1, y: 1, size: 1, hidden: false });
+    await send(dm, campaignId, 'tok-gob', 'token.place', { sceneId: 'scene-cave', label: 'Goblin', kind: 'monster', monsterId: 'monster.goblin-warrior', x: 9, y: 8, size: 1, hidden: false });
+    const view = async (client: TestClient) => (await client.get<SceneView>(`/api/campaigns/${campaignId}/scenes/scene-cave`)).body;
+
+    // Path melewati Difficult Terrain: (1,1)→(2,1)→(3,1)→(4,1) = 5 + 10 + 5 = 20 feet.
+    const moved = await send(alice.client, campaignId, 'tok-alice', 'token.move', { x: 4, y: 1, path: [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }] });
+    expect(moved.body.value).toMatchObject({ x: 4, y: 1, costFeet: 20 });
+    // Path harus mulai dari posisi token dan berakhir di tujuan.
+    expect((await send(alice.client, campaignId, 'tok-alice', 'token.move', { x: 6, y: 1, path: [{ x: 5, y: 1 }, { x: 6, y: 1 }] })).body.code).toBe('PATH_INVALID');
+    // Goblin Warrior speed 30: 7 kotak = 35 feet melebihi speed saat scene membatasi gerak.
+    expect((await send(dm, campaignId, 'tok-gob', 'token.move', { x: 2, y: 8 })).body.code).toBe('MOVE_OVER_BUDGET');
+    const override = await send(dm, campaignId, 'tok-gob', 'token.move', { x: 2, y: 8, override: true });
+    expect(override.body.value).toMatchObject({ costFeet: 35, override: true });
+    // Hanya DM yang boleh override.
+    expect((await send(alice.client, campaignId, 'tok-alice', 'token.move', { x: 5, y: 1, override: true })).body.code).toBe('FORBIDDEN');
+
+    // Kabut manual: token di luar area terungkap diredaksi server untuk player; token sendiri tetap terlihat.
+    expect((await send(dm, campaignId, 'scene-cave', 'scene.fog', { enabled: true, revealed: [{ x: 0, y: 0, w: 6, h: 4 }] })).status).toBe(200);
+    expect((await view(bob.client)).tokens.map((token) => token.id)).toEqual(['tok-alice']);
+    expect((await view(bob.client)).fog).toEqual({ enabled: true, revealed: [{ x: 0, y: 0, w: 6, h: 4 }] });
+    expect((await view(dm)).tokens.map((token) => token.id).sort()).toEqual(['tok-alice', 'tok-gob']);
+    expect((await send(alice.client, campaignId, 'scene-cave', 'scene.fog', { enabled: false, revealed: [] })).body.code).toBe('FORBIDDEN');
+    // Token yang tertutup kabut tidak bisa digerakkan player (sama seperti tidak ada).
+    expect((await send(bob.client, campaignId, 'tok-gob', 'token.move', { x: 2, y: 7 })).body.code).toBe('FORBIDDEN');
+
+    // Penanda AoE: semua anggota boleh menaruh; hanya pemilik atau DM yang menghapus.
+    expect((await send(alice.client, campaignId, 'aoe-1', 'marker.place', { sceneId: 'scene-cave', shape: 'sphere', origin: { x: 5, y: 5 }, sizeFeet: 20, direction: 'E', label: 'Fireball' })).status).toBe(200);
+    expect((await view(bob.client)).markers).toEqual([expect.objectContaining({ id: 'aoe-1', shape: 'sphere', sizeFeet: 20, ownerAccountId: alice.accountId })]);
+    expect((await send(bob.client, campaignId, 'aoe-1', 'marker.remove')).body.code).toBe('FORBIDDEN');
+    expect((await send(dm, campaignId, 'aoe-1', 'marker.remove')).status).toBe(200);
+    expect((await view(bob.client)).markers).toEqual([]);
+
+    // Ping sementara: diteruskan realtime tanpa event/log permanen, dibatasi laju.
+    const sequence = async () => (await alice.client.get<RoomSnapshot>(`/api/campaigns/${campaignId}/snapshot`)).body.eventSequence;
+    const before = await sequence();
+    for (let index = 0; index < 5; index++) expect((await alice.client.post(`/api/campaigns/${campaignId}/scenes/scene-cave/ping`, { x: 3, y: 2 })).status).toBe(204);
+    expect(await sequence()).toBe(before);
+    expect((await alice.client.post(`/api/campaigns/${campaignId}/scenes/scene-cave/ping`, { x: 3, y: 2 })).status).toBe(429);
+    // Kabut ikut menaikkan revisi scene (save 1, share 2, fog 3).
+    await send(dm, campaignId, 'scene-cave', 'scene.share', { shared: false }, 3);
+    expect((await bob.client.post(`/api/campaigns/${campaignId}/scenes/scene-cave/ping`, { x: 1, y: 1 })).status).toBe(403);
+    expect((await bob.client.post(`/api/campaigns/${campaignId}/scenes/scene-cave/ping`, { x: 999, y: 1 })).status).toBe(400);
+  });
 });

@@ -28,6 +28,8 @@ const scene = (over: Partial<SceneView> = {}): SceneView => ({
   name: 'Triboar Trail',
   assetId: null,
   grid,
+  markers: [],
+  fog: { enabled: false, revealed: [] },
   revision: 2,
   tokens: [
     { id: 'tok-brakka', sceneId: 'scene-road', label: 'Brakka', kind: 'character', x: 2, y: 3, size: 1, ownerAccountId: 'acc-alice', characterId: null },
@@ -74,7 +76,7 @@ describe('battle map', () => {
     // Posisi diumumkan dalam kolom/baris (mulai 1), disimpan sebagai sel grid (mulai 0).
     const brakka = within(map).getByRole('button', { name: 'Brakka, column 3, row 4' });
     fireEvent.keyDown(brakka, { key: 'ArrowRight' });
-    await waitFor(() => expect(commands()).toContainEqual(expect.objectContaining({ kind: 'token.move', targetId: 'tok-brakka', payload: { x: 3, y: 3 } })));
+    await waitFor(() => expect(commands()).toContainEqual(expect.objectContaining({ kind: 'token.move', targetId: 'tok-brakka', payload: { x: 3, y: 3, path: [{ x: 2, y: 3 }, { x: 3, y: 3 }] } })));
     // Token milik orang lain tidak bergerak.
     fireEvent.keyDown(within(map).getByRole('button', { name: 'Ogre, column 20, row 6' }), { key: 'ArrowLeft' });
     expect(commands().some((c) => c.targetId === 'tok-ogre')).toBe(false);

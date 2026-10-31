@@ -71,6 +71,10 @@ export class RoomsGateway implements OnGatewayConnection, OnModuleInit, OnModule
         this.server.in(accountRoom(accountId)).socketsLeave(campaignRoom(campaignId));
         this.server.to(accountRoom(accountId)).emit('room:access-revoked', { campaignId });
       }),
+      this.events.on('map.ping', ({ campaignId, sceneId, x, y, accountId, dmOnly }) => {
+        const target = dmOnly ? accountRoom(accountId) : campaignRoom(campaignId);
+        this.server?.to(target).emit('map:ping', { campaignId, sceneId, x, y, accountId });
+      }),
       this.events.on('session.revoked', ({ tokenHash }) => {
         this.server?.in(sessionRoom(tokenHash)).disconnectSockets(true);
       }),

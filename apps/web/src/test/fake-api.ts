@@ -256,6 +256,7 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     if (/^\/api\/campaigns\/[^/]+\/monsters$/.test(path)) return json(200, state.monsters);
     if (/^\/api\/campaigns\/[^/]+\/encounters$/.test(path)) return json(200, state.encounters);
     if (/^\/api\/campaigns\/[^/]+\/homebrew$/.test(path)) return json(200, state.homebrew);
+    if (/^\/api\/campaigns\/[^/]+\/scenes\/[^/]+\/ping$/.test(path)) return new Response(null, { status: 204 });
     const scenePath = /^\/api\/campaigns\/([^/]+)\/scenes\/([^/]+)$/.exec(path);
     if (scenePath) {
       const found = state.scenes[decodeURIComponent(scenePath[2]!)];

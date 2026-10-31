@@ -163,7 +163,9 @@
     "ASSET_INVALID": "That file is not a valid PNG, JPEG or WebP image.",
     "ASSET_TOO_LARGE": "That image is too large (at most 20 MiB and 40 megapixels).",
     "ASSET_NOT_SHAREABLE": "A scene background must be an image shared with the party.",
-    "TOKEN_OUT_OF_BOUNDS": "That position is outside the map ({{columns}} × {{rows}} squares)."
+    "TOKEN_OUT_OF_BOUNDS": "That position is outside the map ({{columns}} × {{rows}} squares).",
+    "PATH_INVALID": "That path is not a chain of neighbouring squares from the token.",
+    "MOVE_OVER_BUDGET": "That move costs {{costFeet}} feet, more than the speed of {{speed}} feet."
   },
   "reference": {
     "title": "Rules reference",
@@ -876,6 +878,51 @@
       "size": "Size (squares)"
     },
     "tokenHp": "HP (DM only)",
-    "placeHidden": "Place hidden"
+    "placeHidden": "Place hidden",
+    "tools": "Map tools",
+    "tool": {
+      "select": "Select and move",
+      "measure": "Measure",
+      "ping": "Ping",
+      "area": "Area of effect",
+      "reveal": "Reveal (fog)"
+    },
+    "toolHint": {
+      "select": "Pick a token, then tap a square, drag it, or use the arrow keys or the form below.",
+      "measure": "Tap two squares, or pick a token and tap a square. Distance follows this scene’s diagonal rule.",
+      "ping": "Tap a square or use the form to show everyone a short ping. Pings are not saved.",
+      "area": "Place a template so everyone sees which squares an effect covers. The DM decides who is affected.",
+      "reveal": "Fog hides tokens outside revealed areas from players. Only use maps that are safe to show."
+    },
+    "pickToken": "Pick one of your tokens to move it.",
+    "moveTo": "Move {{label}} to a square",
+    "moveButton": "Move {{label}}",
+    "measureButton": "Measure to this square",
+    "distance": "{{feet}} feet from {{from}} to {{to}}",
+    "pingButton": "Ping this square",
+    "shapeLabel": "Shape",
+    "shape": {
+      "sphere": "Sphere",
+      "cube": "Cube",
+      "cone": "Cone",
+      "line": "Line",
+      "emanation": "Emanation",
+      "cylinder": "Cylinder"
+    },
+    "sizeFeet": "Size (feet)",
+    "widthFeet": "Width (feet)",
+    "direction": "Direction",
+    "originColumn": "Origin column (corner)",
+    "originRow": "Origin row (corner)",
+    "areaName": "Label",
+    "placeArea": "Place area",
+    "removeArea": "Remove {{label}}",
+    "areaLabel": "{{label}}, {{feet}} feet",
+    "feet": "{{feet}} ft",
+    "fogEnabled": "Fog on",
+    "revealWidth": "Width (squares)",
+    "revealHeight": "Height (squares)",
+    "revealArea": "Reveal this area",
+    "coverAll": "Cover everything"
   }
 }

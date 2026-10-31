@@ -8,10 +8,12 @@ import { SchemaValidationPipe } from '../../common/schema-validation.pipe.js';
 import { CurrentPrincipal } from '../auth/principal.js';
 import { SessionGuard } from '../auth/session.guard.js';
 import { AssetsService } from './assets.js';
+import { MovementService } from './movement.js';
 import { ScenesProjection } from './projection.js';
 
 const campaignParams = z.strictObject({ campaignId: z.string().min(1).max(100) });
 const entryParams = z.strictObject({ campaignId: z.string().min(1).max(100), id: z.string().min(1).max(100) });
+const pingBody = z.strictObject({ x: z.number().int().min(0).max(199), y: z.number().int().min(0).max(199) });
 const uploadQuery = z.strictObject({ visibility: assetVisibilitySchema, name: z.string().trim().min(1).max(120) });
 /** Gambar disajikan tanpa izin menjalankan apa pun, walau browser salah menebak tipenya. */
 const ASSET_CSP = "default-src 'none'";
@@ -23,6 +25,7 @@ export class ScenesController {
   constructor(
     private readonly assets: AssetsService,
     private readonly scenes: ScenesProjection,
+    private readonly movement: MovementService,
   ) {}
 
   @Post('assets')
@@ -61,5 +64,16 @@ export class ScenesController {
   @Get('scenes/:id')
   scene(@CurrentPrincipal() principal: Principal, @Param(new SchemaValidationPipe(entryParams)) input: z.infer<typeof entryParams>): SceneView {
     return this.scenes.projectScene(principal, input.campaignId, input.id);
+  }
+
+  /** Ping sementara (bukan command): tidak masuk log permanen. */
+  @Post('scenes/:id/ping')
+  @HttpCode(204)
+  ping(
+    @CurrentPrincipal() principal: Principal,
+    @Param(new SchemaValidationPipe(entryParams)) input: z.infer<typeof entryParams>,
+    @Body(new SchemaValidationPipe(pingBody)) body: z.infer<typeof pingBody>,
+  ): void {
+    this.movement.ping(principal, input.campaignId, input.id, body);
   }
 }

@@ -274,11 +274,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `movementCost(path: GridPoint[], settings: GridSettings): number`; `moveToken(ctx: CommandContext, input: MoveTokenInput): Token`. Default: 5 feet/square, diagonal sama satu square (Chebyshev), difficult terrain dikonfigurasi DM; tersedia campaign setting alternate diagonal dan DM override dengan log.
 
-- [ ] Tulis `validates_paths_and_supports_touch`: `expect(movementCost([{x:0,y:0},{x:1,y:1}], standardGrid)).toBe(5)`; difficulty terrain naik biaya sesuai sumber; player tidak memindah token lain; tap-to-move sama hasil dengan drag.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan committed movement/measurement, ping sementara, AoE marker dan manual reveal; overlay visual tidak dipakai sebagai pengamanan gambar penuh. Map background yang dibagikan harus aman dilihat; informasi rahasia tetap pada asset terpisah dan projection server.
-- [ ] Run test sama; expected PASS untuk zoom/resize, movement budget, hidden entity, keyboard dan no-grid roleplay; ping tidak membuat log permanen per pointer move.
-- [ ] Commit `feat: add interactive map controls`.
+- [x] Tulis `validates_paths_and_supports_touch`: `expect(movementCost([{x:0,y:0},{x:1,y:1}], standardGrid)).toBe(5)`; difficulty terrain naik biaya sesuai sumber; player tidak memindah token lain; tap-to-move sama hasil dengan drag.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan committed movement/measurement, ping sementara, AoE marker dan manual reveal; overlay visual tidak dipakai sebagai pengamanan gambar penuh. Map background yang dibagikan harus aman dilihat; informasi rahasia tetap pada asset terpisah dan projection server.
+- [x] Run test sama; expected PASS untuk zoom/resize, movement budget, hidden entity, keyboard dan no-grid roleplay; ping tidak membuat log permanen per pointer move.
+- [x] Commit `feat: add interactive map controls`.
 
 ### Task 15: Combat lifecycle, initiative dan action economy
 

@@ -47,6 +47,21 @@ const watchers = new Map<Id, number>();
 const latestFetch = new Map<Id, number>();
 let fetchCounter = 0;
 
+/** Ping peta sementara dari peserta lain; tidak masuk snapshot. */
+export interface MapPing {
+  campaignId: Id;
+  sceneId: Id;
+  x: number;
+  y: number;
+  accountId: Id;
+}
+const pingListeners = new Set<(ping: MapPing) => void>();
+
+export function onMapPing(listener: (ping: MapPing) => void): () => void {
+  pingListeners.add(listener);
+  return () => pingListeners.delete(listener);
+}
+
 function setState(next: RoomState): void {
   state = next;
   for (const listener of listeners) listener();
@@ -119,8 +134,13 @@ function ensureSocket(): void {
   current.on('connect', onConnect);
   current.on('disconnect', onDisconnect);
   current.on('room:changed', onChanged);
+  const onPing = (ping: MapPing) => {
+    if (ping && watchers.has(ping.campaignId)) for (const listener of pingListeners) listener(ping);
+  };
   current.on('room:access-revoked', onRevoked);
+  current.on('map:ping', onPing);
   detach = () => {
+    current.off('map:ping', onPing);
     current.off('connect', onConnect);
     current.off('disconnect', onDisconnect);
     current.off('room:changed', onChanged);

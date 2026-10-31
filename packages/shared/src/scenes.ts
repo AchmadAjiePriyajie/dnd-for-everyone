@@ -44,6 +44,12 @@ export const gridSettingsSchema = z.strictObject({
   offsetX: z.number().min(-10_000).max(10_000),
   offsetY: z.number().min(-10_000).max(10_000),
   feetPerCell: z.number().int().min(1).max(100),
+  /** standard (default 2024): diagonal = satu kotak; alternate: 5-10-5. */
+  diagonal: z.enum(['standard', 'alternate']).optional(),
+  /** Kotak Difficult Terrain yang ditandai DM. */
+  difficult: z.array(z.strictObject({ x: z.number().int().min(0).max(199), y: z.number().int().min(0).max(199) })).max(5000).optional(),
+  /** Batasi satu gerakan token pada speed-nya (eksplorasi taktis); DM bisa override. */
+  enforceSpeed: z.boolean().optional(),
 });
 export type GridSettings = z.infer<typeof gridSettingsSchema>;
 
@@ -71,9 +77,39 @@ export const tokenDraftSchema = z.strictObject({
 });
 export type TokenDraft = z.infer<typeof tokenDraftSchema>;
 
-export const moveTokenSchema = z.strictObject({ x: coordinate, y: coordinate });
+const point = z.strictObject({ x: coordinate, y: coordinate });
+export type GridPoint = z.infer<typeof point>;
+
+/** Gerak token: path kotak demi kotak (tap/drag membuat path lurus); DM boleh override batas. */
+export const moveTokenSchema = z.strictObject({ x: coordinate, y: coordinate, path: z.array(point).min(1).max(400).optional(), override: z.boolean().optional() });
 export type MoveTokenInput = z.infer<typeof moveTokenSchema>;
-export type GridPoint = MoveTokenInput;
+
+export const AREA_SHAPES = ['sphere', 'cube', 'cone', 'line', 'emanation', 'cylinder'] as const;
+export const AREA_DIRECTIONS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] as const;
+
+/** Penanda area of effect; titik asal di koordinat sudut grid (boleh setengah kotak). */
+export const areaMarkerSchema = z.strictObject({
+  sceneId: id,
+  shape: z.enum(AREA_SHAPES),
+  origin: z.strictObject({ x: z.number().min(0).max(200).multipleOf(0.5), y: z.number().min(0).max(200).multipleOf(0.5) }),
+  sizeFeet: z.number().int().min(5).max(500),
+  widthFeet: z.number().int().min(5).max(100).optional(),
+  originSize: z.number().int().min(1).max(4).optional(),
+  direction: z.enum(AREA_DIRECTIONS),
+  label: z.string().trim().max(60),
+});
+export type AreaMarkerInput = Omit<z.infer<typeof areaMarkerSchema>, 'sceneId' | 'label'>;
+export interface AreaMarker extends z.infer<typeof areaMarkerSchema> {
+  id: Id;
+  ownerAccountId: Id;
+}
+
+/** Kabut manual: bila aktif, hanya persegi yang diungkap DM yang terlihat bagi player. */
+export const fogSchema = z.strictObject({
+  enabled: z.boolean(),
+  revealed: z.array(z.strictObject({ x: coordinate, y: coordinate, w: z.number().int().min(1).max(200), h: z.number().int().min(1).max(200) })).max(500),
+});
+export type FogState = z.infer<typeof fogSchema>;
 
 export const tokenUpdateSchema = z.strictObject({
   label: z.string().trim().min(1).max(60).optional(),
@@ -105,6 +141,8 @@ export interface SceneView {
   assetId: Id | null;
   grid: GridSettings;
   tokens: Token[];
+  markers: AreaMarker[];
+  fog: FogState;
   revision: number;
   /** Khusus DM. */
   shared?: boolean;

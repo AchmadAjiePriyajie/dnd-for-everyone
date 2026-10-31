@@ -3,7 +3,7 @@ import type { DatabaseSync } from 'node:sqlite';
 import { z } from 'zod';
 import type { Member } from '#shared/access';
 import type { Id } from '#shared/contracts';
-import { type GridSettings, moveTokenSchema, type SceneDraft, sceneDraftSchema, type TokenDraft, tokenDraftSchema, tokenUpdateSchema } from '#shared/scenes';
+import { type FogState, type GridSettings, type SceneDraft, sceneDraftSchema, type TokenDraft, tokenDraftSchema, tokenUpdateSchema } from '#shared/scenes';
 import type { CommandContext } from '../../commands/registry.js';
 import { CommandsService } from '../../commands/dispatcher.js';
 import { DomainError, forbidden } from '../../common/domain-error.js';
@@ -17,6 +17,7 @@ export interface SceneRow {
   asset_id: Id | null;
   grid: string;
   shared: number;
+  fog: string;
 }
 
 export interface TokenRow {
@@ -55,7 +56,6 @@ export class ScenesService implements OnModuleInit {
     this.commands.registerCommand('scene.share', (ctx, payload) => this.share(ctx, (payload as z.infer<typeof sharePayload>).shared), { schema: sharePayload, ...dm });
     this.commands.registerCommand('scene.delete', (ctx) => this.deleteScene(ctx), { schema: empty, ...dm });
     this.commands.registerCommand('token.place', (ctx, payload) => this.place(ctx, payload as TokenDraft), { schema: tokenDraftSchema, ...dm });
-    this.commands.registerCommand('token.move', (ctx, payload) => this.move(ctx, payload as z.infer<typeof moveTokenSchema>), { schema: moveTokenSchema });
     this.commands.registerCommand('token.update', (ctx, payload) => this.update(ctx, payload as z.infer<typeof tokenUpdateSchema>), { schema: tokenUpdateSchema, ...dm });
     this.commands.registerCommand('token.remove', (ctx) => this.remove(ctx), { schema: empty, ...dm });
   }
@@ -72,13 +72,24 @@ export class ScenesService implements OnModuleInit {
     return db.prepare('SELECT * FROM tokens WHERE campaign_id = ? AND scene_id = ? ORDER BY created_at, id').all(campaignId, sceneId) as unknown as TokenRow[];
   }
 
-  /** Token terlihat bagi member: DM semua; player hanya token tidak tersembunyi pada scene yang dibagikan. */
+  /**
+   * Token terlihat bagi member: DM semua; player hanya token tidak tersembunyi pada scene yang
+   * dibagikan, dan bila kabut aktif hanya yang menyentuh area terungkap (token sendiri selalu).
+   */
   visibleToken(db: DatabaseSync, member: Member, tokenId: Id): TokenRow | null {
     const token = db.prepare('SELECT * FROM tokens WHERE campaign_id = ? AND id = ?').get(member.campaignId, tokenId) as unknown as TokenRow | undefined;
     if (!token) return null;
     if (member.role === 'dm') return token;
     const scene = this.scene(db, member.campaignId, token.scene_id);
-    return scene?.shared && !token.hidden ? token : null;
+    return scene?.shared && this.seenBy(token, member, JSON.parse(scene.fog) as FogState) ? token : null;
+  }
+
+  /** Aturan visibilitas token untuk player (tanpa memeriksa scene dibagikan). */
+  seenBy(token: TokenRow, member: Member, fog: FogState): boolean {
+    if (member.role === 'dm') return true;
+    if (token.hidden) return false;
+    if (!fog.enabled || token.owner_account_id === member.accountId) return true;
+    return fog.revealed.some((area) => token.x < area.x + area.w && token.x + token.size > area.x && token.y < area.y + area.h && token.y + token.size > area.y);
   }
 
   private saveScene(ctx: CommandContext, draft: SceneDraft): { id: Id } {
@@ -116,6 +127,7 @@ export class ScenesService implements OnModuleInit {
     const scene = this.scene(ctx.db, ctx.campaignId, ctx.targetId);
     if (!scene) throw new DomainError('NOT_FOUND', 404);
     ctx.db.prepare('DELETE FROM tokens WHERE campaign_id = ? AND scene_id = ?').run(ctx.campaignId, scene.id);
+    ctx.db.prepare('DELETE FROM map_markers WHERE campaign_id = ? AND scene_id = ?').run(ctx.campaignId, scene.id);
     ctx.db.prepare('DELETE FROM scenes WHERE campaign_id = ? AND id = ?').run(ctx.campaignId, scene.id);
     return { id: scene.id };
   }
@@ -154,17 +166,6 @@ export class ScenesService implements OnModuleInit {
     return { id: ctx.targetId };
   }
 
-  /** Gerak dalam satuan sel. Player: hanya token miliknya yang terlihat; selain itu FORBIDDEN tanpa detail. */
-  private move(ctx: CommandContext, input: z.infer<typeof moveTokenSchema>): { id: Id; x: number; y: number } {
-    const token = this.visibleToken(ctx.db, ctx.member, ctx.targetId);
-    if (!token) throw ctx.member.role === 'dm' ? new DomainError('NOT_FOUND', 404) : forbidden();
-    if (ctx.member.role !== 'dm' && token.owner_account_id !== ctx.principal.accountId) throw forbidden();
-    const scene = this.scene(ctx.db, ctx.campaignId, token.scene_id)!;
-    this.requireInside(JSON.parse(scene.grid) as GridSettings, input.x, input.y, token.size);
-    ctx.db.prepare('UPDATE tokens SET x = ?, y = ?, updated_at = ? WHERE campaign_id = ? AND id = ?').run(input.x, input.y, ctx.now, ctx.campaignId, token.id);
-    return { id: token.id, x: input.x, y: input.y };
-  }
-
   private update(ctx: CommandContext, input: z.infer<typeof tokenUpdateSchema>): { id: Id } {
     const token = this.visibleToken(ctx.db, ctx.member, ctx.targetId);
     if (!token) throw new DomainError('NOT_FOUND', 404);
@@ -189,7 +190,7 @@ export class ScenesService implements OnModuleInit {
     return { id: ctx.targetId };
   }
 
-  private requireInside(grid: GridSettings, x: number, y: number, size: number): void {
+  requireInside(grid: GridSettings, x: number, y: number, size: number): void {
     if (x < 0 || y < 0 || x + size > grid.columns || y + size > grid.rows) throw new DomainError('TOKEN_OUT_OF_BOUNDS', 409, { columns: grid.columns, rows: grid.rows });
   }
 }

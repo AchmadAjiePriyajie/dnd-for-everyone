@@ -163,7 +163,9 @@
     "ASSET_INVALID": "File itu bukan gambar PNG, JPEG atau WebP yang valid.",
     "ASSET_TOO_LARGE": "Gambar terlalu besar (maksimal 20 MiB dan 40 megapixel).",
     "ASSET_NOT_SHAREABLE": "Latar scene harus gambar yang dibagikan ke party.",
-    "TOKEN_OUT_OF_BOUNDS": "Posisi itu di luar peta ({{columns}} × {{rows}} kotak)."
+    "TOKEN_OUT_OF_BOUNDS": "Posisi itu di luar peta ({{columns}} × {{rows}} kotak).",
+    "PATH_INVALID": "Path itu bukan rangkaian kotak bersebelahan dari posisi token.",
+    "MOVE_OVER_BUDGET": "Gerakan itu memakan {{costFeet}} kaki, lebih dari speed {{speed}} kaki."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -876,6 +878,51 @@
       "size": "Ukuran (kotak)"
     },
     "tokenHp": "HP (khusus DM)",
-    "placeHidden": "Tempatkan tersembunyi"
+    "placeHidden": "Tempatkan tersembunyi",
+    "tools": "Alat peta",
+    "tool": {
+      "select": "Pilih dan gerak",
+      "measure": "Ukur",
+      "ping": "Ping",
+      "area": "Area of effect",
+      "reveal": "Ungkap (kabut)"
+    },
+    "toolHint": {
+      "select": "Pilih token, lalu tap kotak, seret, atau pakai tombol panah atau form di bawah.",
+      "measure": "Tap dua kotak, atau pilih token lalu tap kotak. Jarak mengikuti aturan diagonal scene ini.",
+      "ping": "Tap kotak atau pakai form untuk menunjukkan ping singkat ke semua. Ping tidak disimpan.",
+      "area": "Pasang template agar semua melihat kotak yang tercakup efek. DM yang menentukan siapa yang kena.",
+      "reveal": "Kabut menyembunyikan token di luar area terungkap dari pemain. Pakai hanya peta yang aman ditampilkan."
+    },
+    "pickToken": "Pilih salah satu token milikmu untuk menggerakkannya.",
+    "moveTo": "Gerakkan {{label}} ke kotak",
+    "moveButton": "Gerakkan {{label}}",
+    "measureButton": "Ukur ke kotak ini",
+    "distance": "{{feet}} kaki dari {{from}} ke {{to}}",
+    "pingButton": "Ping kotak ini",
+    "shapeLabel": "Bentuk",
+    "shape": {
+      "sphere": "Sphere",
+      "cube": "Cube",
+      "cone": "Cone",
+      "line": "Line",
+      "emanation": "Emanation",
+      "cylinder": "Cylinder"
+    },
+    "sizeFeet": "Ukuran (kaki)",
+    "widthFeet": "Lebar (kaki)",
+    "direction": "Arah",
+    "originColumn": "Kolom titik asal (sudut)",
+    "originRow": "Baris titik asal (sudut)",
+    "areaName": "Label",
+    "placeArea": "Pasang area",
+    "removeArea": "Hapus {{label}}",
+    "areaLabel": "{{label}}, {{feet}} kaki",
+    "feet": "{{feet}} kaki",
+    "fogEnabled": "Kabut aktif",
+    "revealWidth": "Lebar (kotak)",
+    "revealHeight": "Tinggi (kotak)",
+    "revealArea": "Ungkap area ini",
+    "coverAll": "Tutup semua"
   }
 }
