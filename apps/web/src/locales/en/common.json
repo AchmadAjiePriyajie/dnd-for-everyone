@@ -1248,6 +1248,35 @@
     "fonts": "Fonts",
     "fontsBody": "Cinzel and Crimson Pro, SIL Open Font License 1.1, bundled with the app."
   },
+  "screen": {
+    "turnOrder": "Turn order",
+    "map": "Battle map",
+    "tools": "Combat tools",
+    "noMap": "No map for this combat",
+    "noResolutions": "Nothing waiting for a decision.",
+    "showOrder": "Show turn order",
+    "showTools": "Show tools",
+    "hpMeter": "Hit Points: {{current}} of {{max}}",
+    "concentration": "Concentration",
+    "resourceState": "{{resource}}: {{state}}",
+    "available": "available",
+    "spent": "spent",
+    "movement": "{{left}} / {{speed}} ft",
+    "manage": "Manage {{name}}",
+    "backToSearch": "Back to search",
+    "openFullReference": "Open in the full reference",
+    "standing": {
+      "healthy": "Unhurt",
+      "bloodied": "Bloodied",
+      "defeated": "Defeated"
+    },
+    "tab": {
+      "resolutions": "Resolutions",
+      "dice": "Dice",
+      "rules": "Rules",
+      "journal": "Journal"
+    }
+  },
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",
     "dead": "Dead", "stable": "Stable", "deathSave": "Roll death save", "stabilize": "Stabilize (DM decision)",

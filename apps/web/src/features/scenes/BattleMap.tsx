@@ -33,6 +33,10 @@ interface MapProps {
   onCellTap?(cell: GridPoint): void;
   /** Lapisan di bawah token (kabut, area, penggaris, ping). */
   layers?: ReactNode;
+  /** Token makhluk yang sedang giliran (combat). */
+  activeTokenId?: Id | null;
+  /** Token yang ditandai sebagai target (combat). */
+  markedIds?: Id[];
 }
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -41,7 +45,7 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
  * Peta SVG dalam satuan sel grid (viewBox = kolom × baris). Token dapat diseret, atau dipilih lalu
  * digerakkan dengan tombol panah — kontrol DOM yang juga bekerja tanpa mouse.
  */
-export function BattleMap({ scene, background, selected, onSelect, canMove, onMove, onCellTap, layers }: MapProps) {
+export function BattleMap({ scene, background, selected, onSelect, canMove, onMove, onCellTap, layers, activeTokenId = null, markedIds = [] }: MapProps) {
   const { t } = useTranslation();
   const grid = scene.grid;
   const svg = useRef<SVGSVGElement>(null);
@@ -156,7 +160,7 @@ export function BattleMap({ scene, background, selected, onSelect, canMove, onMo
               tabIndex={0}
               aria-pressed={selected === token.id}
               aria-label={t('scenes.tokenLabel', { label: token.label, column: token.x + 1, row: token.y + 1 })}
-              className={`map-token kind-${token.kind}${token.hidden ? ' is-hidden' : ''}${selected === token.id ? ' is-selected' : ''}${movable ? ' is-movable' : ''}`}
+              className={`map-token kind-${token.kind}${token.hidden ? ' is-hidden' : ''}${selected === token.id ? ' is-selected' : ''}${movable ? ' is-movable' : ''}${activeTokenId === token.id ? ' is-active' : ''}${markedIds.includes(token.id) ? ' is-marked' : ''}`}
               transform={`translate(${position.x} ${position.y})`}
               onKeyDown={(event) => keyMove(event, token)}
               onClick={() => onSelect(selected === token.id ? null : token.id)}

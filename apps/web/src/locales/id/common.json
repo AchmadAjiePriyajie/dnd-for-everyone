@@ -1248,6 +1248,35 @@
     "fonts": "Font",
     "fontsBody": "Cinzel dan Crimson Pro, SIL Open Font License 1.1, dibundel bersama aplikasi."
   },
+  "screen": {
+    "turnOrder": "Urutan turn",
+    "map": "Peta pertempuran",
+    "tools": "Alat combat",
+    "noMap": "Combat ini tanpa peta",
+    "noResolutions": "Tidak ada yang menunggu keputusan.",
+    "showOrder": "Tampilkan urutan turn",
+    "showTools": "Tampilkan alat",
+    "hpMeter": "Hit Points: {{current}} dari {{max}}",
+    "concentration": "Concentration",
+    "resourceState": "{{resource}}: {{state}}",
+    "available": "tersedia",
+    "spent": "terpakai",
+    "movement": "{{left}} / {{speed}} ft",
+    "manage": "Kelola {{name}}",
+    "backToSearch": "Kembali ke pencarian",
+    "openFullReference": "Buka di reference lengkap",
+    "standing": {
+      "healthy": "Belum terluka",
+      "bloodied": "Bloodied",
+      "defeated": "Tumbang"
+    },
+    "tab": {
+      "resolutions": "Resolusi",
+      "dice": "Dadu",
+      "rules": "Rules",
+      "journal": "Journal"
+    }
+  },
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",
     "dead": "Mati", "stable": "Stabil", "deathSave": "Lempar death save", "stabilize": "Stabilkan (keputusan DM)",
