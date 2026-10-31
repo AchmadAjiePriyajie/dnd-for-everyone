@@ -9,6 +9,7 @@ import type {
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
 import type { AdvancementChoice, AdvancementPreview, CharacterOptions, RestPreview } from '#shared/characters';
+import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { CharacterView } from '../features/characters/types';
@@ -87,6 +88,9 @@ export const api = {
     request<CharacterOptions>('GET', `${campaignPath(campaignId)}/character-options?locale=${locale}`),
   character: (campaignId: Id, characterId: Id, locale: Locale) =>
     request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}?locale=${locale}`),
+  monsters: (campaignId: Id, locale: Locale) => request<MonsterInstance[]>('GET', `${campaignPath(campaignId)}/monsters?locale=${locale}`),
+  encounters: (campaignId: Id) => request<EncounterView[]>('GET', `${campaignPath(campaignId)}/encounters`),
+  homebrew: (campaignId: Id) => request<HomebrewView[]>('GET', `${campaignPath(campaignId)}/homebrew`),
   note: (campaignId: Id, noteId: Id) => request<NoteView>('GET', `${campaignPath(campaignId)}/notes/${encodeURIComponent(noteId)}`),
   restPreview: (campaignId: Id, characterId: Id, rest: 'short' | 'long') =>
     request<RestPreview>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}/rest-preview?rest=${rest}`),

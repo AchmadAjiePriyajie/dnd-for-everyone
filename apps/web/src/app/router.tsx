@@ -7,6 +7,8 @@ export type Route =
   | { name: 'reference'; campaignId?: string }
   | { name: 'character'; campaignId: string; characterId: string }
   | { name: 'notes'; campaignId: string }
+  | { name: 'encounters'; campaignId: string }
+  | { name: 'homebrew'; campaignId: string }
   | { name: 'not-found' };
 
 export function parseRoute(pathname: string): Route {
@@ -20,10 +22,10 @@ export function parseRoute(pathname: string): Route {
       return { name: 'not-found' };
     }
   }
-  const notes = /^\/campaigns\/([^/]+)\/notes\/?$/.exec(pathname);
-  if (notes) {
+  const section = /^\/campaigns\/([^/]+)\/(notes|encounters|homebrew)\/?$/.exec(pathname);
+  if (section) {
     try {
-      return { name: 'notes', campaignId: decodeURIComponent(notes[1]!) };
+      return { name: section[2] as 'notes' | 'encounters' | 'homebrew', campaignId: decodeURIComponent(section[1]!) };
     } catch {
       return { name: 'not-found' };
     }
@@ -47,6 +49,8 @@ export const routePath = {
     `/campaigns/${encodeURIComponent(campaignId)}/characters/${encodeURIComponent(characterId)}`,
   notes: (campaignId: string, noteId?: string) =>
     `/campaigns/${encodeURIComponent(campaignId)}/notes${noteId ? `?note=${encodeURIComponent(noteId)}` : ''}`,
+  encounters: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/encounters`,
+  homebrew: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/homebrew`,
   reference: (campaignId?: string) =>
     campaignId === undefined ? '/reference' : `/campaigns/${encodeURIComponent(campaignId)}/reference`,
 };

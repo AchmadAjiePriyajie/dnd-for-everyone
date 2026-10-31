@@ -93,6 +93,16 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
             <Icon name="eye" />
             {t('notes.open')}
           </Link>
+          {isDm && (
+            <Link href={routePath.encounters(campaignId)} className="button-link">
+              <Icon name="shield" />
+              {t('encounters.open')}
+            </Link>
+          )}
+          <Link href={routePath.homebrew(campaignId)} className="button-link">
+            <Icon name="plus" />
+            {t('homebrew.open')}
+          </Link>
           <Link href={routePath.reference(campaignId)} className="button-link">
             <Icon name="scroll" />
             {t('room.openReference')}

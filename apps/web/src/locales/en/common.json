@@ -156,7 +156,10 @@
     "ADVANCEMENT_INVALID": "That level-up choice is not allowed ({{issue}}).",
     "ADVANCEMENT_INCOMPLETE": "Finish the level-up choices first ({{missing}}).",
     "REVISION_REQUIRED": "Reload this note before saving; it changed since you opened it.",
-    "NOTE_LINK_INVALID": "A linked note no longer exists."
+    "NOTE_LINK_INVALID": "A linked note no longer exists.",
+    "HOMEBREW_INVALID": "That homebrew entry does not match the rules data format ({{issue}}).",
+    "HOMEBREW_FORMULA": "Only dice, numbers and ability/proficiency/level names are allowed in formulas ({{path}}).",
+    "MONSTER_UNAVAILABLE": "That monster is not available in this campaign (unknown or not approved homebrew)."
   },
   "reference": {
     "title": "Rules reference",
@@ -667,5 +670,95 @@
       "resources": "Resources",
       "concentrating": "Concentrating"
     }
+  },
+  "encounters": {
+    "open": "Encounters",
+    "title": "Encounter builder",
+    "monsters": "Monsters",
+    "search": "Search monsters",
+    "maxCr": "Maximum CR",
+    "anyCr": "Any",
+    "homebrew": "Homebrew",
+    "add": "Add {{name}}",
+    "builder": "This encounter",
+    "name": "Name",
+    "target": "Target difficulty",
+    "party": "Party",
+    "partyLevels": "Enter levels",
+    "levels": "Character levels (comma separated)",
+    "partyCharacters": "Use campaign characters",
+    "count": "How many {{name}}",
+    "hpMode": "Hit Points",
+    "hpAverage": "Average HP",
+    "hpRolled": "Roll HP when combat starts",
+    "remove": "Remove",
+    "terrain": "Difficult or dangerous terrain",
+    "notes": "DM notes",
+    "estimate": "Difficulty estimate",
+    "total": "Total {{xp}} XP",
+    "targetBudget": "{{target}} budget {{xp}} XP",
+    "budgets": "Low {{low}} · Moderate {{moderate}} · High {{high}}",
+    "left": "{{xp}} XP left",
+    "over": "{{xp}} XP over",
+    "guidance": "Difficulty is a guide (2024 XP budget, no multiplier for numbers of foes). You decide what happens at the table.",
+    "label": {
+      "below-low": "Below Low",
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "above-high": "Above High"
+    },
+    "risk": {
+      "OUTNUMBERED": "The party is heavily outnumbered; action economy favours the foes.",
+      "HIGH_CR": "A monster has a CR above the party level; it may hit very hard.",
+      "TERRAIN": "Terrain makes this harder than the XP suggests."
+    },
+    "issue": {
+      "PARTY_EMPTY": "Choose at least one character or level.",
+      "LEVEL_INVALID": "Levels must be whole numbers from 1 to 20.",
+      "XP_INVALID": "A monster has no valid XP value; fix it before estimating.",
+      "QUANTITY_INVALID": "Monster counts must be whole numbers of 1 or more."
+    },
+    "save": "Save encounter",
+    "new": "New encounter",
+    "saved": "Saved encounters",
+    "edit": "Edit"
+  },
+  "homebrew": {
+    "open": "Homebrew",
+    "title": "Campaign homebrew",
+    "helpDm": "Entries you save are approved for the campaign. Review player proposals before they are used.",
+    "helpPlayer": "Propose spells, items, monsters or character options. The DM approves them before the party uses them.",
+    "entries": "Entries",
+    "new": "New entry",
+    "empty": "No homebrew yet.",
+    "edit": "Edit",
+    "approve": "Approve {{name}}",
+    "status": {
+      "pending": "Waiting for DM",
+      "approved": "Approved"
+    },
+    "kindLabel": "Kind",
+    "kind": {
+      "spell": "Spell",
+      "equipment": "Equipment",
+      "magic-item": "Magic item",
+      "monster": "Monster",
+      "feat": "Feat",
+      "species": "Species",
+      "background": "Background",
+      "subclass": "Subclass"
+    },
+    "name": "Name",
+    "summary": "Summary",
+    "body": "Description (Markdown)",
+    "mechanics": "Rules data (JSON)",
+    "mechanicsHint": "Same format as the rules reference. Formulas accept dice like 2d6+3 and names such as str, prof or level, never code.",
+    "mechanicsInvalid": "This is not valid JSON yet.",
+    "editor": "Homebrew editor",
+    "propose": "Propose to DM",
+    "saveDm": "Save and approve",
+    "duplicateLabel": "Copy an SRD entry (ID)",
+    "duplicate": "Copy as homebrew"
   }
 }

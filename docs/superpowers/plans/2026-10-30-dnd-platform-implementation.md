@@ -246,11 +246,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `calculateBudget(levels: number[]): { low: number, moderate: number, high: number }`; `evaluateEncounter(levels: number[], monsters: { xp: number, count: number }[]): EncounterEstimate`; `saveHomebrew(ctx: CommandContext, entry: ContentEntry): Id`. Homebrew kind schemas dari Task 5; campaign approval dan formula whitelist tanpa eval.
 
-- [ ] Tulis `uses_2024_xp_budget`: `expect(calculateBudget([1,1,1,1])).toEqual({low:200,moderate:300,high:400})`; empat musuh 50 XP berjumlah 200 tanpa multiplier; input party kosong/XP hilang ditolak.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan monster filters/duplication, party selection/level, target budget dan label sesuai spec, risiko, template instance terpisah; editor homebrew spell/item/monster/character options dengan approval DM.
-- [ ] Run test sama; expected PASS untuk mixed levels, exact boundary, zero XP, quantity invalid dan formula/kode tidak aman.
-- [ ] Commit `feat: add encounter and homebrew tools`.
+- [x] Tulis `uses_2024_xp_budget`: `expect(calculateBudget([1,1,1,1])).toEqual({low:200,moderate:300,high:400})`; empat musuh 50 XP berjumlah 200 tanpa multiplier; input party kosong/XP hilang ditolak.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan monster filters/duplication, party selection/level, target budget dan label sesuai spec, risiko, template instance terpisah; editor homebrew spell/item/monster/character options dengan approval DM.
+- [x] Run test sama; expected PASS untuk mixed levels, exact boundary, zero XP, quantity invalid dan formula/kode tidak aman.
+- [x] Commit `feat: add encounter and homebrew tools`.
 
 **Gate tahap:** DM menyiapkan cerita dan encounter, membagikan materi terpilih dan mengakses aturan tanpa membuka rahasia ke player.
 

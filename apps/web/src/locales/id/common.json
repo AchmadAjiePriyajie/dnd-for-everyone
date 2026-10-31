@@ -156,7 +156,10 @@
     "ADVANCEMENT_INVALID": "Pilihan level up itu tidak diizinkan ({{issue}}).",
     "ADVANCEMENT_INCOMPLETE": "Selesaikan pilihan level up dulu ({{missing}}).",
     "REVISION_REQUIRED": "Muat ulang catatan ini sebelum menyimpan; isinya berubah sejak dibuka.",
-    "NOTE_LINK_INVALID": "Catatan yang ditautkan sudah tidak ada."
+    "NOTE_LINK_INVALID": "Catatan yang ditautkan sudah tidak ada.",
+    "HOMEBREW_INVALID": "Entri homebrew itu tidak sesuai format data aturan ({{issue}}).",
+    "HOMEBREW_FORMULA": "Formula hanya boleh berisi dadu, angka, dan nama ability/proficiency/level ({{path}}).",
+    "MONSTER_UNAVAILABLE": "Monster itu tidak tersedia di campaign ini (tidak dikenal atau homebrew belum disetujui)."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -667,5 +670,95 @@
       "resources": "Resource",
       "concentrating": "Concentration"
     }
+  },
+  "encounters": {
+    "open": "Encounter",
+    "title": "Penyusun encounter",
+    "monsters": "Monster",
+    "search": "Cari monster",
+    "maxCr": "CR maksimum",
+    "anyCr": "Semua",
+    "homebrew": "Homebrew",
+    "add": "Tambah {{name}}",
+    "builder": "Encounter ini",
+    "name": "Nama",
+    "target": "Target difficulty",
+    "party": "Party",
+    "partyLevels": "Masukkan level",
+    "levels": "Level karakter (pisahkan dengan koma)",
+    "partyCharacters": "Pakai karakter campaign",
+    "count": "Jumlah {{name}}",
+    "hpMode": "Hit Points",
+    "hpAverage": "HP rata-rata",
+    "hpRolled": "Lempar HP saat combat dimulai",
+    "remove": "Hapus",
+    "terrain": "Terrain sulit atau berbahaya",
+    "notes": "Catatan DM",
+    "estimate": "Estimasi difficulty",
+    "total": "Total {{xp}} XP",
+    "targetBudget": "Budget {{target}} {{xp}} XP",
+    "budgets": "Low {{low}} · Moderate {{moderate}} · High {{high}}",
+    "left": "Sisa {{xp}} XP",
+    "over": "Lebih {{xp}} XP",
+    "guidance": "Difficulty hanya panduan (budget XP 2024, tanpa multiplier jumlah musuh). Keputusan tetap di meja.",
+    "label": {
+      "below-low": "Di bawah Low",
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "above-high": "Melampaui High"
+    },
+    "risk": {
+      "OUTNUMBERED": "Party kalah jumlah jauh; musuh unggul dalam jumlah aksi.",
+      "HIGH_CR": "Ada monster dengan CR di atas level party; serangannya bisa sangat kuat.",
+      "TERRAIN": "Terrain membuat pertarungan lebih berat daripada angka XP."
+    },
+    "issue": {
+      "PARTY_EMPTY": "Pilih setidaknya satu karakter atau level.",
+      "LEVEL_INVALID": "Level harus bilangan bulat 1 sampai 20.",
+      "XP_INVALID": "Ada monster tanpa nilai XP yang sah; perbaiki dulu.",
+      "QUANTITY_INVALID": "Jumlah monster harus bilangan bulat minimal 1."
+    },
+    "save": "Simpan encounter",
+    "new": "Encounter baru",
+    "saved": "Encounter tersimpan",
+    "edit": "Edit"
+  },
+  "homebrew": {
+    "open": "Homebrew",
+    "title": "Homebrew campaign",
+    "helpDm": "Entri yang kamu simpan langsung disetujui. Tinjau usulan pemain sebelum dipakai.",
+    "helpPlayer": "Usulkan spell, item, monster, atau opsi karakter. DM menyetujui sebelum party memakainya.",
+    "entries": "Entri",
+    "new": "Entri baru",
+    "empty": "Belum ada homebrew.",
+    "edit": "Edit",
+    "approve": "Setujui {{name}}",
+    "status": {
+      "pending": "Menunggu DM",
+      "approved": "Disetujui"
+    },
+    "kindLabel": "Jenis",
+    "kind": {
+      "spell": "Spell",
+      "equipment": "Equipment",
+      "magic-item": "Magic item",
+      "monster": "Monster",
+      "feat": "Feat",
+      "species": "Species",
+      "background": "Background",
+      "subclass": "Subclass"
+    },
+    "name": "Nama",
+    "summary": "Ringkasan",
+    "body": "Deskripsi (Markdown)",
+    "mechanics": "Data aturan (JSON)",
+    "mechanicsHint": "Format sama dengan referensi aturan. Formula menerima dadu seperti 2d6+3 dan nama seperti str, prof atau level, tidak pernah kode.",
+    "mechanicsInvalid": "Ini belum JSON yang valid.",
+    "editor": "Editor homebrew",
+    "propose": "Usulkan ke DM",
+    "saveDm": "Simpan dan setujui",
+    "duplicateLabel": "Salin entri SRD (ID)",
+    "duplicate": "Salin sebagai homebrew"
   }
 }

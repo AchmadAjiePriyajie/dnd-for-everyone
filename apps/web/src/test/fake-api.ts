@@ -16,6 +16,7 @@ import {
   HEROIC_INSPIRATION,
   type MasteryGrant,
 } from '#shared/characters';
+import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
@@ -43,6 +44,9 @@ export interface FakeServerState {
   characters: Record<string, FakeCharacterView>;
   /** Catatan yang dikembalikan GET notes/:id (sudah difilter seolah oleh server). */
   notes: Record<string, NoteView>;
+  monsters: MonsterInstance[];
+  encounters: EncounterView[];
+  homebrew: HomebrewView[];
   /** Jawaban khusus untuk command non-karakter; undefined = ack biasa. */
   onCommand?: (body: { kind: string; targetId: string; payload: unknown; expectedRevision?: number }) => Response | undefined;
 }
@@ -92,6 +96,9 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     deriveCharacter: null,
     characters: {},
     notes: {},
+    monsters: [],
+    encounters: [],
+    homebrew: [],
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -241,6 +248,9 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
       // Command karakter lain (resource, level up): cukup dicatat dan di-ack.
       return result(found);
     }
+    if (/^\/api\/campaigns\/[^/]+\/monsters$/.test(path)) return json(200, state.monsters);
+    if (/^\/api\/campaigns\/[^/]+\/encounters$/.test(path)) return json(200, state.encounters);
+    if (/^\/api\/campaigns\/[^/]+\/homebrew$/.test(path)) return json(200, state.homebrew);
     const notePath = /^\/api\/campaigns\/([^/]+)\/notes\/([^/]+)$/.exec(path);
     if (notePath) {
       const found = state.notes[decodeURIComponent(notePath[2]!)];
