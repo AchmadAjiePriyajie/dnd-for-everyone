@@ -106,11 +106,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `openDatabase(dataDir: string): DatabaseSync`; `migrate(db: DatabaseSync): void`; `backupDatabase(db: DatabaseSync, targetPath: string): Promise<void>`; `createApp(options: { dataDir: string }): Promise<NestFastifyApplication>`. Test helper uses `@nestjs/testing`, initializes Nest dan menunggu Fastify `.ready()` sebelum `app.inject()`, lalu `app.close()` untuk temporary data directory. Root scripts: dev, build, start, typecheck, test, test:e2e, content:audit.
 
-- [ ] Siapkan harness minimal dan failing test `keeps_host_identity_after_reopen`: `expect(reopened.hostId).toBe(first.hostId)`; health endpoint tidak mengungkap path/secret. Tambahkan `boots_nested_injected_providers` untuk membuktikan metadata injection pada test runner dan hasil build. Ini menguji persistence/boot nyata, bukan file konfigurasi.
-- [ ] Jalankan `npm run test -- apps/server/src/app.test.ts`; pastikan gagal pada kontrak aplikasi/persistence yang belum dibuat, bukan karena dependency/harness rusak.
-- [ ] Implementasikan bootstrap Nest/Fastify, AppModule/DatabaseModule, provider singleton dan shutdown hooks; prepared SQL/migrations atomik, foreign keys, WAL dan data directory eksplisit. Sebelum memigrasi database existing, `createApp` menunggu backup konsisten dan gagal start bila backup gagal. Konfigurasikan SWC/reflect-metadata untuk test, frontend build dari output tertentu, serta tooling/lockfile yang diperlukan deliverable ini.
-- [ ] Jalankan test yang sama serta `npm run typecheck`; expected exit 0. Uji kegagalan migrasi tidak meninggalkan schema setengah terpasang, `GET /api/unknown` tetap JSON 404, dan shutdown menutup database. Jika frontend build belum ada pada tahap ini, health/API dapat berjalan tanpa membuat fallback palsu; sajikan output Vite setelah Task 4 tersedia.
-- [ ] Commit `feat: add persistent application host`.
+- [x] Siapkan harness minimal dan failing test `keeps_host_identity_after_reopen`: `expect(reopened.hostId).toBe(first.hostId)`; health endpoint tidak mengungkap path/secret. Tambahkan `boots_nested_injected_providers` untuk membuktikan metadata injection pada test runner dan hasil build. Ini menguji persistence/boot nyata, bukan file konfigurasi.
+- [x] Jalankan `npm run test -- apps/server/src/app.test.ts`; pastikan gagal pada kontrak aplikasi/persistence yang belum dibuat, bukan karena dependency/harness rusak.
+- [x] Implementasikan bootstrap Nest/Fastify, AppModule/DatabaseModule, provider singleton dan shutdown hooks; prepared SQL/migrations atomik, foreign keys, WAL dan data directory eksplisit. Sebelum memigrasi database existing, `createApp` menunggu backup konsisten dan gagal start bila backup gagal. Konfigurasikan SWC/reflect-metadata untuk test, frontend build dari output tertentu, serta tooling/lockfile yang diperlukan deliverable ini.
+- [x] Jalankan test yang sama serta `npm run typecheck`; expected exit 0. Uji kegagalan migrasi tidak meninggalkan schema setengah terpasang, `GET /api/unknown` tetap JSON 404, dan shutdown menutup database. Jika frontend build belum ada pada tahap ini, health/API dapat berjalan tanpa membuat fallback palsu; sajikan output Vite setelah Task 4 tersedia.
+- [x] Commit `feat: add persistent application host`.
 
 ### Task 2: Akun, undangan, campaign dan ownership
 
@@ -118,11 +118,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `registerInvitedAccount(invite: string, username: string, password: string): Promise<Principal>`; `requireMember(principal: Principal, campaignId: Id): Member`; `createCampaign(principal: Principal, title: string): Id`. Bootstrap first owner is one-time. Password hashing uses asynchronous Node scrypt with per-user salt, di luar transaksi, lalu validasi undangan ulang saat commit; opaque auth sessions stored server-side and revocable. Ownership karakter diperkenalkan Task 7 setelah schema karakter tersedia, bukan mengakses tabel yang belum dibuat.
 
-- [ ] Tulis `rejects_cross_campaign_and_role_escalation`: `expect(player.role).toBe('player')`; campaign lain, owner ID palsu dan undangan dicabut semuanya menghasilkan `FORBIDDEN`/`INVITE_INVALID` tanpa detail rahasia.
-- [ ] Run `npm run test -- apps/server/src/features/campaigns/access.test.ts`; expected FAIL sebelum implementasi.
-- [ ] Implementasikan bootstrap, login/logout, undangan, membership, pencabutan anggota dan kontrak error; cookie HttpOnly/SameSite, Secure saat HTTPS; validasi origin/CSRF dan rate limit login/join.
-- [ ] Run test sama; expected PASS, termasuk restart/login ulang tetap memiliki keanggotaan dan DM yang sama.
-- [ ] Commit `feat: add campaign identities and access`.
+- [x] Tulis `rejects_cross_campaign_and_role_escalation`: `expect(player.role).toBe('player')`; campaign lain, owner ID palsu dan undangan dicabut semuanya menghasilkan `FORBIDDEN`/`INVITE_INVALID` tanpa detail rahasia.
+- [x] Run `npm run test -- apps/server/src/features/campaigns/access.test.ts`; expected FAIL sebelum implementasi.
+- [x] Implementasikan bootstrap, login/logout, undangan, membership, pencabutan anggota dan kontrak error; cookie HttpOnly/SameSite, Secure saat HTTPS; validasi origin/CSRF dan rate limit login/join.
+- [x] Run test sama; expected PASS, termasuk restart/login ulang tetap memiliki keanggotaan dan DM yang sama.
+- [x] Commit `feat: add campaign identities and access`.
 
 ### Task 3: Transaksi command, projection dan reconnect
 
@@ -130,11 +130,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** Kontrak `registerCommand`, `executeCommand`, `projectRoom` di atas; HTTP snapshot/command dan Socket.IO `room:changed`. Auth/membership Task 2 dipakai pada subscribe, snapshot, command dan receipt.
 
-- [ ] Tulis `retries_once_after_lost_ack`: dua command dengan requestId/payload sama menghasilkan `expect(second).toEqual(first)` dan satu event; stale revision gagal; rollback tidak mengubah state/receipt.
-- [ ] Run `npm run test -- apps/server/src/commands/dispatcher.test.ts`; expected FAIL.
-- [ ] Implementasikan CommandsModule/RealtimeModule, dispatcher provider, HTTP controller dan RoomsGateway, transaksi state/event/receipt, payload fingerprint, revision, projection per peserta dan reconnect snapshot. Socket memakai session/origin/membership yang sama; cabut subscription saat akses dicabut. Mutation baru saat disconnected ditolak client, tidak masuk buffer socket.
-- [ ] Run test sama; expected PASS termasuk member yang dicabut tidak memperoleh receipt lama, serta perubahan tidak diumumkan sebelum commit.
-- [ ] Commit `feat: add authoritative room commands`.
+- [x] Tulis `retries_once_after_lost_ack`: dua command dengan requestId/payload sama menghasilkan `expect(second).toEqual(first)` dan satu event; stale revision gagal; rollback tidak mengubah state/receipt.
+- [x] Run `npm run test -- apps/server/src/commands/dispatcher.test.ts`; expected FAIL.
+- [x] Implementasikan CommandsModule/RealtimeModule, dispatcher provider, HTTP controller dan RoomsGateway, transaksi state/event/receipt, payload fingerprint, revision, projection per peserta dan reconnect snapshot. Socket memakai session/origin/membership yang sama; cabut subscription saat akses dicabut. Mutation baru saat disconnected ditolak client, tidak masuk buffer socket.
+- [x] Run test sama; expected PASS termasuk member yang dicabut tidak memperoleh receipt lama, serta perubahan tidak diumumkan sebelum commit.
+- [x] Commit `feat: add authoritative room commands`.
 
 ### Task 4: Shell responsif dan EN/ID per pengguna
 
@@ -142,11 +142,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `setLocale(locale: Locale): void`; `useRoom(campaignId: Id): RoomSnapshot | undefined`; API wrapper consumes Task 2 error codes and Task 3 snapshot/command contracts. Preferensi bahasa tersimpan per akun; sebelum login gunakan browser preference dengan fallback EN.
 
-- [ ] Tulis `switches_locale_without_losing_draft`: `expect(draftAfter).toEqual(draftBefore)` dan label berubah EN/ID; parameter terjemahan sama; no secret in room store.
-- [ ] Run `npm run test -- apps/web/src/app/i18n.test.tsx`; expected FAIL.
-- [ ] Implementasikan shell/login/lobby dan navigation role, status koneksi/save/error, dialog aksesibel, locale switch dan catalog lokal; tambahkan EN/ID bersama setiap UI task berikutnya. Konfigurasikan proxy Vite untuk API/Socket.IO saat development, dan penyajian hasil build Vite dari host Nest untuk pengujian produksi berikutnya; frontend fallback tidak menelan API/asset privat.
-- [ ] Run test sama dan locale audit; expected PASS untuk ID/EN/browser lain, termasuk keyboard dan text panjang.
-- [ ] Commit `feat: add bilingual campaign shell`.
+- [x] Tulis `switches_locale_without_losing_draft`: `expect(draftAfter).toEqual(draftBefore)` dan label berubah EN/ID; parameter terjemahan sama; no secret in room store.
+- [x] Run `npm run test -- apps/web/src/app/i18n.test.tsx`; expected FAIL.
+- [x] Implementasikan shell/login/lobby dan navigation role, status koneksi/save/error, dialog aksesibel, locale switch dan catalog lokal; tambahkan EN/ID bersama setiap UI task berikutnya. Konfigurasikan proxy Vite untuk API/Socket.IO saat development, dan penyajian hasil build Vite dari host Nest untuk pengujian produksi berikutnya; frontend fallback tidak menelan API/asset privat.
+- [x] Run test sama dan locale audit; expected PASS untuk ID/EN/browser lain, termasuk keyboard dan text panjang.
+- [x] Commit `feat: add bilingual campaign shell`.
 
 **Gate tahap:** DM dan dua player memakai browser berbeda, room/data bertahan setelah restart, role terjaga dan bahasa dapat berbeda.
 
@@ -158,11 +158,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `getContent(id: Id, locale: Locale): ContentEntry`; `auditContent(): ContentAudit`; `ContentEntry` dan kind-specific mechanics schemas di `packages/shared/src/content.ts` memisahkan localized label/body dari numeric mechanics/provenance. `ContentAudit { missingIds, missingLocales, invalidReferences, mechanicMismatches }` berisi daftar masalah.
 
-- [ ] Buat manifest ekspektasi berdasarkan bagian sumber SRD resmi, catat section/page/hash/version; test `requires_all_manifest_entries_in_both_locales`: semua daftar audit harus `[]`. Manifest dibaca/diperiksa independen dari hasil ingest, bukan dibuat hanya dari entri yang kebetulan tersedia.
-- [ ] Run `npm run test -- packages/content/src/catalog.test.ts`; expected FAIL dengan kekurangan nyata, bukan melemahkan ekspektasi ke corpus sampel.
-- [ ] Ingest/review bertahap aturan, seluruh opsi/progression karakter SRD, spells, equipment/magic items dan monsters ke EN/ID; simpan attribution/penanda terjemahan. Angka/formula tidak diduplikasi dalam dua locale. Fitur yang belum otomatis tetap memiliki teks dan mekanik resource terstruktur.
+- [x] Buat manifest ekspektasi berdasarkan bagian sumber SRD resmi, catat section/page/hash/version; test `requires_all_manifest_entries_in_both_locales`: semua daftar audit harus `[]`. Manifest dibaca/diperiksa independen dari hasil ingest, bukan dibuat hanya dari entri yang kebetulan tersedia.
+- [x] Run `npm run test -- packages/content/src/catalog.test.ts`; expected FAIL dengan kekurangan nyata, bukan melemahkan ekspektasi ke corpus sampel.
+- [x] Ingest/review bertahap aturan, seluruh opsi/progression karakter SRD, spells, equipment/magic items dan monsters ke EN/ID; simpan attribution/penanda terjemahan. Angka/formula tidak diduplikasi dalam dua locale. Fitur yang belum otomatis tetap memiliki teks dan mekanik resource terstruktur.
 - [ ] Run `npm run test -- packages/content/src/catalog.test.ts` dan `npm run content:audit`; expected PASS hanya setelah cakupan lengkap. Gunakan fixture sumber dan sampling visual lintas kategori; hasil OCR tidak dianggap benar tanpa pemeriksaan.
-- [ ] Commit per kategori yang sudah diaudit `feat: add verified bilingual SRD corpus`; gate task tetap terbuka sampai semua kategori lengkap. Tidak menjadikan seluruh library PDF pengguna sebagai asset produk.
+- [x] Commit per kategori yang sudah diaudit `feat: add verified bilingual SRD corpus`; gate task tetap terbuka sampai semua kategori lengkap. Tidak menjadikan seluruh library PDF pengguna sebagai asset produk.
 
 ### Task 6: Reference reader dan pencarian istilah pemula
 
@@ -170,23 +170,23 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `searchReference(principal: Principal, query: string, locale: Locale, campaignId?: Id): SearchHit[]`; `SearchHit { entryId, title, originalTitle, summary, whenToUse, relatedIds, source }`. MiniSearch index corpus yang boleh diakses; aliases/frasa pemula dikurasi, bukan AI.
 
-- [ ] Tulis `finds_beginner_aliases_without_private_notes`: `expect(ids('darah')).toContain('rule.hit-points')`; `nyawa`/`HP` menuju entri sama; `giliran saya bisa apa` menuju panduan turn; query rahasia DM tidak muncul bagi player.
-- [ ] Run `npm run test -- apps/server/src/features/reference/search.test.ts`; expected FAIL.
-- [ ] Implementasikan normalisasi EN/ID, exact/alias lebih tinggi daripada fuzzy, typo/prefix terbatas, kosong/no result, bookmark dan help links; tampilkan ringkasan, konteks, teks sumber dan langkah berikutnya. Tautan aksi membuka review, tidak otomatis menghabiskan resource.
-- [ ] Run test sama; expected PASS termasuk ID dengan original EN, fallback homebrew berlabel, query panjang dan scope campaign lain.
-- [ ] Commit `feat: add beginner reference search`.
+- [x] Tulis `finds_beginner_aliases_without_private_notes`: `expect(ids('darah')).toContain('rule.hit-points')`; `nyawa`/`HP` menuju entri sama; `giliran saya bisa apa` menuju panduan turn; query rahasia DM tidak muncul bagi player.
+- [x] Run `npm run test -- apps/server/src/features/reference/search.test.ts`; expected FAIL.
+- [x] Implementasikan normalisasi EN/ID, exact/alias lebih tinggi daripada fuzzy, typo/prefix terbatas, kosong/no result, bookmark dan help links; tampilkan ringkasan, konteks, teks sumber dan langkah berikutnya. Tautan aksi membuka review, tidak otomatis menghabiskan resource.
+- [x] Run test sama; expected PASS termasuk ID dengan original EN, fallback homebrew berlabel, query panjang dan scope campaign lain.
+- [x] Commit `feat: add beginner reference search`.
 
 ### Task 7: Wizard karakter dan perhitungan dasar
 
-**Files:** Create `packages/shared/src/characters.ts`, `packages/rules/src/abilities.ts`, `character-stats.ts`, `apps/server/src/features/characters/service.ts`, `apps/web/src/features/characters/CharacterWizard.tsx`, `CharacterSheet.tsx`, migration `004-characters.sql`. Test `packages/rules/src/character-stats.test.ts`, `apps/server/src/features/characters/service.test.ts`. Create `apps/server/src/features/characters/characters.module.ts`, `characters.controller.ts`; import ContentModule, CommandsModule dan CampaignsModule.
+**Files:** Create `packages/shared/src/characters.ts`, `packages/rules/src/abilities.ts`, `character-stats.ts`, `apps/server/src/features/characters/service.ts`, `apps/web/src/features/characters/CharacterWizard.tsx`, `CharacterSheet.tsx`, migration `005-characters.sql` (004 dipakai bookmark referensi). Test `packages/rules/src/character-stats.test.ts`, `apps/server/src/features/characters/service.test.ts`. Create `apps/server/src/features/characters/characters.module.ts`, `characters.controller.ts`; import ContentModule, CommandsModule dan CampaignsModule.
 
 **Interfaces:** `abilityModifier(score: number): number`; `deriveCharacter(character: Character, catalog: ContentCatalog): DerivedCharacter`; `saveCharacterDraft(ctx: CommandContext, draft: CharacterDraft): Id`; `requireCharacterOwner(principal: Principal, characterId: Id): Member` di service karakter. Character includes ownership, class levels, origin choices and source IDs; derived fields separate base from DM override.
 
-- [ ] Tulis `derives_stats_from_origin_and_equipment`: `expect(abilityModifier(16)).toBe(3)`; `expect(abilityModifier(8)).toBe(-1)`; wizard tidak final tanpa pilihan wajib, draft pulih setelah reload, player lain tidak dapat mengedit.
-- [ ] Run kedua file test; expected FAIL.
-- [ ] Implementasikan standard array/point buy/roll tercatat, class/background/species/languages, origin feat dan equipment, skill/save/AC/HP/speed/initiative; konsep, motivasi dan party bonds; validasi pilihan/prerequisite dari corpus. Tambahkan transfer karakter eksplisit oleh DM dan penolakan edit oleh owner lama.
-- [ ] Run test sama; expected PASS dengan fixture equipment/armor training dan DM override; UI EN/ID menunjukkan asal kontribusi angka.
-- [ ] Commit `feat: add guided character creation`.
+- [x] Tulis `derives_stats_from_origin_and_equipment`: `expect(abilityModifier(16)).toBe(3)`; `expect(abilityModifier(8)).toBe(-1)`; wizard tidak final tanpa pilihan wajib, draft pulih setelah reload, player lain tidak dapat mengedit.
+- [x] Run kedua file test; expected FAIL.
+- [x] Implementasikan standard array/point buy/roll tercatat, class/background/species/languages, origin feat dan equipment, skill/save/AC/HP/speed/initiative; konsep, motivasi dan party bonds; validasi pilihan/prerequisite dari corpus. Tambahkan transfer karakter eksplisit oleh DM dan penolakan edit oleh owner lama.
+- [x] Run test sama; expected PASS dengan fixture equipment/armor training dan DM override; UI EN/ID menunjukkan asal kontribusi angka.
+- [x] Commit `feat: add guided character creation`.
 
 ### Task 8: Fitur class, Weapon Mastery dan Heroic Inspiration
 
@@ -194,11 +194,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `availableFeatures(character: Character, catalog: ContentCatalog): FeatureUse[]`; `FeatureUse` didefinisikan di `characters.ts` dengan sourceId, action type, resource cost/recovery, automation level dan teks referensi; `validateFeatureUse(character: Character, featureId: Id): ValidationResult`.
 
-- [ ] Tulis `uses_2024_features_and_recovery`: fitur/mastery yang tidak dimiliki ditolak; Inspiration dipakai satu kali; fixture SRD untuk class berbeda membuktikan recovery tidak disamaratakan.
-- [ ] Run `npm run test -- packages/rules/src/class-features.test.ts`; expected FAIL.
-- [ ] Implementasikan feature eligibility, mastery pilihan, inspiration dan per-feature recovery metadata; manual resolution tersedia untuk fitur naratif/khusus dengan resource tracker yang benar.
-- [ ] Run test sama; expected PASS untuk opsi yang dimiliki/belum level, duplicate grant dan override DM; audit semua class SRD memiliki progression/feature references.
-- [ ] Commit `feat: add class feature tracking`.
+- [x] Tulis `uses_2024_features_and_recovery`: fitur/mastery yang tidak dimiliki ditolak; Inspiration dipakai satu kali; fixture SRD untuk class berbeda membuktikan recovery tidak disamaratakan.
+- [x] Run `npm run test -- packages/rules/src/class-features.test.ts`; expected FAIL.
+- [x] Implementasikan feature eligibility, mastery pilihan, inspiration dan per-feature recovery metadata; manual resolution tersedia untuk fitur naratif/khusus dengan resource tracker yang benar.
+- [x] Run test sama; expected PASS untuk opsi yang dimiliki/belum level, duplicate grant dan override DM; audit semua class SRD memiliki progression/feature references.
+- [x] Commit `feat: add class feature tracking`.
 
 ### Task 9: Inventory, spell preparation, resource dan rests
 
@@ -206,11 +206,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `deriveSpellcasting(character: Character, catalog: ContentCatalog): SpellcastingState`; `applyRest(character: Character, rest: 'short'|'long'): Character`; `validateLoadout(character: Character): ValidationResult`. Server feature commands register pada Task 3.
 
-- [ ] Tulis `tracks_resources_without_double_spending`: jumlah inventory tidak negatif, attunement/proficiency tervalidasi, spell yang tidak tersedia ditolak, Short Rest/Long Rest mengikuti fixture class berbeda, prepared vs known tidak dicampur.
-- [ ] Run `npm run test -- packages/rules/src/resources.test.ts`; expected FAIL.
-- [ ] Implementasikan currency/equipment/attunement, spell preparation, slot/Pact Magic, concentration dan recovery; preview rest dan confirmation sesuai kebijakan DM. Pemakaian dalam combat baru committed oleh resolution Task 18.
-- [ ] Run test sama; expected PASS termasuk zero remaining resource, serta perubahan equipment menghitung ulang AC/attacks tanpa menghapus override.
-- [ ] Commit `feat: add character resources and rests`.
+- [x] Tulis `tracks_resources_without_double_spending`: jumlah inventory tidak negatif, attunement/proficiency tervalidasi, spell yang tidak tersedia ditolak, Short Rest/Long Rest mengikuti fixture class berbeda, prepared vs known tidak dicampur.
+- [x] Run `npm run test -- packages/rules/src/resources.test.ts`; expected FAIL.
+- [x] Implementasikan currency/equipment/attunement, spell preparation, slot/Pact Magic, concentration dan recovery; preview rest dan confirmation sesuai kebijakan DM. Pemakaian dalam combat baru committed oleh resolution Task 18.
+- [x] Run test sama; expected PASS termasuk zero remaining resource, serta perubahan equipment menghitung ulang AC/attacks tanpa menghapus override.
+- [x] Commit `feat: add character resources and rests`.
 
 ### Task 10: Level up dan multiclass sampai level 20
 
@@ -218,11 +218,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `previewAdvancement(character: Character, choice: AdvancementChoice, catalog: ContentCatalog): AdvancementPreview`; `applyAdvancement(character: Character, preview: AdvancementPreview): Character`. Tipe pilihan/preview ditambahkan ke `characters.ts`; server memvalidasi ulang preview saat commit.
 
-- [ ] Tulis `advances_all_srd_classes_and_multiclass`: total level tidak melebihi 20; prerequisite class/feat ditegakkan; HP/proficiency/slots/features cocok fixture sumber yang dipilih independen; pilihan yang kurang tetap draft.
-- [ ] Run `npm run test -- packages/rules/src/advancement.test.ts`; expected FAIL.
-- [ ] Implementasikan XP/milestone setting, subclass/feat/ability improvements, memulai di level lebih tinggi, multiclass slot/proficiency dan class resources; tampilkan before/after sebelum commit.
-- [ ] Run test sama; expected PASS untuk tiap class/subclass SRD dan kombinasi caster/Pact Magic serta koreksi DM tercatat.
-- [ ] Commit `feat: add character advancement`.
+- [x] Tulis `advances_all_srd_classes_and_multiclass`: total level tidak melebihi 20; prerequisite class/feat ditegakkan; HP/proficiency/slots/features cocok fixture sumber yang dipilih independen; pilihan yang kurang tetap draft.
+- [x] Run `npm run test -- packages/rules/src/advancement.test.ts`; expected FAIL.
+- [x] Implementasikan XP/milestone setting, subclass/feat/ability improvements, memulai di level lebih tinggi, multiclass slot/proficiency dan class resources; tampilkan before/after sebelum commit.
+- [x] Run test sama; expected PASS untuk tiap class/subclass SRD dan kombinasi caster/Pact Magic serta koreksi DM tercatat.
+- [x] Commit `feat: add character advancement`.
 
 **Gate tahap:** karakter SRD dapat dibuat/dikembangkan, corpus EN/ID lengkap dan pencarian pemula berjalan tanpa internet; keberhasilan beberapa contoh class tidak menutup gate.
 
@@ -234,11 +234,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `saveNote(ctx: CommandContext, note: NoteDraft): Id`; `visibleNotes(principal: Principal, campaignId: Id): NoteSummary[]`; Note kinds: world/chapter/scene/NPC/location/quest/handout/ruling; visibility DM/party/specific members.
 
-- [ ] Tulis `does_not_leak_unshared_story`: player API/socket/search tidak memiliki teks rahasia, termasuk note ID ditebak; konflik dua editor tidak menimpa draft diam-diam; script/HTML dalam Markdown tidak dieksekusi.
-- [ ] Run `npm run test -- apps/server/src/features/notes/visibility.test.ts`; expected FAIL.
-- [ ] Implementasikan editor Markdown aman, autosave/revision, read-aloud/trigger/outcome/reward, link antarentri, selective share dan generator nama lokal; cheat sheet AC/HP/Passive Perception/resources memakai projection sesuai role.
-- [ ] Run test sama; expected PASS dengan selected-member handout dan error autosave mempertahankan draft.
-- [ ] Commit `feat: add campaign writing tools`.
+- [x] Tulis `does_not_leak_unshared_story`: player API/socket/search tidak memiliki teks rahasia, termasuk note ID ditebak; konflik dua editor tidak menimpa draft diam-diam; script/HTML dalam Markdown tidak dieksekusi.
+- [x] Run `npm run test -- apps/server/src/features/notes/visibility.test.ts`; expected FAIL.
+- [x] Implementasikan editor Markdown aman, autosave/revision, read-aloud/trigger/outcome/reward, link antarentri, selective share dan generator nama lokal; cheat sheet AC/HP/Passive Perception/resources memakai projection sesuai role.
+- [x] Run test sama; expected PASS dengan selected-member handout dan error autosave mempertahankan draft.
+- [x] Commit `feat: add campaign writing tools`.
 
 ### Task 12: Homebrew dan encounter difficulty 2024
 
@@ -246,11 +246,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `calculateBudget(levels: number[]): { low: number, moderate: number, high: number }`; `evaluateEncounter(levels: number[], monsters: { xp: number, count: number }[]): EncounterEstimate`; `saveHomebrew(ctx: CommandContext, entry: ContentEntry): Id`. Homebrew kind schemas dari Task 5; campaign approval dan formula whitelist tanpa eval.
 
-- [ ] Tulis `uses_2024_xp_budget`: `expect(calculateBudget([1,1,1,1])).toEqual({low:200,moderate:300,high:400})`; empat musuh 50 XP berjumlah 200 tanpa multiplier; input party kosong/XP hilang ditolak.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan monster filters/duplication, party selection/level, target budget dan label sesuai spec, risiko, template instance terpisah; editor homebrew spell/item/monster/character options dengan approval DM.
-- [ ] Run test sama; expected PASS untuk mixed levels, exact boundary, zero XP, quantity invalid dan formula/kode tidak aman.
-- [ ] Commit `feat: add encounter and homebrew tools`.
+- [x] Tulis `uses_2024_xp_budget`: `expect(calculateBudget([1,1,1,1])).toEqual({low:200,moderate:300,high:400})`; empat musuh 50 XP berjumlah 200 tanpa multiplier; input party kosong/XP hilang ditolak.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan monster filters/duplication, party selection/level, target budget dan label sesuai spec, risiko, template instance terpisah; editor homebrew spell/item/monster/character options dengan approval DM.
+- [x] Run test sama; expected PASS untuk mixed levels, exact boundary, zero XP, quantity invalid dan formula/kode tidak aman.
+- [x] Commit `feat: add encounter and homebrew tools`.
 
 **Gate tahap:** DM menyiapkan cerita dan encounter, membagikan materi terpilih dan mengakses aturan tanpa membuka rahasia ke player.
 
@@ -262,11 +262,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `storeAsset(principal: Principal, campaignId: Id, upload: AssetUpload): Promise<Asset>`; `projectScene(principal: Principal, sceneId: Id): SceneView`; asset GET memeriksa membership/visibility, bukan akses static path. Scene coordinates disimpan dalam satuan grid, bukan pixel viewport.
 
-- [ ] Tulis `hides_tokens_and_rejects_hostile_uploads`: `expect(playerView.tokens.some(t=>t.id===hiddenId)).toBe(false)`; file type palsu, path traversal dan asset campaign lain gagal; batas awal upload 20 MiB dan 40 megapixel diuji di boundary.
-- [ ] Run `npm run test -- apps/server/src/features/scenes/access.test.ts`; expected FAIL.
-- [ ] Implementasikan upload lokal PNG/JPEG/WebP dengan validasi signature/dimensi, asset reference, grid calibration, tokens ber-owner, pan/zoom dan fallback kontrol DOM. Node:sqlite hanya metadata; bytes di direktori asset terkontrol.
-- [ ] Run test sama; expected PASS untuk private/public handout dan hidden monster tanpa HP/stat rahasia pada response/error.
-- [ ] Commit `feat: add secure scenes and tokens`.
+- [x] Tulis `hides_tokens_and_rejects_hostile_uploads`: `expect(playerView.tokens.some(t=>t.id===hiddenId)).toBe(false)`; file type palsu, path traversal dan asset campaign lain gagal; batas awal upload 20 MiB dan 40 megapixel diuji di boundary.
+- [x] Run `npm run test -- apps/server/src/features/scenes/access.test.ts`; expected FAIL.
+- [x] Implementasikan upload lokal PNG/JPEG/WebP dengan validasi signature/dimensi, asset reference, grid calibration, tokens ber-owner, pan/zoom dan fallback kontrol DOM. Node:sqlite hanya metadata; bytes di direktori asset terkontrol.
+- [x] Run test sama; expected PASS untuk private/public handout dan hidden monster tanpa HP/stat rahasia pada response/error.
+- [x] Commit `feat: add secure scenes and tokens`.
 
 ### Task 14: Movement, jarak, ping, AoE dan reveal manual
 
@@ -274,11 +274,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `movementCost(path: GridPoint[], settings: GridSettings): number`; `moveToken(ctx: CommandContext, input: MoveTokenInput): Token`. Default: 5 feet/square, diagonal sama satu square (Chebyshev), difficult terrain dikonfigurasi DM; tersedia campaign setting alternate diagonal dan DM override dengan log.
 
-- [ ] Tulis `validates_paths_and_supports_touch`: `expect(movementCost([{x:0,y:0},{x:1,y:1}], standardGrid)).toBe(5)`; difficulty terrain naik biaya sesuai sumber; player tidak memindah token lain; tap-to-move sama hasil dengan drag.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan committed movement/measurement, ping sementara, AoE marker dan manual reveal; overlay visual tidak dipakai sebagai pengamanan gambar penuh. Map background yang dibagikan harus aman dilihat; informasi rahasia tetap pada asset terpisah dan projection server.
-- [ ] Run test sama; expected PASS untuk zoom/resize, movement budget, hidden entity, keyboard dan no-grid roleplay; ping tidak membuat log permanen per pointer move.
-- [ ] Commit `feat: add interactive map controls`.
+- [x] Tulis `validates_paths_and_supports_touch`: `expect(movementCost([{x:0,y:0},{x:1,y:1}], standardGrid)).toBe(5)`; difficulty terrain naik biaya sesuai sumber; player tidak memindah token lain; tap-to-move sama hasil dengan drag.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan committed movement/measurement, ping sementara, AoE marker dan manual reveal; overlay visual tidak dipakai sebagai pengamanan gambar penuh. Map background yang dibagikan harus aman dilihat; informasi rahasia tetap pada asset terpisah dan projection server.
+- [x] Run test sama; expected PASS untuk zoom/resize, movement budget, hidden entity, keyboard dan no-grid roleplay; ping tidak membuat log permanen per pointer move.
+- [x] Commit `feat: add interactive map controls`.
 
 ### Task 15: Combat lifecycle, initiative dan action economy
 
