@@ -154,7 +154,9 @@
     "HP_INVALID": "Hit Points must be between 0 and the maximum ({{max}}).",
     "LEVEL_UP_NOT_AVAILABLE": "No level up is available yet (XP or a milestone from the DM is needed).",
     "ADVANCEMENT_INVALID": "That level-up choice is not allowed ({{issue}}).",
-    "ADVANCEMENT_INCOMPLETE": "Finish the level-up choices first ({{missing}})."
+    "ADVANCEMENT_INCOMPLETE": "Finish the level-up choices first ({{missing}}).",
+    "REVISION_REQUIRED": "Reload this note before saving; it changed since you opened it.",
+    "NOTE_LINK_INVALID": "A linked note no longer exists."
   },
   "reference": {
     "title": "Rules reference",
@@ -594,6 +596,76 @@
         "SKILL_INVALID": "{{subject}} cannot be chosen here.",
         "SKILL_NOT_ALLOWED": "This class gives no skill when multiclassing."
       }
+    }
+  },
+  "notes": {
+    "open": "Story and notes",
+    "titleDm": "Story and notes",
+    "titleParty": "Party journal",
+    "new": "New note",
+    "edit": "Edit note",
+    "close": "Done",
+    "pick": "Choose a note from the list.",
+    "emptyDm": "No notes yet. Prepared material stays secret until you share it.",
+    "emptyParty": "The DM has not shared anything yet.",
+    "kindLabel": "Kind",
+    "kind": {
+      "world": "World",
+      "chapter": "Chapter",
+      "scene": "Scene",
+      "npc": "NPC",
+      "location": "Location",
+      "quest": "Quest",
+      "handout": "Handout",
+      "ruling": "Rules ruling"
+    },
+    "title": "Title",
+    "generateName": "Suggest NPC name",
+    "questStatus": "Quest status",
+    "quest": {
+      "open": "Open",
+      "done": "Completed",
+      "failed": "Failed"
+    },
+    "body": "Text (Markdown)",
+    "bodyHint": "Shared with whoever can see this note. **bold**, *italic*, lists and tables work; HTML is shown as plain text.",
+    "sceneLegend": "Scene preparation",
+    "scene": {
+      "readAloud": "Read-aloud text (shared)",
+      "triggers": "Triggers (DM only)",
+      "outcomes": "Possible outcomes (DM only)",
+      "rewards": "Rewards (DM only)",
+      "statBlocks": "Stat blocks (DM only, monster IDs)"
+    },
+    "dmNotes": "DM notes (never shared)",
+    "links": "Linked notes",
+    "visibility": "Who can read this",
+    "visibilityDm": "Only me (secret)",
+    "visibilityParty": "Whole party",
+    "visibilityMembers": "Or only these players:",
+    "badge": {
+      "dm": "Secret",
+      "party": "Party",
+      "members": "Selected"
+    },
+    "preview": "Preview",
+    "save": {
+      "idle": "Not saved yet",
+      "saving": "Saving…",
+      "saved": "All changes saved",
+      "conflict": "Not saved: changed elsewhere",
+      "error": "Not saved"
+    },
+    "conflict": "This note was changed in another tab or by another device. Your text is still here; nothing was overwritten.",
+    "loadLatest": "Load the other version (discard mine)",
+    "overwrite": "Keep mine and save over it",
+    "retry": "Try saving again",
+    "cheatSheet": {
+      "title": "Party cheat sheet",
+      "empty": "No finished characters yet.",
+      "name": "Character",
+      "resources": "Resources",
+      "concentrating": "Concentrating"
     }
   }
 }

@@ -1,6 +1,7 @@
 import type { Id } from './contracts.js';
 import type { InviteView, MemberView, Role } from './access.js';
 import type { CharacterSummary } from './characters.js';
+import type { CheatSheetRow, NoteSummary } from './notes.js';
 
 /**
  * Projection room per peserta. Field khusus DM berada di `dm` dan tidak pernah
@@ -14,5 +15,7 @@ export interface RoomSnapshot {
   members: MemberView[];
   /** Ringkasan karakter campaign; sheet penuh hanya untuk pemilik dan DM. */
   characters?: CharacterSummary[];
-  dm?: { invites: InviteView[] };
+  /** Catatan yang boleh dilihat peserta ini (judul saja; isi lewat GET notes/:id). */
+  notes?: NoteSummary[];
+  dm?: { invites: InviteView[]; cheatSheet?: CheatSheetRow[] };
 }

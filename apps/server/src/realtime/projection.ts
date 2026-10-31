@@ -8,7 +8,10 @@ import { DatabaseService } from '../db/database.service.js';
 import { CampaignsService } from '../features/campaigns/service.js';
 
 /** Bagian snapshot dari fitur lain; menerima member agar dapat memfilter sesuai role. */
-export type RoomSection = (db: DatabaseSync, member: Member) => Partial<RoomSnapshot>;
+export type RoomSection = (
+  db: DatabaseSync,
+  member: Member,
+) => Partial<Omit<RoomSnapshot, 'dm'>> & { dm?: Partial<NonNullable<RoomSnapshot['dm']>> };
 
 /** Snapshot sesuai hak akses peserta; data DM dibangun hanya untuk DM. */
 @Injectable()
@@ -41,7 +44,12 @@ export class ProjectionService {
       };
       if (summary.role === 'dm') snapshot.dm = { invites: this.campaigns.invites(principal, campaignId) };
       const member: Member = { campaignId, accountId: principal.accountId, role: summary.role };
-      for (const section of this.sections.values()) Object.assign(snapshot, section(db, member));
+      for (const section of this.sections.values()) {
+        // `dm` digabung per field agar beberapa fitur bisa menambah data khusus DM.
+        const { dm, ...rest } = section(db, member);
+        Object.assign(snapshot, rest);
+        if (dm && snapshot.dm) snapshot.dm = { ...snapshot.dm, ...dm };
+      }
       return snapshot;
     } finally {
       db.exec('COMMIT');

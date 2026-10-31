@@ -6,6 +6,7 @@ export type Route =
   | { name: 'campaign'; campaignId: string }
   | { name: 'reference'; campaignId?: string }
   | { name: 'character'; campaignId: string; characterId: string }
+  | { name: 'notes'; campaignId: string }
   | { name: 'not-found' };
 
 export function parseRoute(pathname: string): Route {
@@ -15,6 +16,14 @@ export function parseRoute(pathname: string): Route {
   if (character) {
     try {
       return { name: 'character', campaignId: decodeURIComponent(character[1]!), characterId: decodeURIComponent(character[2]!) };
+    } catch {
+      return { name: 'not-found' };
+    }
+  }
+  const notes = /^\/campaigns\/([^/]+)\/notes\/?$/.exec(pathname);
+  if (notes) {
+    try {
+      return { name: 'notes', campaignId: decodeURIComponent(notes[1]!) };
     } catch {
       return { name: 'not-found' };
     }
@@ -36,6 +45,8 @@ export const routePath = {
   campaign: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}`,
   character: (campaignId: string, characterId: string) =>
     `/campaigns/${encodeURIComponent(campaignId)}/characters/${encodeURIComponent(characterId)}`,
+  notes: (campaignId: string, noteId?: string) =>
+    `/campaigns/${encodeURIComponent(campaignId)}/notes${noteId ? `?note=${encodeURIComponent(noteId)}` : ''}`,
   reference: (campaignId?: string) =>
     campaignId === undefined ? '/reference' : `/campaigns/${encodeURIComponent(campaignId)}/reference`,
 };

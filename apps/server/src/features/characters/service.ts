@@ -34,6 +34,7 @@ import {
   OVERRIDE_FIELDS,
 } from '#shared/characters';
 import type { Id, Locale } from '#shared/contracts';
+import type { CheatSheetRow } from '#shared/notes';
 import type { CommandContext } from '../../commands/registry.js';
 import { CommandsService } from '../../commands/dispatcher.js';
 import { DomainError, forbidden } from '../../common/domain-error.js';
@@ -120,6 +121,30 @@ export class CharactersService implements OnModuleInit {
       { schema: methodsPayload, roles: ['dm'] },
     );
     this.projection.registerSection('characters', (db, member) => ({ characters: this.summaries(db, member.campaignId) }));
+  }
+
+  /** Angka meja untuk DM: AC, HP (terpisah), Passive Perception dan resource terpakai; hanya karakter final. */
+  cheatSheet(db: DatabaseSync, campaignId: Id): CheatSheetRow[] {
+    const catalog = this.content.catalog();
+    const rows = db
+      .prepare("SELECT * FROM characters WHERE campaign_id = ? AND status = 'final' ORDER BY created_at, id")
+      .all(campaignId) as unknown as CharacterRow[];
+    return rows.map((row) => {
+      const character = this.toCharacter(db, row);
+      const derived = deriveCharacter(character, catalog);
+      return {
+        characterId: character.id,
+        name: character.draft.name,
+        ownerAccountId: character.ownerAccountId,
+        armorClass: derived.armorClass.value,
+        hitPoints: { current: derived.currentHitPoints, max: derived.hitPoints.value, temp: derived.temporaryHitPoints },
+        passivePerception: derived.passivePerception.value,
+        resources: availableFeatures(character, catalog).flatMap((feature) =>
+          feature.resource ? [{ key: feature.key, name: feature.originalName, remaining: feature.resource.remaining, max: feature.resource.max }] : [],
+        ),
+        concentration: character.resources.concentration,
+      };
+    });
   }
 
   /** Membership pemilik karakter; selain pemilik (termasuk DM) ditolak untuk edit wizard. */

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ApiError, CreatedInvite, MemberView } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import { api } from '../../app/api';
+import { DmCheatSheet } from '../notes/DmCheatSheet';
 import { Icon, initials } from '../../app/icons';
 import { Link, navigate, routePath } from '../../app/router';
 import { refreshRoom, sendCommand, useConnectionStatus, useRoomEntry } from '../../app/room-store';
@@ -88,6 +89,10 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </p>
         </div>
         <div className="banner-actions">
+          <Link href={routePath.notes(campaignId)} className="button-link">
+            <Icon name="eye" />
+            {t('notes.open')}
+          </Link>
           <Link href={routePath.reference(campaignId)} className="button-link">
             <Icon name="scroll" />
             {t('room.openReference')}
@@ -97,6 +102,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
       {entry.error && <ErrorMessage error={entry.error} />}
       <ErrorMessage error={actionError} />
 
+      {isDm && <DmCheatSheet rows={snapshot.dm?.cheatSheet ?? []} />}
       <div className="room-grid">
         <section className="card" aria-labelledby="party-heading">
           <h2 id="party-heading">

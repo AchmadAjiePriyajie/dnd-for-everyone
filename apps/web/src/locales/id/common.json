@@ -154,7 +154,9 @@
     "HP_INVALID": "Hit Points harus antara 0 dan maksimum ({{max}}).",
     "LEVEL_UP_NOT_AVAILABLE": "Belum bisa naik level (perlu XP atau milestone dari DM).",
     "ADVANCEMENT_INVALID": "Pilihan level up itu tidak diizinkan ({{issue}}).",
-    "ADVANCEMENT_INCOMPLETE": "Selesaikan pilihan level up dulu ({{missing}})."
+    "ADVANCEMENT_INCOMPLETE": "Selesaikan pilihan level up dulu ({{missing}}).",
+    "REVISION_REQUIRED": "Muat ulang catatan ini sebelum menyimpan; isinya berubah sejak dibuka.",
+    "NOTE_LINK_INVALID": "Catatan yang ditautkan sudah tidak ada."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -594,6 +596,76 @@
         "SKILL_INVALID": "{{subject}} tidak bisa dipilih di sini.",
         "SKILL_NOT_ALLOWED": "Class ini tidak memberi skill saat multiclass."
       }
+    }
+  },
+  "notes": {
+    "open": "Cerita dan catatan",
+    "titleDm": "Cerita dan catatan",
+    "titleParty": "Jurnal party",
+    "new": "Catatan baru",
+    "edit": "Edit catatan",
+    "close": "Selesai",
+    "pick": "Pilih catatan dari daftar.",
+    "emptyDm": "Belum ada catatan. Materi persiapan tetap rahasia sampai kamu membagikannya.",
+    "emptyParty": "DM belum membagikan apa pun.",
+    "kindLabel": "Jenis",
+    "kind": {
+      "world": "Dunia",
+      "chapter": "Bab",
+      "scene": "Scene",
+      "npc": "NPC",
+      "location": "Lokasi",
+      "quest": "Quest",
+      "handout": "Handout",
+      "ruling": "Keputusan aturan"
+    },
+    "title": "Judul",
+    "generateName": "Usulkan nama NPC",
+    "questStatus": "Status quest",
+    "quest": {
+      "open": "Berjalan",
+      "done": "Selesai",
+      "failed": "Gagal"
+    },
+    "body": "Teks (Markdown)",
+    "bodyHint": "Dibagikan kepada yang boleh melihat catatan ini. **tebal**, *miring*, daftar dan tabel bisa dipakai; HTML tampil sebagai teks biasa.",
+    "sceneLegend": "Persiapan scene",
+    "scene": {
+      "readAloud": "Teks dibacakan (dibagikan)",
+      "triggers": "Pemicu (khusus DM)",
+      "outcomes": "Kemungkinan hasil (khusus DM)",
+      "rewards": "Hadiah (khusus DM)",
+      "statBlocks": "Stat block (khusus DM, ID monster)"
+    },
+    "dmNotes": "Catatan DM (tidak pernah dibagikan)",
+    "links": "Catatan terkait",
+    "visibility": "Siapa yang boleh membaca",
+    "visibilityDm": "Hanya saya (rahasia)",
+    "visibilityParty": "Seluruh party",
+    "visibilityMembers": "Atau hanya pemain ini:",
+    "badge": {
+      "dm": "Rahasia",
+      "party": "Party",
+      "members": "Terpilih"
+    },
+    "preview": "Pratinjau",
+    "save": {
+      "idle": "Belum disimpan",
+      "saving": "Menyimpan…",
+      "saved": "Semua perubahan tersimpan",
+      "conflict": "Tidak tersimpan: diubah di tempat lain",
+      "error": "Tidak tersimpan"
+    },
+    "conflict": "Catatan ini diubah di tab atau perangkat lain. Teksmu masih di sini; tidak ada yang tertimpa.",
+    "loadLatest": "Muat versi lain (buang milikku)",
+    "overwrite": "Pakai milikku dan simpan di atasnya",
+    "retry": "Coba simpan lagi",
+    "cheatSheet": {
+      "title": "Cheat sheet party",
+      "empty": "Belum ada karakter yang final.",
+      "name": "Karakter",
+      "resources": "Resource",
+      "concentrating": "Concentration"
     }
   }
 }

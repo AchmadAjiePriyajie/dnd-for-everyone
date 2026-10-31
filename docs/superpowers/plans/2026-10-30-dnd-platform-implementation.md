@@ -234,11 +234,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `saveNote(ctx: CommandContext, note: NoteDraft): Id`; `visibleNotes(principal: Principal, campaignId: Id): NoteSummary[]`; Note kinds: world/chapter/scene/NPC/location/quest/handout/ruling; visibility DM/party/specific members.
 
-- [ ] Tulis `does_not_leak_unshared_story`: player API/socket/search tidak memiliki teks rahasia, termasuk note ID ditebak; konflik dua editor tidak menimpa draft diam-diam; script/HTML dalam Markdown tidak dieksekusi.
-- [ ] Run `npm run test -- apps/server/src/features/notes/visibility.test.ts`; expected FAIL.
-- [ ] Implementasikan editor Markdown aman, autosave/revision, read-aloud/trigger/outcome/reward, link antarentri, selective share dan generator nama lokal; cheat sheet AC/HP/Passive Perception/resources memakai projection sesuai role.
-- [ ] Run test sama; expected PASS dengan selected-member handout dan error autosave mempertahankan draft.
-- [ ] Commit `feat: add campaign writing tools`.
+- [x] Tulis `does_not_leak_unshared_story`: player API/socket/search tidak memiliki teks rahasia, termasuk note ID ditebak; konflik dua editor tidak menimpa draft diam-diam; script/HTML dalam Markdown tidak dieksekusi.
+- [x] Run `npm run test -- apps/server/src/features/notes/visibility.test.ts`; expected FAIL.
+- [x] Implementasikan editor Markdown aman, autosave/revision, read-aloud/trigger/outcome/reward, link antarentri, selective share dan generator nama lokal; cheat sheet AC/HP/Passive Perception/resources memakai projection sesuai role.
+- [x] Run test sama; expected PASS dengan selected-member handout dan error autosave mempertahankan draft.
+- [x] Commit `feat: add campaign writing tools`.
 
 ### Task 12: Homebrew dan encounter difficulty 2024
 

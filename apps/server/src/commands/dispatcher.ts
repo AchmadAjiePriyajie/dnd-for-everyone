@@ -109,6 +109,7 @@ export class CommandsService {
           campaignId: command.campaignId,
           targetId: command.targetId,
           requestId: command.requestId,
+          expectedRevision: command.expectedRevision ?? null,
         },
         command.payload,
       );

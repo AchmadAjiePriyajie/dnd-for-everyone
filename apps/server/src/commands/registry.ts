@@ -12,6 +12,8 @@ export interface CommandContext {
   campaignId: Id;
   targetId: Id;
   requestId: string;
+  /** Revisi target yang dikirim client (sudah dicek dispatcher); null bila tidak dikirim. */
+  expectedRevision: number | null;
 }
 
 export type CommandHandler = (ctx: CommandContext, payload: JsonValue) => JsonValue;

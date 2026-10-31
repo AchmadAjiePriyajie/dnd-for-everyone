@@ -1772,3 +1772,65 @@ button:disabled {
 .level-up textarea {
   min-height: 4rem;
 }
+
+/* ---------------------------------------------------------------- cerita dan catatan */
+.notes-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 52rem) {
+  .notes-layout {
+    grid-template-columns: minmax(14rem, 1fr) 2.5fr;
+    align-items: start;
+  }
+}
+
+.link-button[aria-current='true'] {
+  font-weight: 700;
+}
+
+.read-aloud {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--gold);
+  background: var(--surface-2);
+  font-style: italic;
+  white-space: pre-wrap;
+}
+
+.dm-only {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+}
+
+.story-editor textarea {
+  width: 100%;
+}
+
+.scene-fields {
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+}
+
+.save-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.cheat-sheet {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cheat-sheet th,
+.cheat-sheet td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}

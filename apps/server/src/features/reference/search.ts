@@ -16,8 +16,9 @@ export type LocalizedText = { en: string } & Partial<Record<Locale, string>>;
 /** Entri milik campaign (homebrew, catatan) yang disediakan fitur lain. */
 export interface CampaignReferenceEntry {
   id: Id;
-  /** `dm` hanya untuk DM campaign; `members` untuk semua anggota. */
-  audience: 'dm' | 'members';
+  /** `dm` hanya untuk DM campaign; `members` untuk semua anggota; `selected` untuk DM + `accountIds`. */
+  audience: 'dm' | 'members' | 'selected';
+  accountIds?: Id[];
   kind?: string;
   title: LocalizedText;
   summary: LocalizedText | null;
@@ -190,7 +191,10 @@ export class ReferenceService {
     return [...this.providers.values()].flatMap((provider) =>
       provider
         .entries(db, campaignId)
-        .filter((entry) => entry.audience === 'members' || member.role === 'dm')
+        .filter(
+          (entry) =>
+            member.role === 'dm' || entry.audience === 'members' || (entry.audience === 'selected' && (entry.accountIds ?? []).includes(principal.accountId)),
+        )
         .map((entry) => ({ ...entry, provider: provider.name })),
     );
   }

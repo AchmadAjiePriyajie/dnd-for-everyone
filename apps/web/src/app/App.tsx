@@ -5,6 +5,7 @@ import type { Locale } from '#shared/contracts';
 import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
 import { CharacterPage } from '../features/characters/CharacterPage';
+import { NotesPage } from '../features/notes/PartyJournal';
 import { Lobby } from '../features/lobby/Lobby';
 import { ReferencePage } from '../features/reference/ReferencePage';
 import { api } from './api';
@@ -180,6 +181,7 @@ function Routes() {
     return <CharacterPage key={`${route.campaignId}/${route.characterId}`} campaignId={route.campaignId} characterId={route.characterId} />;
   }
   if (route.name === 'reference') return <ReferencePage key={route.campaignId ?? ''} campaignId={route.campaignId} />;
+  if (route.name === 'notes') return <NotesPage key={route.campaignId} campaignId={route.campaignId} />;
   return (
     <section className="card">
       <h1>{t('notFound.title')}</h1>

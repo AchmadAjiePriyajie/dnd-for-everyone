@@ -16,6 +16,7 @@ import {
   HEROIC_INSPIRATION,
   type MasteryGrant,
 } from '#shared/characters';
+import type { NoteView } from '#shared/notes';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
@@ -40,6 +41,10 @@ export interface FakeServerState {
   /** Derivasi palsu untuk test UI; aturan sebenarnya diuji di packages/rules. */
   deriveCharacter: ((draft: CharacterDraft) => DerivedCharacter) | null;
   characters: Record<string, FakeCharacterView>;
+  /** Catatan yang dikembalikan GET notes/:id (sudah difilter seolah oleh server). */
+  notes: Record<string, NoteView>;
+  /** Jawaban khusus untuk command non-karakter; undefined = ack biasa. */
+  onCommand?: (body: { kind: string; targetId: string; payload: unknown; expectedRevision?: number }) => Response | undefined;
 }
 
 export interface FakeCharacterView {
@@ -86,6 +91,7 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     characterOptions: null,
     deriveCharacter: null,
     characters: {},
+    notes: {},
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -235,7 +241,14 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
       // Command karakter lain (resource, level up): cukup dicatat dan di-ack.
       return result(found);
     }
+    const notePath = /^\/api\/campaigns\/([^/]+)\/notes\/([^/]+)$/.exec(path);
+    if (notePath) {
+      const found = state.notes[decodeURIComponent(notePath[2]!)];
+      return found ? json(200, found) : error(403, 'FORBIDDEN');
+    }
     if (/^\/api\/campaigns\/[^/]+\/commands$/.test(path)) {
+      const custom = state.onCommand?.(body);
+      if (custom) return custom;
       return json(200, { targetId: body.targetId, entityRevision: 1, eventSequence: 1, value: null });
     }
     return error(404, 'NOT_FOUND');
