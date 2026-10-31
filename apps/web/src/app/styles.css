@@ -2146,3 +2146,11 @@ button:disabled {
 .action-tile.is-chosen { outline: 3px solid var(--gold); }
 .action-tile[aria-disabled='true'] { opacity: 0.35; cursor: not-allowed; }
 .action-targets { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; }
+.notifications { border-color: var(--gold); background: var(--bg-glow); }
+.notifications .notice { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.player-card h2 { margin: 0 0 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-tabs { display: flex; flex-direction: column; min-height: calc(100vh - 8rem); padding-bottom: 3.5rem; }
+.mobile-panel { flex: 1; min-width: 0; }
+.mobile-tablist { position: fixed; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-top: 1px solid var(--border-strong); z-index: 20; }
+.mobile-tablist [role='tab'] { border: 0; border-radius: 0; padding: 0.7rem 0.2rem; font-size: 0.8rem; background: transparent; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.mobile-tablist [role='tab'][aria-selected='true'] { color: var(--accent); font-weight: 700; box-shadow: inset 0 3px 0 var(--accent); }

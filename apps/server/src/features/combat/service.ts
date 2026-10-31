@@ -393,7 +393,8 @@ export class CombatService implements OnModuleInit {
       const base = { id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated };
       const conditions = c.vitals?.conditions ?? [];
       if (c.ownerAccountId === member.accountId) {
-        return { ...base, hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.actions ? { actions: c.actions } : {}), ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) };
+        const own = c.characterId ? this.characters.finalCharacter(db, member.campaignId, c.characterId)?.resources.concentration ?? null : undefined;
+        return { ...base, hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(own === undefined ? {} : { concentration: own }), ...(c.actions ? { actions: c.actions } : {}), ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) };
       }
       // Party members share what the table sees; resources/inventory stay on the private sheet.
       if (c.characterId) {

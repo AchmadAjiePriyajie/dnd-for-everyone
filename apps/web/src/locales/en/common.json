@@ -1250,6 +1250,18 @@
     "fontsBody": "Cinzel and Crimson Pro, SIL Open Font License 1.1, bundled with the app."
   },
   "screen": {
+    "sections": "Combat sections",
+    "section": {
+      "map": "Map",
+      "character": "Character",
+      "actions": "Actions",
+      "turn": "Turn",
+      "more": "More"
+    },
+    "yourCharacter": "Your character: {{name}}",
+    "openSheet": "Open character sheet",
+    "notifications": "Notifications",
+    "reactionAvailable": "Reaction available: {{reaction}}",
     "actionBar": "Action bar",
     "turnOrder": "Turn order",
     "map": "Battle map",

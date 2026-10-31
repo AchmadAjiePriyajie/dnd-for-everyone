@@ -65,6 +65,8 @@ describe('party view', () => {
     const goblinSeen = seen.combatants.find((c) => c.id === goblin.id)!;
     expect(goblinSeen).toMatchObject({ standing: 'bloodied', conditions: ['condition.grappled'] });
     for (const secret of ['hp', 'monsterId', 'budget', 'vitals']) expect(goblinSeen).not.toHaveProperty(secret);
+    // The owner sees their own Concentration too.
+    expect((await alice.get<CombatView>(`/api/campaigns/${campaignId}/combats/combat-1`)).body.combatants.find((c) => c.id === asha.id)!.concentration).toBe('spell.bless');
     const snapshot = JSON.stringify((await bram.get<RoomSnapshot>(`/api/campaigns/${campaignId}/snapshot`)).body);
     expect(snapshot).not.toMatch(/"current":3,/);
 

@@ -1250,6 +1250,18 @@
     "fontsBody": "Cinzel dan Crimson Pro, SIL Open Font License 1.1, dibundel bersama aplikasi."
   },
   "screen": {
+    "sections": "Bagian combat",
+    "section": {
+      "map": "Peta",
+      "character": "Karakter",
+      "actions": "Aksi",
+      "turn": "Giliran",
+      "more": "Lainnya"
+    },
+    "yourCharacter": "Karaktermu: {{name}}",
+    "openSheet": "Buka sheet karakter",
+    "notifications": "Pemberitahuan",
+    "reactionAvailable": "Reaksi tersedia: {{reaction}}",
     "actionBar": "Hotbar aksi",
     "turnOrder": "Urutan turn",
     "map": "Peta pertempuran",

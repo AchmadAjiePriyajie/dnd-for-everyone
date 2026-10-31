@@ -17,6 +17,9 @@ import { ErrorMessage, toApiError } from '../../app/ui';
 import { BattleMap } from '../scenes/BattleMap';
 import { ActionPanel } from './ActionPanel';
 import { ActionBar } from './ActionBar';
+import { MobileTabs } from './MobileTabs';
+import { Notifications } from './Notifications';
+import { PlayerCard } from './PlayerCard';
 import { CombatantCorrection, ReinforcementForm, type RunCommand } from './CombatForms';
 import { DiceTray } from './DiceTray';
 import { ResolutionPanel } from './ResolutionPanel';
@@ -178,15 +181,22 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
         : <p className="muted">{t('screen.noResolutions')}</p> },
     { id: 'dice', label: t('screen.tab.dice'), content: <DiceTray campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} records={snapshot.rolls ?? []} /> },
     { id: 'rules', label: t('screen.tab.rules'), content: <RulesPanel campaignId={campaignId} /> },
+    ...(isDm ? [] : [{ id: 'journal', label: t('screen.tab.journal'), content: <p>{snapshot.session && snapshot.session.status !== 'ended' ? t('session.heading', { number: snapshot.session.number, title: snapshot.session.title }) : t('session.none')} <Link href={routePath.session(campaignId)}>{t('session.journal')}</Link></p> }]),
   ]} /> : null;
+  const own = combat?.combatants.find((c) => c.characterId && c.ownerAccountId === accountId);
+  const focus = own ?? combat?.combatants.find((c) => c.id === combat.activeId);
+  const card = focus && combat ? <PlayerCard creature={focus} campaignId={campaignId} /> : null;
+  const notices = combat ? <Notifications campaignId={campaignId} combat={combat} resolutions={snapshot.resolutions ?? []} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} send={execute} /> : null;
+  const marked = combat ? combat.combatants.filter((c) => selectedIds.includes(c.id) && c.tokenId).map((c) => c.tokenId!) : [];
+  const selectToken = (tokenId: Id | null) => {
+    setSelectedToken(tokenId);
+    const target = tokenId && combat ? combat.combatants.find((c) => c.tokenId === tokenId) : undefined;
+    if (target) toggle(target.id);
+  };
+  const bar = combat && combat.status === 'active' ? <ActionBar campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} targetIds={selectedIds} onTargetsChange={setSelectedIds} /> : null;
   const centre = combat ? <div className="combat-centre">
-    <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={combat.combatants.filter((c) => selectedIds.includes(c.id) && c.tokenId).map((c) => c.tokenId!)}
-      onSelect={(tokenId) => {
-        setSelectedToken(tokenId);
-        const target = tokenId ? combat.combatants.find((c) => c.tokenId === tokenId) : undefined;
-        if (target) toggle(target.id);
-      }} />
-    {combat.status === 'active' ? <ActionBar campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} targetIds={selectedIds} onTargetsChange={setSelectedIds} /> : null}
+    <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={marked} onSelect={selectToken} />
+    {bar}
     {isDm && combat.status !== 'ended' ? <details className="card"><summary>{t('combat.reinforce')}</summary>
       <ReinforcementForm monsters={monsters} characters={(snapshot.characters ?? []).filter((c) => c.status === 'final' && !combat.combatants.some((a) => a.characterId === c.id))} disabled={disabled} run={run} />
     </details> : null}
@@ -206,7 +216,7 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
         <button className="danger" disabled={disabled} onClick={() => void run('combat.end')}>{t('combat.end')}</button>
       </div> : null}
       <Link href={routePath.scenes(campaignId)} className="button-link">{t('scenes.open')}</Link>
-      {!wide && combat ? <div className="combat-buttons">
+      {breakpoint === 'medium' && combat ? <div className="combat-buttons">
         <button type="button" aria-expanded={drawer === 'order'} onClick={() => setDrawer(drawer === 'order' ? null : 'order')}>{t('screen.showOrder')}</button>
         <button type="button" aria-expanded={drawer === 'tools'} onClick={() => setDrawer(drawer === 'tools' ? null : 'tools')}>{t('screen.showTools')}</button>
       </div> : null}
@@ -214,11 +224,20 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
     <ErrorMessage error={runner.uncertain && runner.error ? runner.error : entry?.error ?? runner.error} />
     {runner.uncertain && !runner.busy ? <button disabled={!runner.connected} onClick={() => void execute(runner.uncertain!)}>{t('combat.retryCommand')}</button> : null}
     {isDm && (!combat || combat.status === 'ended') ? <CombatSetup campaignId={campaignId} snapshot={snapshot} templates={templates} disabled={disabled} run={run} /> : null}
-    {!combat ? <p className="card muted">{t('combat.noCombat')}</p> : wide
-      ? <div className="combat-grid"><div className="combat-left">{order}</div>{centre}<div className="combat-right">{tools}</div></div>
-      : <div className="combat-grid">{centre}
-          <div className={`combat-drawer${drawer === 'order' ? ' is-open' : ''}`} hidden={drawer !== 'order'}>{order}</div>
-          <div className={`combat-drawer${drawer === 'tools' ? ' is-open' : ''}`} hidden={drawer !== 'tools'}>{tools}</div>
-        </div>}
+    {notices}
+    {!combat ? <p className="card muted">{t('combat.noCombat')}</p> : breakpoint === 'narrow'
+      ? <MobileTabs label={t('screen.sections')} tabs={[
+          { id: 'map', label: t('screen.section.map'), content: <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={marked} onSelect={selectToken} /> },
+          { id: 'character', label: t('screen.section.character'), content: card ?? <p className="muted">{t('combat.noVisibleTurn')}</p> },
+          { id: 'actions', label: t('screen.section.actions'), content: bar ?? <p className="muted">{t('combat.noVisibleTurn')}</p> },
+          { id: 'turn', label: t('screen.section.turn'), content: order },
+          { id: 'more', label: t('screen.section.more'), content: tools },
+        ]} />
+      : wide
+        ? <div className="combat-grid"><div className="combat-left">{order}</div>{centre}<div className="combat-right">{isDm ? null : card}{tools}</div></div>
+        : <div className="combat-grid">{centre}
+            <div className={`combat-drawer${drawer === 'order' ? ' is-open' : ''}`} hidden={drawer !== 'order'}>{order}</div>
+            <div className={`combat-drawer${drawer === 'tools' ? ' is-open' : ''}`} hidden={drawer !== 'tools'}>{isDm ? null : card}{tools}</div>
+          </div>}
   </div>;
 }
