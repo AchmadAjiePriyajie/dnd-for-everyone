@@ -216,6 +216,12 @@ export class CharactersService implements OnModuleInit {
     return this.toCharacter(ctx.db, this.ownedRow(ctx));
   }
 
+  /** Final sheet read inside a combat read/command (guided actions); null when missing or still a draft. */
+  finalCharacter(db: DatabaseSync, campaignId: Id, characterId: Id): Character | null {
+    const row = this.row(db, characterId);
+    return row && row.campaign_id === campaignId && row.status === 'final' ? this.toCharacter(db, row) : null;
+  }
+
   /** Karakter target pada campaign command, untuk aksi DM (NOT_FOUND bila tidak ada). */
   campaignCharacter(ctx: CommandContext): Character {
     return this.toCharacter(ctx.db, this.campaignRow(ctx));

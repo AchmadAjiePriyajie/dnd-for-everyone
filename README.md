@@ -156,8 +156,26 @@ HP sementara diserap lebih dahulu dan tidak ditumpuk. Karakter pada HP 0
 melakukan death save pada gilirannya; tiga kegagalan berarti mati, tiga sukses
 berarti stabil, dan hasil 20 memulihkan 1 HP. Monster mati pada HP 0 secara
 default; DM dapat mengaktifkan death saves untuk monster tertentu. HP dan
-kondisi tersimpan bersama data campaign. Otomasi spell/feature serta pending
-resolution dilanjutkan pada task berikutnya.
+kondisi tersimpan bersama data campaign. Pending resolution dan reaksi yang
+menunggu keputusan dilanjutkan pada task berikutnya.
+
+### Aksi terpandu
+
+Saat combat berjalan, panel **Aksi terpandu** menampilkan serangan senjata,
+spell yang disiapkan, fitur class, dan aksi stat block monster milik makhluk
+yang kamu kendalikan. Pilih aksi, target yang terlihat, level spell slot, dan
+mode damage (lempar atau rata-rata untuk monster). Pratinjau diperiksa server
+tanpa memakai biaya; **Lakukan aksi ini** memakai Action/Bonus Action/Reaction,
+spell slot, Concentration, pemakaian fitur, Recharge, pemakaian per hari, atau
+Legendary Action dalam satu command.
+
+Label otomasi menunjukkan batasnya: **Otomatis** (biaya, lemparan, dan usulan
+perubahan HP dari data terstruktur), **Dibantu** (sebagian efek perlu DM), atau
+**Manual** (teks aturan + keputusan DM). Spell buff/utility seperti Bless tidak
+dianggap damage. Multiattack membuka jatah serangan sesuai stat block;
+Recharge dilempar server pada awal giliran monster. Perubahan HP hasil aksi
+berupa usulan; DM menerapkannya dengan **Terapkan ke …**. Player tidak melihat
+AC atau modifier save monster.
 
 ## Development
 

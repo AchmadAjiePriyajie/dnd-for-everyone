@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { Test } from '@nestjs/testing';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
-import type { Combat, RandomInt } from '#shared/combat';
+import type { Combat, RandomInt, RollResult } from '#shared/combat';
 import type { JsonValue } from '#shared/contracts';
 import type { RoomSnapshot } from '#shared/room';
 import { emptyDraft } from '#shared/characters';
@@ -61,7 +61,7 @@ describe('server rolls and hit points', () => {
     const restored = new TestClient(again); restored.cookie = s.player.cookie;
     const replay = await restored.post(`/api/campaigns/${s.campaignId}/commands`, { campaignId: s.campaignId, targetId: 'dice-1', kind: 'roll.dice', payload, requestId: 'retry-1' });
     expect(replay.body).toEqual(first.body);
-    expect((await restored.get<RoomSnapshot>(`/api/campaigns/${s.campaignId}/snapshot`)).body.rolls!.find((r) => r.id === 'dice-1')!.result.total).toBe(5);
+    expect(((await restored.get<RoomSnapshot>(`/api/campaigns/${s.campaignId}/snapshot`)).body.rolls!.find((r) => r.id === 'dice-1')!.result as RollResult).total).toBe(5);
   });
 
   it('projects_private_rolls_only_to_dm_and_author_and_keeps_hidden_actors_private', async () => {

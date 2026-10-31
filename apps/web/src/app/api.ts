@@ -9,6 +9,7 @@ import type {
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
 import type { AdvancementChoice, AdvancementPreview, CharacterOptions, RestPreview } from '#shared/characters';
+import type { ActionInput, ActionOption, ActionPreview } from '#shared/combat';
 import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
 import type { Asset, AssetVisibility, SceneView } from '#shared/scenes';
@@ -110,6 +111,10 @@ export const api = {
   monsters: (campaignId: Id, locale: Locale) => request<MonsterInstance[]>('GET', `${campaignPath(campaignId)}/monsters?locale=${locale}`),
   encounters: (campaignId: Id) => request<EncounterView[]>('GET', `${campaignPath(campaignId)}/encounters`),
   homebrew: (campaignId: Id) => request<HomebrewView[]>('GET', `${campaignPath(campaignId)}/homebrew`),
+  actionOptions: (campaignId: Id, combatId: Id, combatantId: Id, locale: Locale) =>
+    request<ActionOption[]>('GET', `${campaignPath(campaignId)}/combats/${encodeURIComponent(combatId)}/combatants/${encodeURIComponent(combatantId)}/actions?locale=${locale}`),
+  actionPreview: (campaignId: Id, combatId: Id, input: ActionInput, locale: Locale) =>
+    request<ActionPreview>('GET', `${campaignPath(campaignId)}/combats/${encodeURIComponent(combatId)}/actions/preview?locale=${locale}&input=${encodeURIComponent(JSON.stringify(input))}`),
   scene: (campaignId: Id, sceneId: Id) => request<SceneView>('GET', `${campaignPath(campaignId)}/scenes/${encodeURIComponent(sceneId)}`),
   ping: (campaignId: Id, sceneId: Id, x: number, y: number) => request<void>('POST', `${campaignPath(campaignId)}/scenes/${encodeURIComponent(sceneId)}/ping`, { x, y }),
   assets: (campaignId: Id) => request<Asset[]>('GET', `${campaignPath(campaignId)}/assets`),

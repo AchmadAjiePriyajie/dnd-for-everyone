@@ -9,7 +9,7 @@ import { cannotAct, cannotMove, normalizeVitals } from '#rules/damage';
 import type { Member, Principal } from '#shared/access';
 import {
   bindTokenSchema, combatantTargetSchema, correctCombatantSchema, reinforcementSchema, setTurnSchema, spendTurnSchema, startCombatSchema,
-  type Combat, type Combatant, type CombatView, type Reinforcement, type TurnBudget, type VitalState,
+  type ActionUsage, type Combat, type Combatant, type CombatView, emptyActionUsage, type Reinforcement, type TurnBudget, type VitalState,
 } from '#shared/combat';
 import type { Id, JsonValue } from '#shared/contracts';
 import type { EncounterTemplate } from '#shared/encounters';
@@ -29,7 +29,7 @@ interface CombatRow {
 }
 interface CombatantRow {
   id: Id; name: string; character_id: Id | null; monster_id: Id | null; token_id: Id | null; owner_account_id: Id | null;
-  initiative: number; tie_order: number; hidden: number; defeated: number; speed_feet: number; diagonals_moved: number; hp: string; budget: string; vitals: string;
+  initiative: number; tie_order: number; hidden: number; defeated: number; speed_feet: number; diagonals_moved: number; hp: string; budget: string; vitals: string; actions: string;
 }
 interface MonsterStats { hp?: { average?: number; formula?: string }; speed?: { walk?: number } }
 const empty = z.strictObject({});
@@ -120,6 +120,10 @@ export class CombatService implements OnModuleInit {
     if (!combat) throw forbidden();
     return this.project(db, member, combat);
   }
+
+  private readonly turnListeners: Array<(ctx: CommandContext, combat: Combat, creature: Combatant) => void> = [];
+  /** Feature services (guided actions) register start-of-turn work; listeners may mutate the creature before it is saved. */
+  onTurnStart(listener: (ctx: CommandContext, combat: Combat, creature: Combatant) => void): void { this.turnListeners.push(listener); }
 
   /** Internal feature API for rolls/effects, always inside the caller's command transaction. */
   readState(db: DatabaseSync, campaignId: Id, combatId: Id): Combat | null { return this.load(db, campaignId, combatId); }
@@ -317,6 +321,7 @@ export class CombatService implements OnModuleInit {
     const combatants = rows.map((c): Combatant => {
       const creature: Combatant = { id: c.id, name: c.name, characterId: c.character_id, monsterId: c.monster_id, tokenId: c.token_id, ownerAccountId: c.owner_account_id, initiative: c.initiative, tieOrder: c.tie_order, hidden: Boolean(c.hidden), defeated: Boolean(c.defeated), speedFeet: c.speed_feet, diagonalsMoved: c.diagonals_moved, hp: JSON.parse(c.hp) as Combatant['hp'], budget: JSON.parse(c.budget) as TurnBudget };
       creature.vitals = normalizeVitals(JSON.parse(c.vitals) as VitalState, creature.hp.current, creature.characterId ? 'saves' : 'instant');
+      creature.actions = { ...emptyActionUsage(), ...(JSON.parse(c.actions) as Partial<ActionUsage>) };
       if (creature.characterId) {
         // A deleted character leaves a defeated historical combatant rather than breaking room sync.
         const exists = db.prepare("SELECT 1 FROM characters WHERE campaign_id = ? AND id = ? AND status = 'final'").get(campaignId, creature.characterId);
@@ -336,13 +341,17 @@ export class CombatService implements OnModuleInit {
   }
 
   private save(ctx: CommandContext, combat: Combat): void {
+    const previous = ctx.db.prepare('SELECT turn FROM combats WHERE campaign_id = ? AND id = ?').get(ctx.campaignId, combat.id) as { turn: number } | undefined;
+    const active = combat.combatants.find((c) => c.id === combat.activeId);
+    // Start-of-turn effects (Recharge rolls) run once per new turn, inside the same transaction.
+    if (previous && combat.status === 'active' && active && combat.turn !== previous.turn) for (const listener of this.turnListeners) listener(ctx, combat, active);
     ctx.db.prepare('UPDATE combats SET status = ?, round = ?, turn = ?, active_id = ?, updated_at = ? WHERE campaign_id = ? AND id = ?')
       .run(combat.status, combat.round, combat.turn, combat.activeId, ctx.now, ctx.campaignId, combat.id);
-    const statement = ctx.db.prepare(`INSERT INTO combatants (id, campaign_id, combat_id, name, character_id, monster_id, token_id, owner_account_id, initiative, tie_order, hidden, defeated, speed_feet, diagonals_moved, hp, budget, vitals)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    const statement = ctx.db.prepare(`INSERT INTO combatants (id, campaign_id, combat_id, name, character_id, monster_id, token_id, owner_account_id, initiative, tie_order, hidden, defeated, speed_feet, diagonals_moved, hp, budget, vitals, actions)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT (campaign_id, id) DO UPDATE SET name=excluded.name, token_id=excluded.token_id, owner_account_id=excluded.owner_account_id, initiative=excluded.initiative, tie_order=excluded.tie_order,
-        hidden=excluded.hidden, defeated=excluded.defeated, speed_feet=excluded.speed_feet, diagonals_moved=excluded.diagonals_moved, hp=excluded.hp, budget=excluded.budget, vitals=excluded.vitals`);
-    for (const c of combat.combatants) statement.run(c.id, ctx.campaignId, combat.id, c.name, c.characterId, c.monsterId, c.tokenId, c.ownerAccountId, c.initiative, c.tieOrder, +c.hidden, +c.defeated, c.speedFeet, c.diagonalsMoved, JSON.stringify(c.hp), JSON.stringify(c.budget), JSON.stringify(c.vitals ?? {}));
+        hidden=excluded.hidden, defeated=excluded.defeated, speed_feet=excluded.speed_feet, diagonals_moved=excluded.diagonals_moved, hp=excluded.hp, budget=excluded.budget, vitals=excluded.vitals, actions=excluded.actions`);
+    for (const c of combat.combatants) statement.run(c.id, ctx.campaignId, combat.id, c.name, c.characterId, c.monsterId, c.tokenId, c.ownerAccountId, c.initiative, c.tieOrder, +c.hidden, +c.defeated, c.speedFeet, c.diagonalsMoved, JSON.stringify(c.hp), JSON.stringify(c.budget), JSON.stringify(c.vitals ?? {}), JSON.stringify(c.actions ?? emptyActionUsage()));
   }
 
   private bumpRevision(ctx: CommandContext, targetId: Id): void {
@@ -366,7 +375,7 @@ export class CombatService implements OnModuleInit {
     if (member.role === 'dm') return combat;
     const combatants = combat.combatants.filter((c) => this.visible(db, member, c)).map((c) => ({
       id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated,
-      ...(c.ownerAccountId === member.accountId ? { hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) } : {}),
+      ...(c.ownerAccountId === member.accountId ? { hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.actions ? { actions: c.actions } : {}), ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) } : {}),
     }));
     const scene = combat.sceneId ? db.prepare('SELECT shared FROM scenes WHERE campaign_id = ? AND id = ?').get(member.campaignId, combat.sceneId) as { shared: number } | undefined : undefined;
     return { id: combat.id, campaignId: combat.campaignId, name: combat.name, sceneId: scene?.shared ? combat.sceneId : null, status: combat.status, round: combat.round, turn: combat.turn, activeId: combatants.some((c) => c.id === combat.activeId) ? combat.activeId : null, combatants, revision: combat.revision };

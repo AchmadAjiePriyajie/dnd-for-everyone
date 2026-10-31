@@ -12,6 +12,7 @@ import { Link, routePath } from '../../app/router';
 import { refreshRoom, sendCommand, useConnectionStatus, useRoomEntry } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
 import { ActionPanel } from './ActionPanel';
+import { ActionWizard } from './ActionWizard';
 import { DiceTray } from './DiceTray';
 import { VitalsPanel } from './VitalsPanel';
 
@@ -130,6 +131,7 @@ export function CombatTracker({ campaignId }: { campaignId: Id }) {
                   <button className="danger" disabled={disabled} onClick={() => void run('combat.end')}>{t('combat.end')}</button>
                 </div> : null}
               </section>
+              {combat.status === 'active' ? <ActionWizard campaignId={campaignId} combat={combat} accountId={snapshot.you.accountId} isDm={Boolean(isDm)} disabled={disabled} run={run} /> : null}
               <ol className="combat-order" aria-label={t('combat.order')}>
                 {combat.combatants.map((creature) => <li key={creature.id} className={`card combatant${combat.activeId === creature.id ? ' is-active' : ''}${creature.defeated ? ' is-defeated' : ''}`} aria-current={combat.activeId === creature.id ? 'step' : undefined}>
                   <div className="combatant-heading">

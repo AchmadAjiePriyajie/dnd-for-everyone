@@ -5,8 +5,9 @@ import type { z } from 'zod';
 import { rollDice, resolveD20, sampleDie } from '#rules/dice';
 import { applyDamage, applyDeathSave, cannotAct, emptyDefenses, normalizeVitals } from '#rules/damage';
 import { advanceTurn } from '#rules/turns';
+import { redactOutcome } from '#rules/actions';
 import {
-  conditionsCommandSchema, d20CommandSchema, deathSaveCommandSchema, diceCommandSchema, hpCommandSchema, stabilizeCommandSchema,
+  type ActionOutcome, conditionsCommandSchema, d20CommandSchema, deathSaveCommandSchema, diceCommandSchema, hpCommandSchema, stabilizeCommandSchema,
   type Combat, type Combatant, type D20Result, type DefenseProfile, type HitPointState, type RandomInt, type RollAudience, type RollRecord, type VitalState,
 } from '#shared/combat';
 import type { Member } from '#shared/access';
@@ -185,7 +186,7 @@ export class RollsService implements OnModuleInit {
       const combat = this.combat.readState(db, member.campaignId, record.actor.combatId);
       const actor = combat?.combatants.find((c) => c.id === record.actor!.combatantId);
       return actor ? this.combat.isVisible(db, member, actor) : false;
-    }).slice(0, 50).reverse();
+    }).slice(0, 50).reverse().map((record) => member.role !== 'dm' && record.kind === 'action' ? { ...record, result: redactOutcome(record.result as ActionOutcome) } : record);
   }
 
   private rules<T>(run: () => T): T {

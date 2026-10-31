@@ -314,11 +314,13 @@ Catatan implementasi: migrasi `014-rolls-vitals.sql` menyimpan history roll dan 
 
 **Interfaces:** `previewAction(actor: Character|MonsterInstance, input: ActionInput, view: SceneView): ActionPreview`; `ActionPreview` contains sourceId, target IDs, cost, automation level, required saves/rolls/effects and DM decision prompts. Semua target divalidasi ulang di server, bukan dipercaya dari preview client.
 
-- [ ] Tulis `supports_non_damage_and_restricted_actions`: action yang habis/target tersembunyi ditolak; spell buff/heal/utility tidak diperlakukan sebagai attack damage; monster Multiattack/Recharge/Legendary Action mengikuti stat block dan budgetnya.
-- [ ] Run `npm run test -- packages/rules/src/actions.test.ts`; expected FAIL.
-- [ ] Implementasikan attack/spell/feature guided steps, range/cost/resource, upcast, concentration, duration dan penggunaan monster. Fitur kompleks menawarkan rule text + manual decision, dengan label batas otomasi.
-- [ ] Run test sama; expected PASS untuk average-vs-roll damage, reaction trigger, insufficient slot dan fitur naratif yang tetap dapat dijalankan DM.
-- [ ] Commit `feat: add guided gameplay actions`.
+- [x] Tulis `supports_non_damage_and_restricted_actions`: action yang habis/target tersembunyi ditolak; spell buff/heal/utility tidak diperlakukan sebagai attack damage; monster Multiattack/Recharge/Legendary Action mengikuti stat block dan budgetnya.
+- [x] Run `npm run test -- packages/rules/src/actions.test.ts`; expected FAIL.
+- [x] Implementasikan attack/spell/feature guided steps, range/cost/resource, upcast, concentration, duration dan penggunaan monster. Fitur kompleks menawarkan rule text + manual decision, dengan label batas otomasi.
+- [x] Run test sama; expected PASS untuk average-vs-roll damage, reaction trigger, insufficient slot dan fitur naratif yang tetap dapat dijalankan DM.
+- [x] Commit `feat: add guided gameplay actions`.
+
+Catatan implementasi: migrasi `015-actions.sql` menyimpan pemakaian Recharge, per hari, Legendary Action dan jatah serangan per combatant. Aksi monster dibaca dari teks stat block SRD 2024 (EN) karena mechanics monster tidak memiliki daftar aksi; kalimat yang tidak dikenali tetap menjadi teks aturan + keputusan DM. `previewAction` memakai `ActionActor`/`ActionView` ternormalisasi (sheet atau stat block + budget combat, target yang terlihat). Server membangun ulang preview dari state sendiri pada `combat.act`, memakai biaya dalam transaksi command, melempar dadu server, dan mengembalikan usulan HP yang diterapkan DM melalui `combat.apply-hp`. Recharge dilempar pada awal giliran monster. Salinan player tidak memuat AC, modifier save atau dadu save monster.
 
 ### Task 18: Pending resolution, reaksi dan efek tepat sekali
 

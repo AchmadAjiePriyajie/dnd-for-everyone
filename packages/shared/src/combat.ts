@@ -32,6 +32,8 @@ export interface Combatant {
   hp: { current: number; max: number; temp: number };
   vitals?: VitalState;
   budget: TurnBudget;
+  /** Recharge, per-day, Legendary Action and attack-pool usage (Task 17). */
+  actions?: ActionUsage;
 }
 
 export interface Combat {
@@ -50,7 +52,7 @@ export interface Combat {
 
 /** Public order omits hidden creatures and secret stat blocks; owners retain their trackers. */
 export type CombatantView = Pick<Combatant, 'id' | 'name' | 'characterId' | 'ownerAccountId' | 'initiative' | 'tieOrder' | 'defeated'> &
-  Partial<Pick<Combatant, 'monsterId' | 'tokenId' | 'hidden' | 'speedFeet' | 'hp' | 'budget' | 'characterRevision' | 'vitals'>>;
+  Partial<Pick<Combatant, 'monsterId' | 'tokenId' | 'hidden' | 'speedFeet' | 'hp' | 'budget' | 'characterRevision' | 'vitals' | 'actions'>>;
 export interface CombatView extends Omit<Combat, 'templateId' | 'combatants'> {
   templateId?: Id;
   combatants: CombatantView[];
@@ -139,9 +141,9 @@ export const damageInputSchema = z.discriminatedUnion('kind', [
 export type DamageInput = z.infer<typeof damageInputSchema>;
 export type RollAudience = 'public' | 'dm';
 export interface RollRecord {
-  id: Id; accountId: Id; audience: RollAudience; kind: 'dice' | D20Result['kind'];
+  id: Id; accountId: Id; audience: RollAudience; kind: 'dice' | D20Result['kind'] | 'action';
   actor?: { combatId: Id; combatantId: Id };
-  result: RollResult | D20Result;
+  result: RollResult | D20Result | ActionOutcome;
   createdAt: string;
 }
 const actorSchema = z.strictObject({ combatId: id, combatantId: id, expectedRevision: z.number().int().min(0).optional() });
@@ -155,3 +157,150 @@ export const conditionsCommandSchema = z.strictObject({
 });
 export const deathSaveCommandSchema = z.strictObject({ combatantId: id, audience, sourceRevision: z.number().int().min(0).optional() });
 export const stabilizeCommandSchema = z.strictObject({ combatantId: id, sourceRevision: z.number().int().min(0).optional() });
+
+// ---------------------------------------------------------------- guided actions (Task 17)
+export type ActionAbility = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
+/** Turn resource an option spends. `pool` = an attack inside Attack action / Multiattack already paid for. */
+export type ActionCostKind = 'action' | 'bonus' | 'reaction' | 'legendary' | 'free' | 'pool';
+/**
+ * automatic: cost, rolls and HP changes come from structured data (DM still confirms HP);
+ * assisted: cost and some rolls are computed, other effects need the DM;
+ * manual: cost is tracked, rule text + DM decision resolve the effect.
+ */
+export type AutomationLevel = 'automatic' | 'assisted' | 'manual';
+export interface ActionDamage { dice: string; average: number | null; type: DamageType | null }
+export type ActionUses =
+  | { kind: 'recharge'; min: number; available: boolean }
+  | { kind: 'rest'; available: boolean }
+  | { kind: 'per-day'; max: number; remaining: number }
+  | { kind: 'feature'; key: string; amount: number; remaining: number };
+
+/** One thing an actor can do, derived from the sheet or stat block. */
+export interface ActionOption {
+  id: string;
+  kind: 'weapon' | 'spell' | 'feature' | 'monster' | 'multiattack';
+  name: string;
+  originalName: string;
+  sourceId: Id;
+  cost: Exclude<ActionCostKind, 'pool'>;
+  /** Casting time longer than one turn (minutes/hours): not usable during a combat turn. */
+  longCast?: string;
+  attack?: { bonus: number; reach?: number; range?: { normal: number; long: number } };
+  save?: { ability: ActionAbility; dc: number; onSuccess: 'half' | 'none' };
+  damage: ActionDamage[];
+  heal?: { dice: string; bonus: number };
+  /** Spell range in feet (touch = 5); null = self/area/sight: the DM checks targets. */
+  rangeFeet?: number | null;
+  spell?: { level: number; concentration: boolean; duration: string; upcastDice: string | null; upcastTarget: 'damage' | 'heal' | null; upcastManual: boolean };
+  uses?: ActionUses;
+  multiattack?: { count: number | null; names: string[]; alternatives: boolean };
+  /** Legendary action cost in uses, and whether it is limited to once per round. */
+  legendary?: { cost: number; oncePerRound: boolean };
+  trigger?: string;
+  automation: AutomationLevel;
+  /** Prompt codes known from the source text alone (conditional riders, spellcasting, …). */
+  notes: string[];
+  text: string;
+}
+
+/** Per-combatant usage that is not a turn budget. Reset rules live in packages/rules/turns. */
+export interface ActionUsage {
+  recharge: string[];
+  perDay: Record<string, number>;
+  legendary: number;
+  legendaryUsed: string[];
+  pool: { remaining: number | null; names: string[] | null } | null;
+  /** Turn number on which a spell slot was spent (2024: one slot per turn). */
+  slotTurn?: number;
+}
+export const emptyActionUsage = (): ActionUsage => ({ recharge: [], perDay: {}, legendary: 0, legendaryUsed: [], pool: null });
+
+export interface ActionActor {
+  combatantId: Id;
+  kind: 'character' | 'monster';
+  sourceId: Id;
+  name: string;
+  level: number;
+  options: ActionOption[];
+  budget: TurnBudget;
+  usage: ActionUsage;
+  activeTurn: boolean;
+  turn: number;
+  canAct: boolean;
+  attacksPerAction: number;
+  legendaryMax: number;
+  slots: Array<{ level: number; remaining: number }>;
+  pact: { level: number; remaining: number } | null;
+  concentration: Id | null;
+  position: { x: number; y: number; size: number } | null;
+}
+export interface ActionTarget {
+  id: Id;
+  name: string;
+  position: { x: number; y: number; size: number } | null;
+  /** null when the viewer may not see the number (players never see monster AC/saves). */
+  ac: number | null;
+  saves: Partial<Record<ActionAbility, number>> | null;
+}
+export interface ActionView {
+  grid: { feetPerCell: number; diagonal: 'standard' | 'alternate' } | null;
+  targets: ActionTarget[];
+}
+
+export const actionInputSchema = z.strictObject({
+  combatantId: id,
+  optionId: z.string().min(1).max(200),
+  targetIds: z.array(id).max(20),
+  slotLevel: z.number().int().min(1).max(9).optional(),
+  pact: z.boolean().optional(),
+  damageMode: z.enum(['roll', 'average']).optional(),
+  advantage: z.boolean().optional(),
+  disadvantage: z.boolean().optional(),
+  audience: audience.optional(),
+});
+export type ActionInput = z.infer<typeof actionInputSchema>;
+
+export type ActionRoll =
+  | { kind: 'attack'; targetId: Id; modifier: number; ac: number | null }
+  | { kind: 'save'; targetId: Id; ability: ActionAbility; dc: number; modifier: number | null };
+export type ActionEffect =
+  | { kind: 'damage'; dice: string; average: number | null; type: DamageType | null; onSave: 'half' | 'none' | null }
+  | { kind: 'heal'; dice: string; bonus: number }
+  | { kind: 'concentration'; spellId: Id; replaces: Id | null }
+  | { kind: 'pool'; remaining: number | null; names: string[] | null }
+  | { kind: 'manual'; text: string };
+
+export interface ActionPreview {
+  sourceId: Id;
+  optionId: string;
+  actorId: Id;
+  targetIds: Id[];
+  name: string;
+  cost: {
+    turn: ActionCostKind;
+    slot: { level: number; pact: boolean } | null;
+    feature: { key: string; amount: number } | null;
+    uses: 'recharge' | 'rest' | 'per-day' | null;
+    legendary: number;
+  };
+  automation: AutomationLevel;
+  rolls: ActionRoll[];
+  effects: ActionEffect[];
+  duration: string | null;
+  /** DM decision prompt codes: shown, never blocking. */
+  prompts: string[];
+  /** Blocking issue codes; empty = the action may be taken. */
+  issues: string[];
+  trigger: string | null;
+  text: string;
+}
+
+export interface ProposedEffect { targetId: Id; input: DamageInput; decision: boolean }
+export interface ActionOutcome {
+  preview: Omit<ActionPreview, 'text'>;
+  attacks: Array<{ targetId: Id; roll: D20Result; hit: boolean | null }>;
+  saves: Array<{ targetId: Id; roll: D20Result | null; success: boolean | null }>;
+  damage: Array<{ targetId: Id | null; type: DamageType | null; roll: RollResult | null; total: number }>;
+  heal: RollResult | null;
+  proposed: ProposedEffect[];
+}

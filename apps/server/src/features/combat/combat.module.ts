@@ -6,12 +6,13 @@ import { RealtimeModule } from '../../realtime/realtime.module.js';
 import { AuthModule } from '../auth/auth.module.js';
 import { CampaignsModule } from '../campaigns/campaigns.module.js';
 import { CharactersModule } from '../characters/characters.module.js';
+import { ActionsService } from './actions.js';
 import { CombatController } from './combat.controller.js';
 import { CombatService } from './service.js';
 import { RANDOM_INT, RollsService } from './rolls.js';
 
 @Module({
   imports: [AuthModule, CommandsModule, ContentModule, RealtimeModule, CampaignsModule, CharactersModule],
-  controllers: [CombatController], providers: [CombatService, RollsService, { provide: RANDOM_INT, useValue: randomInt }], exports: [CombatService, RollsService],
+  controllers: [CombatController], providers: [CombatService, RollsService, ActionsService, { provide: RANDOM_INT, useValue: randomInt }], exports: [CombatService, RollsService, ActionsService],
 })
 export class CombatModule {}
