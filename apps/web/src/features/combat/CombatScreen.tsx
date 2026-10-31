@@ -16,7 +16,7 @@ import { refreshRoom, sendCommand, useConnectionStatus, useRoomEntry } from '../
 import { ErrorMessage, toApiError } from '../../app/ui';
 import { BattleMap } from '../scenes/BattleMap';
 import { ActionPanel } from './ActionPanel';
-import { ActionWizard } from './ActionWizard';
+import { ActionBar } from './ActionBar';
 import { CombatantCorrection, ReinforcementForm, type RunCommand } from './CombatForms';
 import { DiceTray } from './DiceTray';
 import { ResolutionPanel } from './ResolutionPanel';
@@ -58,7 +58,7 @@ function useCombatRunner(campaignId: Id, combat: CombatView | null | undefined) 
 }
 
 /** Battle map of the combat's scene, with the same move rules as the scene page. */
-function CombatMap({ campaignId, combat, snapshot, selected, onSelect }: { campaignId: Id; combat: CombatView; snapshot: RoomSnapshot; selected: Id | null; onSelect(tokenId: Id | null): void }) {
+function CombatMap({ campaignId, combat, snapshot, selected, onSelect, markedIds }: { campaignId: Id; combat: CombatView; snapshot: RoomSnapshot; selected: Id | null; onSelect(tokenId: Id | null): void; markedIds: Id[] }) {
   const { t } = useTranslation();
   const [scene, setScene] = useState<SceneView | null>(null);
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -88,7 +88,7 @@ function CombatMap({ campaignId, combat, snapshot, selected, onSelect }: { campa
       background={asset ? { url: assetUrl(campaignId, asset.id), width: asset.width, height: asset.height } : null}
       selected={selected} onSelect={onSelect} canMove={canMove} onMove={(token, x, y) => void moveTo(token, { x, y })}
       onCellTap={(cell) => { if (selectedToken && canMove(selectedToken)) void moveTo(selectedToken, cell); }}
-      activeTokenId={activeTokenId} />}
+      activeTokenId={activeTokenId} markedIds={markedIds} />}
   </section>;
 }
 
@@ -133,6 +133,9 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [selectedToken, setSelectedToken] = useState<Id | null>(null);
   const [selectedIds, setSelectedIds] = useState<Id[]>([]);
+  // Targets disappear from the selection as soon as the projection stops showing them (hidden, removed).
+  const visibleKey = combat?.combatants.map((c) => c.id).join('|') ?? '';
+  useEffect(() => { setSelectedIds((current) => current.filter((value) => visibleKey.split('|').includes(value))); }, [visibleKey]);
   const [drawer, setDrawer] = useState<'order' | 'tools' | null>(null);
 
   useEffect(() => {
@@ -177,8 +180,13 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
     { id: 'rules', label: t('screen.tab.rules'), content: <RulesPanel campaignId={campaignId} /> },
   ]} /> : null;
   const centre = combat ? <div className="combat-centre">
-    <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} onSelect={setSelectedToken} />
-    {combat.status === 'active' ? <ActionWizard campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} /> : null}
+    <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={combat.combatants.filter((c) => selectedIds.includes(c.id) && c.tokenId).map((c) => c.tokenId!)}
+      onSelect={(tokenId) => {
+        setSelectedToken(tokenId);
+        const target = tokenId ? combat.combatants.find((c) => c.tokenId === tokenId) : undefined;
+        if (target) toggle(target.id);
+      }} />
+    {combat.status === 'active' ? <ActionBar campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} targetIds={selectedIds} onTargetsChange={setSelectedIds} /> : null}
     {isDm && combat.status !== 'ended' ? <details className="card"><summary>{t('combat.reinforce')}</summary>
       <ReinforcementForm monsters={monsters} characters={(snapshot.characters ?? []).filter((c) => c.status === 'final' && !combat.combatants.some((a) => a.characterId === c.id))} disabled={disabled} run={run} />
     </details> : null}

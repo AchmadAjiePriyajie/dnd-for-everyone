@@ -1012,6 +1012,7 @@
     "kind": { "dice": "Dice", "check": "Ability check", "attack": "Attack roll", "save": "Saving throw", "initiative": "Initiative", "death": "Death save" }
   },
   "actions": {
+    "actAs": "Act as",
     "title": "Guided action",
     "for": "Guided action for {{name}}",
     "option": "What to do",
@@ -1249,6 +1250,7 @@
     "fontsBody": "Cinzel and Crimson Pro, SIL Open Font License 1.1, bundled with the app."
   },
   "screen": {
+    "actionBar": "Action bar",
     "turnOrder": "Turn order",
     "map": "Battle map",
     "tools": "Combat tools",

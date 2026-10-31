@@ -1012,6 +1012,7 @@
     "kind": { "dice": "Dadu", "check": "Ability check", "attack": "Attack roll", "save": "Saving throw", "initiative": "Initiative", "death": "Death save" }
   },
   "actions": {
+    "actAs": "Bertindak sebagai",
     "title": "Aksi terpandu",
     "for": "Aksi terpandu untuk {{name}}",
     "option": "Yang dilakukan",
@@ -1249,6 +1250,7 @@
     "fontsBody": "Cinzel dan Crimson Pro, SIL Open Font License 1.1, dibundel bersama aplikasi."
   },
   "screen": {
+    "actionBar": "Hotbar aksi",
     "turnOrder": "Urutan turn",
     "map": "Peta pertempuran",
     "tools": "Alat combat",

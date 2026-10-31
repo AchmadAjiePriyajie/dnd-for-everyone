@@ -2132,3 +2132,17 @@ button:disabled {
 .combat-map .map-token.is-active circle { stroke: var(--gold); stroke-width: 0.12; }
 .combat-map .map-token.is-marked circle { stroke: var(--focus); stroke-width: 0.12; stroke-dasharray: 0.15 0.08; }
 .app-footer { text-align: center; padding: 1rem; font-size: 0.85rem; }
+.action-bar { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.action-bar-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+.actor-name { max-width: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.action-groups { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.action-group { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+.action-group-label { font-family: var(--font-display); font-size: 0.75rem; color: var(--gold-text); text-transform: uppercase; letter-spacing: 0.04em; }
+.action-tiles { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.action-tile { width: 4.6rem; min-height: 4.6rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 0.3rem;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--pitch-bg); color: var(--pitch-text); font-size: 0.7rem; line-height: 1.1; }
+.action-tile-icon { width: 1.8rem; height: 1.8rem; color: var(--gold); }
+.action-tile-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-align: center; }
+.action-tile.is-chosen { outline: 3px solid var(--gold); }
+.action-tile[aria-disabled='true'] { opacity: 0.35; cursor: not-allowed; }
+.action-targets { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; }
