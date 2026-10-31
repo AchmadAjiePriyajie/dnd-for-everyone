@@ -90,4 +90,12 @@ describe('unified combat screen', () => {
     expect(showOrder.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getAllByRole('button', { name: 'Show tools' }).length).toBeGreaterThan(0);
   });
+
+  it('shows_hit_points_and_standing_on_map_tokens', async () => {
+    const marked: SceneView = { ...scene, tokens: [{ ...scene.tokens[0]!, standing: 'bloodied' }, { ...scene.tokens[1]!, hp: { current: 9, max: 11 } }] };
+    fake = installFakeApi({ snapshots: { 'camp-1': snapshot({ you: { accountId: 'alice', role: 'player' }, dm: undefined } as Partial<RoomSnapshot>) }, scenes: { 'scene-1': marked } });
+    render(<App />);
+    expect(await screen.findByRole('button', { name: /^Goblin 1, column 4, row 3, Bloodied/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^Vell, column 2, row 2, HP 9\/11/ })).toBeTruthy();
+  });
 });

@@ -877,6 +877,7 @@
     "resetView": "Reset view",
     "mapLabel": "{{name}}, {{columns}} by {{rows}} squares",
     "tokenLabel": "{{label}}, column {{column}}, row {{row}}",
+    "tokenHpValue": "HP {{current}}/{{max}}",
     "keyboardHint": "Tab to a token, then use the arrow keys to move your own token one square. You can also drag it.",
     "dmPanel": "Map and tokens",
     "share": "Show to players",

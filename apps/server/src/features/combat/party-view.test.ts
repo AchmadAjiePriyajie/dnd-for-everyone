@@ -63,6 +63,9 @@ describe('party view', () => {
     expect(ashaSeen).toMatchObject({ conditions: ['condition.prone'], concentration: 'spell.bless', deathSaves: { successes: 0, failures: 0 } });
     for (const secret of ['budget', 'actions', 'characterRevision', 'vitals', 'speedFeet']) expect(ashaSeen).not.toHaveProperty(secret);
     const goblinSeen = seen.combatants.find((c) => c.id === goblin.id)!;
+    // Players need token links to target on the map (visible() already requires a shared, unhidden, revealed token).
+    expect(goblinSeen.tokenId).toBe('token-g');
+    expect(ashaSeen.tokenId).toBe('token-a');
     expect(goblinSeen).toMatchObject({ standing: 'bloodied', conditions: ['condition.grappled'] });
     for (const secret of ['hp', 'monsterId', 'budget', 'vitals']) expect(goblinSeen).not.toHaveProperty(secret);
     // The owner sees their own Concentration too.
@@ -82,6 +85,8 @@ describe('party view', () => {
     expect((await bram.get<CombatView>(`/api/campaigns/${campaignId}/combats/combat-1`)).body.combatants.find((c) => c.id === goblin.id)!.standing).toBe('defeated');
     expect((await send(dm, 'combat-1', 'combat.update', { combatantId: goblin.id, patch: { hidden: true }, reason: 'Vanishes' }, (await dmView()).revision)).status).toBe(200);
     expect((await bram.get<CombatView>(`/api/campaigns/${campaignId}/combats/combat-1`)).body.combatants.some((c) => c.id === goblin.id)).toBe(false);
+    // A hidden combatant's state never leaks through its still-visible token.
+    expect((await bram.get<SceneView>(`/api/campaigns/${campaignId}/scenes/scene-1`)).body.tokens.find((t) => t.id === 'token-g')?.standing).toBeUndefined();
     expect((await bram.get(`/api/campaigns/${campaignId}/characters/char-a`)).status).toBe(403);
   });
 });

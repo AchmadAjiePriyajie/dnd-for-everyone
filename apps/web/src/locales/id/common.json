@@ -877,6 +877,7 @@
     "resetView": "Atur ulang tampilan",
     "mapLabel": "{{name}}, {{columns}} × {{rows}} kotak",
     "tokenLabel": "{{label}}, kolom {{column}}, baris {{row}}",
+    "tokenHpValue": "HP {{current}}/{{max}}",
     "keyboardHint": "Tab ke token, lalu pakai tombol panah untuk menggerakkan token milikmu satu kotak. Bisa juga diseret.",
     "dmPanel": "Peta dan token",
     "share": "Tampilkan ke pemain",

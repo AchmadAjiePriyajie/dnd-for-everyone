@@ -182,6 +182,12 @@ export class CombatService implements OnModuleInit {
     return row ? JSON.parse(row.hp) as Combatant['hp'] : undefined;
   }
 
+  /** True when the token is bound to a hidden combatant of an open combat: players get no state for it. */
+  tokenBoundHidden(db: DatabaseSync, campaignId: Id, tokenId: Id): boolean {
+    return Boolean(db.prepare(`SELECT 1 FROM combatants a JOIN combats c ON c.campaign_id = a.campaign_id AND c.id = a.combat_id
+      WHERE a.campaign_id = ? AND a.token_id = ? AND c.status != 'ended' AND a.hidden = 1 LIMIT 1`).get(campaignId, tokenId));
+  }
+
   private forCommand(ctx: CommandContext): Combat {
     const combat = this.load(ctx.db, ctx.campaignId, ctx.targetId);
     if (!combat) throw forbidden();
@@ -390,7 +396,7 @@ export class CombatService implements OnModuleInit {
   private project(db: DatabaseSync, member: Member, combat: Combat): CombatView {
     if (member.role === 'dm') return combat;
     const combatants = combat.combatants.filter((c) => this.visible(db, member, c)).map((c): CombatantView => {
-      const base = { id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated };
+      const base = { id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated, tokenId: c.tokenId };
       const conditions = c.vitals?.conditions ?? [];
       if (c.ownerAccountId === member.accountId) {
         const own = c.characterId ? this.characters.finalCharacter(db, member.campaignId, c.characterId)?.resources.concentration ?? null : undefined;

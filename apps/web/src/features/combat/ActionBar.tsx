@@ -1,12 +1,12 @@
-import { useId, useState } from 'react';
+import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ActionOption, CombatantView, CombatView, RollAudience } from '#shared/combat';
-import type { Id, Locale } from '#shared/contracts';
+import type { Id } from '#shared/contracts';
 import { actionIcon } from '../../app/action-icons';
 import { FantasyIcon } from '../../app/fantasy-icons';
 import { ErrorMessage } from '../../app/ui';
 import { OutcomeDetails, PreviewDetails } from './ActionDetails';
-import { useActionDraft } from './useActionDraft';
+import type { ActionDraft } from './useActionDraft';
 
 const GROUPS = ['action', 'bonus', 'reaction', 'legendary', 'free'] as const;
 const RESOURCES = ['action', 'bonus', 'reaction'] as const;
@@ -25,15 +25,11 @@ function usable(actor: CombatantView, option: ActionOption): boolean {
  * Hotbar under the map: turn resources as symbols, actions as icon tiles grouped by cost. Tiles that cannot
  * be used now are dimmed; choosing a tile shows the server preview, and one button takes the action.
  */
-export function ActionBar({ campaignId, combat, isDm, accountId, disabled, targetIds, onTargetsChange }: {
-  campaignId: Id; combat: CombatView; isDm: boolean; accountId: Id; disabled: boolean; targetIds: Id[]; onTargetsChange(ids: Id[]): void;
+export function ActionBar({ combat, actors, actor, onActorChange, draft, targetIds }: {
+  combat: CombatView; actors: CombatantView[]; actor: CombatantView | undefined; onActorChange(id: Id): void; draft: ActionDraft; targetIds: Id[];
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const id = useId();
-  const actors = combat.combatants.filter((c) => c.budget && !c.defeated && (isDm || c.ownerAccountId === accountId));
-  const [actorChoice, setActorChoice] = useState<Id | null>(null);
-  const actor = actors.find((c) => c.id === actorChoice) ?? actors.find((c) => c.id === combat.activeId) ?? actors[0];
-  const draft = useActionDraft({ campaignId, combat, actorId: actor?.id, locale: i18n.language as Locale, targetIds, setTargetIds: onTargetsChange, disabled });
   if (!actor) return null;
   const option = draft.option;
   const nameOf = (target: Id) => combat.combatants.find((c) => c.id === target)?.name ?? '';
@@ -43,7 +39,7 @@ export function ActionBar({ campaignId, combat, isDm, accountId, disabled, targe
     <div className="action-bar-head">
       {actors.length > 1 ? <span className="field-inline">
         <label htmlFor={`${id}-actor`}>{t('actions.actAs')}</label>
-        <select id={`${id}-actor`} value={actor.id} onChange={(event) => { setActorChoice(event.target.value); draft.setOptionId(''); }}>
+        <select id={`${id}-actor`} value={actor.id} onChange={(event) => onActorChange(event.target.value)}>
           {actors.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </span> : <strong title={actor.name} className="actor-name">{actor.name}</strong>}

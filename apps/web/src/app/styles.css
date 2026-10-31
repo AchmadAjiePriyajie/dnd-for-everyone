@@ -2157,3 +2157,9 @@ button:disabled {
 .pager { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; flex-wrap: wrap; }
 .page-tabs { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
 .room-status { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.25rem 0; }
+
+.map-token .token-hp-back { fill: var(--danger-bg); }
+.map-token .token-hp-fill { fill: var(--ok); }
+.map-token.standing-bloodied circle { stroke: var(--danger); stroke-width: 0.1; }
+.map-token.standing-defeated { opacity: 0.45; }
+.action-targets .checkbox-label { min-width: 0; overflow-wrap: anywhere; }

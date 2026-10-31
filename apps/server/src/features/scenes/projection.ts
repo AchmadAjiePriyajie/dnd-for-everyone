@@ -82,7 +82,7 @@ export class ScenesProjection implements OnModuleInit {
       const linkedHp = this.combat.tokenHitPoints(this.database.getHandle(), member.campaignId, row.id);
       if (linkedHp) token.hp = { current: linkedHp.current, max: linkedHp.max };
       if (row.monster_id) token.monsterId = row.monster_id;
-    } else {
+    } else if (!this.combat.tokenBoundHidden(this.database.getHandle(), member.campaignId, row.id)) {
       // Party tokens show HP to the table; other tokens only a coarse standing.
       const linkedHp = this.combat.tokenHitPoints(this.database.getHandle(), member.campaignId, row.id);
       const hp = linkedHp ?? (row.hp ? JSON.parse(row.hp) as { current: number; max: number } : undefined);

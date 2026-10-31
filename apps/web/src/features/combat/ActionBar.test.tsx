@@ -119,4 +119,47 @@ describe('action hotbar', () => {
     expect(within(bar).queryByRole('button', { name: /Apply to/ })).toBeNull();
     expect(within(bar).getByText('Hit Point changes are decided in Open resolutions.')).toBeTruthy();
   });
+
+  it('map_click_moves_without_targeting_until_an_action_is_chosen', async () => {
+    fake = installFakeApi({ snapshots: { 'camp-1': snapshot('player') }, scenes: { 'scene-1': scene }, actions: { hero: [cure] }, previewAction: preview });
+    const user = userEvent.setup(); render(<App />);
+    const bar = await screen.findByRole('region', { name: 'Action bar' });
+    await user.click(await screen.findByRole('button', { name: /^Ilse, column/ }));
+    await user.click(await within(bar).findByRole('button', { name: /Cure Wounds/ }));
+    const targets = within(bar).getByRole('group', { name: 'Targets' });
+    expect((within(targets).getByRole('checkbox', { name: 'Ilse' }) as HTMLInputElement).checked).toBe(false);
+    await user.click(screen.getByRole('button', { name: /^Goblin 1, column/ }));
+    expect((within(targets).getByRole('checkbox', { name: 'Goblin 1' }) as HTMLInputElement).checked).toBe(true);
+  });
+
+  it('keeps_the_retry_after_a_pause_and_resets_the_draft_when_the_turn_moves', async () => {
+    let attempts = 0;
+    fake = installFakeApi({ snapshots: { 'camp-1': snapshot('dm', { combat: combat({ combatants: combat().combatants.map((c) => c.id === 'gob' ? { ...c, hidden: false, hp: { current: 7, max: 7, temp: 0 }, budget: { action: 1, bonus: 1, reaction: 1, movement: 30 } } : c) }) }) },
+      scenes: { 'scene-1': scene }, actions: { hero: [cure], gob: [flame] }, previewAction: preview,
+      onCommand: (body) => { if (body.kind !== 'combat.act') return undefined; attempts++; if (attempts === 1) throw new TypeError('lost ACK');
+        return new Response(JSON.stringify({ targetId: 'combat-1', entityRevision: 5, eventSequence: 3, value: { id: 'res-1', outcome: outcome(['hero']) } }), { status: 200 }); } });
+    const user = userEvent.setup(); render(<App />);
+    const bar = await screen.findByRole('region', { name: 'Action bar' });
+    await user.click(await within(bar).findByRole('button', { name: /Cure Wounds/ }));
+    await user.click(within(within(bar).getByRole('group', { name: 'Targets' })).getByRole('checkbox', { name: 'Ilse' }));
+    await user.click(within(bar).getByRole('button', { name: 'Take this action' }));
+    await within(bar).findByRole('button', { name: 'Retry same action' });
+    // The DM pauses: the hotbar is hidden, but the uncertain action can still be retried exactly.
+    fake.state.snapshots['camp-1'] = snapshot('dm', { eventSequence: 2, combat: combat({ status: 'paused', revision: 4 }) });
+    act(() => socket.serverEmit('room:changed', { campaignId: 'camp-1', eventSequence: 2 }));
+    await waitFor(() => expect(screen.queryByRole('region', { name: 'Action bar' })).toBeNull());
+    await user.click(screen.getByRole('button', { name: 'Retry same action' }));
+    await waitFor(() => expect(attempts).toBe(2));
+    expect(commands()[0]!.requestId).toBe(commands()[1]!.requestId);
+    // The turn moves on its own: the chosen option belongs to the old actor and is dropped, with no stale error.
+    fake.state.snapshots['camp-1'] = snapshot('dm', { eventSequence: 4, combat: combat({ revision: 6, activeId: 'hero' }) });
+    act(() => socket.serverEmit('room:changed', { campaignId: 'camp-1', eventSequence: 4 }));
+    const again = await screen.findByRole('region', { name: 'Action bar' });
+    await user.click(await within(again).findByRole('button', { name: /Cure Wounds/ }));
+    fake.state.snapshots['camp-1'] = snapshot('dm', { eventSequence: 5, combat: combat({ revision: 7, activeId: 'gob', combatants: combat().combatants.map((c) => c.id === 'gob' ? { ...c, hidden: false, budget: { action: 1, bonus: 1, reaction: 1, movement: 30 } } : c) }) });
+    act(() => socket.serverEmit('room:changed', { campaignId: 'camp-1', eventSequence: 5 }));
+    await within(again).findByRole('button', { name: /Sacred Flame/ });
+    expect(within(again).queryByRole('button', { name: 'Take this action' })).toBeNull();
+    expect(within(again).queryByRole('alert')).toBeNull();
+  });
 });

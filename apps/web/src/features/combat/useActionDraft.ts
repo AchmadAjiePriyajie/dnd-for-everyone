@@ -11,8 +11,11 @@ import { toApiError } from '../../app/ui';
  * Draft of one guided action: options of the actor, server preview (no cost) and one combat.act.
  * Targets are owned by the caller so the map, turn order and checkboxes share one selection.
  */
+export type ActionDraft = ReturnType<typeof useActionDraft>;
+
+/** Lives in the combat screen (not the hotbar) so a layout change or pause never drops an uncertain envelope. */
 export function useActionDraft({ campaignId, combat, actorId, locale, targetIds, setTargetIds, disabled }: {
-  campaignId: Id; combat: CombatView; actorId: Id | undefined; locale: Locale; targetIds: Id[]; setTargetIds(ids: Id[]): void; disabled: boolean;
+  campaignId: Id; combat: CombatView | null | undefined; actorId: Id | undefined; locale: Locale; targetIds: Id[]; setTargetIds(ids: Id[]): void; disabled: boolean;
 }) {
   const connected = useConnectionStatus() === 'connected';
   const [options, setOptions] = useState<ActionOption[]>([]);
@@ -31,12 +34,16 @@ export function useActionDraft({ campaignId, combat, actorId, locale, targetIds,
   const [outcome, setOutcome] = useState<ActionOutcome | null>(null);
   const option = options.find((entry) => entry.id === optionId);
 
+  const combatId = combat?.id;
+  const revision = combat?.revision;
+  // A new actor (turn moved, actor picker) never inherits the previous actor's option.
+  useEffect(() => { setOptionIdState(''); setSlotLevel(null); setPact(false); setOptions([]); setError(null); }, [actorId]);
   useEffect(() => {
-    if (!actorId) { setOptions([]); return; }
+    if (!actorId || !combatId) { setOptions([]); return; }
     let cancelled = false;
-    api.actionOptions(campaignId, combat.id, actorId, locale).then((list) => { if (!cancelled) setOptions(list); }, (cause) => { if (!cancelled) setError(toApiError(cause)); });
+    api.actionOptions(campaignId, combatId, actorId, locale).then((list) => { if (!cancelled) setOptions(list); }, (cause) => { if (!cancelled) setError(toApiError(cause)); });
     return () => { cancelled = true; };
-  }, [campaignId, combat.id, actorId, locale, combat.revision]);
+  }, [campaignId, combatId, actorId, locale, revision]);
 
   const input = useMemo((): ActionInput | null => {
     if (!actorId || !option) return null;
@@ -50,13 +57,13 @@ export function useActionDraft({ campaignId, combat, actorId, locale, targetIds,
   }, [actorId, option, targetIds, slotLevel, pact, damageMode, advantage, disadvantage, audience]);
 
   useEffect(() => {
-    if (!input) { setPreview(null); return; }
+    if (!input || !combatId) { setPreview(null); return; }
     let cancelled = false;
     setChecking(true);
-    api.actionPreview(campaignId, combat.id, input, locale).then((result) => { if (!cancelled) { setPreview(result); setChecking(false); } },
+    api.actionPreview(campaignId, combatId, input, locale).then((result) => { if (!cancelled) { setPreview(result); setChecking(false); setError(null); } },
       (cause) => { if (!cancelled) { setPreview(null); setChecking(false); setError(toApiError(cause)); } });
     return () => { cancelled = true; };
-  }, [campaignId, combat.id, input, locale, combat.revision]);
+  }, [campaignId, combatId, input, locale, revision]);
 
   const setOptionId = (next: string) => { setOptionIdState(next); setSlotLevel(null); setPact(false); setOutcome(null); setError(null); };
   const toggleTarget = (id: Id) => setTargetIds(targetIds.includes(id) ? targetIds.filter((value) => value !== id) : [...targetIds, id]);
@@ -77,7 +84,7 @@ export function useActionDraft({ campaignId, combat, actorId, locale, targetIds,
     } finally { setBusy(false); }
   };
   const confirm = () => {
-    if (!input || blocked) return;
+    if (!input || blocked || !combat) return;
     void submit({ requestId: globalThis.crypto.randomUUID(), campaignId, targetId: combat.id, kind: 'combat.act', payload: input as unknown as JsonValue, expectedRevision: combat.revision });
   };
   const retry = () => { if (pending && connected) void submit(pending); };

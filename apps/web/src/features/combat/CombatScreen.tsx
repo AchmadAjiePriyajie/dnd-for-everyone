@@ -26,6 +26,7 @@ import { ResolutionPanel } from './ResolutionPanel';
 import { RulesPanel } from './RulesPanel';
 import { SidePanel } from './SidePanel';
 import { TurnOrder } from './TurnOrder';
+import { useActionDraft } from './useActionDraft';
 import { VitalsPanel } from './VitalsPanel';
 
 /** Command runner shared by the screen: one envelope at a time, kept for an exact retry when the ACK is lost. */
@@ -140,6 +141,11 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
   const visibleKey = combat?.combatants.map((c) => c.id).join('|') ?? '';
   useEffect(() => { setSelectedIds((current) => current.filter((value) => visibleKey.split('|').includes(value))); }, [visibleKey]);
   const [drawer, setDrawer] = useState<'order' | 'tools' | null>(null);
+  const [actorChoice, setActorChoice] = useState<Id | null>(null);
+  const viewer = snapshot?.you.accountId;
+  const actors = combat ? combat.combatants.filter((c) => c.budget && !c.defeated && (isDm || c.ownerAccountId === viewer)) : [];
+  const actor = actors.find((c) => c.id === actorChoice) ?? actors.find((c) => c.id === combat?.activeId) ?? actors[0];
+  const draft = useActionDraft({ campaignId, combat, actorId: actor?.id, locale, targetIds: selectedIds, setTargetIds: setSelectedIds, disabled: runner.disabled || combat?.status !== 'active' });
 
   useEffect(() => {
     if (!isDm) return;
@@ -191,9 +197,10 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
   const selectToken = (tokenId: Id | null) => {
     setSelectedToken(tokenId);
     const target = tokenId && combat ? combat.combatants.find((c) => c.tokenId === tokenId) : undefined;
-    if (target) toggle(target.id);
+    // A token click targets only while an action is being prepared; otherwise it just selects the token to move.
+    if (target && draft.option) toggle(target.id);
   };
-  const bar = combat && combat.status === 'active' ? <ActionBar campaignId={campaignId} combat={combat} accountId={accountId} isDm={Boolean(isDm)} disabled={disabled} targetIds={selectedIds} onTargetsChange={setSelectedIds} /> : null;
+  const bar = combat && combat.status === 'active' ? <ActionBar combat={combat} actors={actors} actor={actor} onActorChange={setActorChoice} draft={draft} targetIds={selectedIds} /> : null;
   const centre = combat ? <div className="combat-centre">
     <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={marked} onSelect={selectToken} />
     {bar}
@@ -225,6 +232,7 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
     {runner.uncertain && !runner.busy ? <button disabled={!runner.connected} onClick={() => void execute(runner.uncertain!)}>{t('combat.retryCommand')}</button> : null}
     {isDm && (!combat || combat.status === 'ended') ? <CombatSetup campaignId={campaignId} snapshot={snapshot} templates={templates} disabled={disabled} run={run} /> : null}
     {notices}
+    {!bar && draft.pending && !draft.busy ? <div className="card"><ErrorMessage error={draft.error} /><button type="button" disabled={!draft.connected} onClick={draft.retry}>{t('actions.retry')}</button></div> : null}
     {!combat ? <p className="card muted">{t('combat.noCombat')}</p> : breakpoint === 'narrow'
       ? <MobileTabs label={t('screen.sections')} tabs={[
           { id: 'map', label: t('screen.section.map'), content: <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={marked} onSelect={selectToken} /> },

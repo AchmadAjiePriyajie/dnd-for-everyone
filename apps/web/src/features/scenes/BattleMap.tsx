@@ -159,8 +159,8 @@ export function BattleMap({ scene, background, selected, onSelect, canMove, onMo
               role="button"
               tabIndex={0}
               aria-pressed={selected === token.id}
-              aria-label={t('scenes.tokenLabel', { label: token.label, column: token.x + 1, row: token.y + 1 })}
-              className={`map-token kind-${token.kind}${token.hidden ? ' is-hidden' : ''}${selected === token.id ? ' is-selected' : ''}${movable ? ' is-movable' : ''}${activeTokenId === token.id ? ' is-active' : ''}${markedIds.includes(token.id) ? ' is-marked' : ''}`}
+              aria-label={[t('scenes.tokenLabel', { label: token.label, column: token.x + 1, row: token.y + 1 }), token.hp ? t('scenes.tokenHpValue', { current: token.hp.current, max: token.hp.max }) : null, token.standing && token.standing !== 'healthy' ? t(`screen.standing.${token.standing}`) : null].filter(Boolean).join(', ')}
+              className={`map-token kind-${token.kind}${token.hidden ? ' is-hidden' : ''}${selected === token.id ? ' is-selected' : ''}${movable ? ' is-movable' : ''}${activeTokenId === token.id ? ' is-active' : ''}${markedIds.includes(token.id) ? ' is-marked' : ''}${token.standing ? ` standing-${token.standing}` : ''}`}
               transform={`translate(${position.x} ${position.y})`}
               onKeyDown={(event) => keyMove(event, token)}
               onClick={() => onSelect(selected === token.id ? null : token.id)}
@@ -174,6 +174,10 @@ export function BattleMap({ scene, background, selected, onSelect, canMove, onMo
               <text x={token.size / 2} y={token.size / 2} dominantBaseline="central" textAnchor="middle" fontSize={0.4 * Math.min(2, token.size)}>
                 {token.label.slice(0, 2).toUpperCase()}
               </text>
+              {token.hp && token.hp.max > 0 ? <g className="token-hp" aria-hidden="true">
+                <rect x={0.05} y={token.size - 0.16} width={token.size - 0.1} height={0.12} className="token-hp-back" />
+                <rect x={0.05} y={token.size - 0.16} width={(token.size - 0.1) * Math.max(0, Math.min(1, token.hp.current / token.hp.max))} height={0.12} className="token-hp-fill" />
+              </g> : null}
             </g>
           );
         })}
