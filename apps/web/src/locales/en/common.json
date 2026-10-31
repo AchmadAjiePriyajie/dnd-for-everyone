@@ -123,7 +123,20 @@
     "UNSUPPORTED_MEDIA_TYPE": "That file type is not supported.",
     "OFFLINE": "You are offline. Nothing was sent; try again once reconnected.",
     "INTERNAL": "Something went wrong on the host. Try again.",
-    "UNKNOWN": "Something went wrong ({{code}})."
+    "UNKNOWN": "Something went wrong ({{code}}).",
+    "CHARACTER_EXISTS": "That character already exists.",
+    "CHARACTER_INCOMPLETE": "The character still has {{count}} required choice(s) to finish.",
+    "CHARACTER_FINAL": "This character is finished; it can no longer be edited in the wizard.",
+    "ALREADY_ROLLED": "Ability scores were already rolled for this character.",
+    "METHOD_NOT_ALLOWED": "The DM does not allow that ability score method.",
+    "CHARACTER_NOT_FINAL": "Finish the character before using its features.",
+    "FEATURE_NOT_OWNED": "This character does not have that feature at its current level.",
+    "FEATURE_NOT_TRACKED": "That feature has no tracked uses; resolve it at the table.",
+    "NO_USES_LEFT": "No uses left. Check the rules text for when it recovers.",
+    "AMOUNT_NOT_ALLOWED": "That amount is not allowed for this feature.",
+    "ALREADY_INSPIRED": "This character already has Heroic Inspiration.",
+    "MASTERY_INVALID": "Those weapon mastery choices are not allowed ({{issue}}).",
+    "MASTERY_CHANGE_NEEDS_REST": "Changing a chosen weapon mastery needs a Long Rest (or the DM)."
   },
   "reference": {
     "title": "Rules reference",
@@ -343,6 +356,57 @@
     "combatTitle": "Combat numbers",
     "feetUnit": "feet",
     "coins": "Coins",
-    "equipmentOption": "Option {{option}}"
+    "equipmentOption": "Option {{option}}",
+    "features": {
+      "title": "Features and resources",
+      "help": "Uses are tracked here; the effect itself is resolved at the table using the rules text.",
+      "level": "Level {{level}}",
+      "action": {
+        "action": "Action",
+        "magic-action": "Magic action",
+        "bonus-action": "Bonus Action",
+        "reaction": "Reaction",
+        "no-action": "No action",
+        "special": "See rules"
+      },
+      "automation": {
+        "tracked": "Uses tracked",
+        "manual": "Resolve at the table"
+      },
+      "remaining": {
+        "uses": "{{remaining}} of {{max}} uses left",
+        "points": "{{remaining}} of {{max}} points left"
+      },
+      "recovery": "Short Rest: {{short}} · Long Rest: {{long}}",
+      "recover": {
+        "none": "no recovery",
+        "one": "regain one",
+        "all": "regain all"
+      },
+      "cost": "Costs {{amount}} from {{resource}}",
+      "use": "Use",
+      "amount": "Amount",
+      "confirm": "Spend this on {{name}}?",
+      "confirmTitle": "Confirm {{name}}",
+      "confirmUse": "Confirm",
+      "cancel": "Cancel",
+      "rules": "Rules text",
+      "inspired": "You have it.",
+      "notInspired": "Not available right now.",
+      "grantInspiration": "Give Heroic Inspiration",
+      "dmSpent": "Used",
+      "dmSave": "Correct"
+    },
+    "mastery": {
+      "title": "Weapon Mastery",
+      "help": "Choose {{count}} kind(s) of weapon whose mastery property you can use.",
+      "restriction": {
+        "simple-or-martial": "{{source}}: {{count}} Simple or Martial weapon(s).",
+        "melee": "{{source}}: {{count}} Simple or Martial Melee weapon(s).",
+        "proficient": "{{source}}: {{count}} weapon(s) you are proficient with."
+      },
+      "chosen": "{{count}} of {{total}} chosen",
+      "save": "Save weapon mastery"
+    }
   }
 }

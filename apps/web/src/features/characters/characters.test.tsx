@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, type DerivedValue, emptyDraft } from '#shared/characters';
+import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, type DerivedValue, emptyDraft, type FeatureUse } from '#shared/characters';
 import type { RoomSnapshot } from '#shared/room';
 import { App } from '../../app/App';
 import { setLocale } from '../../app/i18n';
@@ -54,8 +54,12 @@ const options: CharacterOptions = {
   languages: ['Dwarvish', 'Giant'],
   artisanTools: [],
   allowedMethods: ['standard-array', 'point-buy'],
+  masteryWeapons: [
+    opt('equipment.longsword', 'Longsword', { category: 'martial', type: 'melee', mastery: 'rule.mastery-sap' }),
+    opt('equipment.dagger', 'Dagger', { category: 'simple', type: 'melee', mastery: 'rule.mastery-nick' }),
+  ],
   armor: { 'equipment.chain-mail': 'heavy' },
-  names: { 'equipment.chain-mail': 'Chain Mail', 'species.dwarf': 'Dwarf', 'class.fighter': 'Fighter', 'background.soldier': 'Soldier', 'feat.savage-attacker': 'Savage Attacker' },
+  names: { 'equipment.chain-mail': 'Chain Mail', 'species.dwarf': 'Dwarf', 'class.fighter': 'Fighter', 'background.soldier': 'Soldier', 'feat.savage-attacker': 'Savage Attacker', 'rule.mastery-sap': 'Sap', 'rule.mastery-nick': 'Nick' },
 };
 
 const snapshot: RoomSnapshot = {
@@ -207,5 +211,78 @@ describe('character wizard', () => {
     await user.type(within(tools).getByRole('spinbutton', { name: 'Armor Class' }), '18');
     await user.click(within(tools).getByRole('button', { name: 'Save corrections' }));
     await waitFor(() => expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.set-override', payload: { field: 'armorClass', value: 18 } })));
+  });
+
+  it('uses_features_after_confirmation_and_picks_masteries', async () => {
+    const draft = { ...emptyDraft(), name: 'Brakka', classId: 'class.fighter' };
+    const feature = (over: Partial<FeatureUse>): FeatureUse => ({
+      key: 'class.fighter/fighting-style',
+      sourceId: 'class.fighter',
+      featureId: 'fighting-style',
+      level: 1,
+      name: 'Fighting Style',
+      originalName: 'Fighting Style',
+      action: null,
+      automation: 'manual',
+      resource: null,
+      cost: null,
+      text: 'You gain a Fighting Style feat of your choice.',
+      ...over,
+    });
+    fake = installFakeApi({
+      snapshots: { 'camp-1': snapshot },
+      characterOptions: options,
+      deriveCharacter: fakeDerive,
+      characters: {
+        'char-1': {
+          character: { id: 'char-1', campaignId: 'camp-1', ownerAccountId: 'acc-dm', status: 'final', classLevels: [{ classId: 'class.fighter', level: 1 }], draft, rolls: [], overrides: {}, revision: 3, updatedAt: '' },
+          derived: fakeDerive(draft),
+          features: [
+            feature({}),
+            feature({
+              key: 'class.fighter/second-wind',
+              featureId: 'second-wind',
+              name: 'Second Wind',
+              originalName: 'Second Wind',
+              action: 'bonus-action',
+              automation: 'tracked',
+              resource: { max: 2, spent: 0, remaining: 2, unit: 'uses', recovery: { short: 'one', long: 'all' } },
+              text: 'As a Bonus Action, you can use it to regain Hit Points equal to 1d10 plus your Fighter level.',
+            }),
+          ],
+          masteryGrants: [{ sourceId: 'class.fighter', count: 3, restriction: 'simple-or-martial' }],
+          allowedMethods: ['standard-array'],
+        },
+      },
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/characters/char-1');
+    const user = userEvent.setup();
+    render(<App />);
+
+    const region = await screen.findByRole('region', { name: 'Features and resources' });
+    const secondWind = within(region).getByText('Second Wind').closest('li')!;
+    expect(within(secondWind).getByText('2 of 2 uses left')).toBeTruthy();
+    expect(within(secondWind).getByText(/Short Rest: regain one · Long Rest: regain all/)).toBeTruthy();
+    // Fitur naratif: hanya teks, tanpa tombol pakai.
+    const style = within(region).getByText('Fighting Style').closest('li')!;
+    expect(within(style).queryByRole('button', { name: 'Use' })).toBeNull();
+    expect(within(style).getByText('Resolve at the table')).toBeTruthy();
+
+    // Pakai butuh konfirmasi; command baru dikirim setelah dikonfirmasi.
+    await user.click(within(secondWind).getByRole('button', { name: 'Use' }));
+    expect(fake.requests.some((r) => (r.body as { kind?: string })?.kind === 'character.use-feature')).toBe(false);
+    await user.click(within(secondWind).getByRole('button', { name: 'Confirm' }));
+    await waitFor(() =>
+      expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.use-feature', payload: { featureKey: 'class.fighter/second-wind' } })),
+    );
+    expect(await within(region).findByText('1 of 2 uses left')).toBeTruthy();
+
+    const mastery = screen.getByRole('region', { name: 'Weapon Mastery' });
+    await user.click(within(mastery).getByRole('checkbox', { name: /Longsword/ }));
+    expect(within(mastery).getByText('1 of 3 chosen')).toBeTruthy();
+    await user.click(within(mastery).getByRole('button', { name: 'Save weapon mastery' }));
+    await waitFor(() =>
+      expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.set-weapon-masteries', payload: { weapons: ['equipment.longsword'] } })),
+    );
   });
 });

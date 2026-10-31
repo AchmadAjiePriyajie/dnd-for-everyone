@@ -123,7 +123,20 @@
     "UNSUPPORTED_MEDIA_TYPE": "Jenis file itu tidak didukung.",
     "OFFLINE": "Kamu sedang offline. Tidak ada yang dikirim; coba lagi setelah tersambung.",
     "INTERNAL": "Terjadi kesalahan di host. Coba lagi.",
-    "UNKNOWN": "Terjadi kesalahan ({{code}})."
+    "UNKNOWN": "Terjadi kesalahan ({{code}}).",
+    "CHARACTER_EXISTS": "Karakter itu sudah ada.",
+    "CHARACTER_INCOMPLETE": "Karakter masih punya {{count}} pilihan wajib yang belum selesai.",
+    "CHARACTER_FINAL": "Karakter ini sudah final; tidak bisa diedit lagi lewat wizard.",
+    "ALREADY_ROLLED": "Ability score karakter ini sudah dilempar.",
+    "METHOD_NOT_ALLOWED": "DM tidak mengizinkan metode ability score itu.",
+    "CHARACTER_NOT_FINAL": "Selesaikan karakter dulu sebelum memakai fiturnya.",
+    "FEATURE_NOT_OWNED": "Karakter ini belum punya fitur itu pada level sekarang.",
+    "FEATURE_NOT_TRACKED": "Fitur itu tidak punya hitungan pemakaian; selesaikan di meja.",
+    "NO_USES_LEFT": "Pemakaian habis. Lihat teks aturan kapan pulihnya.",
+    "AMOUNT_NOT_ALLOWED": "Jumlah itu tidak diizinkan untuk fitur ini.",
+    "ALREADY_INSPIRED": "Karakter ini sudah punya Heroic Inspiration.",
+    "MASTERY_INVALID": "Pilihan weapon mastery itu tidak diizinkan ({{issue}}).",
+    "MASTERY_CHANGE_NEEDS_REST": "Mengganti weapon mastery yang sudah dipilih perlu Long Rest (atau DM)."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -343,6 +356,57 @@
     "combatTitle": "Angka pertarungan",
     "feetUnit": "kaki",
     "coins": "Koin",
-    "equipmentOption": "Pilihan {{option}}"
+    "equipmentOption": "Pilihan {{option}}",
+    "features": {
+      "title": "Fitur dan resource",
+      "help": "Pemakaian dihitung di sini; efeknya diselesaikan di meja memakai teks aturan.",
+      "level": "Level {{level}}",
+      "action": {
+        "action": "Action",
+        "magic-action": "Magic action",
+        "bonus-action": "Bonus Action",
+        "reaction": "Reaction",
+        "no-action": "Tanpa action",
+        "special": "Lihat aturan"
+      },
+      "automation": {
+        "tracked": "Pemakaian dihitung",
+        "manual": "Diselesaikan di meja"
+      },
+      "remaining": {
+        "uses": "Sisa {{remaining}} dari {{max}} pemakaian",
+        "points": "Sisa {{remaining}} dari {{max}} poin"
+      },
+      "recovery": "Short Rest: {{short}} · Long Rest: {{long}}",
+      "recover": {
+        "none": "tidak pulih",
+        "one": "pulih satu",
+        "all": "pulih semua"
+      },
+      "cost": "Memakai {{amount}} dari {{resource}}",
+      "use": "Pakai",
+      "amount": "Jumlah",
+      "confirm": "Pakai resource untuk {{name}}?",
+      "confirmTitle": "Konfirmasi {{name}}",
+      "confirmUse": "Konfirmasi",
+      "cancel": "Batal",
+      "rules": "Teks aturan",
+      "inspired": "Sedang dimiliki.",
+      "notInspired": "Sedang tidak dimiliki.",
+      "grantInspiration": "Beri Heroic Inspiration",
+      "dmSpent": "Terpakai",
+      "dmSave": "Koreksi"
+    },
+    "mastery": {
+      "title": "Weapon Mastery",
+      "help": "Pilih {{count}} jenis senjata yang properti mastery-nya bisa kamu pakai.",
+      "restriction": {
+        "simple-or-martial": "{{source}}: {{count}} senjata Simple atau Martial.",
+        "melee": "{{source}}: {{count}} senjata Simple atau Martial Melee.",
+        "proficient": "{{source}}: {{count}} senjata yang kamu kuasai (proficient)."
+      },
+      "chosen": "{{count}} dari {{total}} dipilih",
+      "save": "Simpan weapon mastery"
+    }
   }
 }

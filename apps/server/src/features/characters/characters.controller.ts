@@ -10,6 +10,7 @@ import { type CharacterView, CharactersService } from './service.js';
 const params = z.strictObject({ campaignId: z.string().min(1).max(100), characterId: z.string().min(1).max(200) });
 const campaignParams = z.strictObject({ campaignId: z.string().min(1).max(100) });
 const localeQuery = z.strictObject({ locale: localeSchema });
+const optionalLocale = z.strictObject({ locale: localeSchema.optional() });
 
 /** Baca sheet; semua perubahan karakter lewat POST /commands (character.*). */
 @Controller('campaigns/:campaignId')
@@ -30,7 +31,8 @@ export class CharactersController {
   get(
     @CurrentPrincipal() principal: Principal,
     @Param(new SchemaValidationPipe(params)) input: z.infer<typeof params>,
+    @Query(new SchemaValidationPipe(optionalLocale)) query: z.infer<typeof optionalLocale>,
   ): CharacterView {
-    return this.characters.getCharacter(principal, input.campaignId, input.characterId);
+    return this.characters.getCharacter(principal, input.campaignId, input.characterId, query.locale);
   }
 }

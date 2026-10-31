@@ -104,19 +104,77 @@ export const emptyDraft = (): CharacterDraft => ({
 export const OVERRIDE_FIELDS = ['armorClass', 'hitPoints', 'initiative', 'speed', 'passivePerception'] as const;
 export type OverrideField = (typeof OVERRIDE_FIELDS)[number];
 
+/** Kunci resource Heroic Inspiration pada daftar fitur (punya atau tidak, tanpa jumlah). */
+export const HEROIC_INSPIRATION = 'rule.heroic-inspiration';
+
+/** State fitur yang berubah selama bermain; batas maksimum selalu dihitung ulang dari corpus. */
+export interface FeatureState {
+  /** Pemakaian/poin yang sudah dihabiskan per kunci fitur pemilik resource (`<sourceId>/<featureId>`). */
+  spent: Record<string, number>;
+  /** Jenis senjata (ID equipment) yang mastery-nya dipakai. */
+  weaponMasteries: Id[];
+  heroicInspiration: boolean;
+}
+
+export const emptyFeatureState = (): FeatureState => ({ spent: {}, weaponMasteries: [], heroicInspiration: false });
+
 export interface Character {
   id: Id;
   campaignId: Id;
   ownerAccountId: Id;
   status: 'draft' | 'final';
-  /** Level per class; Task 7 membuat karakter level 1 pada satu class. */
-  classLevels: Array<{ classId: Id; level: number }>;
+  /** Level per class; Task 7 membuat karakter level 1 pada satu class. Subclass dipilih saat level up (Task 10). */
+  classLevels: Array<{ classId: Id; level: number; subclassId?: Id }>;
   draft: CharacterDraft;
   /** Lemparan ability yang dicatat server (metode roll). */
   rolls: RecordedRoll[];
   overrides: Partial<Record<OverrideField, number>>;
+  featureState: FeatureState;
   revision: number;
   updatedAt: string;
+}
+
+/** Biaya waktu fitur. `special` = lihat teks (mis. saat roll Initiative atau Short Rest). */
+export type FeatureAction = 'action' | 'magic-action' | 'bonus-action' | 'reaction' | 'no-action' | 'special';
+
+/** none = tidak pulih pada rest itu; one = pulih satu pemakaian; all = pulih penuh. */
+export type FeatureRecovery = 'none' | 'one' | 'all';
+
+/**
+ * Satu fitur class/subclass (atau Heroic Inspiration) milik karakter.
+ * `tracked`: aplikasi menghitung pemakaian; efeknya tetap diselesaikan pemain/DM.
+ * `manual`: hanya teks referensi; keputusan dan efek diselesaikan di meja.
+ */
+export interface FeatureUse {
+  key: string;
+  sourceId: Id;
+  featureId: string;
+  /** Level class tempat fitur diperoleh. */
+  level: number;
+  /** Nama dalam locale diminta; `originalName` tetap EN. */
+  name: string;
+  originalName: string;
+  action: FeatureAction | null;
+  automation: 'tracked' | 'manual';
+  resource: {
+    max: number;
+    spent: number;
+    remaining: number;
+    unit: 'uses' | 'points';
+    recovery: { short: FeatureRecovery; long: FeatureRecovery };
+  } | null;
+  /** Fitur yang menghabiskan resource fitur lain, mis. Preserve Life → Channel Divinity. */
+  cost: { resource: string; amount: number } | null;
+  /** Markdown bagian fitur pada entri sumber. */
+  text: string;
+}
+
+/** Hak memilih mastery dari satu class. */
+export interface MasteryGrant {
+  sourceId: Id;
+  count: number;
+  /** melee = hanya senjata Melee; proficient = hanya senjata yang dikuasai. */
+  restriction: 'simple-or-martial' | 'melee' | 'proficient';
 }
 
 /**
@@ -211,6 +269,8 @@ export interface CharacterOptions {
   languages: string[];
   artisanTools: CharacterOption[];
   allowedMethods: AbilityMethod[];
+  /** Senjata yang punya properti mastery; `mechanics` = mekanik weapon (category/type/mastery/properties). */
+  masteryWeapons: CharacterOption[];
   /** Armor (bukan shield) yang dirujuk paket awal, dengan kategorinya. */
   armor: Record<Id, 'light' | 'medium' | 'heavy'>;
   /** Judul lokal untuk ID yang muncul di opsi/sheet (equipment, feat, dll.). */

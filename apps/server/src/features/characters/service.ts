@@ -3,7 +3,9 @@ import { Injectable, type OnModuleInit } from '@nestjs/common';
 import type { DatabaseSync } from 'node:sqlite';
 import { z } from 'zod';
 import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
+import { availableFeatures } from '#rules/class-features';
 import { deriveCharacter } from '#rules/character-stats';
+import { masteryGrants } from '#rules/weapon-mastery';
 import type { Member, Principal } from '#shared/access';
 import {
   ABILITY_METHODS,
@@ -16,6 +18,10 @@ import {
   type CharacterSummary,
   type DerivedCharacter,
   emptyDraft,
+  emptyFeatureState,
+  type FeatureState,
+  type FeatureUse,
+  type MasteryGrant,
   OVERRIDE_FIELDS,
 } from '#shared/characters';
 import type { Id, Locale } from '#shared/contracts';
@@ -37,12 +43,16 @@ interface CharacterRow {
   draft: string;
   rolls: string;
   overrides: string;
+  feature_state: string;
   updated_at: string;
 }
 
 export interface CharacterView {
   character: Character;
   derived: DerivedCharacter;
+  /** Fitur class/subclass dan Heroic Inspiration, teks dalam locale diminta. */
+  features: FeatureUse[];
+  masteryGrants: MasteryGrant[];
   allowedMethods: AbilityMethod[];
 }
 
@@ -112,7 +122,7 @@ export class CharactersService implements OnModuleInit {
     return row.id;
   }
 
-  getCharacter(principal: Principal, campaignId: Id, characterId: Id): CharacterView {
+  getCharacter(principal: Principal, campaignId: Id, characterId: Id, locale: Locale = 'en'): CharacterView {
     const member = this.campaigns.requireMember(principal, campaignId);
     const db = this.database.getHandle();
     const row = this.row(db, characterId);
@@ -122,7 +132,28 @@ export class CharactersService implements OnModuleInit {
     }
     const allowedMethods = this.allowedMethods(db, campaignId);
     const character = this.toCharacter(db, row);
-    return { character, derived: this.derive(character, allowedMethods), allowedMethods };
+    const catalog = this.content.catalog();
+    return {
+      character,
+      derived: this.derive(character, allowedMethods),
+      features: availableFeatures(character, catalog, locale),
+      masteryGrants: masteryGrants(character, catalog),
+      allowedMethods,
+    };
+  }
+
+  /** Karakter target command yang dimiliki actor (FORBIDDEN bila bukan). */
+  ownedCharacter(ctx: CommandContext): Character {
+    return this.toCharacter(ctx.db, this.ownedRow(ctx));
+  }
+
+  /** Karakter target pada campaign command, untuk aksi DM (NOT_FOUND bila tidak ada). */
+  campaignCharacter(ctx: CommandContext): Character {
+    return this.toCharacter(ctx.db, this.campaignRow(ctx));
+  }
+
+  writeFeatureState(ctx: CommandContext, characterId: Id, state: FeatureState): void {
+    ctx.db.prepare('UPDATE characters SET feature_state = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(state), ctx.now, characterId);
   }
 
   /** Opsi wizard dari corpus untuk anggota campaign; progression/fitur tidak dikirim. */
@@ -148,6 +179,9 @@ export class CharactersService implements OnModuleInit {
         .filter((id) => (this.content.getContent(id, 'en').mechanics?.tool as { artisan?: boolean } | undefined)?.artisan)
         .map((id) => option(id)),
       allowedMethods: this.allowedMethods(this.database.getHandle(), campaignId),
+      masteryWeapons: ofKind('equipment')
+        .filter((id) => (this.content.getContent(id, 'en').mechanics?.weapon as { mastery?: Id } | undefined)?.mastery)
+        .map((id) => option(id, (mechanics) => mechanics.weapon as Record<string, unknown>)),
       armor: {},
       names,
     };
@@ -159,6 +193,7 @@ export class CharactersService implements OnModuleInit {
       if (mechanics.feat) referenced.add(mechanics.feat);
       for (const id of mechanics.toolProficiencies?.fixed ?? []) referenced.add(id);
     }
+    for (const weapon of result.masteryWeapons) referenced.add(weapon.mechanics.mastery as Id);
     for (const id of referenced) if (!names[id] && this.content.has(id)) names[id] = this.content.getContent(id, locale).name;
     for (const id of referenced) {
       const armor = this.content.has(id) ? (this.content.getContent(id, 'en').mechanics?.armor as { category?: string } | undefined) : undefined;
@@ -285,6 +320,7 @@ export class CharactersService implements OnModuleInit {
       draft,
       rolls: JSON.parse(row.rolls),
       overrides: JSON.parse(row.overrides),
+      featureState: { ...emptyFeatureState(), ...(JSON.parse(row.feature_state) as Partial<FeatureState>) },
       revision: revision?.revision ?? 0,
       updatedAt: row.updated_at,
     };

@@ -1,5 +1,15 @@
 import type { AccountView, ApiError, CampaignSummary } from '#shared/access';
-import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, emptyDraft } from '#shared/characters';
+import {
+  type CharacterDraft,
+  type CharacterOptions,
+  type DerivedCharacter,
+  emptyDraft,
+  emptyFeatureState,
+  type FeatureState,
+  type FeatureUse,
+  HEROIC_INSPIRATION,
+  type MasteryGrant,
+} from '#shared/characters';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { RoomSnapshot } from '#shared/room';
 
@@ -36,10 +46,13 @@ export interface FakeCharacterView {
     draft: CharacterDraft;
     rolls: Array<{ dice: number[]; total: number }>;
     overrides: Record<string, number>;
+    featureState?: FeatureState;
     revision: number;
     updatedAt: string;
   };
   derived: DerivedCharacter;
+  features?: FeatureUse[];
+  masteryGrants?: MasteryGrant[];
   allowedMethods: string[];
 }
 
@@ -124,7 +137,8 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     const characterPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)$/.exec(path);
     if (characterPath) {
       const found = state.characters[decodeURIComponent(characterPath[2]!)];
-      return found ? json(200, found) : error(403, 'FORBIDDEN');
+      if (!found) return error(403, 'FORBIDDEN');
+      return json(200, { features: [], masteryGrants: [], ...found, character: { featureState: emptyFeatureState(), ...found.character } });
     }
     const commandPath = /^\/api\/campaigns\/([^/]+)\/commands$/.exec(path);
     if (commandPath && String(body?.kind).startsWith('character.')) {
@@ -162,6 +176,22 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
       if (body.kind === 'character.set-override') {
         if (body.payload.value === null) delete found.character.overrides[body.payload.field];
         else found.character.overrides[body.payload.field] = body.payload.value;
+        return result(found);
+      }
+      if (body.kind === 'character.use-feature') {
+        // Meniru server secara kasar: kurangi resource fitur (atau resource yang dibiayai).
+        const use = found.features?.find((feature) => feature.key === body.payload.featureKey);
+        const target = use?.cost ? found.features?.find((feature) => feature.key === use.cost!.resource) : use;
+        const amount = use?.cost?.amount ?? body.payload.amount ?? 1;
+        if (!target?.resource) return error(409, 'FEATURE_NOT_OWNED');
+        if (target.resource.remaining < amount) return error(409, 'NO_USES_LEFT');
+        target.resource.remaining -= amount;
+        target.resource.spent += amount;
+        if (target.key === HEROIC_INSPIRATION) found.character.featureState = { ...(found.character.featureState ?? emptyFeatureState()), heroicInspiration: false };
+        return result(found);
+      }
+      if (body.kind === 'character.set-weapon-masteries') {
+        found.character.featureState = { ...(found.character.featureState ?? emptyFeatureState()), weaponMasteries: body.payload.weapons };
         return result(found);
       }
       if (body.kind === 'character.finalize') {

@@ -151,6 +151,10 @@ describe('character creation', () => {
     expect(options.names['equipment.chain-mail']).toBe('Chain Mail');
     expect(options.armor).toMatchObject({ 'equipment.chain-mail': 'heavy', 'equipment.leather-armor': 'light' });
     expect(options.armor['equipment.shield']).toBeUndefined();
+    // Pilihan Weapon Mastery: hanya senjata yang punya properti mastery, beserta nama properti.
+    expect(options.masteryWeapons.find((w: { id: string }) => w.id === 'equipment.longsword')).toMatchObject({ mechanics: { mastery: 'rule.mastery-sap', type: 'melee' } });
+    expect(options.masteryWeapons).toHaveLength(38);
+    expect(options.names['rule.mastery-sap']).toBeTruthy();
     expect(options.names['background.soldier']).toBe('Soldier');
     expect((await new TestClient(server.app).get(`/api/campaigns/${campaignId}/character-options?locale=id`)).status).toBe(401);
   });
@@ -181,5 +185,62 @@ describe('character creation', () => {
     const blocked = await alice.client.get<{ derived: { issues: Array<{ field: string; code: string }> } }>(path);
     expect(blocked.body.derived.issues).toContainEqual({ field: 'abilityMethod', code: 'NOT_ALLOWED' });
     expect((await send(alice.client, campaignId, charId, 'character.finalize')).body.code).toBe('CHARACTER_INCOMPLETE');
+  });
+  it('tracks_feature_uses_and_inspiration', async () => {
+    const dataDir = await makeDataDir();
+    cleanup.unshift(() => removeDataDir(dataDir));
+    const server = await boot(dataDir);
+    const { dm, campaignId, alice, bob } = await seed(server);
+    const charId = 'char-features';
+    const path = `/api/campaigns/${campaignId}/characters/${charId}`;
+    type View = { features: Array<{ key: string; name: string; resource: { remaining: number; spent: number } | null }>; character: { featureState: { weaponMasteries: string[]; heroicInspiration: boolean } } };
+    const view = async (client: TestClient, locale = 'en') => (await client.get<View>(`${path}?locale=${locale}`)).body;
+    const secondWind = (body: View) => body.features.find((f) => f.key === 'class.fighter/second-wind');
+    await send(alice.client, campaignId, charId, 'character.create');
+    await send(alice.client, campaignId, charId, 'character.save-draft', { draft: complete() });
+
+    // Fitur hanya dipakai setelah karakter final.
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'class.fighter/second-wind' })).body.code).toBe('CHARACTER_NOT_FINAL');
+    // Mastery boleh diisi saat draft.
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.greatsword', 'equipment.flail', 'equipment.javelin'] })).status).toBe(200);
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.rope'] })).body).toMatchObject({ code: 'MASTERY_INVALID', params: { issue: 'MASTERY_INVALID:equipment.rope' } });
+    await send(alice.client, campaignId, charId, 'character.finalize');
+
+    expect(secondWind(await view(alice.client))?.resource).toMatchObject({ remaining: 2 });
+    // Second Wind dua kali, lalu habis; retry requestId sama tidak memakai lagi.
+    const envelope = { requestId: 'sw-1', campaignId, targetId: charId, kind: 'character.use-feature', payload: { featureKey: 'class.fighter/second-wind' } };
+    expect((await alice.client.post(`/api/campaigns/${campaignId}/commands`, envelope)).status).toBe(200);
+    expect((await alice.client.post(`/api/campaigns/${campaignId}/commands`, envelope)).status).toBe(200);
+    expect(secondWind(await view(alice.client))?.resource).toMatchObject({ remaining: 1 });
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'class.fighter/second-wind' })).status).toBe(200);
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'class.fighter/second-wind' })).body.code).toBe('NO_USES_LEFT');
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'class.barbarian/rage' })).body.code).toBe('FEATURE_NOT_OWNED');
+    // Player lain tidak bisa memakai fitur karakter ini.
+    expect((await send(bob.client, campaignId, charId, 'character.use-feature', { featureKey: 'class.fighter/second-wind' })).body.code).toBe('FORBIDDEN');
+
+    // Mengganti mastery yang sudah dipilih butuh Long Rest; DM boleh mengoreksi.
+    const swap = { weapons: ['equipment.longsword', 'equipment.flail', 'equipment.javelin'] };
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', swap)).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
+    expect((await send(dm, campaignId, charId, 'character.set-weapon-masteries', swap)).status).toBe(200);
+    expect((await view(alice.client)).character.featureState.weaponMasteries).toEqual(swap.weapons);
+
+    // Koreksi DM atas pemakaian; player tidak boleh.
+    expect((await send(alice.client, campaignId, charId, 'character.set-feature-spent', { featureKey: 'class.fighter/second-wind', spent: 0 })).body.code).toBe('FORBIDDEN');
+    expect((await send(dm, campaignId, charId, 'character.set-feature-spent', { featureKey: 'class.fighter/second-wind', spent: 3 })).body.code).toBe('AMOUNT_NOT_ALLOWED');
+    expect((await send(dm, campaignId, charId, 'character.set-feature-spent', { featureKey: 'class.fighter/second-wind', spent: 1 })).status).toBe(200);
+    expect(secondWind(await view(alice.client))?.resource).toMatchObject({ remaining: 1, spent: 1 });
+
+    // Heroic Inspiration: diberi DM, dipakai pemilik satu kali.
+    expect((await send(alice.client, campaignId, charId, 'character.grant-inspiration')).body.code).toBe('FORBIDDEN');
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'rule.heroic-inspiration' })).body.code).toBe('NO_USES_LEFT');
+    expect((await send(dm, campaignId, charId, 'character.grant-inspiration')).status).toBe(200);
+    expect((await send(dm, campaignId, charId, 'character.grant-inspiration')).body.code).toBe('ALREADY_INSPIRED');
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'rule.heroic-inspiration' })).status).toBe(200);
+    expect((await send(alice.client, campaignId, charId, 'character.use-feature', { featureKey: 'rule.heroic-inspiration' })).body.code).toBe('NO_USES_LEFT');
+
+    // Teks referensi mengikuti locale; nama fitur dari sumber.
+    const id = await view(alice.client, 'id');
+    expect(secondWind(id)?.name).toBe('Second Wind');
+    expect(id.features.find((f) => f.key === 'rule.heroic-inspiration')?.name).not.toBe('');
   });
 });

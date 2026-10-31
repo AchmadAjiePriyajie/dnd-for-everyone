@@ -194,11 +194,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `availableFeatures(character: Character, catalog: ContentCatalog): FeatureUse[]`; `FeatureUse` didefinisikan di `characters.ts` dengan sourceId, action type, resource cost/recovery, automation level dan teks referensi; `validateFeatureUse(character: Character, featureId: Id): ValidationResult`.
 
-- [ ] Tulis `uses_2024_features_and_recovery`: fitur/mastery yang tidak dimiliki ditolak; Inspiration dipakai satu kali; fixture SRD untuk class berbeda membuktikan recovery tidak disamaratakan.
-- [ ] Run `npm run test -- packages/rules/src/class-features.test.ts`; expected FAIL.
-- [ ] Implementasikan feature eligibility, mastery pilihan, inspiration dan per-feature recovery metadata; manual resolution tersedia untuk fitur naratif/khusus dengan resource tracker yang benar.
-- [ ] Run test sama; expected PASS untuk opsi yang dimiliki/belum level, duplicate grant dan override DM; audit semua class SRD memiliki progression/feature references.
-- [ ] Commit `feat: add class feature tracking`.
+- [x] Tulis `uses_2024_features_and_recovery`: fitur/mastery yang tidak dimiliki ditolak; Inspiration dipakai satu kali; fixture SRD untuk class berbeda membuktikan recovery tidak disamaratakan.
+- [x] Run `npm run test -- packages/rules/src/class-features.test.ts`; expected FAIL.
+- [x] Implementasikan feature eligibility, mastery pilihan, inspiration dan per-feature recovery metadata; manual resolution tersedia untuk fitur naratif/khusus dengan resource tracker yang benar.
+- [x] Run test sama; expected PASS untuk opsi yang dimiliki/belum level, duplicate grant dan override DM; audit semua class SRD memiliki progression/feature references.
+- [x] Commit `feat: add class feature tracking`.
 
 ### Task 9: Inventory, spell preparation, resource dan rests
 

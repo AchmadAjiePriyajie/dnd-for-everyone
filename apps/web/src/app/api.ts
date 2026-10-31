@@ -84,8 +84,8 @@ export const api = {
 
   characterOptions: (campaignId: Id, locale: Locale) =>
     request<CharacterOptions>('GET', `${campaignPath(campaignId)}/character-options?locale=${locale}`),
-  character: (campaignId: Id, characterId: Id) =>
-    request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}`),
+  character: (campaignId: Id, characterId: Id, locale: Locale) =>
+    request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}?locale=${locale}`),
   referenceSearch: (q: string, locale: Locale, campaignId?: Id) =>
     request<SearchHit[]>('GET', `/api/reference/search?${referenceQuery({ q, locale, campaignId })}`),
   referenceEntry: (id: Id, locale: Locale, campaignId?: Id) =>

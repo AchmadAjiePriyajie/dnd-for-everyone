@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadCatalog } from '#content/catalog';
-import { type Character, type CharacterDraft, emptyDraft } from '#shared/characters';
+import { type Character, type CharacterDraft, emptyDraft, emptyFeatureState } from '#shared/characters';
 import {
   abilityModifier,
   pointBuyCost,
@@ -43,6 +43,7 @@ const character = (draft: CharacterDraft, over: Partial<Character> = {}): Charac
   draft,
   rolls: [],
   overrides: {},
+  featureState: emptyFeatureState(),
   revision: 1,
   updatedAt: '2026-10-30T00:00:00.000Z',
   ...over,

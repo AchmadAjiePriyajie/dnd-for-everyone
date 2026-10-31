@@ -11,6 +11,7 @@ import { ErrorMessage, toApiError, useSession } from '../../app/ui';
 import { CharacterSheet } from './CharacterSheet';
 import { CharacterWizard } from './CharacterWizard';
 import { DmCharacterTools } from './DmCharacterTools';
+import { FeatureList } from './FeatureList';
 import type { CharacterView } from './types';
 
 /** Draft milik sendiri dibuka di wizard; selain itu (atau setelah final) tampil sebagai sheet. */
@@ -34,8 +35,8 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
   );
 
   const reload = useCallback(async () => {
-    setView(await api.character(campaignId, characterId));
-  }, [campaignId, characterId]);
+    setView(await api.character(campaignId, characterId, locale));
+  }, [campaignId, characterId, locale]);
 
   // Muat ulang saat room berubah (mis. koreksi atau transfer oleh DM) agar sheet tidak usang.
   const sequence = room?.eventSequence;
@@ -69,16 +70,28 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
       </div>
     );
   }
-  const editable = view.character.status === 'draft' && view.character.ownerAccountId === session.account.accountId;
+  const owner = view.character.ownerAccountId === session.account.accountId;
+  const editable = view.character.status === 'draft' && owner;
+  const isDm = room?.you.role === 'dm';
   return (
     <div className="room">
       {back}
       {editable ? (
         <CharacterWizard view={view} options={options} campaignId={campaignId} reload={reload} />
       ) : (
-        <CharacterSheet view={view} options={options} />
+        <>
+          <CharacterSheet view={view} options={options} />
+          <FeatureList
+            view={view}
+            options={options}
+            campaignId={campaignId}
+            reload={reload}
+            canUse={owner && view.character.status === 'final'}
+            isDm={isDm}
+          />
+        </>
       )}
-      {room?.you.role === 'dm' && <DmCharacterTools view={view} members={room.members} campaignId={campaignId} reload={reload} />}
+      {isDm && room && <DmCharacterTools view={view} members={room.members} campaignId={campaignId} reload={reload} />}
     </div>
   );
 }
