@@ -157,7 +157,8 @@ describe('character wizard', () => {
 
     const sheet = await screen.findByRole('article', { name: 'Brakka' });
     const ac = within(sheet).getByRole('group', { name: 'Armor Class' });
-    expect(within(ac).getByText('16')).toBeTruthy();
+    // Total di atas; rincian sumber di bawahnya (nilai dasar tanpa tanda, tambahan bertanda).
+    expect(ac.querySelector('.stat-value')?.textContent).toBe('16');
     expect(within(ac).getByText('Chain Mail')).toBeTruthy();
     const hp = within(sheet).getByRole('group', { name: 'Hit Points' });
     expect(within(hp).getByText('Fighter')).toBeTruthy();

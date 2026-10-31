@@ -92,7 +92,10 @@ export function ReferenceReader({
     <article className="card reference-reader" aria-labelledby={headingId}>
       <header className="reference-reader-head">
         <div>
-          <h2 id={headingId}>{entry.title}</h2>
+          <h2 id={headingId}>
+            <Icon name="scroll" />
+            {entry.title}
+          </h2>
           {entry.originalTitle !== entry.title && (
             <p className="muted small">
               {t('reference.originalTitle')} <span lang="en">{entry.originalTitle}</span>
@@ -139,7 +142,7 @@ export function ReferenceReader({
           </ul>
         </nav>
       )}
-      <footer className="muted small">
+      <footer className="source-line">
         {source.kind === 'srd' && t('reference.sourceSrd', { section: source.section, page: source.page })}
         {source.kind === 'guide' && t('reference.sourceGuide')}
         {source.kind === 'campaign' && t('reference.sourceCampaign')}

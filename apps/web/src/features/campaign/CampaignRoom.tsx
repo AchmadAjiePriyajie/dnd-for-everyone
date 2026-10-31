@@ -73,7 +73,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
         <Icon name="arrowLeft" />
         {t('room.back')}
       </Link>
-      <header className="room-banner">
+      <header className="room-banner page-banner">
         <span className="sigil sigil-lg" aria-hidden="true">
           {initials(snapshot.campaign.title)}
         </span>
@@ -87,13 +87,13 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
             <span className="muted small">{t('lobby.ruleset', { ruleset: snapshot.campaign.ruleset })}</span>
           </p>
         </div>
+        <div className="banner-actions">
+          <Link href={routePath.reference(campaignId)} className="button-link">
+            <Icon name="scroll" />
+            {t('room.openReference')}
+          </Link>
+        </div>
       </header>
-      <p>
-        <Link href={routePath.reference(campaignId)} className="button-link">
-          <Icon name="scroll" />
-          {t('room.openReference')}
-        </Link>
-      </p>
       {entry.error && <ErrorMessage error={entry.error} />}
       <ErrorMessage error={actionError} />
 
@@ -144,6 +144,9 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
                 const visible = isDm || character.ownerAccountId === snapshot.you.accountId;
                 return (
                   <li key={character.id}>
+                    <span className="avatar" aria-hidden="true" style={{ '--hue': hue(character.name || character.id) } as CSSProperties}>
+                      {initials(character.name || '?')}
+                    </span>
                     <span className="member-name">
                       {visible ? (
                         <Link href={routePath.character(campaignId, character.id)}>{character.name || t('character.unnamed')}</Link>

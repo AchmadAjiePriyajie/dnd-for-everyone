@@ -53,8 +53,9 @@ export function SearchPanel({
         <Icon name="scroll" />
         {t('reference.title')}
       </h2>
-      <label htmlFor={inputId}>{t('reference.searchLabel')}</label>
-      <input
+      <div className="field">
+        <label htmlFor={inputId}>{t('reference.searchLabel')}</label>
+        <input
         id={inputId}
         type="search"
         value={query}
@@ -63,9 +64,10 @@ export function SearchPanel({
         aria-describedby={`${inputId}-hint`}
         onChange={(event) => onQueryChange(event.target.value)}
       />
-      <p id={`${inputId}-hint`} className="muted small">
-        {t('reference.searchHint')}
-      </p>
+        <p id={`${inputId}-hint`} className="hint">
+          {t('reference.searchHint')}
+        </p>
+      </div>
       <ErrorMessage error={state.error} />
       {settled && state.query && !state.error && state.hits.length === 0 && (
         <p className="muted" role="status">

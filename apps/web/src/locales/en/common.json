@@ -338,6 +338,11 @@
       "transfer": "Transfer character",
       "overrideHelp": "Corrections replace the rules value on the sheet; leave a field empty to use the rules again.",
       "saveOverrides": "Save corrections"
-    }
+    },
+    "score": "Score {{score}}",
+    "combatTitle": "Combat numbers",
+    "feetUnit": "feet",
+    "coins": "Coins",
+    "equipmentOption": "Option {{option}}"
   }
 }

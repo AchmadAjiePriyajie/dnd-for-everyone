@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ApiError, MemberView } from '#shared/access';
 import { OVERRIDE_FIELDS, type OverrideField } from '#shared/characters';
 import type { Id } from '#shared/contracts';
+import { Icon } from '../../app/icons';
 import { sendCommand, useConnectionStatus } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
 import type { CharacterView } from './types';
@@ -45,28 +46,37 @@ export function DmCharacterTools({ view, members, campaignId, reload }: { view: 
 
   return (
     <section className="card dm-tools" aria-labelledby={`${id}-heading`}>
+      <p className="eyebrow">
+        <Icon name="crown" />
+        {t('room.dmTools')}
+      </p>
       <h2 id={`${id}-heading`}>{t('character.dm.title')}</h2>
       <ErrorMessage error={error} />
-      <div className="inline-field">
-        <label htmlFor={`${id}-owner`}>{t('character.dm.newOwner')}</label>
-        <select id={`${id}-owner`} value={owner} onChange={(e) => setOwner(e.target.value)}>
-          <option value="">—</option>
-          {members
-            .filter((member) => member.accountId !== character.ownerAccountId)
-            .map((member) => (
-              <option key={member.accountId} value={member.accountId}>
-                {member.username}
-              </option>
-            ))}
-        </select>
+      <div className="field-row">
+        <div className="field">
+          <label htmlFor={`${id}-owner`}>{t('character.dm.newOwner')}</label>
+          <select id={`${id}-owner`} value={owner} onChange={(e) => setOwner(e.target.value)}>
+            <option value="">—</option>
+            {members
+              .filter((member) => member.accountId !== character.ownerAccountId)
+              .map((member) => (
+                <option key={member.accountId} value={member.accountId}>
+                  {member.username}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+      <p>
         <button type="button" disabled={disabled || !owner} onClick={() => void send([{ kind: 'character.transfer', payload: { toAccountId: owner } }])}>
+          <Icon name="user" />
           {t('character.dm.transfer')}
         </button>
-      </div>
-      <p className="muted small">{t('character.dm.overrideHelp')}</p>
-      <div className="ability-assign">
+      </p>
+      <p className="hint">{t('character.dm.overrideHelp')}</p>
+      <div className="field-row">
         {OVERRIDE_FIELDS.map((field) => (
-          <div key={field} className="inline-field">
+          <div key={field} className="field">
             <label htmlFor={`${id}-${field}`}>{t(`character.stat.${field}`)}</label>
             <input
               id={`${id}-${field}`}
@@ -79,7 +89,8 @@ export function DmCharacterTools({ view, members, campaignId, reload }: { view: 
           </div>
         ))}
       </div>
-      <button type="button" disabled={disabled || changes.length === 0} onClick={() => void send(changes)}>
+      <button type="button" className="primary" disabled={disabled || changes.length === 0} onClick={() => void send(changes)}>
+        <Icon name="check" />
         {t('character.dm.saveOverrides')}
       </button>
     </section>

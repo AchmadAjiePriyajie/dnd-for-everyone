@@ -391,13 +391,16 @@ main:focus {
 
 input,
 select,
+textarea,
 button {
   font: inherit;
   color: inherit;
 }
 
-input,
-select {
+/* Kontrol teks: radio/checkbox punya gaya sendiri di bawah. */
+input:not([type='radio']):not([type='checkbox']),
+select,
+textarea {
   width: 100%;
   min-width: 0;
   min-height: 2.9rem;
@@ -411,15 +414,46 @@ select {
   width: auto;
 }
 
-input:hover,
-select:hover {
+input:not([type='radio']):not([type='checkbox']):hover,
+select:hover,
+textarea:hover {
   border-color: var(--gold);
 }
 
 input:focus-visible,
-select:focus-visible {
+select:focus-visible,
+textarea:focus-visible {
   outline-offset: 0;
   border-color: var(--focus);
+}
+
+textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0.2rem 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0 0 1rem;
+  padding: 0;
+  border: none;
+}
+
+legend {
+  padding: 0;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
 }
 
 .input-with-action {
@@ -1079,92 +1113,311 @@ button:disabled {
   }
 }
 
-/* Referensi aturan: cari di samping, reader di tengah; satu kolom di layar kecil. */
+/* ---------- Pola bersama halaman fitur ---------- */
+
+/* Banner halaman (room, wizard, sheet): sigil + judul + baris meta. */
+.page-banner {
+  flex-wrap: wrap;
+}
+
+.page-banner .room-heading {
+  flex: 1 1 16rem;
+}
+
+.banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Tautan yang tampil sebagai tombol sekunder. */
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.2rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button-link:hover {
+  background: var(--surface-2);
+  border-color: var(--gold);
+}
+
+/* Baris daftar seragam (karakter, save, skill, inventaris), sejajar .member-list. */
+.row-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  padding: 0.35rem 0;
+}
+
+.row-list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.row-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.prof-dot {
+  flex: none;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+}
+
+.prof-dot.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Kotak peringatan/masalah, sejajar dengan .error. */
+.callout {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warn) 8%, var(--surface));
+}
+
+.callout h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.callout ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.callout-ok {
+  border-color: color-mix(in srgb, var(--ok) 45%, transparent);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-weight: 600;
+}
+
+/* Kartu pilihan (radio/checkbox) yang seluruh areanya dapat diklik. */
+.choice-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-height: 2.9rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.choice:hover {
+  border-color: var(--gold);
+}
+
+.choice:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+
+.choice:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.choice-text {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.choice-title {
+  font-weight: 600;
+}
+
+.field-row {
+  display: grid;
+  gap: 0 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+/* ---------- Referensi ---------- */
+
 .reference-layout {
   display: grid;
   gap: 1rem;
   align-items: start;
 }
+
 @media (min-width: 52rem) {
   .reference-layout {
     grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
   }
 }
+
 .reference-side {
   display: grid;
   gap: 1rem;
 }
-.reference-search input[type='search'] {
-  width: 100%;
+
+.reference-side .card {
+  margin-bottom: 0;
 }
-.reference-results,
-.reference-links,
-.reference-related ul {
-  list-style: none;
-  margin: 0.5rem 0 0;
-  padding: 0;
+
+.reference-results {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.4rem;
+  max-height: min(60vh, 34rem);
+  margin: 0.5rem 0 0;
+  padding: 0 0.25rem 0 0;
+  overflow-y: auto;
+  list-style: none;
 }
+
 .reference-results li {
   display: grid;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
+
 .reference-hit {
   display: grid;
+  justify-items: start;
   gap: 0.1rem;
   width: 100%;
+  padding: 0.55rem 0.8rem;
   text-align: start;
-  min-height: 2.75rem;
+  font-weight: 400;
 }
+
 .reference-hit-title {
   font-weight: 600;
 }
+
 .reference-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
 }
-.link-button {
-  background: none;
-  border: none;
-  padding: 0.25rem 0;
-  color: var(--accent);
-  text-decoration: underline;
-  text-align: start;
-  min-height: 2.75rem;
+
+.reference-badges:empty {
+  display: none;
 }
+
+.reference-links {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reference-links li + li {
+  border-top: 1px solid var(--border);
+}
+
+.reference-links a,
+.link-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.3rem 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: start;
+  text-decoration: none;
+}
+
+.reference-links a:hover,
+.link-button:hover:not(:disabled) {
+  background: none;
+  text-decoration: underline;
+}
+
 .reference-reader-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.75rem;
   flex-wrap: wrap;
+  margin-bottom: 0.75rem;
 }
+
+.reference-reader-head h2 {
+  margin-bottom: 0.25rem;
+}
+
 .reference-when {
-  background: var(--surface-2);
-  border-inline-start: 4px solid var(--gold);
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--gold);
   border-radius: var(--radius-sm);
-  padding: 0.6rem 0.8rem;
+  background: var(--surface-2);
 }
+
 .reference-body {
   overflow-wrap: anywhere;
-  line-height: 1.55;
+  line-height: 1.6;
 }
+
+.reference-body h3,
+.reference-body h4,
+.reference-body h5,
+.reference-body h6 {
+  margin: 1.25rem 0 0.5rem;
+  font-family: var(--font-display);
+}
+
 .reference-body blockquote {
   margin: 0.75rem 0;
   padding: 0.5rem 0.9rem;
-  border-inline-start: 3px solid var(--border-strong);
+  border-left: 3px solid var(--border-strong);
   background: var(--surface-2);
 }
+
 .table-scroll {
   overflow-x: auto;
   margin: 0.75rem 0;
 }
+
 .reference-body table {
   border-collapse: collapse;
   min-width: 100%;
 }
+
 .reference-body th,
 .reference-body td {
   border: 1px solid var(--border);
@@ -1172,148 +1425,187 @@ button:disabled {
   text-align: start;
   vertical-align: top;
 }
+
 .reference-body th {
   background: var(--surface-2);
 }
-.button-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+
+.reference-related {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 
-/* Wizard dan sheet karakter. */
-.wizard-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-.save-indicator {
-  margin: 0;
-  font-size: 0.9rem;
+.source-line {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
   color: var(--muted);
 }
-.save-indicator.save-error {
-  color: var(--danger);
-}
-.save-indicator.save-saved {
-  color: var(--ok);
-}
+
+/* ---------- Wizard karakter ---------- */
+
 .wizard-steps {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  margin: 0.75rem 0;
+  margin: 0 0 1rem;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
+
+.wizard-steps [role='tab'] {
+  flex: 1 1 auto;
+  min-height: 2.5rem;
+  padding: 0.2rem 0.75rem;
+  border-color: transparent;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
 .wizard-steps [role='tab'][aria-selected='true'] {
   background: var(--accent);
-  color: var(--on-accent);
   border-color: var(--accent);
+  color: var(--on-accent);
 }
+
+.step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.step-intro {
+  color: var(--muted);
+}
+
 .wizard-nav {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
-  margin-top: 0.75rem;
 }
-.form-grid {
-  display: grid;
-  gap: 0.5rem;
+
+.badge-saving {
+  color: var(--gold-text);
 }
-.form-grid textarea,
-.form-grid input:not([type='radio']):not([type='checkbox']) {
-  width: 100%;
+
+.badge-error {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 50%, transparent);
 }
-.option-list {
-  display: grid;
-  gap: 0.35rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 0.8rem;
-}
-.option {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-start;
-  min-height: 2.75rem;
-  padding-block: 0.25rem;
-}
-.inline-field {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-.ability-assign {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
-}
-.issue-list li,
-.notice-list li {
-  margin-block: 0.25rem;
-}
-.notice-list {
-  border-inline-start: 4px solid var(--warn);
-  padding-inline-start: 1.5rem;
-}
-.ability-grid,
+
+/* ---------- Sheet karakter ---------- */
+
 .stat-grid {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
-  margin-block: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  margin: 0 0 1.25rem;
 }
+
 .stat {
+  display: grid;
+  align-content: start;
+  gap: 0.1rem;
+  padding: 0.6rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.5rem 0.7rem;
   background: var(--surface-2);
-  display: grid;
-  gap: 0.15rem;
 }
+
 .stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-sub {
   font-size: 0.85rem;
   color: var(--muted);
 }
-.stat-value {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-}
+
 .stat-breakdown {
+  display: grid;
+  gap: 0.05rem;
+  margin: 0.35rem 0 0;
+  padding: 0.35rem 0 0;
+  border-top: 1px dashed var(--border-strong);
   list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--muted);
 }
+
+.stat-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 .stat-override {
   color: var(--gold-text);
+  font-weight: 600;
 }
+
 .sheet-columns {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
 }
-.check-list {
-  list-style: none;
-  padding: 0;
+
+.sheet-columns .card {
+  margin-bottom: 0;
 }
+
+.facts {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+}
+
 .facts dt {
+  margin-top: 0.5rem;
   font-weight: 600;
-  margin-top: 0.4rem;
 }
+
+.facts dt:first-child {
+  margin-top: 0;
+}
+
 .facts dd {
   margin: 0;
 }
+
 .inline-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
+
+.inline-list li {
+  padding: 0 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

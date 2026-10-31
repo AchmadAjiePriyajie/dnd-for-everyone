@@ -338,6 +338,11 @@
       "transfer": "Transfer karakter",
       "overrideHelp": "Koreksi menggantikan nilai aturan pada sheet; kosongkan field untuk kembali ke nilai aturan.",
       "saveOverrides": "Simpan koreksi"
-    }
+    },
+    "score": "Score {{score}}",
+    "combatTitle": "Angka pertarungan",
+    "feetUnit": "kaki",
+    "coins": "Koin",
+    "equipmentOption": "Pilihan {{option}}"
   }
 }

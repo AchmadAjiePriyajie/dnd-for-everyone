@@ -70,9 +70,12 @@ export function ReferencePage({ campaignId }: { campaignId?: Id }) {
         <aside className="reference-side">
           <SearchPanel query={query} onQueryChange={setQuery} campaignId={campaignId} onOpen={open} />
           <section className="card" aria-labelledby="reference-bookmarks">
-            <h2 id="reference-bookmarks">{t('reference.bookmarks')}</h2>
+            <h2 id="reference-bookmarks">
+              <Icon name="check" />
+              {t('reference.bookmarks')}
+            </h2>
             {bookmarks.length === 0 ? (
-              <p className="muted small">{t('reference.noBookmarks')}</p>
+              <p className="hint">{t('reference.noBookmarks')}</p>
             ) : (
               <ul className="reference-links" aria-label={t('reference.bookmarks')}>
                 {bookmarks.map((id) => (
@@ -98,7 +101,10 @@ export function ReferencePage({ campaignId }: { campaignId?: Id }) {
             />
           ) : (
             <section className="card" aria-labelledby="reference-help">
-              <h2 id="reference-help">{t('reference.quickHelp')}</h2>
+              <h2 id="reference-help">
+                <Icon name="d20" />
+                {t('reference.quickHelp')}
+              </h2>
               <p className="muted">{t('reference.intro')}</p>
               <ul className="reference-links">
                 {QUICK_HELP.map((id) => (
