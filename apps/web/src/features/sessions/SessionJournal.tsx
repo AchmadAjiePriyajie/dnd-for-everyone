@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { Pager, usePaged } from '../../app/Pager';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
 import type { CommandEnvelope } from '#shared/commands';
@@ -108,11 +109,7 @@ export function SessionJournal({ campaignId }: { campaignId: Id }) {
           <RuleNoteForm disabled={disabled} onAdd={(text) => send('session.rule-note', { text }, session.id)} />
         </> : null}
         <h3>{t('session.log')}</h3>
-        <ol className="session-log">{view.log.map((item) => <li key={item.sequence}>
-          <time dateTime={item.at}>{new Intl.DateTimeFormat(i18n.language, { hour: '2-digit', minute: '2-digit' }).format(new Date(item.at))}</time>{' '}
-          {i18n.exists(`session.logKind.${item.kind}`) ? t(`session.logKind.${item.kind}`) : t('session.logOther', { kind: item.kind })}
-          {item.actorAccountId ? <span className="muted"> · {nameOf(item.actorAccountId)}</span> : null}
-        </li>)}</ol>
+        <SessionLog view={view} nameOf={nameOf} />
       </section>
     )}
   </div>;
@@ -183,4 +180,17 @@ function RuleNoteForm({ disabled, onAdd }: { disabled: boolean; onAdd: (text: st
     <input id={`${id}-rule`} value={text} maxLength={1_000} onChange={(event) => setText(event.target.value)} />
     <button disabled={disabled || !text.trim()}>{t('session.addRuleNote')}</button>
   </form>;
+}
+
+function SessionLog({ view, nameOf }: { view: SessionView; nameOf: (accountId: Id | null) => string }) {
+  const { t, i18n } = useTranslation();
+  const paged = usePaged(view.log);
+  return <>
+    <ol className="session-log">{paged.items.map((item) => <li key={item.sequence}>
+      <time dateTime={item.at}>{new Intl.DateTimeFormat(i18n.language, { hour: '2-digit', minute: '2-digit' }).format(new Date(item.at))}</time>{' '}
+      {i18n.exists(`session.logKind.${item.kind}`) ? t(`session.logKind.${item.kind}`) : t('session.logOther', { kind: item.kind })}
+      {item.actorAccountId ? <span className="muted"> · {nameOf(item.actorAccountId)}</span> : null}
+    </li>)}</ol>
+    <Pager label={t('session.log')} page={paged.page} pages={paged.pages} onPage={paged.setPage} />
+  </>;
 }

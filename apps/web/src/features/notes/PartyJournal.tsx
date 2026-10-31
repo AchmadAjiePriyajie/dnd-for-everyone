@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from 'react';
+import { Pager, usePaged } from '../../app/Pager';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
 import type { Id } from '#shared/contracts';
@@ -47,6 +48,7 @@ export function NotesPage({ campaignId }: { campaignId: Id }) {
     setEditing(null);
     window.history.replaceState(null, '', routePath.notes(campaignId, noteId));
   };
+  const pagedNotes = usePaged([...(snapshot?.notes ?? [])].sort((a, b) => NOTE_KINDS.indexOf(a.kind) - NOTE_KINDS.indexOf(b.kind)));
   if (!snapshot) return <p className="muted">{t('app.loading')}</p>;
   const isDm = snapshot.you.role === 'dm';
   const notes = snapshot.notes ?? [];
@@ -71,11 +73,11 @@ export function NotesPage({ campaignId }: { campaignId: Id }) {
             </p>
           )}
           {notes.length === 0 && <p className="muted">{isDm ? t('notes.emptyDm') : t('notes.emptyParty')}</p>}
-          {NOTE_KINDS.filter((kind) => notes.some((note) => note.kind === kind)).map((kind) => (
+          {NOTE_KINDS.filter((kind) => pagedNotes.items.some((note) => note.kind === kind)).map((kind) => (
             <div key={kind}>
               <h2 className="eyebrow">{t(`notes.kind.${kind}`)}</h2>
               <ul className="row-list">
-                {notes
+                {pagedNotes.items
                   .filter((note) => note.kind === kind)
                   .map((note) => (
                     <li key={note.id}>
@@ -93,6 +95,7 @@ export function NotesPage({ campaignId }: { campaignId: Id }) {
               </ul>
             </div>
           ))}
+          <Pager label={t('notes.title')} page={pagedNotes.page} pages={pagedNotes.pages} onPage={pagedNotes.setPage} />
         </nav>
 
         {editing ? (

@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { Pager, usePaged } from '../../app/Pager';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
 import { d20InputSchema, type CombatView, type D20Input, type RollAudience, type RollRecord } from '#shared/combat';
@@ -54,6 +55,7 @@ export function DiceTray({ campaignId, combat, accountId, isDm, records }: {
     });
   };
   const shown = last && !records.some((r) => r.id === last.id) ? [...records, last] : records;
+  const history = usePaged([...shown].reverse());
   return <section className="card dice-tray" aria-label={t('dice.title')}>
     <h2>{t('dice.title')}</h2>
     <p className="small muted">{t('dice.manualHelp')}</p>
@@ -84,6 +86,7 @@ export function DiceTray({ campaignId, combat, accountId, isDm, records }: {
       <div className="combat-buttons"><label><input type="checkbox" checked={advantage} onChange={(event) => setAdvantage(event.target.checked)} />{t('dice.advantage')}</label><label><input type="checkbox" checked={disadvantage} onChange={(event) => setDisadvantage(event.target.checked)} />{t('dice.disadvantage')}</label></div>
       <button disabled={disabled || Boolean(pending)}>{t('dice.rollD20')}</button>
     </form>
-    <div className="roll-history" aria-live="polite">{shown.slice(-10).map((record) => <RollDetails key={record.id} record={record} />)}</div>
+    <div className="roll-history" aria-live="polite">{history.items.map((record) => <RollDetails key={record.id} record={record} />)}</div>
+    <Pager label={t('dice.title')} page={history.page} pages={history.pages} onPage={history.setPage} />
   </section>;
 }

@@ -70,6 +70,17 @@
     "emptyTitle": "No campaigns yet"
   },
   "room": {
+    "sections": "Campaign sections",
+    "section": {
+      "party": "Party",
+      "session": "Session",
+      "prep": "DM prep",
+      "invites": "Invites"
+    },
+    "sessionActive": "Session active",
+    "sessionPaused": "Session paused",
+    "combatActive": "Combat active",
+    "yourTurn": "Your turn",
     "loading": "Loading campaign…",
     "back": "Back to campaigns",
     "youAre": "You are the {{role}}",
@@ -220,6 +231,14 @@
     "backToRoom": "Back to the room"
   },
   "character": {
+    "sheetSections": "Character sections",
+    "sheetTab": {
+      "summary": "Summary",
+      "spells": "Actions & Spells",
+      "inventory": "Inventory",
+      "features": "Features",
+      "levelUp": "Level up"
+    },
     "newCharacter": "New character",
     "unnamed": "Unnamed character",
     "level": "Level {{level}}",
@@ -703,6 +722,7 @@
     }
   },
   "encounters": {
+    "monsterList": "Monsters",
     "open": "Encounters",
     "title": "Encounter builder",
     "monsters": "Monsters",
@@ -1291,6 +1311,7 @@
       "journal": "Journal"
     }
   },
+  "pager": {"label": "{{label}} pagination", "previous": "Previous", "next": "Next", "page": "Page {{page}} of {{pages}}"},
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",
     "dead": "Dead", "stable": "Stable", "deathSave": "Roll death save", "stabilize": "Stabilize (DM decision)",

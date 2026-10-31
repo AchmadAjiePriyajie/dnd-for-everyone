@@ -149,6 +149,7 @@ describe('campaign notes', () => {
     });
     window.history.replaceState(null, '', '/campaigns/camp-1');
     render(<App />);
+    await userEvent.setup().click(await screen.findByRole('tab', { name: 'DM prep' }));
     const sheet = await screen.findByRole('region', { name: 'Party cheat sheet' });
     const row = within(sheet).getByRole('row', { name: /Brakka/ });
     expect(within(row).getByText('9/13 (+2)')).toBeTruthy();

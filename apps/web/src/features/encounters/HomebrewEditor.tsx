@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useState } from 'react';
+import { Pager, usePaged } from '../../app/Pager';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
 import type { Id, JsonValue } from '#shared/contracts';
@@ -56,6 +57,7 @@ export function HomebrewEditor({ campaignId }: { campaignId: Id }) {
   const snapshot = useRoomEntry(campaignId)?.snapshot;
   const isDm = snapshot?.you.role === 'dm';
   const [entries, setEntries] = useState<HomebrewView[]>([]);
+  const pagedEntries = usePaged(entries);
   const [editing, setEditing] = useState<{ id: Id; revision: number | null } | null>(null);
   const [kind, setKind] = useState<HomebrewKind>('monster');
   const [name, setName] = useState('');
@@ -141,7 +143,7 @@ export function HomebrewEditor({ campaignId }: { campaignId: Id }) {
           </p>
           {entries.length === 0 && <p className="muted">{t('homebrew.empty')}</p>}
           <ul className="row-list">
-            {entries.map((entry) => (
+            {pagedEntries.items.map((entry) => (
               <li key={entry.id}>
                 <span className="row-main">
                   {entry.name} <span className="muted small">· {t(`homebrew.kind.${entry.kind}`)}</span>
@@ -160,6 +162,7 @@ export function HomebrewEditor({ campaignId }: { campaignId: Id }) {
               </li>
             ))}
           </ul>
+          <Pager label={t('homebrew.entries')} page={pagedEntries.page} pages={pagedEntries.pages} onPage={pagedEntries.setPage} />
           {isDm && (
             <div className="field-row">
               <div className="field">

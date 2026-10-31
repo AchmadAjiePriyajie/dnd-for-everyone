@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from 'react';
+import { Pager, usePaged } from '../../app/Pager';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
 import type { Id, Locale } from '#shared/contracts';
@@ -47,6 +48,7 @@ export function SearchPanel({
   }, [query, locale, campaignId]);
 
   const settled = state.query === query.trim();
+  const hits = usePaged(state.hits);
   return (
     <section className="card reference-search" aria-labelledby={`${inputId}-heading`}>
       <h2 id={`${inputId}-heading`}>
@@ -76,7 +78,7 @@ export function SearchPanel({
       )}
       {state.hits.length > 0 && (
         <ul className="reference-results" aria-label={t('reference.results')}>
-          {state.hits.map((hit) => (
+          {hits.items.map((hit) => (
             <li key={hit.entryId}>
               <button type="button" className="reference-hit" onClick={() => onOpen(hit.entryId)}>
                 <span className="reference-hit-title">{hit.title}</span>
@@ -92,6 +94,7 @@ export function SearchPanel({
           ))}
         </ul>
       )}
+      <Pager label={t('reference.results')} page={hits.page} pages={hits.pages} onPage={hits.setPage} />
     </section>
   );
 }

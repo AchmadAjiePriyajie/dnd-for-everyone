@@ -70,6 +70,17 @@
     "emptyTitle": "Belum ada campaign"
   },
   "room": {
+    "sections": "Bagian campaign",
+    "section": {
+      "party": "Party",
+      "session": "Sesi",
+      "prep": "Persiapan DM",
+      "invites": "Undangan"
+    },
+    "sessionActive": "Sesi berjalan",
+    "sessionPaused": "Sesi dijeda",
+    "combatActive": "Combat berjalan",
+    "yourTurn": "Giliranmu",
     "loading": "Memuat campaign…",
     "back": "Kembali ke daftar campaign",
     "youAre": "Kamu adalah {{role}}",
@@ -220,6 +231,14 @@
     "backToRoom": "Kembali ke room"
   },
   "character": {
+    "sheetSections": "Bagian karakter",
+    "sheetTab": {
+      "summary": "Ringkasan",
+      "spells": "Aksi & Spell",
+      "inventory": "Inventory",
+      "features": "Fitur",
+      "levelUp": "Level up"
+    },
     "newCharacter": "Karakter baru",
     "unnamed": "Karakter tanpa nama",
     "level": "Level {{level}}",
@@ -703,6 +722,7 @@
     }
   },
   "encounters": {
+    "monsterList": "Monster",
     "open": "Encounter",
     "title": "Penyusun encounter",
     "monsters": "Monster",
@@ -1291,6 +1311,7 @@
       "journal": "Journal"
     }
   },
+  "pager": {"label": "Halaman {{label}}", "previous": "Sebelumnya", "next": "Berikutnya", "page": "Halaman {{page}} dari {{pages}}"},
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",
     "dead": "Mati", "stable": "Stabil", "deathSave": "Lempar death save", "stabilize": "Stabilkan (keputusan DM)",

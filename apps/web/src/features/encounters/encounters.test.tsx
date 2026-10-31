@@ -142,10 +142,12 @@ describe('encounter builder', () => {
 
     const picker = await screen.findByRole('region', { name: 'Monsters' });
     const rows = () => within(picker).getAllByRole('listitem').map((item) => item.textContent ?? '');
-    // 48 monster: 40 pertama tampil, sisanya lewat "Tampilkan lagi".
-    expect(within(picker).getByText('Showing 40 of 48')).toBeTruthy();
-    await user.click(within(picker).getByRole('button', { name: 'Show 8 more' }));
-    expect(within(picker).getByText('Showing 48 of 48')).toBeTruthy();
+    // 48 monster: 20 per halaman (UI pass), halaman terakhir berisi 8.
+    expect(within(picker).getByText('Showing 20 of 48')).toBeTruthy();
+    expect(within(picker).getByText('Page 1 of 3')).toBeTruthy();
+    await user.click(within(picker).getByRole('button', { name: 'Next' }));
+    await user.click(within(picker).getByRole('button', { name: 'Next' }));
+    expect(within(picker).getByText('Showing 8 of 48')).toBeTruthy();
 
     await user.selectOptions(within(picker).getByRole('combobox', { name: 'Creature type' }), 'giant');
     await user.selectOptions(within(picker).getByRole('combobox', { name: 'Sort by' }), 'cr-desc');
