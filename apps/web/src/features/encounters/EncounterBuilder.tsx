@@ -10,7 +10,9 @@ import { Link, routePath } from '../../app/router';
 import { sendCommand, useRoomEntry } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
 
-const crValue = (cr: string) => {
+/** "1/4" → 0.25; tanpa CR → NaN (tidak lolos filter CR, tidak memicu risiko CR). */
+const crValue = (cr: string | null) => {
+  if (cr === null) return Number.NaN;
   const [top, bottom] = cr.split('/');
   return bottom ? Number(top) / Number(bottom) : Number(top);
 };
@@ -62,7 +64,8 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
       levels,
       template.monsters.map((entry) => {
         const monster = byId.get(entry.monsterId);
-        return { xp: monster ? monster.xp : Number.NaN, count: entry.count, ...(monster ? { cr: crValue(monster.cr) } : {}) };
+        const cr = monster ? crValue(monster.cr) : Number.NaN;
+        return { xp: monster?.xp ?? Number.NaN, count: entry.count, ...(Number.isNaN(cr) ? {} : { cr }) };
       }),
       { difficultTerrain: template.difficultTerrain },
     );
@@ -141,7 +144,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               <li key={monster.id}>
                 <span className="row-main">
                   {monster.name} {monster.homebrew && <span className="badge">{t('encounters.homebrew')}</span>}
-                  <span className="muted small"> · CR {monster.cr} · {monster.xp} XP</span>
+                  <span className="muted small"> · CR {monster.cr ?? '—'} · {monster.xp ?? '—'} XP</span>
                 </span>
                 <button type="button" aria-label={t('encounters.add', { name: monster.name })} onClick={() => addMonster(monster.id)}>
                   <Icon name="plus" />

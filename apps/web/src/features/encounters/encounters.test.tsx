@@ -87,6 +87,34 @@ describe('encounter builder', () => {
       }),
     );
   });
+
+  it('filters_by_cr_when_some_stat_blocks_have_no_cr', async () => {
+    // Bentuk respons server nyata: stat block summon (mis. Animated Object) tidak punya CR/XP.
+    fake = installFakeApi({
+      snapshots: { 'camp-1': snapshot('dm') },
+      monsters: [
+        { id: 'monster.goblin-warrior', name: 'Goblin Warrior', originalName: 'Goblin Warrior', cr: '1/4', xp: 50, creatureTypes: ['fey'], size: ['small'], homebrew: false },
+        { id: 'monster.animated-object', name: 'Animated Object', originalName: 'Animated Object', cr: null, xp: null, creatureTypes: ['construct'], size: ['medium'], homebrew: false },
+        { id: 'monster.adult-red-dragon', name: 'Adult Red Dragon', originalName: 'Adult Red Dragon', cr: '17', xp: 18000, creatureTypes: ['dragon'], size: ['huge'], homebrew: false },
+      ],
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/encounters');
+    const user = userEvent.setup();
+    render(<App />);
+
+    const picker = await screen.findByRole('region', { name: 'Monsters' });
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Maximum CR' }), '1');
+    expect(within(picker).getByText('Goblin Warrior')).toBeTruthy();
+    expect(within(picker).queryByText('Adult Red Dragon')).toBeNull();
+    // Tanpa CR tidak bisa dibandingkan dengan batas CR → disembunyikan saat filter CR aktif.
+    expect(within(picker).queryByText('Animated Object')).toBeNull();
+    await user.selectOptions(within(picker).getByRole('combobox', { name: 'Maximum CR' }), '');
+    expect(within(picker).getByText('Animated Object')).toBeTruthy();
+    // Monster tanpa XP tidak dihitung sebagai 0 XP: estimasi meminta koreksi.
+    await user.click(within(picker).getByRole('button', { name: 'Add Animated Object' }));
+    const estimate = screen.getByRole('group', { name: 'Difficulty estimate' });
+    expect(within(estimate).getByText('A monster has no valid XP value; fix it before estimating.')).toBeTruthy();
+  });
 });
 
 describe('homebrew editor', () => {

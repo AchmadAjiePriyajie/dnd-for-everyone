@@ -109,6 +109,8 @@ describe('homebrew and encounters', () => {
     const monsters = (await dm.get<Array<{ id: string; xp: number; homebrew: boolean }>>(`/api/campaigns/${campaignId}/monsters?locale=en`)).body;
     expect(monsters.find((monster) => monster.id === 'monster.goblin-warrior')).toMatchObject({ xp: 50, homebrew: false });
     expect(monsters.find((monster) => monster.id === 'hb-mud')).toMatchObject({ xp: 50, homebrew: true });
+    // Stat block summon tanpa CR/XP dikirim sebagai null, bukan 0 XP palsu.
+    expect(monsters.find((monster) => monster.id === 'monster.animated-object')).toMatchObject({ cr: null, xp: null });
     expect((await bob.client.get(`/api/campaigns/${campaignId}/monsters?locale=en`)).status).toBe(403);
 
     // Template: 2 Goblin Warrior + 2 Mudling = 200 XP untuk empat level 1 → Low, tanpa multiplier.

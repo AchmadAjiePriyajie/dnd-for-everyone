@@ -18,7 +18,7 @@ const savePayload = z.strictObject({ template: encounterTemplateSchema });
 const empty = z.strictObject({});
 
 interface MonsterMechanics {
-  cr: string;
+  cr?: string;
   xp?: number;
   creatureTypes?: string[];
   size?: string[];
@@ -63,11 +63,11 @@ export class EncountersService implements OnModuleInit {
       .map((id) => {
         const entry = this.content.getContent(id, locale);
         const mechanics = entry.mechanics as unknown as MonsterMechanics;
-        return { id, name: entry.name, originalName: entry.originalName, cr: mechanics.cr, xp: mechanics.xp ?? 0, creatureTypes: mechanics.creatureTypes ?? [], size: mechanics.size ?? [], homebrew: false };
+        return { id, name: entry.name, originalName: entry.originalName, cr: mechanics.cr ?? null, xp: mechanics.xp ?? null, creatureTypes: mechanics.creatureTypes ?? [], size: mechanics.size ?? [], homebrew: false };
       });
     const own = this.homebrew.approvedMonsters(db, campaignId).map((row) => {
       const mechanics = JSON.parse(row.mechanics) as MonsterMechanics;
-      return { id: row.id, name: row.name, originalName: row.name, cr: mechanics.cr, xp: mechanics.xp ?? 0, creatureTypes: mechanics.creatureTypes ?? [], size: mechanics.size ?? [], homebrew: true };
+      return { id: row.id, name: row.name, originalName: row.name, cr: mechanics.cr ?? null, xp: mechanics.xp ?? null, creatureTypes: mechanics.creatureTypes ?? [], size: mechanics.size ?? [], homebrew: true };
     });
     return [...srd, ...own];
   }
@@ -126,7 +126,7 @@ export class EncountersService implements OnModuleInit {
         return [];
       }
       if (mechanics.xp === undefined) issues.push(`XP_INVALID:${entry.monsterId}`);
-      const cr = crNumber(mechanics.cr);
+      const cr = mechanics.cr === undefined ? undefined : crNumber(mechanics.cr);
       return [{ xp: mechanics.xp ?? Number.NaN, count: entry.count, ...(cr === undefined ? {} : { cr }) }];
     });
     let estimate: EncounterView['estimate'] = null;

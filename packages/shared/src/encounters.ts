@@ -58,8 +58,9 @@ export interface MonsterInstance {
   id: Id;
   name: string;
   originalName: string;
-  cr: string;
-  xp: number;
+  /** null untuk stat block tanpa CR/XP (mis. makhluk hasil summon yang angkanya mengikuti spell). */
+  cr: string | null;
+  xp: number | null;
   creatureTypes: string[];
   size: string[];
   homebrew: boolean;
