@@ -133,6 +133,8 @@ export interface Token {
   hidden?: boolean;
   hp?: { current: number; max: number };
   monsterId?: Id;
+  /** Players: coarse state of non-party tokens instead of HP. */
+  standing?: 'healthy' | 'bloodied' | 'defeated';
 }
 
 export interface SceneView {

@@ -51,8 +51,17 @@ export interface Combat {
 }
 
 /** Public order omits hidden creatures and secret stat blocks; owners retain their trackers. */
+export type Standing = 'healthy' | 'bloodied' | 'defeated';
 export type CombatantView = Pick<Combatant, 'id' | 'name' | 'characterId' | 'ownerAccountId' | 'initiative' | 'tieOrder' | 'defeated'> &
-  Partial<Pick<Combatant, 'monsterId' | 'tokenId' | 'hidden' | 'speedFeet' | 'hp' | 'budget' | 'characterRevision' | 'vitals' | 'actions'>>;
+  Partial<Pick<Combatant, 'monsterId' | 'tokenId' | 'hidden' | 'speedFeet' | 'hp' | 'budget' | 'characterRevision' | 'vitals' | 'actions'>> & {
+    /** Players: coarse state of creatures outside the party (no HP numbers). */
+    standing?: Standing;
+    /** Players: visible conditions of party members and visible creatures. */
+    conditions?: string[];
+    /** Players: Concentration spell of party members. */
+    concentration?: Id | null;
+    deathSaves?: VitalState['deathSaves'];
+  };
 export interface CombatView extends Omit<Combat, 'templateId' | 'combatants'> {
   templateId?: Id;
   combatants: CombatantView[];

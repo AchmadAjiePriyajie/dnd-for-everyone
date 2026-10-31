@@ -5,11 +5,11 @@ import { z } from 'zod';
 import { advanceTurn, freshTurnBudget, initiativeOrder } from '#rules/turns';
 import { evaluateFormula, parseFormula } from '#rules/formula';
 import { movementCost } from '#rules/movement';
-import { cannotAct, cannotMove, normalizeVitals } from '#rules/damage';
+import { cannotAct, cannotMove, normalizeVitals, standingOf } from '#rules/damage';
 import type { Member, Principal } from '#shared/access';
 import {
   bindTokenSchema, combatantTargetSchema, correctCombatantSchema, reinforcementSchema, setTurnSchema, spendTurnSchema, startCombatSchema,
-  type ActionUsage, type Combat, type Combatant, type CombatView, emptyActionUsage, type Reinforcement, type TurnBudget, type VitalState,
+  type ActionUsage, type Combat, type Combatant, type CombatantView, type CombatView, emptyActionUsage, type Reinforcement, type TurnBudget, type VitalState,
 } from '#shared/combat';
 import type { Id, JsonValue } from '#shared/contracts';
 import type { EncounterTemplate } from '#shared/encounters';
@@ -389,10 +389,19 @@ export class CombatService implements OnModuleInit {
 
   private project(db: DatabaseSync, member: Member, combat: Combat): CombatView {
     if (member.role === 'dm') return combat;
-    const combatants = combat.combatants.filter((c) => this.visible(db, member, c)).map((c) => ({
-      id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated,
-      ...(c.ownerAccountId === member.accountId ? { hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.actions ? { actions: c.actions } : {}), ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) } : {}),
-    }));
+    const combatants = combat.combatants.filter((c) => this.visible(db, member, c)).map((c): CombatantView => {
+      const base = { id: c.id, name: c.name, characterId: c.characterId, ownerAccountId: c.ownerAccountId, initiative: c.initiative, tieOrder: c.tieOrder, defeated: c.defeated };
+      const conditions = c.vitals?.conditions ?? [];
+      if (c.ownerAccountId === member.accountId) {
+        return { ...base, hp: c.hp, budget: c.budget, speedFeet: c.speedFeet, tokenId: c.tokenId, vitals: c.vitals, ...(c.actions ? { actions: c.actions } : {}), ...(c.characterRevision === undefined ? {} : { characterRevision: c.characterRevision }) };
+      }
+      // Party members share what the table sees; resources/inventory stay on the private sheet.
+      if (c.characterId) {
+        const sheet = this.characters.finalCharacter(db, member.campaignId, c.characterId);
+        return { ...base, hp: c.hp, conditions, concentration: sheet?.resources.concentration ?? null, ...(c.vitals ? { deathSaves: c.vitals.deathSaves } : {}) };
+      }
+      return { ...base, standing: standingOf(c.hp, c.defeated), conditions };
+    });
     const scene = combat.sceneId ? db.prepare('SELECT shared FROM scenes WHERE campaign_id = ? AND id = ?').get(member.campaignId, combat.sceneId) as { shared: number } | undefined : undefined;
     return { id: combat.id, campaignId: combat.campaignId, name: combat.name, sceneId: scene?.shared ? combat.sceneId : null, status: combat.status, round: combat.round, turn: combat.turn, activeId: combatants.some((c) => c.id === combat.activeId) ? combat.activeId : null, combatants, revision: combat.revision };
   }

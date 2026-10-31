@@ -1,4 +1,4 @@
-import { damageInputSchema, type DamageInput, type DefenseProfile, type HitPointState, type VitalState } from '#shared/combat';
+import { damageInputSchema, type DamageInput, type Standing, type DefenseProfile, type HitPointState, type VitalState } from '#shared/combat';
 
 export const emptyDefenses = (): DefenseProfile => ({ resistances: [], vulnerabilities: [], immunities: [], conditionImmunities: [] });
 export const emptyVitals = (deathMode: VitalState['deathMode'] = 'saves'): VitalState => ({
@@ -64,4 +64,10 @@ export function applyDeathSave(state: HitPointState, roll: number): HitPointStat
   if (next.deathSaves.failures >= 3) next.deathSaves.dead = true;
   if (next.deathSaves.successes >= 3) next.deathSaves = { successes: 0, failures: 0, stable: true, dead: false };
   return next;
+}
+
+/** Coarse state players see for creatures they do not control: SRD 2024 Bloodied = at or below half HP. */
+export function standingOf(hp: { current: number; max: number }, defeated: boolean): Standing {
+  if (defeated || hp.current <= 0) return 'defeated';
+  return hp.current <= hp.max / 2 ? 'bloodied' : 'healthy';
 }

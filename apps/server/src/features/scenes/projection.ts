@@ -2,6 +2,7 @@ import { Injectable, type OnModuleInit } from '@nestjs/common';
 import type { Member, Principal } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import type { AreaMarker, FogState, GridSettings, SceneView, Token } from '#shared/scenes';
+import { standingOf } from '#rules/damage';
 import { forbidden } from '../../common/domain-error.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { ProjectionService } from '../../realtime/projection.js';
@@ -81,6 +82,12 @@ export class ScenesProjection implements OnModuleInit {
       const linkedHp = this.combat.tokenHitPoints(this.database.getHandle(), member.campaignId, row.id);
       if (linkedHp) token.hp = { current: linkedHp.current, max: linkedHp.max };
       if (row.monster_id) token.monsterId = row.monster_id;
+    } else {
+      // Party tokens show HP to the table; other tokens only a coarse standing.
+      const linkedHp = this.combat.tokenHitPoints(this.database.getHandle(), member.campaignId, row.id);
+      const hp = linkedHp ?? (row.hp ? JSON.parse(row.hp) as { current: number; max: number } : undefined);
+      if (row.character_id && linkedHp) token.hp = { current: linkedHp.current, max: linkedHp.max };
+      else if (!row.character_id && hp) token.standing = standingOf(hp, false);
     }
     return token;
   }
