@@ -5,6 +5,7 @@ import { RealtimeModule } from '../../realtime/realtime.module.js';
 import { AuthModule } from '../auth/auth.module.js';
 import { CampaignsModule } from '../campaigns/campaigns.module.js';
 import { CharactersModule } from '../characters/characters.module.js';
+import { CombatModule } from '../combat/combat.module.js';
 import { AssetsService } from './assets.js';
 import { MovementService } from './movement.js';
 import { ScenesProjection } from './projection.js';
@@ -12,7 +13,7 @@ import { ScenesController } from './scenes.controller.js';
 import { ScenesService } from './service.js';
 
 @Module({
-  imports: [AuthModule, CommandsModule, CampaignsModule, RealtimeModule, ContentModule, CharactersModule],
+  imports: [AuthModule, CommandsModule, CampaignsModule, RealtimeModule, ContentModule, CharactersModule, CombatModule],
   controllers: [ScenesController],
   providers: [AssetsService, ScenesService, ScenesProjection, MovementService],
   exports: [AssetsService, ScenesService, ScenesProjection],

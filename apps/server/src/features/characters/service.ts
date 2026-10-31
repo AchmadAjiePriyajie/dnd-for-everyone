@@ -154,6 +154,19 @@ export class CharactersService implements OnModuleInit {
     return deriveCharacter(this.toCharacter(db, row), this.content.catalog()).speed.value;
   }
 
+  /** Shared combat state reads the authoritative sheet, including HP and current ownership. */
+  combatStats(db: DatabaseSync, campaignId: Id, characterId: Id) {
+    const row = this.row(db, characterId);
+    if (!row || row.campaign_id !== campaignId || row.status !== 'final') throw new DomainError('CHARACTER_NOT_FINAL', 409);
+    const character = this.toCharacter(db, row);
+    const derived = deriveCharacter(character, this.content.catalog());
+    return {
+      name: character.draft.name, ownerAccountId: character.ownerAccountId,
+      speedFeet: derived.speed.value,
+      hp: { current: derived.currentHitPoints, max: derived.hitPoints.value, temp: character.resources.hp.temp },
+    };
+  }
+
   /** Membership pemilik karakter; selain pemilik (termasuk DM) ditolak untuk edit wizard. */
   requireCharacterOwner(principal: Principal, characterId: Id): Member {
     const row = this.row(this.database.getHandle(), characterId);

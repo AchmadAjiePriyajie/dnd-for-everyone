@@ -89,6 +89,9 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </p>
         </div>
         <div className="banner-actions">
+          <Link href={routePath.combat(campaignId)} className="button-link">
+            <Icon name="shield" />{t('combat.open')}
+          </Link>
           <Link href={routePath.scenes(campaignId)} className="button-link">
             <Icon name="globe" />
             {t('scenes.open')}

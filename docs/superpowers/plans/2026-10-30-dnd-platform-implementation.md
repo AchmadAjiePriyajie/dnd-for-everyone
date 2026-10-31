@@ -282,15 +282,17 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 ### Task 15: Combat lifecycle, initiative dan action economy
 
-**Files:** Create `packages/shared/src/combat.ts`, `packages/rules/src/turns.ts`, `apps/server/src/features/combat/service.ts`, `apps/web/src/features/combat/CombatTracker.tsx`, `ActionPanel.tsx`, migration `008-combat.sql`. Test `apps/server/src/features/combat/turns.test.ts`. Create `apps/server/src/features/combat/combat.module.ts`, `combat.controller.ts`; import CommandsModule serta feature providers yang dibutuhkan tanpa dependency cycle.
+**Files:** Create `packages/shared/src/combat.ts`, `packages/rules/src/turns.ts`, `apps/server/src/features/combat/service.ts`, `apps/web/src/features/combat/CombatTracker.tsx`, `ActionPanel.tsx`, migration `013-combat.sql` (008–012 sudah digunakan). Test `apps/server/src/features/combat/turns.test.ts`. Create `apps/server/src/features/combat/combat.module.ts`, `combat.controller.ts`; import CommandsModule serta feature providers yang dibutuhkan tanpa dependency cycle.
 
 **Interfaces:** `startCombat(ctx: CommandContext, templateId: Id): Combat`; `advanceTurn(combat: Combat): Combat`; Combat includes instance combatants, round/activeId, budgets, hidden status and template reference.
 
-- [ ] Tulis `starts_instance_and_preserves_template`: `expect(template.hp).toBe(originalHp)` setelah damage instance; tie-break ditetapkan DM; end/start turn me-reset budget yang tepat, bukan semua limited-use resources.
-- [ ] Run `npm run test -- apps/server/src/features/combat/turns.test.ts`; expected FAIL.
-- [ ] Implementasikan start/end/pause combat, initiative, next turn/round, reinforcement dan action/bonus/reaction/movement tracker; hidden combatant tetap tersaring dari urutan player.
-- [ ] Run test sama; expected PASS untuk creature dihapus/mati pada giliran, urutan kosong dan correction DM tercatat.
-- [ ] Commit `feat: add combat turn management`.
+- [x] Tulis `starts_instance_and_preserves_template`: `expect(template.hp).toBe(originalHp)` setelah damage instance; tie-break ditetapkan DM; end/start turn me-reset budget yang tepat, bukan semua limited-use resources.
+- [x] Run `npm run test -- apps/server/src/features/combat/turns.test.ts`; expected FAIL.
+- [x] Implementasikan start/end/pause combat, initiative, next turn/round, reinforcement dan action/bonus/reaction/movement tracker; hidden combatant tetap tersaring dari urutan player.
+- [x] Run test sama; expected PASS untuk creature dihapus/mati pada giliran, urutan kosong dan correction DM tercatat.
+- [x] Commit `feat: add combat turn management`.
+
+Catatan implementasi: combat dimulai dalam fase persiapan initiative, lalu DM memulai ronde pertama. Token yang dibuat dari UI peta dihubungkan melalui panel penyesuaian combat; HP dan movement memakai sumber yang sama. Koreksi HP karakter memerlukan `sourceRevision` sheet selain revisi combat agar perubahan sheet yang lebih baru tidak tertimpa. Creature pada HP 0 dikeluarkan dari urutan hanya setelah DM menandainya keluar dari combat; death saves berada pada Task 16.
 
 ### Task 16: Dadu server dan hasil checks/attacks/saves
 

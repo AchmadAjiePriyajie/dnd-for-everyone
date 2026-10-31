@@ -3,6 +3,7 @@ import type { InviteView, MemberView, Role } from './access.js';
 import type { CharacterSummary } from './characters.js';
 import type { CheatSheetRow, NoteSummary } from './notes.js';
 import type { SceneSummary } from './scenes.js';
+import type { CombatView } from './combat.js';
 
 /**
  * Projection room per peserta. Field khusus DM berada di `dm` dan tidak pernah
@@ -20,5 +21,7 @@ export interface RoomSnapshot {
   notes?: NoteSummary[];
   /** Scene yang boleh dilihat peserta (token lewat GET scenes/:id). */
   scenes?: SceneSummary[];
+  /** Latest combat, projected for this member; hidden turns never expose an active ID. */
+  combat?: CombatView | null;
   dm?: { invites: InviteView[]; cheatSheet?: CheatSheetRow[] };
 }

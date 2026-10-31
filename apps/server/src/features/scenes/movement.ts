@@ -13,6 +13,7 @@ import { ContentService } from '../../content/content.service.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { CampaignsService } from '../campaigns/service.js';
 import { CharactersService } from '../characters/service.js';
+import { CombatService } from '../combat/service.js';
 import { RateLimiter } from '../auth/rate-limit.js';
 import { ScenesService, type TokenRow } from './service.js';
 
@@ -37,6 +38,7 @@ export class MovementService implements OnModuleInit {
     private readonly campaigns: CampaignsService,
     private readonly content: ContentService,
     private readonly characters: CharactersService,
+    private readonly combat: CombatService,
     private readonly events: DomainEvents,
   ) {}
 
@@ -69,7 +71,9 @@ export class MovementService implements OnModuleInit {
       fail(error instanceof Error ? error.message : 'PATH_INVALID');
     }
     const override = isDm && input.override === true;
-    if (grid.enforceSpeed && !override) {
+    const combatCost = this.combat.consumeMovement(ctx, token, path, grid, override);
+    if (combatCost !== null) costFeet = combatCost;
+    if (combatCost === null && grid.enforceSpeed && !override) {
       const speed = this.speedFeet(ctx.db, ctx.campaignId, token);
       if (speed !== null && costFeet > speed) throw new DomainError('MOVE_OVER_BUDGET', 409, { costFeet, speed });
     }

@@ -104,6 +104,33 @@ Gunakan versi kode yang sama saat pemindahan. Menyalin seluruh folder saat serve
 berhenti juga membawa file pendamping SQLite jika masih ada serta asset permainan.
 Jika memakai `DATA_DIR`, salin direktori yang ditunjuk variabel tersebut.
 
+## Menjalankan combat
+
+1. Dari room campaign, DM membuka **Encounter**, menyusun party dan monster,
+   lalu menyimpan template encounter.
+2. Buka **Combat**, pilih template dan peta pertarungan jika diperlukan, lalu
+   tekan **Siapkan combat**.
+3. Buka **Sesuaikan** pada setiap makhluk untuk mengatur initiative dan urutan
+   seri. Angka urutan seri yang lebih kecil mendapat giliran lebih dahulu.
+4. Jika memakai peta, pilih **Token peta** dan tekan **Hubungkan token** pada
+   panel makhluk yang sesuai. Token dapat dibuat melalui halaman peta terlebih
+   dahulu; token baru juga dapat dihubungkan selama combat berlangsung.
+5. Tekan **Mulai combat**. Gunakan **Giliran berikutnya**, **Jeda combat**,
+   **Lanjutkan combat**, dan **Akhiri combat** sesuai jalannya permainan.
+
+Pelacak mencatat Aksi, Aksi Bonus, Reaksi, dan sisa gerakan. Gerak token yang
+terhubung memakai budget yang sama. Reaksi dapat dipakai di luar giliran sendiri;
+budget dipulihkan saat makhluk tersebut memulai giliran berikutnya. Slot spell dan
+resource fitur tidak direset oleh pergantian giliran.
+
+DM dapat menambahkan bantuan, menyembunyikan combatant, atau mengoreksi HP dan
+budget dengan alasan yang tercatat. HP karakter mengikuti sheet; HP monster
+disimpan pada instance combat tanpa mengubah template. Untuk token yang HP-nya
+sudah terhubung, ubah HP melalui sheet atau pelacak combat.
+
+Saat ini pelacak memakai initiative dan koreksi manual. Dadu umum, resolusi
+damage, serta otomasi spell/feature dijadwalkan pada task berikutnya.
+
 ## Development
 
 Install dependency dengan `npm ci`, lalu gunakan dua terminal dari root project.

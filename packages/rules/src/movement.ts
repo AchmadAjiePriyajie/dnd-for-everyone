@@ -11,11 +11,11 @@ const inside = (point: GridPoint, grid: GridSettings) => point.x >= 0 && point.y
  * `diagonal: 'alternate'`: diagonal kedua, keempat, … berbiaya dua kotak. Difficult Terrain
  * menggandakan biaya kotak yang dimasuki (tidak kumulatif).
  */
-export function movementCost(path: GridPoint[], grid: GridSettings): number {
+export function movementCost(path: GridPoint[], grid: GridSettings, diagonalsBefore = 0): number {
   if (!path.length || !path.every((point) => Number.isInteger(point.x) && Number.isInteger(point.y) && inside(point, grid))) fail('PATH_INVALID');
   const difficult = new Set((grid.difficult ?? []).map((cell) => `${cell.x},${cell.y}`));
   let feet = 0;
-  let diagonals = 0;
+  let diagonals = diagonalsBefore;
   for (let index = 1; index < path.length; index++) {
     const from = path[index - 1]!;
     const to = path[index]!;

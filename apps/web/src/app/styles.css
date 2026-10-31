@@ -1990,3 +1990,68 @@ button:disabled {
 .reveal-layer.is-dm .fog {
   opacity: 0.45;
 }
+
+.combat-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.combat-order {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.combatant.is-active {
+  border-color: var(--gold);
+  border-inline-start: 4px solid var(--gold);
+}
+
+.combatant.is-defeated > .combatant-heading {
+  opacity: 0.65;
+}
+
+.combatant-heading,
+.combat-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.combatant-heading {
+  margin-bottom: 0.8rem;
+}
+
+.combat-actions {
+  margin: 0.8rem 0;
+  min-width: 0;
+}
+
+.combat-buttons > span {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.combat-buttons input[type="number"] {
+  width: 6rem;
+}
+
+.combat-setup {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 42rem;
+}
+
+.combat-budget-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.65rem;
+}
+
+.combat-correction summary {
+  cursor: pointer;
+  padding: 0.6rem 0;
+}

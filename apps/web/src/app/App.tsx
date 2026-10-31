@@ -6,6 +6,7 @@ import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
 import { CharacterPage } from '../features/characters/CharacterPage';
 import { EncounterBuilder } from '../features/encounters/EncounterBuilder';
+import { CombatTracker } from '../features/combat/CombatTracker';
 import { HomebrewEditor } from '../features/encounters/HomebrewEditor';
 import { NotesPage } from '../features/notes/PartyJournal';
 import { ScenesPage } from '../features/scenes/BattleMap';
@@ -186,6 +187,7 @@ function Routes() {
   if (route.name === 'reference') return <ReferencePage key={route.campaignId ?? ''} campaignId={route.campaignId} />;
   if (route.name === 'notes') return <NotesPage key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'encounters') return <EncounterBuilder key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'combat') return <CombatTracker key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'homebrew') return <HomebrewEditor key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'scenes') return <ScenesPage key={route.campaignId} campaignId={route.campaignId} />;
   return (

@@ -6,6 +6,7 @@ import { forbidden } from '../../common/domain-error.js';
 import { DatabaseService } from '../../db/database.service.js';
 import { ProjectionService } from '../../realtime/projection.js';
 import { CampaignsService } from '../campaigns/service.js';
+import { CombatService } from '../combat/service.js';
 import { ScenesService, type TokenRow } from './service.js';
 
 /**
@@ -19,6 +20,7 @@ export class ScenesProjection implements OnModuleInit {
     private readonly campaigns: CampaignsService,
     private readonly scenes: ScenesService,
     private readonly projection: ProjectionService,
+    private readonly combat: CombatService,
   ) {}
 
   onModuleInit(): void {
@@ -76,6 +78,8 @@ export class ScenesProjection implements OnModuleInit {
     if (member.role === 'dm') {
       token.hidden = Boolean(row.hidden);
       if (row.hp) token.hp = JSON.parse(row.hp) as { current: number; max: number };
+      const linkedHp = this.combat.tokenHitPoints(this.database.getHandle(), member.campaignId, row.id);
+      if (linkedHp) token.hp = { current: linkedHp.current, max: linkedHp.max };
       if (row.monster_id) token.monsterId = row.monster_id;
     }
     return token;
