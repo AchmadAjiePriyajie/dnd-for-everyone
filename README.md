@@ -104,6 +104,17 @@ Gunakan versi kode yang sama saat pemindahan. Menyalin seluruh folder saat serve
 berhenti juga membawa file pendamping SQLite jika masih ada serta asset permainan.
 Jika memakai `DATA_DIR`, salin direktori yang ditunjuk variabel tersebut.
 
+## Petualangan tutorial
+
+Di lobby, tekan **Mulai petualangan tutorial** untuk membuat campaign
+*Trouble at Ashford Mill*: petualangan orisinal singkat berisi hook, NPC, quest,
+lokasi, peta halaman penggilingan, dan encounter mudah (dua goblin). Semua dibuat
+dengan catatan, scene, dan encounter biasa, jadi DM bebas mengubah, melewati, atau
+berimprovisasi. **Panduan tutorial** di room menunjukkan langkah-langkah untuk DM
+dan player dalam bahasa masing-masing; tiap tautan membuka halaman sebenarnya,
+dan panduan dapat disembunyikan. Isi catatan dibuat dalam bahasa DM saat
+campaign dibuat dan tidak diterjemahkan otomatis.
+
 ## Menjalankan combat
 
 1. Dari room campaign, DM membuka **Encounter**, menyusun party dan monster,

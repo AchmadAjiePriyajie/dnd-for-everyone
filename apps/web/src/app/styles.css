@@ -2168,3 +2168,7 @@ button:disabled {
 .monster-filter-panel { margin-bottom: 0.5rem; }
 .monster-filter-panel > summary { cursor: pointer; color: var(--gold-text); font-weight: 600; padding: 0.25rem 0; }
 .monster-scroll { max-height: max(12rem, calc(100vh - 25rem)); overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.tutorial-guide { border-color: var(--gold); }
+.tutorial-guide ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.tutorial-guide li p { margin: 0.1rem 0 0.5rem; }

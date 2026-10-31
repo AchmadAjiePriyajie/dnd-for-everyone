@@ -4,6 +4,7 @@ import type { ApiError, CreatedInvite, MemberView } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import { api } from '../../app/api';
 import { Tabs } from '../../app/Tabs';
+import { TutorialGuide } from './TutorialGuide';
 import { DmCheatSheet } from '../notes/DmCheatSheet';
 import { Icon, initials } from '../../app/icons';
 import { Link, navigate, routePath } from '../../app/router';
@@ -123,6 +124,7 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
       {entry.error && <ErrorMessage error={entry.error} />}
       <ErrorMessage error={actionError} />
 
+      <TutorialGuide campaignId={campaignId} />
       <p className="room-status">
         {snapshot.session && snapshot.session.status !== 'ended' ? <span className="badge badge-ok">{t(snapshot.session.status === 'active' ? 'room.sessionActive' : 'room.sessionPaused')}</span> : null}
         {snapshot.combat && snapshot.combat.status !== 'ended' ? <span className="badge badge-ok">{t('room.combatActive')}</span> : null}

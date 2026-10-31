@@ -1,0 +1,78 @@
+{
+  "title": "Trouble at Ashford Mill",
+  "notes": [
+    {
+      "id": "tutorial-hook",
+      "kind": "scene",
+      "title": "A lantern at dusk",
+      "visibility": "party",
+      "body": "The party is resting at the Three Kettles inn in the village of Ashford when the miller, Odra, bursts in.",
+      "dmNotes": "Let each player introduce their character in one sentence: who they are and why they care about the village.",
+      "scene": {
+        "readAloud": "The door slams open. A flour-dusted woman grips the frame, out of breath. \"My boy Pell went to fetch our dog at the old mill. That was hours ago, and now there's a strange green lantern moving in the mill yard. Please. Night is coming.\"",
+        "triggers": "The players ask Odra questions or agree to help.",
+        "outcomes": "Odra gives directions and her spare lantern. If asked, she remembers hearing high, cackling voices near the mill last night.",
+        "rewards": "Odra offers 10 GP and free bread for a month.",
+        "statBlocks": []
+      },
+      "links": ["tutorial-odra", "tutorial-quest", "tutorial-mill"]
+    },
+    {
+      "id": "tutorial-odra",
+      "kind": "npc",
+      "title": "Odra, the miller",
+      "visibility": "party",
+      "body": "A practical, tired widow who runs the new mill by the river. Worried sick about her son Pell (10) and their old dog, Biscuit.",
+      "dmNotes": "Odra sold the old mill last winter and suspects the buyer, but she won't say so unless a character earns her trust (a Charisma (Persuasion) check, DC 12).",
+      "links": ["tutorial-quest"]
+    },
+    {
+      "id": "tutorial-quest",
+      "kind": "quest",
+      "title": "Find Pell before nightfall",
+      "visibility": "party",
+      "body": "Pell went to the old mill to fetch the family dog and has not come back. A green lantern moves in the mill yard.",
+      "dmNotes": "The goblins were paid by the new owner of the old mill to scare villagers away. Pell is hiding, unharmed, in the grain loft with Biscuit.",
+      "quest": { "status": "open" },
+      "links": ["tutorial-mill"]
+    },
+    {
+      "id": "tutorial-mill",
+      "kind": "location",
+      "title": "The old mill",
+      "visibility": "party",
+      "body": "A crooked stone mill with a broken waterwheel, a muddy yard and a grain loft reached by a rotten ladder.",
+      "dmNotes": "Searching the yard (Wisdom (Perception), DC 10) reveals small footprints leading to the loft and larger, clawed ones by the door. On a success, the characters are not surprised by the goblins.",
+      "scene": {
+        "readAloud": "Mist rolls off the river. In the yard, a green lantern swings from a pole, and two small figures crouch behind the woodpile, giggling.",
+        "triggers": "The characters enter the yard or call out.",
+        "outcomes": "Two goblins attack. If one falls, the other flees toward the woods. Pell calls out from the loft once the fighting stops.",
+        "rewards": "Pell and Biscuit return home; Odra pays the reward. Each character gains one milestone level if this was their first adventure.",
+        "statBlocks": ["monster.goblin-warrior"]
+      },
+      "links": ["tutorial-quest"]
+    }
+  ],
+  "scene": { "id": "tutorial-yard", "name": "Ashford Mill yard", "tokens": [
+    { "id": "tutorial-goblin-1", "label": "Goblin 1", "x": 7, "y": 2 },
+    { "id": "tutorial-goblin-2", "label": "Goblin 2", "x": 8, "y": 4 }
+  ] },
+  "encounter": { "id": "tutorial-encounter", "name": "Trouble at Ashford Mill", "notes": "Two goblins behind the woodpile. Easy for two level 1 characters; let the players learn the turn order, the action bar and the dice." },
+  "guide": {
+    "dm": [
+      { "id": "invite", "title": "Invite your players", "body": "Open the Invites section of this room and share a code. Each player makes a character with a motivation and a bond to the party.", "link": { "page": "room" } },
+      { "id": "hook", "title": "Read the hook", "body": "Open the story notes and read \"A lantern at dusk\" aloud. The quest and NPC are already shared with the players; your notes stay private.", "link": { "page": "notes", "target": "tutorial-hook" } },
+      { "id": "check", "title": "Ask for a check", "body": "At the mill, ask for a Wisdom (Perception) check, DC 10. Players roll a d20 and add their modifier in the dice tray.", "link": { "page": "reference", "target": "rule.ability-check" } },
+      { "id": "combat", "title": "Run the tutorial combat", "body": "On the Combat page, prepare \"Trouble at Ashford Mill\" on the map \"Ashford Mill yard\", add the characters, set initiative and begin.", "link": { "page": "combat" } },
+      { "id": "encounter", "title": "Change the encounter if you like", "body": "Add or remove monsters or pick a different difficulty in the encounter builder. The tutorial never locks anything.", "link": { "page": "encounters" } },
+      { "id": "reward", "title": "Reward and progression", "body": "Give the reward from the scene notes. Grant a milestone level from each character sheet.", "link": { "page": "reference", "target": "rule.hit-points" } },
+      { "id": "recap", "title": "Write the recap", "body": "Start a session on the Session page and write a short recap for the party. It saves by itself.", "link": { "page": "session" } }
+    ],
+    "player": [
+      { "id": "character", "title": "Make your character", "body": "Choose a concept, a motivation and a bond to the party in the character wizard.", "link": { "page": "room" } },
+      { "id": "quest", "title": "Read the quest", "body": "Your DM shares the quest and the people you meet in the story notes.", "link": { "page": "notes", "target": "tutorial-quest" } },
+      { "id": "check", "title": "Roll a check", "body": "When the DM asks for a check, roll a d20 in the dice tray and add your modifier.", "link": { "page": "reference", "target": "rule.ability-check" } },
+      { "id": "turn", "title": "Take your turn", "body": "In combat, pick an action from the action bar, choose a target and take the action. The DM decides the effects.", "link": { "page": "combat" } }
+    ]
+  }
+}

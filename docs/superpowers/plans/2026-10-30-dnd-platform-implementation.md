@@ -362,11 +362,13 @@ Catatan implementasi: migrasi `017-play-sessions.sql` (nomor 010 sudah dipakai).
 
 **Interfaces:** `createTutorialCampaign(principal: Principal, locale: Locale): Id`; tutorial instantiates existing NPC/quest/scene/encounter services dan menggunakan stable content IDs, bukan special-case engine.
 
-- [ ] Tulis E2E: DM menyiapkan hook, dua player membuat karakter/motivasi/ikatan, menerima quest, melakukan check, menjalani tutorial combat, mendapat reward/progression dan menyimpan recap dalam EN/ID.
-- [ ] Run `npm run test:e2e -- tests/e2e/first-adventure.spec.ts`; expected FAIL.
-- [ ] Tulis adventure/aset orisinal dua bahasa dan help pointers; DM tetap bisa melewati tutorial, mengimprovisasi atau mengubah encounter tanpa merusak session.
-- [ ] Run E2E sama; expected PASS dengan tidak ada tombol inti yang hanya dekorasi, serta source attribution referensi tersedia.
-- [ ] Commit `feat: add first adventure onboarding`.
+- [x] Tulis E2E: DM menyiapkan hook, dua player membuat karakter/motivasi/ikatan, menerima quest, melakukan check, menjalani tutorial combat, mendapat reward/progression dan menyimpan recap dalam EN/ID.
+- [x] Run `npm run test:e2e -- tests/e2e/first-adventure.spec.ts`; expected FAIL.
+- [x] Tulis adventure/aset orisinal dua bahasa dan help pointers; DM tetap bisa melewati tutorial, mengimprovisasi atau mengubah encounter tanpa merusak session.
+- [x] Run E2E sama; expected PASS dengan tidak ada tombol inti yang hanya dekorasi, serta source attribution referensi tersedia.
+- [x] Commit `feat: add first adventure onboarding`.
+
+Catatan implementasi: konten di `packages/content/data/tutorial/{en,id}.json` (divalidasi `#content/tutorial`), dibangun oleh `TutorialService` lewat command biasa (`note.save`, `scene.save`, `token.place`, `encounter.save`) dengan ID stabil `tutorial-*`; migrasi `018-tutorials.sql` menandai campaign tutorial. Service ditempatkan di modul `features/tutorial` (bukan campaigns module) agar tidak membuat siklus dengan CommandsModule. Panduan (`GET campaigns/:id/tutorial`) mengikuti bahasa tiap viewer; catatan tetap dalam bahasa DM. Halaman Combat kini menampilkan Dadu dan Rules walau belum ada combat (check di luar combat).
 
 ### Task 21: Ekspor/impor campaign dan backup konsisten
 

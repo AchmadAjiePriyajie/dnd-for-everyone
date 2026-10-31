@@ -1314,6 +1314,15 @@
     }
   },
   "pager": {"label": "Halaman {{label}}", "previous": "Sebelumnya", "next": "Berikutnya", "page": "Halaman {{page}} dari {{pages}}"},
+  "tutorial": {
+    "startHeading": "Baru pertama kali bermain?",
+    "startBody": "Mulai petualangan orisinal singkat dengan hook, skill check, dan combat mudah. Semua isinya bisa diubah atau dilewati.",
+    "start": "Mulai petualangan tutorial",
+    "guide": "Panduan tutorial",
+    "guideHelp": "Ikuti langkah ini dalam urutan apa pun; tiap tautan membuka halaman sebenarnya.",
+    "hide": "Sembunyikan panduan tutorial",
+    "show": "Tampilkan panduan tutorial"
+  },
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",
     "dead": "Mati", "stable": "Stabil", "deathSave": "Lempar death save", "stabilize": "Stabilkan (keputusan DM)",

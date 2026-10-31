@@ -233,7 +233,13 @@ export function CombatScreen({ campaignId }: { campaignId: Id }) {
     {isDm && (!combat || combat.status === 'ended') ? <CombatSetup campaignId={campaignId} snapshot={snapshot} templates={templates} disabled={disabled} run={run} /> : null}
     {notices}
     {!bar && draft.pending && !draft.busy ? <div className="card"><ErrorMessage error={draft.error} /><button type="button" disabled={!draft.connected} onClick={draft.retry}>{t('actions.retry')}</button></div> : null}
-    {!combat ? <p className="card muted">{t('combat.noCombat')}</p> : breakpoint === 'narrow'
+    {!combat ? <div className="combat-grid">
+        <p className="card muted">{t('combat.noCombat')}</p>
+        <SidePanel label={t('screen.tools')} initial="dice" tabs={[
+          { id: 'dice', label: t('screen.tab.dice'), content: <DiceTray campaignId={campaignId} combat={null} accountId={accountId} isDm={Boolean(isDm)} records={snapshot.rolls ?? []} /> },
+          { id: 'rules', label: t('screen.tab.rules'), content: <RulesPanel campaignId={campaignId} /> },
+        ]} />
+      </div> : breakpoint === 'narrow'
       ? <MobileTabs label={t('screen.sections')} tabs={[
           { id: 'map', label: t('screen.section.map'), content: <CombatMap campaignId={campaignId} combat={combat} snapshot={snapshot} selected={selectedToken} markedIds={marked} onSelect={selectToken} /> },
           { id: 'character', label: t('screen.section.character'), content: card ?? <p className="muted">{t('combat.noVisibleTurn')}</p> },

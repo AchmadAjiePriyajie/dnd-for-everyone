@@ -1,6 +1,7 @@
 import { type FormEvent, useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ApiError, CampaignSummary } from '#shared/access';
+import type { Locale } from '#shared/contracts';
 import { api } from '../../app/api';
 import { Icon, initials } from '../../app/icons';
 import { Link, navigate, routePath } from '../../app/router';
@@ -8,7 +9,7 @@ import { ErrorMessage, toApiError, useSession } from '../../app/ui';
 
 /** Daftar campaign akun ini, buat campaign baru (jadi DM), atau gabung dengan undangan. */
 export function Lobby() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const session = useSession();
   const [campaigns, setCampaigns] = useState<CampaignSummary[] | null>(null);
   const [loadError, setLoadError] = useState<ApiError | null>(null);
@@ -16,7 +17,8 @@ export function Lobby() {
   const [invite, setInvite] = useState('');
   const [createError, setCreateError] = useState<ApiError | null>(null);
   const [joinError, setJoinError] = useState<ApiError | null>(null);
-  const [pending, setPending] = useState<'create' | 'join' | null>(null);
+  const [pending, setPending] = useState<'create' | 'join' | 'tutorial' | null>(null);
+  const [tutorialError, setTutorialError] = useState<ApiError | null>(null);
   const ids = { title: useId(), invite: useId(), heading: useId() };
 
   useEffect(() => {
@@ -48,6 +50,19 @@ export function Lobby() {
       const apiError = toApiError(error);
       if (apiError.code === 'UNAUTHENTICATED') session.expire();
       setError(apiError);
+      setPending(null);
+    }
+  };
+
+  const startTutorial = async () => {
+    setPending('tutorial');
+    setTutorialError(null);
+    try {
+      navigate(routePath.campaign((await api.createTutorial(i18n.language as Locale)).id));
+    } catch (error) {
+      const apiError = toApiError(error);
+      if (apiError.code === 'UNAUTHENTICATED') session.expire();
+      setTutorialError(apiError);
       setPending(null);
     }
   };
@@ -100,6 +115,14 @@ export function Lobby() {
       </section>
 
       <div className="lobby-side">
+        <section className="card tutorial-start">
+          <h2><Icon name="scroll" />{t('tutorial.startHeading')}</h2>
+          <p className="small">{t('tutorial.startBody')}</p>
+          <ErrorMessage error={tutorialError} />
+          <button type="button" className="primary block" disabled={pending !== null} aria-busy={pending === 'tutorial'} onClick={() => void startTutorial()}>
+            {t('tutorial.start')}
+          </button>
+        </section>
         <section className="card">
           <h2>
             <Icon name="plus" />

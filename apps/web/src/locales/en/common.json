@@ -1314,6 +1314,15 @@
     }
   },
   "pager": {"label": "{{label}} pagination", "previous": "Previous", "next": "Next", "page": "Page {{page}} of {{pages}}"},
+  "tutorial": {
+    "startHeading": "New to the game?",
+    "startBody": "Start a short original adventure with a hook, a skill check and an easy combat. Everything in it can be edited or skipped.",
+    "start": "Start the tutorial adventure",
+    "guide": "Tutorial guide",
+    "guideHelp": "Follow these steps in any order; each link opens the real page.",
+    "hide": "Hide tutorial guide",
+    "show": "Show tutorial guide"
+  },
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",
     "dead": "Dead", "stable": "Stable", "deathSave": "Roll death save", "stabilize": "Stabilize (DM decision)",
