@@ -183,6 +183,9 @@
     "DEATH_SAVE_INVALID": "Death save belum tersedia atau sudah dilempar pada giliran ini.",
     "COMBAT_CANNOT_ACT": "Makhluk ini tidak dapat melakukan aksi atau gerakan itu dalam kondisinya saat ini.",
     "ACTION_INVALID": "Aksi ini tidak dapat dilakukan sekarang ({{issue}}).",
+    "RESOLUTION_CLOSED": "Resolusi ini sudah ditutup.",
+    "RESOLUTION_REACTIONS_PENDING": "Masih ada reaksi yang ditawarkan; putuskan dulu atau terapkan tanpa menunggu.",
+    "REACTION_NOT_OFFERED": "Reaksi itu tidak ditawarkan untuk resolusi ini.",
     "COMMAND_UNCERTAIN": "Host mungkin sudah menyimpan perintah sebelum respons terputus. Ulangi perintah yang sama untuk mengambil hasilnya."
   },
   "reference": {
@@ -1119,6 +1122,40 @@
       "LONG_RANGE_DISADVANTAGE": "Jarak jauh: serangan memakai Disadvantage.",
       "CONCENTRATION_REPLACES": "Concentration yang sedang berjalan akan berakhir."
     }
+  },
+  "resolutions": {
+    "open": "Resolusi terbuka",
+    "recent": "Resolusi terakhir",
+    "heading": "{{actor}}: {{action}}",
+    "phase": {
+      "pending": "Menunggu reaksi",
+      "awaitingDecision": "Menunggu DM",
+      "resolved": "Selesai",
+      "cancelled": "Dibatalkan"
+    },
+    "reactionOffer": "{{name}} dapat memakai {{reaction}}: {{trigger}}",
+    "reactionDeclared": "{{name}} memakai {{reaction}}",
+    "reactionDeclined": "{{name}} tidak memakai {{reaction}}",
+    "use": "Pakai {{reaction}}",
+    "decline": "Tolak",
+    "dmDecides": "DM yang memutuskan efeknya.",
+    "amountDamage": "{{target}}: damage {{type}}",
+    "amountHeal": "{{target}}: penyembuhan",
+    "amountTemp": "{{target}}: Temporary HP",
+    "include": "Sertakan {{label}}",
+    "commit": "Terapkan",
+    "forceCommit": "Terapkan tanpa menunggu reaksi",
+    "cancel": "Batalkan aksi",
+    "refund": "Kembalikan biaya (koreksi DM)",
+    "reason": "Alasan",
+    "noRefund": "Membatalkan tidak mengembalikan biaya kecuali kamu memilih pengembalian beserta alasannya.",
+    "committed": "{{target}}: {{before}} menjadi {{after}} HP",
+    "concentration": "{{target}}: save Concentration DC {{dc}}",
+    "refunded": "Dikembalikan: {{reason}}",
+    "compensated": "Dikoreksi: {{reason}}",
+    "correctionReason": "Alasan koreksi",
+    "compensate": "Batalkan perubahan Hit Points",
+    "resolveHere": "Perubahan Hit Points diputuskan di Resolusi terbuka."
   },
   "vitals": {
     "for": "HP dan kondisi untuk {{name}}", "manage": "Kelola HP dan kondisi", "deathTally": "Death saves: {{successes}} sukses, {{failures}} gagal",

@@ -257,6 +257,8 @@ export const actionInputSchema = z.strictObject({
   advantage: z.boolean().optional(),
   disadvantage: z.boolean().optional(),
   audience: audience.optional(),
+  /** Reaction declared against an open resolution (Task 18). */
+  respondsTo: id.optional(),
 });
 export type ActionInput = z.infer<typeof actionInputSchema>;
 
@@ -304,3 +306,54 @@ export interface ActionOutcome {
   heal: RollResult | null;
   proposed: ProposedEffect[];
 }
+
+// ---------------------------------------------------------------- durable resolutions (Task 18)
+/** pending: reactions offered; awaitingDecision: DM commits or cancels; resolved/cancelled: closed. */
+export type ResolutionPhase = 'pending' | 'awaitingDecision' | 'resolved' | 'cancelled';
+export interface PendingReaction {
+  combatantId: Id;
+  optionId: string;
+  name: string;
+  trigger: string | null;
+  status: 'offered' | 'declared' | 'declined';
+  /** Resolution created by the declared reaction. */
+  resolutionId?: Id;
+}
+export interface CommittedEffect {
+  targetId: Id;
+  input: DamageInput;
+  before: { current: number; temp: number };
+  after: { current: number; temp: number };
+}
+export interface Resolution {
+  id: Id;
+  combatId: Id;
+  actorId: Id;
+  phase: ResolutionPhase;
+  audience: RollAudience;
+  outcome: ActionOutcome;
+  costs: ActionPreview['cost'];
+  /** Turn number the costs were paid on; refunds only restore budgets of that turn. */
+  turn: number;
+  proposed: ProposedEffect[];
+  pendingReactions: PendingReaction[];
+  committedEffects: CommittedEffect[];
+  /** Concentration saves the DM should call for after committed damage (SRD: DC 10 or half the damage, max 30). */
+  concentrationChecks: Array<{ targetId: Id; dc: number }>;
+  /** Default: cancelling never refunds; refunds are explicit DM corrections with a reason. */
+  cancellationPolicy: 'no-refund';
+  refund: { reason: string } | null;
+  compensation: { reason: string } | null;
+  respondsTo: Id | null;
+  revision: number;
+  createdAt: string;
+  updatedAt: string;
+}
+const effectInput = z.strictObject({ targetId: id, input: damageInputSchema, decision: z.boolean() });
+export const resolutionDecisionSchema = z.discriminatedUnion('decision', [
+  z.strictObject({ decision: z.literal('decline'), combatantId: id }),
+  z.strictObject({ decision: z.literal('commit'), effects: z.array(effectInput).max(40).optional(), force: z.boolean().optional() }),
+  z.strictObject({ decision: z.literal('cancel'), reason: z.string().trim().min(1).max(500).optional(), refund: z.boolean().optional() }),
+  z.strictObject({ decision: z.literal('compensate'), reason: z.string().trim().min(1).max(500) }),
+]);
+export type ResolutionDecision = z.infer<typeof resolutionDecisionSchema>;

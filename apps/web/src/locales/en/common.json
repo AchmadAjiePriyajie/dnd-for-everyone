@@ -183,6 +183,9 @@
     "DEATH_SAVE_INVALID": "A death save is not available now, or was already rolled this turn.",
     "COMBAT_CANNOT_ACT": "This creature cannot perform that action or movement in its current state.",
     "ACTION_INVALID": "This action cannot be taken now ({{issue}}).",
+    "RESOLUTION_CLOSED": "This resolution is already closed.",
+    "RESOLUTION_REACTIONS_PENDING": "Reactions are still offered; decide them or commit without waiting.",
+    "REACTION_NOT_OFFERED": "That reaction is not offered for this resolution.",
     "COMMAND_UNCERTAIN": "The host may have saved this command before the response was lost. Retry the same command to recover its result."
   },
   "reference": {
@@ -1119,6 +1122,40 @@
       "LONG_RANGE_DISADVANTAGE": "Long range: the attack has Disadvantage.",
       "CONCENTRATION_REPLACES": "Your current Concentration will end."
     }
+  },
+  "resolutions": {
+    "open": "Open resolutions",
+    "recent": "Recent resolutions",
+    "heading": "{{actor}}: {{action}}",
+    "phase": {
+      "pending": "Waiting for reactions",
+      "awaitingDecision": "Waiting for the DM",
+      "resolved": "Resolved",
+      "cancelled": "Cancelled"
+    },
+    "reactionOffer": "{{name}} can use {{reaction}}: {{trigger}}",
+    "reactionDeclared": "{{name}} used {{reaction}}",
+    "reactionDeclined": "{{name}} declined {{reaction}}",
+    "use": "Use {{reaction}}",
+    "decline": "Decline",
+    "dmDecides": "The DM decides the effects.",
+    "amountDamage": "{{target}}: {{type}} damage",
+    "amountHeal": "{{target}}: healing",
+    "amountTemp": "{{target}}: Temporary HP",
+    "include": "Include {{label}}",
+    "commit": "Commit",
+    "forceCommit": "Commit without waiting for reactions",
+    "cancel": "Cancel action",
+    "refund": "Refund the costs (DM correction)",
+    "reason": "Reason",
+    "noRefund": "Cancelling does not refund costs unless you choose a refund with a reason.",
+    "committed": "{{target}}: {{before}} to {{after}} HP",
+    "concentration": "{{target}}: Concentration save DC {{dc}}",
+    "refunded": "Refunded: {{reason}}",
+    "compensated": "Corrected: {{reason}}",
+    "correctionReason": "Correction reason",
+    "compensate": "Undo Hit Point changes",
+    "resolveHere": "Hit Point changes are decided in Open resolutions."
   },
   "vitals": {
     "for": "Hit Points and conditions for {{name}}", "manage": "Manage Hit Points and conditions", "deathTally": "Death saves: {{successes}} successes, {{failures}} failures",

@@ -328,11 +328,13 @@ Catatan implementasi: migrasi `015-actions.sql` menyimpan pemakaian Recharge, pe
 
 **Interfaces:** `beginResolution(ctx: CommandContext, input: ActionInput): Resolution`; `decideResolution(ctx: CommandContext, input: ResolutionDecision): Resolution`; `Resolution { id, phase, actorId, costs, pendingReactions, committedEffects, cancellationPolicy }`. Tipe di `combat.ts`; command receipts Task 3 berlaku pada setiap transisi.
 
-- [ ] Tulis `survives_lost_ack_restart_and_locale_switch`: retry tidak memakai dua slot/damage; resume mempertahankan pending reaction; `expect(hpAfterRetry).toBe(hpAfterFirstCommit)`; locale switch tidak mengubah phase/cost.
-- [ ] Run unit dan E2E tersebut; expected FAIL.
-- [ ] Implementasikan state machine pending/awaitingDecision/resolved/cancelled. `beginResolution` dipanggil setelah actor mengonfirmasi aksi valid dan mengonsumsi biaya dalam transaksi yang membuat resolution; preview tidak memakai biaya. Penyelesaian tidak mengonsumsi ulang. Cancellation default tidak refund; pengecualian aturan atau koreksi DM beralasan mencatat pengembalian secara eksplisit. DM correction memakai event kompensasi. Matikan speculative combat mutations saat disconnected.
-- [ ] Run test sama; expected PASS untuk crash setelah commit sebelum ack, actor keluar, DM membatalkan serta keputusan stale ditolak.
-- [ ] Commit `feat: add durable action resolutions`.
+- [x] Tulis `survives_lost_ack_restart_and_locale_switch`: retry tidak memakai dua slot/damage; resume mempertahankan pending reaction; `expect(hpAfterRetry).toBe(hpAfterFirstCommit)`; locale switch tidak mengubah phase/cost.
+- [x] Run unit dan E2E tersebut; expected FAIL.
+- [x] Implementasikan state machine pending/awaitingDecision/resolved/cancelled. `beginResolution` dipanggil setelah actor mengonfirmasi aksi valid dan mengonsumsi biaya dalam transaksi yang membuat resolution; preview tidak memakai biaya. Penyelesaian tidak mengonsumsi ulang. Cancellation default tidak refund; pengecualian aturan atau koreksi DM beralasan mencatat pengembalian secara eksplisit. DM correction memakai event kompensasi. Matikan speculative combat mutations saat disconnected.
+- [x] Run test sama; expected PASS untuk crash setelah commit sebelum ack, actor keluar, DM membatalkan serta keputusan stale ditolak.
+- [x] Commit `feat: add durable action resolutions`.
+
+Catatan implementasi: migrasi `016-resolutions.sql` (nomor 009 sudah dipakai). `combat.act` menjadi `beginResolution`: biaya dipakai, dadu dilempar dan resolusi dibuat dalam satu transaksi; reaksi target (opsi Reaction dengan trigger yang masih bisa dipakai) ditawarkan untuk aksi publik yang memiliki attack/save. Reaksi dideklarasikan lewat `combat.act` dengan `respondsTo`. Keputusan `resolution.decide` (decline/commit/cancel/compensate) menargetkan ID resolusi sehingga revisi basi ditolak. Commit menerapkan HP melalui `EffectsService` tepat sekali dan mencatat sebelum/sesudah; kompensasi mengembalikan selisih tersebut. Penerapan HP langsung dari wizard dihapus. E2E Playwright berjalan terhadap hasil build dengan data dir sementara (`scripts/e2e-server.mjs`).
 
 **Gate tahap:** party menyelesaikan eksplorasi dan combat dari perangkat berbeda, termasuk aksi non-damage, reconnect, hidden info dan adjudikasi DM.
 

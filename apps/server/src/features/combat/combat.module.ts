@@ -7,12 +7,14 @@ import { AuthModule } from '../auth/auth.module.js';
 import { CampaignsModule } from '../campaigns/campaigns.module.js';
 import { CharactersModule } from '../characters/characters.module.js';
 import { ActionsService } from './actions.js';
+import { EffectsService } from './effects.js';
+import { ResolutionsService } from './resolutions.js';
 import { CombatController } from './combat.controller.js';
 import { CombatService } from './service.js';
 import { RANDOM_INT, RollsService } from './rolls.js';
 
 @Module({
   imports: [AuthModule, CommandsModule, ContentModule, RealtimeModule, CampaignsModule, CharactersModule],
-  controllers: [CombatController], providers: [CombatService, RollsService, ActionsService, { provide: RANDOM_INT, useValue: randomInt }], exports: [CombatService, RollsService, ActionsService],
+  controllers: [CombatController], providers: [CombatService, EffectsService, RollsService, ResolutionsService, ActionsService, { provide: RANDOM_INT, useValue: randomInt }], exports: [CombatService, EffectsService, RollsService, ResolutionsService, ActionsService],
 })
 export class CombatModule {}

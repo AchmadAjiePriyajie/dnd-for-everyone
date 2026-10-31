@@ -55,7 +55,7 @@ describe('guided action wizard', () => {
     expect(fake.requests.some((r) => r.path.includes('/actions/preview'))).toBe(true);
   });
 
-  it('lets_the_dm_apply_proposed_hit_point_changes', async () => {
+  it('sends_hit_point_changes_to_the_resolution_not_directly', async () => {
     const swing: ActionOption = { id: 'monster:scimitar', kind: 'monster', name: 'Scimitar', originalName: 'Scimitar', sourceId: 'monster.goblin-warrior', cost: 'action',
       attack: { bonus: 4, reach: 5 }, damage: [{ dice: '1d6+2', average: 5, type: 'slashing' }], automation: 'assisted', notes: ['CONDITIONAL_DAMAGE'], text: 'Scimitar text' };
     const dmCombat = { ...combat(), activeId: 'gob', combatants: combat().combatants.map((c) => c.id === 'gob' ? { ...c, hp: { current: 10, max: 10, temp: 0 }, budget: { action: 1, bonus: 1, reaction: 1, movement: 30 }, hidden: false, monsterId: 'monster.goblin-warrior' } : c) };
@@ -75,7 +75,8 @@ describe('guided action wizard', () => {
     await user.click(within(wizard).getByRole('button', { name: 'Take this action' }));
     expect(await within(wizard).findByText('Ilse: hit (22)')).toBeTruthy();
     expect(commands().at(-1)).toMatchObject({ kind: 'combat.act', payload: { damageMode: 'average' } });
-    await user.click(within(wizard).getByRole('button', { name: 'Apply to Ilse' }));
-    await waitFor(() => expect(commands().at(-1)).toMatchObject({ kind: 'combat.apply-hp', payload: { combatantId: 'hero', input: { kind: 'damage', amount: 5, damageType: 'slashing' }, sourceRevision: 5 } }));
+    // HP changes are committed once through the resolution, never applied directly from the wizard.
+    expect(within(wizard).queryByRole('button', { name: /Apply to/ })).toBeNull();
+    expect(within(wizard).getByText('Hit Point changes are decided in Open resolutions.')).toBeTruthy();
   });
 });

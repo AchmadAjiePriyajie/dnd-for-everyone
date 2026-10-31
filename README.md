@@ -173,9 +173,23 @@ Label otomasi menunjukkan batasnya: **Otomatis** (biaya, lemparan, dan usulan
 perubahan HP dari data terstruktur), **Dibantu** (sebagian efek perlu DM), atau
 **Manual** (teks aturan + keputusan DM). Spell buff/utility seperti Bless tidak
 dianggap damage. Multiattack membuka jatah serangan sesuai stat block;
-Recharge dilempar server pada awal giliran monster. Perubahan HP hasil aksi
-berupa usulan; DM menerapkannya dengan **Terapkan ke …**. Player tidak melihat
+Recharge dilempar server pada awal giliran monster. Player tidak melihat
 AC atau modifier save monster.
+
+### Resolusi terbuka
+
+Setiap aksi yang dilakukan menjadi resolusi yang tersimpan. Biaya dipakai saat
+aksi dikonfirmasi dan tidak dipakai lagi saat resolusi diselesaikan. Bila target
+memiliki reaksi yang sesuai (misalnya Shield), pemiliknya dapat memilih
+**Pakai …** atau **Tolak** di panel **Resolusi terbuka**. DM lalu memeriksa
+usulan perubahan HP, boleh mengubah angkanya, dan menekan **Terapkan**; HP
+berubah tepat sekali walaupun jaringan putus dan perintah diulang.
+
+**Batalkan aksi** tidak mengembalikan biaya. Pengembalian biaya adalah koreksi
+DM yang wajib diberi alasan. Perubahan HP yang sudah diterapkan dapat dikoreksi
+dengan **Batalkan perubahan Hit Points**; riwayat tetap tersimpan. Resolusi
+tetap ada setelah reload atau restart host. Saat perangkat offline, tombol
+combat dinonaktifkan sampai tersambung dan tersinkron kembali.
 
 ## Development
 
@@ -234,6 +248,7 @@ Buka `http://localhost:3001`. Jika memakai Vite saat development, atur juga
 | `npm run dev:web` | Menjalankan frontend melalui Vite |
 | `npm run typecheck` | Memeriksa tipe TypeScript backend dan frontend |
 | `npm test` | Menjalankan test Vitest |
+| `npm run test:e2e` | Menjalankan test browser Playwright terhadap hasil build (jalankan `npm run build` dan `npx playwright install chromium` lebih dulu) |
 | `npm run locales:audit` | Memeriksa data terjemahan |
 | `npm run content:audit` | Memeriksa corpus konten |
 

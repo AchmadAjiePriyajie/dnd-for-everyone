@@ -12,7 +12,7 @@ import { setConcentration, spendSlot } from '#rules/spellcasting';
 import type { Member, Principal } from '#shared/access';
 import {
   type ActionActor, type ActionInput, actionInputSchema, type ActionOption, type ActionPreview, type ActionTarget, type ActionView,
-  type Combat, type Combatant, emptyActionUsage, type RandomInt, type RollRecord,
+  type Combat, type Combatant, emptyActionUsage, type PendingReaction, type RandomInt, type RollRecord,
 } from '#shared/combat';
 import type { Id, JsonValue, Locale } from '#shared/contracts';
 import type { GridSettings } from '#shared/scenes';
@@ -24,6 +24,7 @@ import { DatabaseService } from '../../db/database.service.js';
 import { CampaignsService } from '../campaigns/service.js';
 import { CharactersService } from '../characters/service.js';
 import { RANDOM_INT } from './rolls.js';
+import { ResolutionsService } from './resolutions.js';
 import { CombatService } from './service.js';
 
 interface MonsterSource { name: string; body: string; mechanics: { ac?: number; saves?: Record<string, number> } }
@@ -43,6 +44,7 @@ export class ActionsService implements OnModuleInit {
     private readonly combat: CombatService,
     private readonly characters: CharactersService,
     private readonly content: ContentService,
+    private readonly resolutions: ResolutionsService,
     @Inject(RANDOM_INT) private readonly random: RandomInt,
   ) {}
 
@@ -88,16 +90,40 @@ export class ActionsService implements OnModuleInit {
     const targets = combat.combatants.filter((c) => preview.targetIds.includes(c.id));
     if (audience === 'public' && ![creature, ...targets].every((c) => this.combat.isVisible(ctx.db, players, c))) throw new DomainError('ROLL_PRIVATE_REQUIRED', 409);
 
+    if (input.respondsTo) {
+      if (preview.cost.turn !== 'reaction') throw new DomainError('REACTION_NOT_OFFERED', 409);
+      this.resolutions.requireOffer(ctx.db, ctx.campaignId, input.respondsTo, creature.id, input.optionId);
+    }
+    // Reactions are offered before costs change budgets, from each target's own sheet or stat block.
+    const offers = audience === 'public' && !input.respondsTo && preview.rolls.length > 0 ? this.offers(ctx.db, ctx.campaignId, combat, creature, preview) : [];
+
     const paid = applyActionCost(actor, preview);
     creature.budget = paid.budget;
     creature.actions = paid.usage;
     if (creature.characterId) this.spendSheet(ctx, creature.characterId, preview);
     const outcome = resolveAction(preview, input, this.random);
     this.combat.writeState(ctx, combat);
-    const id = randomUUID();
-    this.record(ctx, id, audience, { combatId: combat.id, combatantId: creature.id }, 'action', outcome);
+    const resolution = this.resolutions.begin(ctx, { combat, actor: creature, preview, outcome, audience, offers, respondsTo: input.respondsTo ?? null });
+    if (input.respondsTo) this.resolutions.markDeclared(ctx, input.respondsTo, creature.id, input.optionId, resolution.id);
+    this.record(ctx, resolution.id, audience, { combatId: combat.id, combatantId: creature.id }, 'action', outcome);
     // The receipt stores this value, so a player's replay never sees the DM numbers either.
-    return { id, outcome: ctx.member.role === 'dm' ? outcome : redactOutcome(outcome) } as unknown as JsonValue;
+    return { id: resolution.id, phase: resolution.phase, outcome: ctx.member.role === 'dm' ? outcome : redactOutcome(outcome) } as unknown as JsonValue;
+  }
+
+  /** Reaction options with a trigger that each target could take now (Reaction left, resources available). */
+  private offers(db: DatabaseSync, campaignId: Id, combat: Combat, creature: Combatant, preview: ActionPreview): PendingReaction[] {
+    const offers: PendingReaction[] = [];
+    for (const targetId of preview.targetIds) {
+      const target = combat.combatants.find((c) => c.id === targetId);
+      if (!target || target.id === creature.id || target.defeated || target.budget.reaction < 1 || cannotAct(target)) continue;
+      const reactor = this.actor(db, campaignId, combat, target, 'en');
+      for (const option of reactor.options) {
+        if (option.cost !== 'reaction' || !option.trigger) continue;
+        const check = previewAction(reactor, { combatantId: target.id, optionId: option.id, targetIds: [] }, { grid: null, targets: [] });
+        if (check.issues.every((issue) => issue === 'TARGET_REQUIRED')) offers.push({ combatantId: target.id, optionId: option.id, name: option.originalName, trigger: option.trigger, status: 'offered' });
+      }
+    }
+    return offers;
   }
 
   /** Slots, Concentration and feature uses live on the sheet, so rests and the sheet stay authoritative. */

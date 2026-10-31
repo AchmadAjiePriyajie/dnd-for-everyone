@@ -1,22 +1,21 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ApiError } from '#shared/access';
-import type { ActionEffect, ActionInput, ActionOption, ActionOutcome, ActionPreview, CombatantView, CombatView, ProposedEffect, RollAudience } from '#shared/combat';
+import type { ActionEffect, ActionInput, ActionOption, ActionOutcome, ActionPreview, CombatView, RollAudience } from '#shared/combat';
 import type { CommandEnvelope } from '#shared/commands';
 import type { Id, JsonValue, Locale } from '#shared/contracts';
 import { api } from '../../app/api';
 import { refreshRoom, sendCommand, useConnectionStatus } from '../../app/room-store';
 import { ErrorMessage, toApiError } from '../../app/ui';
 
-type RunCommand = (kind: string, payload?: JsonValue, revision?: number) => Promise<boolean>;
 const signed = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
 
 /**
  * Guided action: choose an option, preview it on the server (no cost), then send one combat.act.
  * The server rebuilds the preview from its own state; HP changes come back as DM proposals.
  */
-export function ActionWizard({ campaignId, combat, accountId, isDm, disabled, run }: {
-  campaignId: Id; combat: CombatView; accountId: Id; isDm: boolean; disabled: boolean; run: RunCommand;
+export function ActionWizard({ campaignId, combat, accountId, isDm, disabled }: {
+  campaignId: Id; combat: CombatView; accountId: Id; isDm: boolean; disabled: boolean;
 }) {
   const { t, i18n } = useTranslation();
   const id = useId();
@@ -150,7 +149,7 @@ export function ActionWizard({ campaignId, combat, accountId, isDm, disabled, ru
       {option && checking && !preview ? <p aria-busy="true">{t('actions.loading')}</p> : null}
       {option && preview ? <PreviewDetails preview={preview} nameOf={nameOf} /> : null}
       {option ? <button className="primary" type="button" disabled={blocked} onClick={confirm}>{t('actions.confirm')}</button> : null}
-      {outcome ? <OutcomeDetails outcome={outcome} nameOf={nameOf} combat={combat} isDm={isDm} disabled={disabled} run={run} /> : null}
+      {outcome ? <OutcomeDetails outcome={outcome} nameOf={nameOf} /> : null}
     </section>
   );
 }
@@ -189,18 +188,9 @@ function EffectText({ effect }: { effect: ActionEffect }) {
   return <>{t('actions.effectManual')}</>;
 }
 
-/** Persisted numbers from the server; the DM applies each proposal explicitly. */
-function OutcomeDetails({ outcome, nameOf, combat, isDm, disabled, run }: {
-  outcome: ActionOutcome; nameOf: (id: Id) => string; combat: CombatView; isDm: boolean; disabled: boolean; run: RunCommand;
-}) {
+/** Persisted numbers from the server; HP proposals are committed once through the resolution. */
+function OutcomeDetails({ outcome, nameOf }: { outcome: ActionOutcome; nameOf: (id: Id) => string }) {
   const { t } = useTranslation();
-  const [applied, setApplied] = useState<number[]>([]);
-  const target = (id: Id): CombatantView | undefined => combat.combatants.find((c) => c.id === id);
-  const apply = async (effect: ProposedEffect, index: number) => {
-    const creature = target(effect.targetId);
-    const ok = await run('combat.apply-hp', { combatantId: effect.targetId, input: effect.input as unknown as JsonValue, ...(creature?.characterId && creature.characterRevision !== undefined ? { sourceRevision: creature.characterRevision } : {}) });
-    if (ok) setApplied((current) => [...current, index]);
-  };
   return <div className="action-outcome" aria-live="polite">
     <h3>{t('actions.result')}</h3>
     <ul>
@@ -209,13 +199,10 @@ function OutcomeDetails({ outcome, nameOf, combat, isDm, disabled, run }: {
       {outcome.damage.map((damage, index) => <li key={`d${index}`}>{t('actions.damageTotal', { total: damage.total, type: damage.type ? t(`vitals.damage.${damage.type}`) : '' })}</li>)}
       {outcome.heal ? <li>{t('actions.healTotal', { total: outcome.heal.total })}</li> : null}
     </ul>
-    {outcome.proposed.length ? <>
-      <p className="small muted">{t('actions.applyHelp')}</p>
-      <ul>{outcome.proposed.map((effect, index) => <li key={index}>
-        {t('actions.proposal', { target: nameOf(effect.targetId), amount: effect.input.amount, kind: t(`vitals.kind.${effect.input.kind}`) })}
-        {effect.decision ? <span className="badge">{t('actions.needsDecision')}</span> : null}
-        {isDm ? <button type="button" disabled={disabled || applied.includes(index)} onClick={() => void apply(effect, index)}>{t('actions.apply', { target: nameOf(effect.targetId) })}</button> : null}
-      </li>)}</ul>
-    </> : null}
+    {outcome.proposed.length ? <ul>{outcome.proposed.map((effect, index) => <li key={index}>
+      {t('actions.proposal', { target: nameOf(effect.targetId), amount: effect.input.amount, kind: t(`vitals.kind.${effect.input.kind}`) })}
+      {effect.decision ? <span className="badge">{t('actions.needsDecision')}</span> : null}
+    </li>)}</ul> : null}
+    {outcome.proposed.length ? <p className="small muted">{t('resolutions.resolveHere')}</p> : null}
   </div>;
 }
