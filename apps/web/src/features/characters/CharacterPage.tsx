@@ -12,6 +12,8 @@ import { CharacterSheet } from './CharacterSheet';
 import { CharacterWizard } from './CharacterWizard';
 import { DmCharacterTools } from './DmCharacterTools';
 import { FeatureList } from './FeatureList';
+import { Inventory, Vitals } from './Inventory';
+import { Spellbook } from './Spellbook';
 import type { CharacterView } from './types';
 
 /** Draft milik sendiri dibuka di wizard; selain itu (atau setelah final) tampil sebagai sheet. */
@@ -73,6 +75,8 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
   const owner = view.character.ownerAccountId === session.account.accountId;
   const editable = view.character.status === 'draft' && owner;
   const isDm = room?.you.role === 'dm';
+  const live = view.character.status === 'final' && view.character.resources?.initialized;
+  const canEdit = Boolean(live) && (owner || isDm);
   return (
     <div className="room">
       {back}
@@ -81,6 +85,13 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
       ) : (
         <>
           <CharacterSheet view={view} options={options} />
+          {live && (
+            <div className="sheet-columns">
+              <Vitals view={view} campaignId={campaignId} reload={reload} canEdit={canEdit} isDm={isDm} />
+              <Inventory view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} />
+            </div>
+          )}
+          {live && <Spellbook view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} />}
           <FeatureList
             view={view}
             options={options}

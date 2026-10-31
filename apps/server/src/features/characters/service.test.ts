@@ -155,6 +155,8 @@ describe('character creation', () => {
     expect(options.masteryWeapons.find((w: { id: string }) => w.id === 'equipment.longsword')).toMatchObject({ mechanics: { mastery: 'rule.mastery-sap', type: 'melee' } });
     expect(options.masteryWeapons).toHaveLength(38);
     expect(options.names['rule.mastery-sap']).toBeTruthy();
+    expect(options.items).toHaveLength(182 + 258);
+    expect(options.spells.find((s: { id: string }) => s.id === 'spell.bless')).toMatchObject({ mechanics: { level: 1, concentration: true } });
     expect(options.names['background.soldier']).toBe('Soldier');
     expect((await new TestClient(server.app).get(`/api/campaigns/${campaignId}/character-options?locale=id`)).status).toBe(401);
   });
@@ -242,5 +244,94 @@ describe('character creation', () => {
     const id = await view(alice.client, 'id');
     expect(secondWind(id)?.name).toBe('Second Wind');
     expect(id.features.find((f) => f.key === 'rule.heroic-inspiration')?.name).not.toBe('');
+  });
+
+  it('manages_resources_and_rests_by_dm_policy', async () => {
+    const dataDir = await makeDataDir();
+    cleanup.unshift(() => removeDataDir(dataDir));
+    const server = await boot(dataDir);
+    const { dm, campaignId, alice, bob } = await seed(server);
+    const charId = 'char-resources';
+    const path = `/api/campaigns/${campaignId}/characters/${charId}`;
+    type Entry = { entryId: string; itemId: string | null; quantity: number };
+    type View = {
+      character: { draft: { equippedArmorId: string | null }; resources: { inventory: Entry[]; coins: { gp: number } } };
+      derived: { armorClass: { base: number; value: number }; currentHitPoints: number; hitPoints: { value: number }; attacks: Array<{ itemId: string }> };
+      restPolicy: string;
+    };
+    const view = async () => (await alice.client.get<View>(path)).body;
+    await send(alice.client, campaignId, charId, 'character.create');
+    await send(alice.client, campaignId, charId, 'character.save-draft', { draft: complete() });
+    // Belum final: resource belum bisa diubah.
+    expect((await send(alice.client, campaignId, charId, 'character.adjust-coins', { coin: 'gp', delta: 1 })).body.code).toBe('CHARACTER_NOT_FINAL');
+    await send(alice.client, campaignId, charId, 'character.finalize');
+
+    // Finalisasi menyalin paket awal: Chain Mail, Greatsword, 8 Javelin, 54 gp.
+    let body = await view();
+    const entry = (id: string) => body.character.resources.inventory.find((item) => item.itemId === id)!;
+    expect(entry('equipment.javelin').quantity).toBe(8);
+    expect(body.character.resources.coins.gp).toBe(54);
+    expect(body.derived.attacks.map((attack) => attack.itemId)).toContain('equipment.greatsword');
+
+    expect((await send(alice.client, campaignId, charId, 'character.adjust-item', { entryId: entry('equipment.javelin').entryId, delta: -9 })).body.code).toBe('INVENTORY_NEGATIVE');
+    expect((await send(alice.client, campaignId, charId, 'character.adjust-coins', { coin: 'gp', delta: -55 })).body.code).toBe('COINS_NEGATIVE');
+    expect((await send(bob.client, campaignId, charId, 'character.adjust-coins', { coin: 'gp', delta: 1 })).body.code).toBe('FORBIDDEN');
+    // DM memberi loot; pemain tidak bisa attune item yang tidak butuh attunement.
+    expect((await send(dm, campaignId, charId, 'character.add-item', { itemId: 'magic-item.adamantine-armor', quantity: 1 })).status).toBe(200);
+    body = await view();
+    expect((await send(alice.client, campaignId, charId, 'character.set-attunement', { entryId: entry('magic-item.adamantine-armor').entryId, attuned: true })).body.code).toBe('ATTUNEMENT_NOT_REQUIRED');
+
+    // Koreksi DM atas AC tetap ada saat armor dilepas; nilai aturan dihitung ulang.
+    await send(dm, campaignId, charId, 'character.set-override', { field: 'armorClass', value: 18 });
+    expect((await send(alice.client, campaignId, charId, 'character.equip', { armorId: null, shield: false })).status).toBe(200);
+    expect((await view()).derived.armorClass).toMatchObject({ base: 11, value: 18 });
+    expect((await send(alice.client, campaignId, charId, 'character.equip', { armorId: 'equipment.plate-armor', shield: false })).body).toMatchObject({ code: 'LOADOUT_INVALID', params: { issue: 'ARMOR_NOT_CARRIED' } });
+    await send(alice.client, campaignId, charId, 'character.equip', { armorId: 'equipment.chain-mail', shield: false });
+    // Membuang armor yang dipakai sekaligus melepasnya.
+    body = await view();
+    expect((await send(alice.client, campaignId, charId, 'character.adjust-item', { entryId: entry('equipment.chain-mail').entryId, delta: -1 })).status).toBe(200);
+    expect((await view()).character.draft.equippedArmorId).toBeNull();
+
+    // Fighter tidak punya spellcasting: pilihan spell ditolak.
+    expect((await send(alice.client, campaignId, charId, 'character.set-spells', { spells: [{ classId: 'class.fighter', cantrips: [], prepared: ['spell.bless'] }] })).body).toMatchObject({
+      code: 'SPELLS_INVALID',
+      params: { issue: 'NOT_A_CASTER:class.fighter' },
+    });
+    expect((await send(alice.client, campaignId, charId, 'character.spend-slot', { level: 1 })).body.code).toBe('NO_SLOT_LEFT');
+
+    // HP: luka 5, lalu rest. Kebijakan default: hanya DM yang menyelesaikan rest.
+    expect((await send(alice.client, campaignId, charId, 'character.set-hp', { current: 99, temp: 0 })).body.code).toBe('HP_INVALID');
+    expect((await send(alice.client, campaignId, charId, 'character.set-hp', { current: 8, temp: 0 })).status).toBe(200);
+    expect((await view()).restPolicy).toBe('dm');
+    const preview = (await alice.client.get<{ changes: Array<{ key: string; before: number; after: number }> }>(`${path}/rest-preview?rest=long`)).body;
+    expect(preview.changes).toContainEqual({ key: 'hitPoints', before: 8, after: 13 });
+    expect((await view()).derived.currentHitPoints).toBe(8);
+    expect((await send(alice.client, campaignId, charId, 'character.rest', { rest: 'short', hitDice: { 'class.fighter': 1 } })).body.code).toBe('REST_NEEDS_DM');
+    expect((await send(alice.client, campaignId, campaignId, 'campaign.set-rest-policy', { policy: 'players' })).body.code).toBe('FORBIDDEN');
+    expect((await send(dm, campaignId, campaignId, 'campaign.set-rest-policy', { policy: 'players' })).status).toBe(200);
+
+    // Short Rest dengan satu Hit Die: lemparan server tersimpan; retry requestId sama tidak melempar ulang.
+    const envelope = { requestId: 'rest-1', campaignId, targetId: charId, kind: 'character.rest', payload: { rest: 'short', hitDice: { 'class.fighter': 1 } } };
+    const first = await alice.client.post<{ value: { rolls: Array<{ roll: number }>; hitPoints: number } }>(`/api/campaigns/${campaignId}/commands`, envelope);
+    expect(first.status).toBe(200);
+    const roll = first.body.value.rolls[0]!.roll;
+    expect(roll).toBeGreaterThanOrEqual(1);
+    expect(roll).toBeLessThanOrEqual(10);
+    const healed = Math.min(13, 8 + Math.max(1, roll + 2));
+    expect(first.body.value.hitPoints).toBe(healed);
+    const again = await alice.client.post<{ value: unknown }>(`/api/campaigns/${campaignId}/commands`, envelope);
+    expect(again.body.value).toEqual(first.body.value);
+    expect((await view()).derived.currentHitPoints).toBe(healed);
+    // Level 1: hanya satu Hit Point Die.
+    expect((await send(alice.client, campaignId, charId, 'character.rest', { rest: 'short', hitDice: { 'class.fighter': 1 } })).body.code).toBe('NO_HIT_DICE');
+    expect((await send(alice.client, campaignId, charId, 'character.rest', { rest: 'long' })).status).toBe(200);
+    expect((await view()).derived.currentHitPoints).toBe(13);
+    // Setelah Long Rest, Fighter boleh mengganti satu pilihan mastery, sekali.
+    await send(dm, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.greatsword', 'equipment.flail', 'equipment.javelin'] });
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.longsword', 'equipment.dagger', 'equipment.javelin'] })).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
+    await send(alice.client, campaignId, charId, 'character.rest', { rest: 'long' });
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.longsword', 'equipment.dagger', 'equipment.javelin'] })).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.longsword', 'equipment.flail', 'equipment.javelin'] })).status).toBe(200);
+    expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.dagger', 'equipment.flail', 'equipment.javelin'] })).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
   });
 });

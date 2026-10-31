@@ -206,11 +206,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `deriveSpellcasting(character: Character, catalog: ContentCatalog): SpellcastingState`; `applyRest(character: Character, rest: 'short'|'long'): Character`; `validateLoadout(character: Character): ValidationResult`. Server feature commands register pada Task 3.
 
-- [ ] Tulis `tracks_resources_without_double_spending`: jumlah inventory tidak negatif, attunement/proficiency tervalidasi, spell yang tidak tersedia ditolak, Short Rest/Long Rest mengikuti fixture class berbeda, prepared vs known tidak dicampur.
-- [ ] Run `npm run test -- packages/rules/src/resources.test.ts`; expected FAIL.
-- [ ] Implementasikan currency/equipment/attunement, spell preparation, slot/Pact Magic, concentration dan recovery; preview rest dan confirmation sesuai kebijakan DM. Pemakaian dalam combat baru committed oleh resolution Task 18.
-- [ ] Run test sama; expected PASS termasuk zero remaining resource, serta perubahan equipment menghitung ulang AC/attacks tanpa menghapus override.
-- [ ] Commit `feat: add character resources and rests`.
+- [x] Tulis `tracks_resources_without_double_spending`: jumlah inventory tidak negatif, attunement/proficiency tervalidasi, spell yang tidak tersedia ditolak, Short Rest/Long Rest mengikuti fixture class berbeda, prepared vs known tidak dicampur.
+- [x] Run `npm run test -- packages/rules/src/resources.test.ts`; expected FAIL.
+- [x] Implementasikan currency/equipment/attunement, spell preparation, slot/Pact Magic, concentration dan recovery; preview rest dan confirmation sesuai kebijakan DM. Pemakaian dalam combat baru committed oleh resolution Task 18.
+- [x] Run test sama; expected PASS termasuk zero remaining resource, serta perubahan equipment menghitung ulang AC/attacks tanpa menghapus override.
+- [x] Commit `feat: add character resources and rests`.
 
 ### Task 10: Level up dan multiclass sampai level 20
 

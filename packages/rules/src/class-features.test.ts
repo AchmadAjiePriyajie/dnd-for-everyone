@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadCatalog } from '#content/catalog';
-import { type Character, type CharacterDraft, emptyDraft, emptyFeatureState, type FeatureState } from '#shared/characters';
+import { type Character, type CharacterDraft, emptyDraft, emptyFeatureState, emptyResources, type FeatureState } from '#shared/characters';
 import { availableFeatures, FEATURE_RULES, recoverFeatures, spendFeature, validateFeatureUse } from './class-features.ts';
 import { masteryGrants, validateWeaponMasteries } from './weapon-mastery.ts';
 
@@ -27,6 +27,7 @@ const character = (
   rolls: [],
   overrides: {},
   featureState: { ...emptyFeatureState(), ...state },
+  resources: emptyResources(),
   revision: 1,
   updatedAt: '2026-10-31T00:00:00.000Z',
 });

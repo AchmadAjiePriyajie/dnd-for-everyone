@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, type DerivedValue, emptyDraft, type FeatureUse } from '#shared/characters';
+import { type CharacterDraft, type CharacterOptions, type DerivedCharacter, type DerivedValue, emptyDraft, emptyResources, type FeatureUse } from '#shared/characters';
 import type { RoomSnapshot } from '#shared/room';
 import { App } from '../../app/App';
 import { setLocale } from '../../app/i18n';
@@ -40,6 +40,10 @@ function fakeDerive(draft: CharacterDraft): DerivedCharacter {
     feats: ['feat.savage-attacker'],
     inventory: [{ id: 'equipment.chain-mail', quantity: 1, sources: ['class.fighter'] }],
     gp: 54,
+    attacks: [],
+    currentHitPoints: 13,
+    temporaryHitPoints: 0,
+    hitDice: [{ classId: 'class.fighter', die: 10, max: 1, spent: 0 }],
     warnings: [],
     issues,
   };
@@ -58,8 +62,13 @@ const options: CharacterOptions = {
     opt('equipment.longsword', 'Longsword', { category: 'martial', type: 'melee', mastery: 'rule.mastery-sap' }),
     opt('equipment.dagger', 'Dagger', { category: 'simple', type: 'melee', mastery: 'rule.mastery-nick' }),
   ],
+  items: [opt('equipment.javelin', 'Javelin', { category: 'weapon' }), opt('equipment.chain-mail', 'Chain Mail', { category: 'armor' })],
+  spells: [
+    opt('spell.fire-bolt', 'Fire Bolt', { level: 0, classes: ['class.wizard'], concentration: false }),
+    opt('spell.detect-magic', 'Detect Magic', { level: 1, classes: ['class.wizard'], concentration: true }),
+  ],
   armor: { 'equipment.chain-mail': 'heavy' },
-  names: { 'equipment.chain-mail': 'Chain Mail', 'species.dwarf': 'Dwarf', 'class.fighter': 'Fighter', 'background.soldier': 'Soldier', 'feat.savage-attacker': 'Savage Attacker', 'rule.mastery-sap': 'Sap', 'rule.mastery-nick': 'Nick' },
+  names: { 'equipment.chain-mail': 'Chain Mail', 'species.dwarf': 'Dwarf', 'class.fighter': 'Fighter', 'class.wizard': 'Wizard', 'background.soldier': 'Soldier', 'feat.savage-attacker': 'Savage Attacker', 'rule.mastery-sap': 'Sap', 'rule.mastery-nick': 'Nick' },
 };
 
 const snapshot: RoomSnapshot = {
@@ -284,5 +293,89 @@ describe('character wizard', () => {
     await waitFor(() =>
       expect(fake.requests.map((r) => r.body)).toContainEqual(expect.objectContaining({ kind: 'character.set-weapon-masteries', payload: { weapons: ['equipment.longsword'] } })),
     );
+  });
+
+  it('manages_inventory_spells_and_rests_with_preview', async () => {
+    const draft = { ...emptyDraft(), name: 'Ilse', classId: 'class.wizard' };
+    fake = installFakeApi({
+      snapshots: { 'camp-1': snapshot },
+      characterOptions: options,
+      deriveCharacter: fakeDerive,
+      characters: {
+        'char-1': {
+          character: {
+            id: 'char-1',
+            campaignId: 'camp-1',
+            ownerAccountId: 'acc-dm',
+            status: 'final',
+            classLevels: [{ classId: 'class.wizard', level: 1 }],
+            draft,
+            rolls: [],
+            overrides: {},
+            resources: { ...emptyResources(), initialized: true, inventory: [{ entryId: 'item-1', itemId: 'equipment.javelin', quantity: 2 }], coins: { cp: 0, sp: 3, ep: 0, gp: 5, pp: 0 } },
+            revision: 3,
+            updatedAt: '',
+          },
+          derived: { ...fakeDerive(draft), currentHitPoints: 4 },
+          spellcasting: {
+            classes: [{ classId: 'class.wizard', ability: 'int', saveDc: 13, attackBonus: 5, cantripsMax: 3, preparedMax: 4, maxSpellLevel: 1, cantrips: [], prepared: [] }],
+            spellbook: ['spell.detect-magic'],
+            slots: [{ level: 1, max: 2, spent: 0, remaining: 2 }],
+            pact: null,
+            concentration: null,
+            issues: [],
+          },
+          restPolicy: 'players',
+          restPreview: { rest: 'long', changes: [{ key: 'hitPoints', before: 4, after: 13 }, { key: 'slot:1', before: 0, after: 2 }] },
+          allowedMethods: ['standard-array'],
+        },
+      },
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/characters/char-1');
+    const user = userEvent.setup();
+    render(<App />);
+    const kinds = () =>
+      fake.requests.flatMap((r) => {
+        const body = r.body as { kind?: string; payload?: unknown } | undefined;
+        return body?.kind ? [{ kind: body.kind, payload: body.payload }] : [];
+      });
+
+    // Inventory hidup: jumlah dan koin dari resources, bukan paket awal.
+    const inventory = await screen.findByRole('region', { name: 'Inventory' });
+    expect(within(inventory).getByText('Javelin')).toBeTruthy();
+    expect(within(inventory).getByText('×2')).toBeTruthy();
+    await user.click(within(inventory).getByRole('button', { name: 'One fewer Javelin' }));
+    await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.adjust-item', payload: { entryId: 'item-1', delta: -1 } }));
+    await user.type(within(inventory).getByRole('spinbutton', { name: 'Amount' }), '2');
+    await user.click(within(inventory).getByRole('button', { name: 'Spend' }));
+    await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.adjust-coins', payload: { coin: 'gp', delta: -2 } }));
+
+    // Spell: DC/attack dari server; slot dipakai setelah konfirmasi; cantrip dan spellbook dipisah.
+    const spells = screen.getByRole('region', { name: 'Spells' });
+    expect(within(spells).getByText(/save DC 13 · spell attack \+5/)).toBeTruthy();
+    await user.click(within(spells).getByRole('button', { name: 'Use slot' }));
+    await user.click(within(spells).getByRole('button', { name: 'Confirm' }));
+    await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.spend-slot', payload: { level: 1 } }));
+    await user.click(within(spells).getByText('Choose Wizard spells'));
+    await user.click(within(spells).getByRole('checkbox', { name: /Fire Bolt/ }));
+    await user.click(within(spells).getAllByRole('checkbox', { name: /Detect Magic/ })[0]!);
+    await user.click(within(spells).getByRole('button', { name: 'Save spells' }));
+    await waitFor(() =>
+      expect(kinds()).toContainEqual({
+        kind: 'character.set-spells',
+        payload: { spells: [{ classId: 'class.wizard', cantrips: ['spell.fire-bolt'], prepared: ['spell.detect-magic'] }], spellbook: ['spell.detect-magic'] },
+      }),
+    );
+
+    // Rest: pratinjau dulu, baru dikonfirmasi.
+    const vitals = screen.getByRole('region', { name: 'Hit Points and rests' });
+    expect(within(vitals).getByText('4 / 13 HP')).toBeTruthy();
+    await user.click(within(vitals).getByRole('button', { name: 'Long Rest…' }));
+    const preview = await within(vitals).findByRole('group', { name: 'Long Rest preview' });
+    expect(within(preview).getByText(/Hit Points:/).parentElement?.textContent).toContain('4 → 13');
+    expect(within(preview).getByText(/Level 1 slots:/)).toBeTruthy();
+    expect(kinds().some((b) => b.kind === 'character.rest')).toBe(false);
+    await user.click(within(preview).getByRole('button', { name: 'Finish rest' }));
+    await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.rest', payload: { rest: 'long' } }));
   });
 });

@@ -1699,3 +1699,61 @@ button:disabled {
   border-left: 2px solid var(--border);
   overflow-wrap: anywhere;
 }
+
+/* ---------------------------------------------------------------- inventory, HP dan spell */
+.row-list li {
+  flex-wrap: wrap;
+}
+
+.row-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.row-actions button {
+  min-width: 2.25rem;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.coins {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 8rem), 1fr));
+}
+
+.vitals-hp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.spell-prep {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.spell-prep > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.spell-prep fieldset {
+  margin-top: 0.75rem;
+  border: 0;
+  padding: 0;
+}
+
+.spell-prep legend {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}

@@ -1,7 +1,7 @@
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { z } from 'zod';
 import { availableFeatures, spendFeature, validateFeatureUse } from '#rules/class-features';
-import { validateWeaponMasteries } from '#rules/weapon-mastery';
+import { masteryGrants, validateWeaponMasteries } from '#rules/weapon-mastery';
 import type { ErrorCode } from '#shared/access';
 import type { Character, FeatureState } from '#shared/characters';
 import type { Id } from '#shared/contracts';
@@ -63,7 +63,7 @@ export class CharacterFeaturesService implements OnModuleInit {
 
   /**
    * Pemilik boleh mengisi slot kosong; mengganti pilihan yang sudah ada hanya setelah Long Rest
-   * (alur rest, Task 9) atau oleh DM.
+   * (sekali; Barbarian/Fighter hanya satu pilihan, class lain boleh semua) atau oleh DM.
    */
   private setMasteries(ctx: CommandContext, weapons: Id[]) {
     const isDm = ctx.member.role === 'dm';
@@ -71,8 +71,13 @@ export class CharacterFeaturesService implements OnModuleInit {
     const check = validateWeaponMasteries(character, weapons, this.content.catalog());
     if (!check.ok) throw new DomainError('MASTERY_INVALID', 409, { issue: check.issues[0]! });
     const dropped = character.featureState.weaponMasteries.filter((id) => !weapons.includes(id));
-    if (dropped.length && !isDm && character.status === 'final') throw new DomainError('MASTERY_CHANGE_NEEDS_REST', 409);
-    return this.save(ctx, character, { ...character.featureState, weaponMasteries: weapons });
+    const swapping = dropped.length > 0 && !isDm && character.status === 'final';
+    if (swapping) {
+      const grants = masteryGrants(character, this.content.catalog());
+      const limit = grants.some((grant) => grant.restriction === 'proficient') ? Number.POSITIVE_INFINITY : 1;
+      if (!character.featureState.masteryChangeOpen || dropped.length > limit) throw new DomainError('MASTERY_CHANGE_NEEDS_REST', 409);
+    }
+    return this.save(ctx, character, { ...character.featureState, weaponMasteries: weapons, ...(swapping ? { masteryChangeOpen: false } : {}) });
   }
 
   private grantInspiration(ctx: CommandContext) {
@@ -98,6 +103,8 @@ export class CharacterFeaturesService implements OnModuleInit {
 
   private save(ctx: CommandContext, character: Character, state: FeatureState) {
     this.characters.writeFeatureState(ctx, character.id, state);
-    return { id: character.id, featureState: { spent: state.spent, weaponMasteries: state.weaponMasteries, heroicInspiration: state.heroicInspiration } };
+    // Bentuk JSON eksplisit (field opsional tidak lolos tipe JsonValue).
+    const { spent, weaponMasteries, heroicInspiration } = state;
+    return { id: character.id, featureState: { spent, weaponMasteries, heroicInspiration, masteryChangeOpen: state.masteryChangeOpen === true } };
   }
 }

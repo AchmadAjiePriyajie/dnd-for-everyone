@@ -114,9 +114,106 @@ export interface FeatureState {
   /** Jenis senjata (ID equipment) yang mastery-nya dipakai. */
   weaponMasteries: Id[];
   heroicInspiration: boolean;
+  /** Dibuka Long Rest: pemilik boleh mengganti pilihan mastery (Barbarian/Fighter: satu) sekali. */
+  masteryChangeOpen?: boolean;
 }
 
 export const emptyFeatureState = (): FeatureState => ({ spent: {}, weaponMasteries: [], heroicInspiration: false });
+
+export const COINS = ['cp', 'sp', 'ep', 'gp', 'pp'] as const;
+export type Coin = (typeof COINS)[number];
+
+/** Satu baris inventory setelah karakter final; `entryId` stabil untuk command. */
+export interface InventoryEntry {
+  entryId: string;
+  itemId: Id | null;
+  /** Item non-corpus (mis. spellbook) atau nama bebas. */
+  custom?: string;
+  quantity: number;
+  note?: string;
+  attuned?: boolean;
+}
+
+/** Spell yang dipilih untuk satu class spellcasting (aturan multiclass: tiap spell terkait satu class). */
+export interface ClassSpells {
+  classId: Id;
+  cantrips: Id[];
+  prepared: Id[];
+}
+
+/**
+ * State bermain di luar fitur class: inventory/koin, spell, slot, HP dan Hit Point Dice.
+ * `initialized` = false sampai finalisasi menyalin paket awal; sebelum itu inventory diturunkan dari draft.
+ */
+export interface CharacterResources {
+  initialized: boolean;
+  inventory: InventoryEntry[];
+  coins: Record<Coin, number>;
+  spells: ClassSpells[];
+  /** Isi spellbook Wizard (terpisah dari spell yang disiapkan). */
+  spellbook: Id[];
+  /** Slot terpakai per level spell 1–9 (indeks 0 = level 1). */
+  slotsSpent: number[];
+  pactSlotsSpent: number;
+  concentration: Id | null;
+  /** HP saat ini = maksimum − damage; Temporary HP terpisah. */
+  hp: { damage: number; temp: number };
+  /** Hit Point Dice terpakai per class. */
+  hitDiceSpent: Record<Id, number>;
+}
+
+export const emptyResources = (): CharacterResources => ({
+  initialized: false,
+  inventory: [],
+  coins: { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 },
+  spells: [],
+  spellbook: [],
+  slotsSpent: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  pactSlotsSpent: 0,
+  concentration: null,
+  hp: { damage: 0, temp: 0 },
+  hitDiceSpent: {},
+});
+
+/** Spellcasting per class + slot gabungan; turunan, tidak disimpan. */
+export interface SpellcastingState {
+  classes: Array<{
+    classId: Id;
+    ability: AbilityKey;
+    saveDc: number;
+    attackBonus: number;
+    cantripsMax: number;
+    preparedMax: number;
+    /** Level spell tertinggi yang boleh disiapkan untuk class ini (seolah single-class). */
+    maxSpellLevel: number;
+    cantrips: Id[];
+    prepared: Id[];
+  }>;
+  /** Spellbook Wizard; null bila bukan Wizard. */
+  spellbook: Id[] | null;
+  slots: Array<{ level: number; max: number; spent: number; remaining: number }>;
+  pact: { level: number; max: number; spent: number; remaining: number } | null;
+  concentration: Id | null;
+  /** Kode masalah pilihan spell, mis. `SPELL_NOT_ON_LIST:spell.cure-wounds`. */
+  issues: string[];
+}
+
+/** Satu serangan senjata dari inventory. */
+export interface WeaponAttack {
+  itemId: Id;
+  ability: AbilityKey;
+  proficient: boolean;
+  attackBonus: DerivedValue;
+  damage: { dice: string; bonus: number; type: string };
+  /** Properti mastery yang aktif (dipilih lewat Weapon Mastery), atau null. */
+  mastery: Id | null;
+}
+
+/** Perubahan yang akan terjadi bila rest dikonfirmasi. */
+export interface RestPreview {
+  rest: 'short' | 'long';
+  changes: Array<{ key: string; before: number | boolean; after: number | boolean }>;
+}
 
 export interface Character {
   id: Id;
@@ -130,6 +227,7 @@ export interface Character {
   rolls: RecordedRoll[];
   overrides: Partial<Record<OverrideField, number>>;
   featureState: FeatureState;
+  resources: CharacterResources;
   revision: number;
   updatedAt: string;
 }
@@ -237,6 +335,11 @@ export interface DerivedCharacter {
   feats: Id[];
   inventory: InventoryItem[];
   gp: number;
+  attacks: WeaponAttack[];
+  /** HP saat ini (maksimum − damage) dan Temporary HP. */
+  currentHitPoints: number;
+  temporaryHitPoints: number;
+  hitDice: Array<{ classId: Id; die: number; max: number; spent: number }>;
   warnings: DerivedWarning[];
   issues: DraftIssue[];
 }
@@ -271,6 +374,10 @@ export interface CharacterOptions {
   allowedMethods: AbilityMethod[];
   /** Senjata yang punya properti mastery; `mechanics` = mekanik weapon (category/type/mastery/properties). */
   masteryWeapons: CharacterOption[];
+  /** Semua equipment/magic item untuk menambah inventory; mechanics = {category, attunement?}. */
+  items: CharacterOption[];
+  /** Semua spell; mechanics = {level, classes, concentration}. */
+  spells: CharacterOption[];
   /** Armor (bukan shield) yang dirujuk paket awal, dengan kategorinya. */
   armor: Record<Id, 'light' | 'medium' | 'heavy'>;
   /** Judul lokal untuk ID yang muncul di opsi/sheet (equipment, feat, dll.). */

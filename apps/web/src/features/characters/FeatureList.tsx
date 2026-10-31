@@ -244,7 +244,7 @@ function MasteryPicker({
   const total = view.masteryGrants.reduce((sum, grant) => sum + grant.count, 0);
   const name = (weaponId: Id) => options.names[weaponId] ?? options.masteryWeapons.find((weapon) => weapon.id === weaponId)?.name ?? weaponId;
   // Pemilik hanya boleh mengisi slot kosong pada karakter final; mengganti pilihan butuh Long Rest.
-  const locked = (weaponId: Id) => !isDm && view.character.status === 'final' && saved.includes(weaponId);
+  const locked = (weaponId: Id) => !isDm && view.character.status === 'final' && !view.character.featureState.masteryChangeOpen && saved.includes(weaponId);
   const changed = chosen.length !== saved.length || chosen.some((weaponId) => !saved.includes(weaponId));
   const toggle = (weaponId: Id) =>
     setChosen((current) => (current.includes(weaponId) ? current.filter((other) => other !== weaponId) : [...current, weaponId]));

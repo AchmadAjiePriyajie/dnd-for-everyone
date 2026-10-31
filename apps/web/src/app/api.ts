@@ -8,7 +8,7 @@ import type {
 } from '#shared/access';
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
-import type { CharacterOptions } from '#shared/characters';
+import type { CharacterOptions, RestPreview } from '#shared/characters';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { CharacterView } from '../features/characters/types';
 import type { RoomSnapshot } from '#shared/room';
@@ -86,6 +86,8 @@ export const api = {
     request<CharacterOptions>('GET', `${campaignPath(campaignId)}/character-options?locale=${locale}`),
   character: (campaignId: Id, characterId: Id, locale: Locale) =>
     request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}?locale=${locale}`),
+  restPreview: (campaignId: Id, characterId: Id, rest: 'short' | 'long') =>
+    request<RestPreview>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}/rest-preview?rest=${rest}`),
   referenceSearch: (q: string, locale: Locale, campaignId?: Id) =>
     request<SearchHit[]>('GET', `/api/reference/search?${referenceQuery({ q, locale, campaignId })}`),
   referenceEntry: (id: Id, locale: Locale, campaignId?: Id) =>

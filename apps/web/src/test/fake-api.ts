@@ -5,6 +5,10 @@ import {
   type DerivedCharacter,
   emptyDraft,
   emptyFeatureState,
+  emptyResources,
+  type CharacterResources,
+  type RestPreview,
+  type SpellcastingState,
   type FeatureState,
   type FeatureUse,
   HEROIC_INSPIRATION,
@@ -47,12 +51,17 @@ export interface FakeCharacterView {
     rolls: Array<{ dice: number[]; total: number }>;
     overrides: Record<string, number>;
     featureState?: FeatureState;
+    resources?: CharacterResources;
     revision: number;
     updatedAt: string;
   };
   derived: DerivedCharacter;
   features?: FeatureUse[];
   masteryGrants?: MasteryGrant[];
+  spellcasting?: SpellcastingState;
+  restPolicy?: 'dm' | 'players';
+  /** Jawaban GET rest-preview. */
+  restPreview?: RestPreview;
   allowedMethods: string[];
 }
 
@@ -134,11 +143,24 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     }
     const options = /^\/api\/campaigns\/([^/]+)\/character-options$/.exec(path);
     if (options) return state.characterOptions ? json(200, state.characterOptions) : error(403, 'FORBIDDEN');
+    const previewPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)\/rest-preview$/.exec(path);
+    if (previewPath) {
+      const found = state.characters[decodeURIComponent(previewPath[2]!)];
+      return found ? json(200, found.restPreview ?? { rest: url.searchParams.get('rest'), changes: [] }) : error(403, 'FORBIDDEN');
+    }
     const characterPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)$/.exec(path);
     if (characterPath) {
       const found = state.characters[decodeURIComponent(characterPath[2]!)];
       if (!found) return error(403, 'FORBIDDEN');
-      return json(200, { features: [], masteryGrants: [], ...found, character: { featureState: emptyFeatureState(), ...found.character } });
+      const spellcasting: SpellcastingState = { classes: [], spellbook: null, slots: [], pact: null, concentration: null, issues: [] };
+      return json(200, {
+        features: [],
+        masteryGrants: [],
+        spellcasting,
+        restPolicy: 'dm',
+        ...found,
+        character: { featureState: emptyFeatureState(), resources: emptyResources(), ...found.character },
+      });
     }
     const commandPath = /^\/api\/campaigns\/([^/]+)\/commands$/.exec(path);
     if (commandPath && String(body?.kind).startsWith('character.')) {

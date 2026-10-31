@@ -204,6 +204,32 @@ export function CharacterSheet({ view, options }: { view: CharacterView; options
           </dl>
         </section>
 
+        {derived.attacks?.length > 0 && (
+          <section className="card" aria-labelledby={`${headingId}-attacks`}>
+            <h2 id={`${headingId}-attacks`}>
+              <Icon name="shield" />
+              {t('character.attacks.title')}
+            </h2>
+            <ul className="row-list">
+              {derived.attacks.map((attack) => (
+                <li key={attack.itemId}>
+                  <span className="row-main">
+                    {options.items.find((item) => item.id === attack.itemId)?.name ?? labels.name(attack.itemId)}
+                    <span className="muted small">
+                      {' '}
+                      · {t('character.attacks.damage', { dice: attack.damage.dice, bonus: labels.signed(attack.damage.bonus), type: t(`character.attacks.type.${attack.damage.type}`, { defaultValue: attack.damage.type }) })}
+                      {attack.mastery && ` · ${labels.name(attack.mastery)}`}
+                      {!attack.proficient && ` · ${t('character.attacks.notProficient')}`}
+                    </span>
+                  </span>
+                  <span className="row-value">{labels.signed(attack.attackBonus.value)}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {!character.resources?.initialized && (
         <section className="card" aria-labelledby={`${headingId}-inventory`}>
           <h2 id={`${headingId}-inventory`}>
             <Icon name="ticket" />
@@ -225,6 +251,7 @@ export function CharacterSheet({ view, options }: { view: CharacterView; options
             </li>
           </ul>
         </section>
+        )}
 
         {(draft.concept || draft.motivation || draft.partyBond) && (
           <section className="card" aria-labelledby={`${headingId}-story`}>

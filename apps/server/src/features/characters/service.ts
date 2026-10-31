@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
 import { availableFeatures } from '#rules/class-features';
 import { deriveCharacter } from '#rules/character-stats';
+import { startingResources } from '#rules/equipment';
+import { deriveSpellcasting } from '#rules/spellcasting';
 import { masteryGrants } from '#rules/weapon-mastery';
 import type { Member, Principal } from '#shared/access';
 import {
@@ -19,9 +21,12 @@ import {
   type DerivedCharacter,
   emptyDraft,
   emptyFeatureState,
+  emptyResources,
+  type CharacterResources,
   type FeatureState,
   type FeatureUse,
   type MasteryGrant,
+  type SpellcastingState,
   OVERRIDE_FIELDS,
 } from '#shared/characters';
 import type { Id, Locale } from '#shared/contracts';
@@ -44,6 +49,7 @@ interface CharacterRow {
   rolls: string;
   overrides: string;
   feature_state: string;
+  resources: string;
   updated_at: string;
 }
 
@@ -53,8 +59,12 @@ export interface CharacterView {
   /** Fitur class/subclass dan Heroic Inspiration, teks dalam locale diminta. */
   features: FeatureUse[];
   masteryGrants: MasteryGrant[];
+  spellcasting: SpellcastingState;
   allowedMethods: AbilityMethod[];
+  restPolicy: RestPolicy;
 }
+
+export type RestPolicy = 'dm' | 'players';
 
 const empty = z.strictObject({});
 const saveDraftPayload = z.strictObject({ draft: characterDraftSchema });
@@ -138,7 +148,9 @@ export class CharactersService implements OnModuleInit {
       derived: this.derive(character, allowedMethods),
       features: availableFeatures(character, catalog, locale),
       masteryGrants: masteryGrants(character, catalog),
+      spellcasting: deriveSpellcasting(character, catalog),
       allowedMethods,
+      restPolicy: this.restPolicy(db, campaignId),
     };
   }
 
@@ -150,6 +162,21 @@ export class CharactersService implements OnModuleInit {
   /** Karakter target pada campaign command, untuk aksi DM (NOT_FOUND bila tidak ada). */
   campaignCharacter(ctx: CommandContext): Character {
     return this.toCharacter(ctx.db, this.campaignRow(ctx));
+  }
+
+  writeResources(ctx: CommandContext, characterId: Id, resources: CharacterResources): void {
+    ctx.db.prepare('UPDATE characters SET resources = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(resources), ctx.now, characterId);
+  }
+
+  /** Armor/shield yang dipakai tetap di field draft karena deriveCharacter membacanya dari sana. */
+  writeEquipment(ctx: CommandContext, character: Character, armorId: Id | null, shield: boolean): void {
+    const draft = { ...character.draft, equippedArmorId: armorId, shieldEquipped: shield };
+    ctx.db.prepare('UPDATE characters SET draft = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(draft), ctx.now, character.id);
+  }
+
+  restPolicy(db: DatabaseSync, campaignId: Id): RestPolicy {
+    const row = db.prepare('SELECT rest_policy FROM campaigns WHERE id = ?').get(campaignId) as { rest_policy: RestPolicy } | undefined;
+    return row?.rest_policy ?? 'dm';
   }
 
   writeFeatureState(ctx: CommandContext, characterId: Id, state: FeatureState): void {
@@ -182,6 +209,16 @@ export class CharactersService implements OnModuleInit {
       masteryWeapons: ofKind('equipment')
         .filter((id) => (this.content.getContent(id, 'en').mechanics?.weapon as { mastery?: Id } | undefined)?.mastery)
         .map((id) => option(id, (mechanics) => mechanics.weapon as Record<string, unknown>)),
+      items: [...ofKind('equipment'), ...ofKind('magic-item')].map((id) =>
+        option(id, (mechanics) => ({ category: mechanics.category, ...(mechanics.attunement ? { attunement: true } : {}) })),
+      ),
+      spells: ofKind('spell').map((id) =>
+        option(id, (mechanics) => ({
+          level: mechanics.level,
+          classes: mechanics.classes,
+          concentration: (mechanics.duration as { concentration?: boolean } | undefined)?.concentration ?? false,
+        })),
+      ),
       armor: {},
       names,
     };
@@ -229,7 +266,11 @@ export class CharactersService implements OnModuleInit {
     if (row.status === 'final') throw new DomainError('CHARACTER_FINAL', 409);
     const derived = this.derive(this.toCharacter(ctx.db, row), this.allowedMethods(ctx.db, ctx.campaignId));
     if (derived.issues.length) throw new DomainError('CHARACTER_INCOMPLETE', 422, { count: derived.issues.length });
-    ctx.db.prepare("UPDATE characters SET status = 'final', updated_at = ? WHERE id = ?").run(ctx.now, row.id);
+    // Paket awal menjadi inventory/koin yang bisa diubah selama bermain.
+    const resources = startingResources(this.toCharacter(ctx.db, row), this.content.catalog());
+    ctx.db
+      .prepare("UPDATE characters SET status = 'final', resources = ?, updated_at = ? WHERE id = ?")
+      .run(JSON.stringify(resources), ctx.now, row.id);
     return { id: row.id };
   }
 
@@ -311,7 +352,7 @@ export class CharactersService implements OnModuleInit {
       .get(row.campaign_id, row.id) as { revision: number } | undefined;
     // Draft lama yang tidak lengkap tetap terbaca dengan default field baru.
     const draft = { ...emptyDraft(), ...(JSON.parse(row.draft) as Partial<CharacterDraft>) };
-    return {
+    const character: Character = {
       id: row.id,
       campaignId: row.campaign_id,
       ownerAccountId: row.owner_account_id,
@@ -321,8 +362,12 @@ export class CharactersService implements OnModuleInit {
       rolls: JSON.parse(row.rolls),
       overrides: JSON.parse(row.overrides),
       featureState: { ...emptyFeatureState(), ...(JSON.parse(row.feature_state) as Partial<FeatureState>) },
+      resources: { ...emptyResources(), ...(JSON.parse(row.resources) as Partial<CharacterResources>) },
       revision: revision?.revision ?? 0,
       updatedAt: row.updated_at,
     };
+    // Karakter final dari sebelum migrasi 007: paket awal disalin saat dibaca, ditulis pada command berikutnya.
+    if (character.status === 'final' && !character.resources.initialized) character.resources = startingResources(character, this.content.catalog());
+    return character;
   }
 }

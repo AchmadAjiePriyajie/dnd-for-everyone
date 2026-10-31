@@ -6,12 +6,13 @@ import { AuthModule } from '../auth/auth.module.js';
 import { CampaignsModule } from '../campaigns/campaigns.module.js';
 import { CharactersController } from './characters.controller.js';
 import { CharacterFeaturesService } from './features.js';
+import { CharacterResourcesService } from './resources.js';
 import { CharactersService } from './service.js';
 
 @Module({
   imports: [AuthModule, ContentModule, CommandsModule, CampaignsModule, RealtimeModule],
   controllers: [CharactersController],
-  providers: [CharactersService, CharacterFeaturesService],
+  providers: [CharactersService, CharacterFeaturesService, CharacterResourcesService],
   exports: [CharactersService],
 })
 export class CharactersModule {}

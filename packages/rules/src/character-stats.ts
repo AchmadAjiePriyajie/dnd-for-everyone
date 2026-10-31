@@ -15,6 +15,7 @@ import {
   SKILLS,
   type SkillKey,
   type ToolChoice,
+  type WeaponAttack,
 } from '#shared/characters';
 import { ABILITY_SCORE_CAP, abilityModifier, SKILL_ABILITIES, STANDARD_LANGUAGES, validateBaseScores } from './abilities.ts';
 
@@ -61,6 +62,14 @@ interface EquipmentOption {
   items: Array<{ id?: Id; quantity: number; note?: string; choice?: string; custom?: string }>;
   gp: number;
 }
+interface WeaponMechanics {
+  category: 'simple' | 'martial';
+  type: 'melee' | 'ranged';
+  damage: { dice: string; type: string };
+  properties?: Id[];
+  mastery?: Id;
+}
+const FINESSE = 'rule.property-finesse';
 interface ArmorMechanics {
   category: 'light' | 'medium' | 'heavy' | 'shield';
   baseAc: number;
@@ -232,6 +241,18 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   };
   addOption('classEquipment', cls?.startingEquipment, draft.classEquipment, classId);
   addOption('backgroundEquipment', background?.startingEquipment, draft.backgroundEquipment, draft.backgroundId);
+  // Setelah final, inventory/koin hidup di resources (paket awal sudah disalin saat finalisasi).
+  const resources = character.resources;
+  if (resources.initialized) {
+    inventory.splice(0, inventory.length, ...resources.inventory.map((entry) => ({
+      id: entry.itemId,
+      ...(entry.custom ? { custom: entry.custom } : {}),
+      quantity: entry.quantity,
+      ...(entry.note ? { note: entry.note } : {}),
+      sources: [],
+    })));
+    gp = resources.coins.gp;
+  }
   const owns = (id: Id) => inventory.some((item) => item.id === id);
 
   // ---------------------------------------------------------------- armor class & speed
@@ -264,11 +285,17 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
 
   // ---------------------------------------------------------------- hit points & initiative
   const hitPoints: Contribution[] = [];
-  if (cls && classId) {
-    // Level 1: nilai maksimum Hit Point Die. Level berikutnya ditangani Task 10 (advancement).
-    hitPoints.push({ source: classId, value: cls.hitDie });
-    hitPoints.push({ ...modifier('con'), value: mod('con') * level });
-  }
+  const hitDice: DerivedCharacter['hitDice'] = [];
+  const levels = character.classLevels.length ? character.classLevels : classId ? [{ classId, level: 1 }] : [];
+  levels.forEach((entry, index) => {
+    const die = mechanicsOf<ClassMechanics>(catalog, entry.classId, 'class')?.hitDie;
+    if (!die) return;
+    // Level karakter pertama: nilai maksimum Hit Point Die; level lain: nilai tetap (die / 2 + 1).
+    const fixed = die / 2 + 1;
+    hitPoints.push({ source: entry.classId, value: index === 0 ? die + fixed * (entry.level - 1) : fixed * entry.level });
+    hitDice.push({ classId: entry.classId, die, max: entry.level, spent: character.resources.hitDiceSpent[entry.classId] ?? 0 });
+  });
+  if (hitPoints.length) hitPoints.push({ ...modifier('con'), value: mod('con') * level });
   if (species?.hpPerLevel && draft.speciesId) hitPoints.push({ source: draft.speciesId, value: species.hpPerLevel * level });
   for (const [id, feat] of featMechanics) if (feat.hpPerLevel) hitPoints.push({ source: id, value: feat.hpPerLevel * level });
   const initiative: Contribution[] = [modifier('dex')];
@@ -280,6 +307,31 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   const override = (field: OverrideField) => character.overrides[field];
   const hp = value(hitPoints, override('hitPoints'));
   if (hp.value < 1 && hitPoints.length) hp.value = 1;
+
+  // ---------------------------------------------------------------- attacks
+  const proficientWith = (weapon: WeaponMechanics) =>
+    levels.some(({ classId: id }) => {
+      const proficiencies = mechanicsOf<ClassMechanics>(catalog, id, 'class')?.weaponProficiencies;
+      if (!proficiencies) return false;
+      if (proficiencies.categories.includes(weapon.category)) return true;
+      return weapon.category === 'martial' && (proficiencies.martialWithProperty ?? []).some((property) => weapon.properties?.includes(property));
+    });
+  const attacks: WeaponAttack[] = [];
+  for (const itemId of new Set(inventory.flatMap((item) => (item.id && item.quantity > 0 ? [item.id] : [])))) {
+    const weapon = mechanicsOf<{ weapon?: WeaponMechanics }>(catalog, itemId, 'equipment')?.weapon;
+    if (!weapon) continue;
+    // Finesse: Str atau Dex (yang lebih tinggi); Ranged: Dex; Melee lain: Str.
+    const ability: AbilityKey = weapon.properties?.includes(FINESSE) ? (mod('dex') > mod('str') ? 'dex' : 'str') : weapon.type === 'ranged' ? 'dex' : 'str';
+    const proficient = proficientWith(weapon);
+    attacks.push({
+      itemId,
+      ability,
+      proficient,
+      attackBonus: value(proficient ? [modifier(ability), proficiency] : [modifier(ability)]),
+      damage: { dice: weapon.damage.dice, bonus: mod(ability), type: weapon.damage.type },
+      mastery: weapon.mastery && character.featureState.weaponMasteries.includes(itemId) ? weapon.mastery : null,
+    });
+  }
 
   return {
     level,
@@ -300,6 +352,10 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
     feats,
     inventory,
     gp,
+    attacks,
+    currentHitPoints: Math.max(0, hp.value - character.resources.hp.damage),
+    temporaryHitPoints: character.resources.hp.temp,
+    hitDice,
     warnings,
     issues,
   };
