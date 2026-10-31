@@ -354,6 +354,8 @@ Catatan implementasi: migrasi `016-resolutions.sql` (nomor 009 sudah dipakai). `
 
 Catatan implementasi: migrasi `017-play-sessions.sql` (nomor 010 sudah dipakai). `resumeSession(principal, campaignId, sessionId)` membaca combat, scene dan resolusi melalui proyeksi yang sudah ada; sesi hanya menyimpan tautan `sceneId`/`combatId`, waktu bermain per segmen, recap (bagian party dan khusus DM), journal (party/pribadi) dan pertanyaan aturan. Jeda sesi menjeda combat yang berjalan dan lanjut sesi menjalankannya lagi. Log sesi berasal dari `campaign_events` dalam rentang sequence sesi; player hanya menerima jenis peristiwa umum tanpa data. Recap memakai autosave dengan revisi sehingga draft yang belum di-ack tidak pernah menimpa versi lebih baru.
 
+> **UI pass (2026-11-01, sebelum Task 20):** spec `docs/superpowers/specs/2026-11-01-ui-pass-design.md`, plan `docs/superpowers/plans/2026-11-01-ui-pass.md`. Nama produk menjadi **Campfire Tales**; halaman Combat menjadi layar terpadu (urutan turn, peta, hotbar aksi, panel Resolusi/Dadu/Rules, tab bawah di HP); player melihat status party, monster hanya Bloodied/Tumbang. Tutorial Task 20 dan audit Task 22 memakai layout ini.
+
 ### Task 20: Tutorial orisinal dan perjalanan pemula
 
 **Files:** Create `packages/content/data/tutorial/en.json`, `id.json`, `apps/server/src/features/campaigns/tutorial.ts`, `tests/e2e/first-adventure.spec.ts`. Modify `apps/server/src/features/campaigns/campaigns.module.ts` untuk TutorialService; endpoint tetap terautentikasi.

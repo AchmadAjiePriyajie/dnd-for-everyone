@@ -128,6 +128,21 @@ budget dengan alasan yang tercatat. HP karakter mengikuti sheet; HP monster
 disimpan pada instance combat tanpa mengubah template. Untuk token yang HP-nya
 sudah terhubung, ubah HP melalui sheet atau pelacak combat.
 
+### Layar combat
+
+Halaman **Combat** memuat semua yang dibutuhkan dalam satu layar. Di layar lebar
+(≥1200 px): **Urutan turn** di kiri (HP, kondisi, Concentration, dan simbol
+Aksi/Aksi Bonus/Reaksi tiap makhluk), **peta** di tengah dengan **hotbar aksi** di
+bawahnya, dan panel **Resolusi / Dadu / Rules** di kanan. Klik token di peta atau
+nama di urutan turn untuk memilih target. Alat koreksi DM dan pengelolaan HP
+terlipat di tiap baris (**Kelola …**, **Sesuaikan …**). Di tablet, urutan turn dan
+panel alat dibuka lewat tombol **Tampilkan urutan turn** / **Tampilkan alat**; di
+HP, bagian dipilih lewat tab di bawah layar (Peta, Karakter, Aksi, Giliran,
+Lainnya). Tawaran reaksi muncul sebagai pemberitahuan di atas tab apa pun.
+
+Player melihat HP, kondisi, dan Concentration sesama party. Monster dan NPC lawan
+hanya ditandai **Bloodied** atau **Tumbang**, tanpa angka HP.
+
 ### Dadu dan HP
 
 Di halaman **Combat**, gunakan **Baki dadu** untuk ekspresi seperti `2d6+3`,
@@ -161,7 +176,7 @@ menunggu keputusan dilanjutkan pada task berikutnya.
 
 ### Aksi terpandu
 
-Saat combat berjalan, panel **Aksi terpandu** menampilkan serangan senjata,
+Saat combat berjalan, **hotbar aksi** di bawah peta menampilkan serangan senjata,
 spell yang disiapkan, fitur class, dan aksi stat block monster milik makhluk
 yang kamu kendalikan. Pilih aksi, target yang terlihat, level spell slot, dan
 mode damage (lempar atau rata-rata untuk monster). Pratinjau diperiksa server

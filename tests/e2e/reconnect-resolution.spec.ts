@@ -46,6 +46,8 @@ test('survives_lost_ack_reconnect_reload_and_locale_switch', async ({ browser, b
   const campaignId = (await dmApi('POST', '/api/campaigns', { title: 'Lost ACK table' })).body.id as string;
   const invite = (await dmApi('POST', `/api/campaigns/${campaignId}/invites`)).body.code as string;
   expect((await playerApi('POST', '/api/auth/register', { username: `vell_${run}`, password, invite })).status).toBeLessThan(300);
+  // Specs share one server: start from English whatever an earlier spec chose.
+  for (const api of [dmApi, playerApi]) expect((await api('PUT', '/api/auth/me/locale', { locale: 'en' })).status).toBe(200);
   const command = (as: 'dm' | 'player', targetId: string, kind: string, payload: unknown = {}, expectedRevision?: number) =>
     (as === 'dm' ? dmApi : playerApi)('POST', `/api/campaigns/${campaignId}/commands`, { campaignId, targetId, kind, payload, requestId: `e2e-${++sequence}`, ...(expectedRevision === undefined ? {} : { expectedRevision }) });
 
@@ -82,10 +84,9 @@ test('survives_lost_ack_reconnect_reload_and_locale_switch', async ({ browser, b
   const dmPage = await dm.newPage();
   const attackRequests = await loseFirstAck(dmPage, 'combat.act');
   await dmPage.goto(`/campaigns/${campaignId}/combat`);
-  const wizard = dmPage.getByRole('region', { name: 'Guided action for Goblin Warrior 1' });
-  await expect(wizard.getByRole('option', { name: 'Scimitar' })).toBeAttached();
-  await wizard.getByRole('combobox', { name: 'What to do' }).selectOption({ label: 'Scimitar' });
-  await wizard.getByRole('checkbox', { name: 'Vell' }).check();
+  const wizard = dmPage.getByRole('region', { name: 'Action bar' });
+  await wizard.getByRole('button', { name: /Scimitar/ }).click();
+  await wizard.getByRole('group', { name: 'Targets' }).getByRole('checkbox', { name: 'Vell' }).check();
   await wizard.getByRole('combobox', { name: 'Damage' }).selectOption('average');
   await wizard.getByRole('button', { name: 'Take this action' }).click();
   await wizard.getByRole('button', { name: 'Retry same action' }).click();
@@ -99,8 +100,8 @@ test('survives_lost_ack_reconnect_reload_and_locale_switch', async ({ browser, b
   // Player: reaction offered; offline blocks it, online restores it.
   const playerPage = await player.newPage();
   await playerPage.goto(`/campaigns/${campaignId}/combat`);
-  const open = playerPage.getByRole('region', { name: 'Open resolutions' });
-  await expect(open.getByText(/Vell can use Shield/)).toBeVisible();
+  const open = playerPage.getByRole('region', { name: 'Notifications' });
+  await expect(open.getByText('Reaction available: Shield')).toBeVisible();
   await player.setOffline(true);
   await expect(open.getByRole('button', { name: 'Use Shield' })).toBeDisabled();
   await player.setOffline(false);
@@ -110,6 +111,7 @@ test('survives_lost_ack_reconnect_reload_and_locale_switch', async ({ browser, b
   await loseFirstAck(playerPage, 'combat.act');
   await open.getByRole('button', { name: 'Use Shield' }).click();
   await playerPage.reload();
+  await playerPage.getByRole('tab', { name: /Resolutions/ }).click();
   await expect(playerPage.getByText('Vell used Shield')).toBeVisible();
   const sheet = (await playerApi('GET', `/api/campaigns/${campaignId}/characters/char-${run}`)).body as { character: { resources: { slotsSpent: number[] } } };
   expect(sheet.character.resources.slotsSpent[0]).toBe(1);
@@ -134,6 +136,7 @@ test('survives_lost_ack_reconnect_reload_and_locale_switch', async ({ browser, b
       }
     });
     await dmPage.reload();
+    await dmPage.getByRole('tab', { name: /Resolutions/ }).click();
     await dmPage.getByRole('region', { name: 'Open resolutions' }).getByRole('button', { name: 'Commit' }).click();
     await expect(dmPage.getByRole('region', { name: 'Recent resolutions' })).toBeVisible();
     const committed = (await snapshot()).resolutions.find((r) => r.id === attack.id)!;
