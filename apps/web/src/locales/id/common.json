@@ -151,7 +151,10 @@
     "REST_NEEDS_HP": "Karakter perlu setidaknya 1 Hit Point untuk mulai rest.",
     "REST_NEEDS_DM": "DM yang menentukan kapan rest terjadi di campaign ini.",
     "NO_HIT_DICE": "Tidak ada Hit Point Dice yang tersisa.",
-    "HP_INVALID": "Hit Points harus antara 0 dan maksimum ({{max}})."
+    "HP_INVALID": "Hit Points harus antara 0 dan maksimum ({{max}}).",
+    "LEVEL_UP_NOT_AVAILABLE": "Belum bisa naik level (perlu XP atau milestone dari DM).",
+    "ADVANCEMENT_INVALID": "Pilihan level up itu tidak diizinkan ({{issue}}).",
+    "ADVANCEMENT_INCOMPLETE": "Selesaikan pilihan level up dulu ({{missing}})."
   },
   "reference": {
     "title": "Referensi aturan",
@@ -530,6 +533,66 @@
         "radiant": "Radiant",
         "slashing": "Slashing",
         "thunder": "Thunder"
+      }
+    },
+    "levelUp": {
+      "title": "Naik level",
+      "xpStatus": "{{xp}} XP · level berikutnya pada {{next}} XP",
+      "milestoneStatus": "Level milestone dari DM: {{count}}",
+      "startingLevel": "Campaign dimulai di level {{level}}",
+      "grantLevel": "Beri satu level milestone",
+      "revert": "Batalkan level terakhir",
+      "awardXp": "Beri XP (negatif untuk koreksi)",
+      "saveXp": "Terapkan XP",
+      "mode": "Cara naik level",
+      "modeMilestone": "Milestone",
+      "modeXp": "Experience Points",
+      "startingLevelLabel": "Level awal",
+      "start": "Naik ke level {{level}}…",
+      "class": "Class untuk level ini",
+      "multiclass": "multiclass",
+      "hp": "Hit Points",
+      "hpMethod": {
+        "fixed": "Nilai tetap ({{value}})",
+        "roll": "Lempar d{{die}} saat konfirmasi"
+      },
+      "subclass": "Subclass",
+      "feat": {
+        "general": "Feat (Ability Score Improvement atau feat lain yang memenuhi syarat)",
+        "epic-boon": "Feat (Epic Boon atau feat lain yang memenuhi syarat)",
+        "fighting-style": "Feat Fighting Style"
+      },
+      "skill": "Skill dari multiclass",
+      "notes": "Pilihan lain",
+      "notesHint": "Tulis pilihan yang diputuskan di meja, misalnya Expertise, Invocation, atau Metamagic.",
+      "preview": "Sebelum dan sesudah",
+      "required": "Masih perlu dipilih: {{list}}",
+      "slot": {
+        "subclass": "subclass",
+        "feat": "feat",
+        "skill": "skill"
+      },
+      "levelRow": "Level",
+      "afterRoll": "setelah dilempar",
+      "slots": "Spell slot",
+      "pact": "Slot Pact Magic",
+      "newFeatures": "Fitur baru",
+      "confirm": "Terapkan naik level",
+      "issue": {
+        "LEVEL_CAP": "Karakter tidak bisa melebihi level 20.",
+        "CLASS_INVALID": "Class tidak dikenal.",
+        "MULTICLASS_PREREQUISITE": "Multiclass ke {{subject}} perlu nilai 13+ pada primary ability setiap class.",
+        "SUBCLASS_INVALID": "{{subject}} bukan subclass class ini.",
+        "SUBCLASS_NOT_ALLOWED": "Subclass dipilih sekali saja, pada level subclass.",
+        "FEAT_NOT_ALLOWED": "Level ini tidak memberi feat.",
+        "FEAT_INVALID": "Feat tidak dikenal.",
+        "FEAT_CATEGORY": "{{subject}} bukan feat Fighting Style.",
+        "FEAT_PREREQUISITE": "Karakter ini belum memenuhi prasyarat {{subject}}.",
+        "FEAT_TAKEN": "{{subject}} sudah diambil dan tidak Repeatable.",
+        "FEAT_INCREASES": "Pilih kenaikan ability yang diizinkan {{subject}}.",
+        "ABILITY_CAP": "{{subject}} akan melebihi batas maksimum.",
+        "SKILL_INVALID": "{{subject}} tidak bisa dipilih di sini.",
+        "SKILL_NOT_ALLOWED": "Class ini tidak memberi skill saat multiclass."
       }
     }
   }

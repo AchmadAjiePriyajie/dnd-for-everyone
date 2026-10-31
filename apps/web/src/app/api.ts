@@ -8,7 +8,7 @@ import type {
 } from '#shared/access';
 import type { CommandEnvelope, CommandResult } from '#shared/commands';
 import type { Id, Locale } from '#shared/contracts';
-import type { CharacterOptions, RestPreview } from '#shared/characters';
+import type { AdvancementChoice, AdvancementPreview, CharacterOptions, RestPreview } from '#shared/characters';
 import type { ReferenceEntryView, SearchHit } from '#shared/reference';
 import type { CharacterView } from '../features/characters/types';
 import type { RoomSnapshot } from '#shared/room';
@@ -88,6 +88,11 @@ export const api = {
     request<CharacterView>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}?locale=${locale}`),
   restPreview: (campaignId: Id, characterId: Id, rest: 'short' | 'long') =>
     request<RestPreview>('GET', `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}/rest-preview?rest=${rest}`),
+  advancementPreview: (campaignId: Id, characterId: Id, choice: AdvancementChoice) =>
+    request<AdvancementPreview>(
+      'GET',
+      `${campaignPath(campaignId)}/characters/${encodeURIComponent(characterId)}/advancement-preview?choice=${encodeURIComponent(JSON.stringify(choice))}`,
+    ),
   referenceSearch: (q: string, locale: Locale, campaignId?: Id) =>
     request<SearchHit[]>('GET', `/api/reference/search?${referenceQuery({ q, locale, campaignId })}`),
   referenceEntry: (id: Id, locale: Locale, campaignId?: Id) =>

@@ -156,6 +156,8 @@ describe('character creation', () => {
     expect(options.masteryWeapons).toHaveLength(38);
     expect(options.names['rule.mastery-sap']).toBeTruthy();
     expect(options.items).toHaveLength(182 + 258);
+    expect(options.subclasses.find((s: { id: string }) => s.id === 'subclass.champion')).toMatchObject({ mechanics: { class: 'class.fighter' } });
+    expect(options.feats.find((f: { id: string }) => f.id === 'feat.boon-of-fate')).toMatchObject({ mechanics: { category: 'epic-boon', prerequisiteLevel: 19 } });
     expect(options.spells.find((s: { id: string }) => s.id === 'spell.bless')).toMatchObject({ mechanics: { level: 1, concentration: true } });
     expect(options.names['background.soldier']).toBe('Soldier');
     expect((await new TestClient(server.app).get(`/api/campaigns/${campaignId}/character-options?locale=id`)).status).toBe(401);
@@ -333,5 +335,82 @@ describe('character creation', () => {
     expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.longsword', 'equipment.dagger', 'equipment.javelin'] })).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
     expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.longsword', 'equipment.flail', 'equipment.javelin'] })).status).toBe(200);
     expect((await send(alice.client, campaignId, charId, 'character.set-weapon-masteries', { weapons: ['equipment.dagger', 'equipment.flail', 'equipment.javelin'] })).body.code).toBe('MASTERY_CHANGE_NEEDS_REST');
+  });
+
+  it('levels_up_with_preview_milestones_and_dm_corrections', async () => {
+    const dataDir = await makeDataDir();
+    cleanup.unshift(() => removeDataDir(dataDir));
+    const server = await boot(dataDir);
+    const { dm, campaignId, alice, bob } = await seed(server);
+    const charId = 'char-levels';
+    const path = `/api/campaigns/${campaignId}/characters/${charId}`;
+    type View = {
+      character: { classLevels: Array<{ classId: string; level: number; subclassId?: string }>; pendingAdvancement: unknown; advancements: Array<{ hpDie: number }> };
+      derived: { hitPoints: { value: number }; level: number };
+      advancement: { mode: string; canAdvance: boolean; levelsGranted: number; xp: number; nextLevelXp: number | null };
+    };
+    const view = async () => (await alice.client.get<View>(path)).body;
+    const preview = async (choice: unknown) => alice.client.get<{ issues: string[]; required: string[]; before: { hitPoints: number }; after: { hitPoints: number } }>(
+      `${path}/advancement-preview?choice=${encodeURIComponent(JSON.stringify(choice))}`,
+    );
+    await send(alice.client, campaignId, charId, 'character.create');
+    await send(alice.client, campaignId, charId, 'character.save-draft', { draft: complete() });
+    await send(alice.client, campaignId, charId, 'character.finalize');
+
+    // Default milestone: tanpa level dari DM, pemain belum bisa naik level.
+    expect((await view()).advancement).toMatchObject({ mode: 'milestone', canAdvance: false, levelsGranted: 0 });
+    const fighter = { classId: 'class.fighter', hp: 'fixed' };
+    expect((await preview(fighter)).body).toMatchObject({ issues: [], required: [], before: { hitPoints: 13 }, after: { hitPoints: 22 } });
+    expect((await send(alice.client, campaignId, charId, 'character.advance', { choice: fighter })).body.code).toBe('LEVEL_UP_NOT_AVAILABLE');
+    expect((await send(alice.client, campaignId, charId, 'character.grant-level', { count: 1 })).body.code).toBe('FORBIDDEN');
+    expect((await send(dm, campaignId, charId, 'character.grant-level', { count: 2 })).status).toBe(200);
+    expect((await view()).advancement).toMatchObject({ canAdvance: true, levelsGranted: 2 });
+    expect((await bob.client.get(`${path}/advancement-preview?choice=${encodeURIComponent(JSON.stringify(fighter))}`)).status).toBe(403);
+
+    expect((await send(alice.client, campaignId, charId, 'character.advance', { choice: fighter })).status).toBe(200);
+    let body = await view();
+    expect(body.character.classLevels).toEqual([{ classId: 'class.fighter', level: 2 }]);
+    expect(body.derived.hitPoints.value).toBe(22);
+    expect(body.advancement.levelsGranted).toBe(1);
+
+    // Level 3 tanpa subclass: draft tersimpan, tidak diterapkan.
+    expect((await send(alice.client, campaignId, charId, 'character.save-advancement-draft', { choice: { classId: 'class.fighter', hp: 'roll' } })).status).toBe(200);
+    expect((await view()).character.pendingAdvancement).toEqual({ classId: 'class.fighter', hp: 'roll' });
+    expect((await send(alice.client, campaignId, charId, 'character.advance', { choice: { classId: 'class.fighter', hp: 'roll' } })).body).toMatchObject({
+      code: 'ADVANCEMENT_INCOMPLETE',
+      params: { missing: 'subclass' },
+    });
+    expect((await send(alice.client, campaignId, charId, 'character.advance', { choice: { classId: 'class.wizard', hp: 'fixed' } })).body).toMatchObject({
+      code: 'ADVANCEMENT_INVALID',
+      params: { issue: 'MULTICLASS_PREREQUISITE:class.wizard' },
+    });
+    // HP dilempar server; retry requestId yang sama mengembalikan lemparan yang sama.
+    const envelope = { requestId: 'lvl-3', campaignId, targetId: charId, kind: 'character.advance', payload: { choice: { classId: 'class.fighter', hp: 'roll', subclassId: 'subclass.champion' } } };
+    const first = await alice.client.post<{ value: { hpDie: number } }>(`/api/campaigns/${campaignId}/commands`, envelope);
+    expect(first.status).toBe(200);
+    const again = await alice.client.post<{ value: { hpDie: number } }>(`/api/campaigns/${campaignId}/commands`, envelope);
+    expect(again.body.value).toEqual(first.body.value);
+    body = await view();
+    expect(body.character.classLevels).toEqual([{ classId: 'class.fighter', level: 3, subclassId: 'subclass.champion' }]);
+    expect(body.character.pendingAdvancement).toBeNull();
+    expect(body.derived.hitPoints.value).toBe(22 + first.body.value.hpDie + 2 + 1);
+    expect(body.advancement).toMatchObject({ levelsGranted: 0, canAdvance: false });
+
+    // Koreksi DM: batalkan level terakhir (subclass ikut hilang).
+    expect((await send(alice.client, campaignId, charId, 'character.revert-advancement')).body.code).toBe('FORBIDDEN');
+    expect((await send(dm, campaignId, charId, 'character.revert-advancement')).status).toBe(200);
+    expect((await view()).character.classLevels).toEqual([{ classId: 'class.fighter', level: 2 }]);
+
+    // Mode XP: 900 XP untuk level 3.
+    expect((await send(dm, campaignId, campaignId, 'campaign.set-advancement', { mode: 'xp', startingLevel: 1 })).status).toBe(200);
+    await send(dm, campaignId, charId, 'character.award-xp', { amount: 899 });
+    expect((await view()).advancement).toMatchObject({ mode: 'xp', xp: 899, nextLevelXp: 900, canAdvance: false });
+    await send(dm, campaignId, charId, 'character.award-xp', { amount: 1 });
+    expect((await view()).advancement.canAdvance).toBe(true);
+    expect((await send(dm, campaignId, charId, 'character.award-xp', { amount: -901 })).status).toBe(400);
+    // Level awal campaign: naik bebas sampai level 5.
+    await send(dm, campaignId, campaignId, 'campaign.set-advancement', { mode: 'milestone', startingLevel: 5 });
+    expect((await view()).advancement.canAdvance).toBe(true);
+    expect((await alice.client.get(`${path}/advancement-preview?choice=${encodeURIComponent('{"classId":1}')}`)).status).toBe(400);
   });
 });

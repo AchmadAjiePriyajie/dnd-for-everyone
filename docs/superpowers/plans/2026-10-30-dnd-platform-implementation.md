@@ -218,11 +218,11 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `previewAdvancement(character: Character, choice: AdvancementChoice, catalog: ContentCatalog): AdvancementPreview`; `applyAdvancement(character: Character, preview: AdvancementPreview): Character`. Tipe pilihan/preview ditambahkan ke `characters.ts`; server memvalidasi ulang preview saat commit.
 
-- [ ] Tulis `advances_all_srd_classes_and_multiclass`: total level tidak melebihi 20; prerequisite class/feat ditegakkan; HP/proficiency/slots/features cocok fixture sumber yang dipilih independen; pilihan yang kurang tetap draft.
-- [ ] Run `npm run test -- packages/rules/src/advancement.test.ts`; expected FAIL.
-- [ ] Implementasikan XP/milestone setting, subclass/feat/ability improvements, memulai di level lebih tinggi, multiclass slot/proficiency dan class resources; tampilkan before/after sebelum commit.
-- [ ] Run test sama; expected PASS untuk tiap class/subclass SRD dan kombinasi caster/Pact Magic serta koreksi DM tercatat.
-- [ ] Commit `feat: add character advancement`.
+- [x] Tulis `advances_all_srd_classes_and_multiclass`: total level tidak melebihi 20; prerequisite class/feat ditegakkan; HP/proficiency/slots/features cocok fixture sumber yang dipilih independen; pilihan yang kurang tetap draft.
+- [x] Run `npm run test -- packages/rules/src/advancement.test.ts`; expected FAIL.
+- [x] Implementasikan XP/milestone setting, subclass/feat/ability improvements, memulai di level lebih tinggi, multiclass slot/proficiency dan class resources; tampilkan before/after sebelum commit.
+- [x] Run test sama; expected PASS untuk tiap class/subclass SRD dan kombinasi caster/Pact Magic serta koreksi DM tercatat.
+- [x] Commit `feat: add character advancement`.
 
 **Gate tahap:** karakter SRD dapat dibuat/dikembangkan, corpus EN/ID lengkap dan pencarian pemula berjalan tanpa internet; keberhasilan beberapa contoh class tidak menutup gate.
 

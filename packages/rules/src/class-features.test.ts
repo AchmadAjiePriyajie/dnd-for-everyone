@@ -28,6 +28,8 @@ const character = (
   overrides: {},
   featureState: { ...emptyFeatureState(), ...state },
   resources: emptyResources(),
+  advancements: [],
+  pendingAdvancement: null,
   revision: 1,
   updatedAt: '2026-10-31T00:00:00.000Z',
 });

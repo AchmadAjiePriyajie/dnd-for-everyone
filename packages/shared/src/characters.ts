@@ -76,6 +76,16 @@ export const characterDraftSchema = z.strictObject({
 });
 export type CharacterDraft = z.infer<typeof characterDraftSchema>;
 
+/** Validasi bentuk AdvancementChoice dari client; aturan diperiksa ulang oleh previewAdvancement. */
+export const advancementChoiceSchema = z.strictObject({
+  classId: contentId,
+  hp: z.enum(['fixed', 'roll']),
+  subclassId: contentId.optional(),
+  feat: z.strictObject({ featId: contentId, increases: z.partialRecord(abilityKey, z.number().int().min(1).max(2)) }).optional(),
+  skill: skillKey.optional(),
+  notes: shortText(500).optional(),
+});
+
 export const emptyDraft = (): CharacterDraft => ({
   name: '',
   concept: '',
@@ -215,6 +225,81 @@ export interface RestPreview {
   changes: Array<{ key: string; before: number | boolean; after: number | boolean }>;
 }
 
+/** Feat yang diambil saat level up (ASI, feat umum, Fighting Style, Epic Boon) beserta kenaikan ability-nya. */
+export interface FeatChoice {
+  featId: Id;
+  increases: Partial<Record<AbilityKey, number>>;
+}
+
+/** Pilihan pemain untuk satu level baru. */
+export interface AdvancementChoice {
+  /** Class yang naik level; class baru = multiclass. */
+  classId: Id;
+  /** fixed = nilai tetap Hit Point Die; roll = dilempar server saat dikonfirmasi. */
+  hp: 'fixed' | 'roll';
+  subclassId?: Id;
+  feat?: FeatChoice;
+  /** Skill dari multiclass (Bard: bebas; Ranger/Rogue: dari daftar class). */
+  skill?: SkillKey;
+  /** Pilihan lain yang diputuskan di meja (Expertise, Invocation, Metamagic, …). */
+  notes?: string;
+}
+
+/** Satu level yang sudah diterapkan; `hpDie` = hasil Hit Point Die (tetap atau lemparan), tanpa Con. */
+export interface AdvancementRecord {
+  level: number;
+  classId: Id;
+  hpDie: number;
+  hpMethod: 'fixed' | 'roll';
+  subclassId?: Id;
+  feat?: FeatChoice;
+  skill?: SkillKey;
+  notes?: string;
+}
+
+export type AdvancementSlot = 'subclass' | 'feat' | 'skill';
+
+/** Ringkasan angka sebelum/sesudah level up. */
+export interface AdvancementSummary {
+  level: number;
+  proficiencyBonus: number;
+  hitPoints: number;
+  slots: number[];
+  pact: { level: number; max: number } | null;
+}
+
+export interface AdvancementPreview {
+  choice: AdvancementChoice;
+  /** Level karakter baru dan level class baru. */
+  level: number;
+  classLevel: number;
+  multiclass: boolean;
+  /** Hasil Hit Point Die; null bila metode roll belum dilempar. */
+  hpDie: number | null;
+  hitDie: number;
+  /** Pilihan yang wajib diisi untuk level ini; slot yang terisi tidak tercantum. */
+  required: AdvancementSlot[];
+  /** Kategori feat yang diminta level ini (general/epic-boon/fighting-style), bila ada. */
+  featCategory: 'general' | 'epic-boon' | 'fighting-style' | null;
+  newFeatures: Array<{ key: string; name: string }>;
+  /** Pilihan tidak sah, mis. `MULTICLASS_PREREQUISITE:class.wizard`. */
+  issues: string[];
+  before: AdvancementSummary;
+  after: AdvancementSummary;
+}
+
+/** Status kenaikan level untuk sheet: dari XP, milestone DM, atau level awal campaign. */
+export interface AdvancementStatus {
+  mode: 'milestone' | 'xp';
+  xp: number;
+  /** XP untuk level berikutnya (null pada level 20). */
+  nextLevelXp: number | null;
+  /** Level up milestone yang sudah diberikan DM dan belum dipakai. */
+  levelsGranted: number;
+  startingLevel: number;
+  canAdvance: boolean;
+}
+
 export interface Character {
   id: Id;
   campaignId: Id;
@@ -228,6 +313,10 @@ export interface Character {
   overrides: Partial<Record<OverrideField, number>>;
   featureState: FeatureState;
   resources: CharacterResources;
+  /** Level 2+ yang sudah diterapkan, berurutan. */
+  advancements: AdvancementRecord[];
+  /** Pilihan level up yang belum lengkap (draft). */
+  pendingAdvancement: AdvancementChoice | null;
   revision: number;
   updatedAt: string;
 }
@@ -378,6 +467,10 @@ export interface CharacterOptions {
   items: CharacterOption[];
   /** Semua spell; mechanics = {level, classes, concentration}. */
   spells: CharacterOption[];
+  /** Subclass SRD; mechanics = {class}. */
+  subclasses: CharacterOption[];
+  /** Semua feat; mechanics = {category, prerequisiteLevel?, repeatable?}. */
+  feats: CharacterOption[];
   /** Armor (bukan shield) yang dirujuk paket awal, dengan kategorinya. */
   armor: Record<Id, 'light' | 'medium' | 'heavy'>;
   /** Judul lokal untuk ID yang muncul di opsi/sheet (equipment, feat, dll.). */

@@ -67,6 +67,8 @@ const options: CharacterOptions = {
     opt('spell.fire-bolt', 'Fire Bolt', { level: 0, classes: ['class.wizard'], concentration: false }),
     opt('spell.detect-magic', 'Detect Magic', { level: 1, classes: ['class.wizard'], concentration: true }),
   ],
+  subclasses: [opt('subclass.champion', 'Champion', { class: 'class.fighter' })],
+  feats: [opt('feat.ability-score-improvement', 'Ability Score Improvement', { category: 'general', prerequisiteLevel: 4, repeatable: true })],
   armor: { 'equipment.chain-mail': 'heavy' },
   names: { 'equipment.chain-mail': 'Chain Mail', 'species.dwarf': 'Dwarf', 'class.fighter': 'Fighter', 'class.wizard': 'Wizard', 'background.soldier': 'Soldier', 'feat.savage-attacker': 'Savage Attacker', 'rule.mastery-sap': 'Sap', 'rule.mastery-nick': 'Nick' },
 };
@@ -377,5 +379,77 @@ describe('character wizard', () => {
     expect(kinds().some((b) => b.kind === 'character.rest')).toBe(false);
     await user.click(within(preview).getByRole('button', { name: 'Finish rest' }));
     await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.rest', payload: { rest: 'long' } }));
+  });
+
+  it('levels_up_after_reviewing_before_and_after', async () => {
+    const draft = { ...emptyDraft(), name: 'Brakka', classId: 'class.fighter' };
+    fake = installFakeApi({
+      snapshots: { 'camp-1': snapshot },
+      characterOptions: options,
+      deriveCharacter: fakeDerive,
+      characters: {
+        'char-1': {
+          character: {
+            id: 'char-1',
+            campaignId: 'camp-1',
+            ownerAccountId: 'acc-dm',
+            status: 'final',
+            classLevels: [{ classId: 'class.fighter', level: 2 }],
+            draft,
+            rolls: [],
+            overrides: {},
+            resources: { ...emptyResources(), initialized: true },
+            revision: 3,
+            updatedAt: '',
+          },
+          derived: fakeDerive(draft),
+          advancement: { mode: 'milestone', xp: 0, nextLevelXp: 900, levelsGranted: 1, startingLevel: 1, canAdvance: true },
+          advancementPreview: {
+            choice: { classId: 'class.fighter', hp: 'fixed' },
+            level: 3,
+            classLevel: 3,
+            multiclass: false,
+            hpDie: 6,
+            hitDie: 10,
+            required: ['subclass'],
+            featCategory: null,
+            newFeatures: [{ key: 'subclass.champion/improved-critical', name: 'Improved Critical' }],
+            issues: [],
+            before: { level: 2, proficiencyBonus: 2, hitPoints: 22, slots: [], pact: null },
+            after: { level: 3, proficiencyBonus: 2, hitPoints: 31, slots: [], pact: null },
+          },
+          allowedMethods: ['standard-array'],
+        },
+      },
+    });
+    window.history.replaceState(null, '', '/campaigns/camp-1/characters/char-1');
+    const user = userEvent.setup();
+    render(<App />);
+
+    const card = await screen.findByRole('region', { name: 'Level up' });
+    expect(within(card).getByText('Milestone levels from the DM: 1')).toBeTruthy();
+    await user.click(within(card).getByRole('button', { name: 'Level up to 3…' }));
+    const preview = await within(card).findByRole('group', { name: 'Before and after' });
+    expect(within(preview).getByText('22 → 31')).toBeTruthy();
+    expect(within(preview).getByText('Still to choose: subclass')).toBeTruthy();
+    // Pilihan wajib belum lengkap: tombol terapkan nonaktif.
+    expect((within(card).getByRole('button', { name: 'Apply level up' }) as HTMLButtonElement).disabled).toBe(true);
+
+    // Pilih subclass → draft disimpan, pratinjau baru tanpa pilihan wajib.
+    fake.state.characters['char-1']!.advancementPreview = { ...fake.state.characters['char-1']!.advancementPreview!, required: [] };
+    await user.selectOptions(within(card).getByRole('combobox', { name: 'Subclass' }), 'subclass.champion');
+    await waitFor(() =>
+      expect(fake.requests.map((r) => r.body)).toContainEqual(
+        expect.objectContaining({ kind: 'character.save-advancement-draft', payload: { choice: { classId: 'class.fighter', hp: 'fixed', subclassId: 'subclass.champion' } } }),
+      ),
+    );
+    await waitFor(() => expect((within(card).getByRole('button', { name: 'Apply level up' }) as HTMLButtonElement).disabled).toBe(false));
+    expect(within(card).getByText('Improved Critical')).toBeTruthy();
+    await user.click(within(card).getByRole('button', { name: 'Apply level up' }));
+    await waitFor(() =>
+      expect(fake.requests.map((r) => r.body)).toContainEqual(
+        expect.objectContaining({ kind: 'character.advance', payload: { choice: { classId: 'class.fighter', hp: 'fixed', subclassId: 'subclass.champion' } } }),
+      ),
+    );
   });
 });

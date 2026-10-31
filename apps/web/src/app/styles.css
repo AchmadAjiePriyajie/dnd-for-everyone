@@ -1757,3 +1757,18 @@ button:disabled {
   font-weight: 600;
   margin-bottom: 0.35rem;
 }
+
+/* ---------------------------------------------------------------- level up */
+.level-up {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.level-up fieldset {
+  border: 0;
+  padding: 0;
+}
+
+.level-up textarea {
+  min-height: 4rem;
+}

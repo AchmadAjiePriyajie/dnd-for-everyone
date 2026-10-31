@@ -45,6 +45,8 @@ const character = (draft: CharacterDraft, over: Partial<Character> = {}): Charac
   overrides: {},
   featureState: emptyFeatureState(),
   resources: emptyResources(),
+  advancements: [],
+  pendingAdvancement: null,
   revision: 1,
   updatedAt: '2026-10-30T00:00:00.000Z',
   ...over,

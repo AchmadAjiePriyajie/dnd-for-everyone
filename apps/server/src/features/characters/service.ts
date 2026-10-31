@@ -3,6 +3,7 @@ import { Injectable, type OnModuleInit } from '@nestjs/common';
 import type { DatabaseSync } from 'node:sqlite';
 import { z } from 'zod';
 import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
+import { advancementStatus } from '#rules/advancement';
 import { availableFeatures } from '#rules/class-features';
 import { deriveCharacter } from '#rules/character-stats';
 import { startingResources } from '#rules/equipment';
@@ -26,6 +27,9 @@ import {
   type FeatureState,
   type FeatureUse,
   type MasteryGrant,
+  type AdvancementChoice,
+  type AdvancementRecord,
+  type AdvancementStatus,
   type SpellcastingState,
   OVERRIDE_FIELDS,
 } from '#shared/characters';
@@ -50,6 +54,10 @@ interface CharacterRow {
   overrides: string;
   feature_state: string;
   resources: string;
+  advancements: string;
+  pending_advancement: string | null;
+  xp: number;
+  levels_granted: number;
   updated_at: string;
 }
 
@@ -60,6 +68,7 @@ export interface CharacterView {
   features: FeatureUse[];
   masteryGrants: MasteryGrant[];
   spellcasting: SpellcastingState;
+  advancement: AdvancementStatus;
   allowedMethods: AbilityMethod[];
   restPolicy: RestPolicy;
 }
@@ -149,6 +158,7 @@ export class CharactersService implements OnModuleInit {
       features: availableFeatures(character, catalog, locale),
       masteryGrants: masteryGrants(character, catalog),
       spellcasting: deriveSpellcasting(character, catalog),
+      advancement: this.advancementStatus(db, row, character),
       allowedMethods,
       restPolicy: this.restPolicy(db, campaignId),
     };
@@ -172,6 +182,41 @@ export class CharactersService implements OnModuleInit {
   writeEquipment(ctx: CommandContext, character: Character, armorId: Id | null, shield: boolean): void {
     const draft = { ...character.draft, equippedArmorId: armorId, shieldEquipped: shield };
     ctx.db.prepare('UPDATE characters SET draft = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(draft), ctx.now, character.id);
+  }
+
+  advancementSettings(db: DatabaseSync, campaignId: Id): { mode: 'milestone' | 'xp'; startingLevel: number } {
+    const row = db.prepare('SELECT advancement_mode, starting_level FROM campaigns WHERE id = ?').get(campaignId) as
+      | { advancement_mode: 'milestone' | 'xp'; starting_level: number }
+      | undefined;
+    return { mode: row?.advancement_mode ?? 'milestone', startingLevel: row?.starting_level ?? 1 };
+  }
+
+  /** XP dan milestone tersisa karakter (kolom terpisah dari JSON karena diubah DM). */
+  progress(db: DatabaseSync, characterId: Id): { xp: number; levelsGranted: number } {
+    const row = this.row(db, characterId);
+    return { xp: row?.xp ?? 0, levelsGranted: row?.levels_granted ?? 0 };
+  }
+
+  private advancementStatus(db: DatabaseSync, row: CharacterRow, character: Character): AdvancementStatus {
+    const level = character.classLevels.reduce((total, entry) => total + entry.level, 0);
+    return advancementStatus(level, this.advancementSettings(db, row.campaign_id), { xp: row.xp, levelsGranted: row.levels_granted });
+  }
+
+  /** Simpan hasil level up: class levels, catatan level, dan kosongkan draft. */
+  writeAdvancement(ctx: CommandContext, character: Character): void {
+    ctx.db
+      .prepare('UPDATE characters SET class_levels = ?, advancements = ?, pending_advancement = ?, updated_at = ? WHERE id = ?')
+      .run(
+        JSON.stringify(character.classLevels),
+        JSON.stringify(character.advancements),
+        character.pendingAdvancement ? JSON.stringify(character.pendingAdvancement) : null,
+        ctx.now,
+        character.id,
+      );
+  }
+
+  writeProgress(ctx: CommandContext, characterId: Id, progress: { xp: number; levelsGranted: number }): void {
+    ctx.db.prepare('UPDATE characters SET xp = ?, levels_granted = ?, updated_at = ? WHERE id = ?').run(progress.xp, progress.levelsGranted, ctx.now, characterId);
   }
 
   restPolicy(db: DatabaseSync, campaignId: Id): RestPolicy {
@@ -218,6 +263,10 @@ export class CharactersService implements OnModuleInit {
           classes: mechanics.classes,
           concentration: (mechanics.duration as { concentration?: boolean } | undefined)?.concentration ?? false,
         })),
+      ),
+      subclasses: ofKind('subclass').map((id) => option(id, ({ class: parent }) => ({ class: parent }))),
+      feats: ofKind('feat').map((id) =>
+        option(id, ({ category, prerequisiteLevel, repeatable }) => ({ category, ...(prerequisiteLevel ? { prerequisiteLevel } : {}), ...(repeatable ? { repeatable } : {}) })),
       ),
       armor: {},
       names,
@@ -363,6 +412,8 @@ export class CharactersService implements OnModuleInit {
       overrides: JSON.parse(row.overrides),
       featureState: { ...emptyFeatureState(), ...(JSON.parse(row.feature_state) as Partial<FeatureState>) },
       resources: { ...emptyResources(), ...(JSON.parse(row.resources) as Partial<CharacterResources>) },
+      advancements: JSON.parse(row.advancements) as AdvancementRecord[],
+      pendingAdvancement: row.pending_advancement ? (JSON.parse(row.pending_advancement) as AdvancementChoice) : null,
       revision: revision?.revision ?? 0,
       updatedAt: row.updated_at,
     };

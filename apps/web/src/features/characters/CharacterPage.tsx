@@ -13,6 +13,7 @@ import { CharacterWizard } from './CharacterWizard';
 import { DmCharacterTools } from './DmCharacterTools';
 import { FeatureList } from './FeatureList';
 import { Inventory, Vitals } from './Inventory';
+import { LevelUpWizard } from './LevelUpWizard';
 import { Spellbook } from './Spellbook';
 import type { CharacterView } from './types';
 
@@ -92,6 +93,7 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
             </div>
           )}
           {live && <Spellbook view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} />}
+          {live && (owner || isDm) && <LevelUpWizard view={view} options={options} campaignId={campaignId} reload={reload} owner={owner} isDm={isDm} />}
           <FeatureList
             view={view}
             options={options}

@@ -9,6 +9,8 @@ import {
   type CharacterResources,
   type RestPreview,
   type SpellcastingState,
+  type AdvancementPreview,
+  type AdvancementStatus,
   type FeatureState,
   type FeatureUse,
   HEROIC_INSPIRATION,
@@ -62,6 +64,9 @@ export interface FakeCharacterView {
   restPolicy?: 'dm' | 'players';
   /** Jawaban GET rest-preview. */
   restPreview?: RestPreview;
+  advancement?: AdvancementStatus;
+  /** Jawaban GET advancement-preview. */
+  advancementPreview?: AdvancementPreview;
   allowedMethods: string[];
 }
 
@@ -148,6 +153,11 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
       const found = state.characters[decodeURIComponent(previewPath[2]!)];
       return found ? json(200, found.restPreview ?? { rest: url.searchParams.get('rest'), changes: [] }) : error(403, 'FORBIDDEN');
     }
+    const advancementPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)\/advancement-preview$/.exec(path);
+    if (advancementPath) {
+      const found = state.characters[decodeURIComponent(advancementPath[2]!)];
+      return found?.advancementPreview ? json(200, { ...found.advancementPreview, choice: JSON.parse(url.searchParams.get('choice') ?? '{}') }) : error(403, 'FORBIDDEN');
+    }
     const characterPath = /^\/api\/campaigns\/([^/]+)\/characters\/([^/]+)$/.exec(path);
     if (characterPath) {
       const found = state.characters[decodeURIComponent(characterPath[2]!)];
@@ -158,8 +168,9 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
         masteryGrants: [],
         spellcasting,
         restPolicy: 'dm',
+        advancement: { mode: 'milestone', xp: 0, nextLevelXp: 300, levelsGranted: 0, startingLevel: 1, canAdvance: false },
         ...found,
-        character: { featureState: emptyFeatureState(), resources: emptyResources(), ...found.character },
+        character: { featureState: emptyFeatureState(), resources: emptyResources(), advancements: [], pendingAdvancement: null, ...found.character },
       });
     }
     const commandPath = /^\/api\/campaigns\/([^/]+)\/commands$/.exec(path);
@@ -221,7 +232,8 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
         found.character.status = 'final';
         return result(found);
       }
-      return error(400, 'UNKNOWN_COMMAND');
+      // Command karakter lain (resource, level up): cukup dicatat dan di-ack.
+      return result(found);
     }
     if (/^\/api\/campaigns\/[^/]+\/commands$/.test(path)) {
       return json(200, { targetId: body.targetId, entityRevision: 1, eventSequence: 1, value: null });

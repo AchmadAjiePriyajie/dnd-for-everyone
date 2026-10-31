@@ -151,7 +151,10 @@
     "REST_NEEDS_HP": "A character needs at least 1 Hit Point to start a rest.",
     "REST_NEEDS_DM": "The DM decides when rests happen in this campaign.",
     "NO_HIT_DICE": "No Hit Point Dice left to spend.",
-    "HP_INVALID": "Hit Points must be between 0 and the maximum ({{max}})."
+    "HP_INVALID": "Hit Points must be between 0 and the maximum ({{max}}).",
+    "LEVEL_UP_NOT_AVAILABLE": "No level up is available yet (XP or a milestone from the DM is needed).",
+    "ADVANCEMENT_INVALID": "That level-up choice is not allowed ({{issue}}).",
+    "ADVANCEMENT_INCOMPLETE": "Finish the level-up choices first ({{missing}})."
   },
   "reference": {
     "title": "Rules reference",
@@ -530,6 +533,66 @@
         "radiant": "Radiant",
         "slashing": "Slashing",
         "thunder": "Thunder"
+      }
+    },
+    "levelUp": {
+      "title": "Level up",
+      "xpStatus": "{{xp}} XP · next level at {{next}} XP",
+      "milestoneStatus": "Milestone levels from the DM: {{count}}",
+      "startingLevel": "Campaign starts at level {{level}}",
+      "grantLevel": "Give a milestone level",
+      "revert": "Undo last level",
+      "awardXp": "Award XP (negative to correct)",
+      "saveXp": "Apply XP",
+      "mode": "Advancement",
+      "modeMilestone": "Milestones",
+      "modeXp": "Experience Points",
+      "startingLevelLabel": "Starting level",
+      "start": "Level up to {{level}}…",
+      "class": "Class for this level",
+      "multiclass": "multiclass",
+      "hp": "Hit Points",
+      "hpMethod": {
+        "fixed": "Fixed value ({{value}})",
+        "roll": "Roll d{{die}} on confirm"
+      },
+      "subclass": "Subclass",
+      "feat": {
+        "general": "Feat (Ability Score Improvement or another feat you qualify for)",
+        "epic-boon": "Feat (Epic Boon or another feat you qualify for)",
+        "fighting-style": "Fighting Style feat"
+      },
+      "skill": "Skill from multiclassing",
+      "notes": "Other choices",
+      "notesHint": "Write choices settled at the table, such as Expertise, Invocations or Metamagic.",
+      "preview": "Before and after",
+      "required": "Still to choose: {{list}}",
+      "slot": {
+        "subclass": "subclass",
+        "feat": "feat",
+        "skill": "skill"
+      },
+      "levelRow": "Level",
+      "afterRoll": "after the roll",
+      "slots": "Spell slots",
+      "pact": "Pact Magic slots",
+      "newFeatures": "New features",
+      "confirm": "Apply level up",
+      "issue": {
+        "LEVEL_CAP": "Characters cannot go above level 20.",
+        "CLASS_INVALID": "Unknown class.",
+        "MULTICLASS_PREREQUISITE": "Multiclassing into {{subject}} needs 13+ in the primary ability of every class.",
+        "SUBCLASS_INVALID": "{{subject}} is not a subclass of this class.",
+        "SUBCLASS_NOT_ALLOWED": "A subclass is chosen only once, at the subclass level.",
+        "FEAT_NOT_ALLOWED": "This level does not grant a feat.",
+        "FEAT_INVALID": "Unknown feat.",
+        "FEAT_CATEGORY": "{{subject}} is not a Fighting Style feat.",
+        "FEAT_PREREQUISITE": "This character does not meet the prerequisite of {{subject}}.",
+        "FEAT_TAKEN": "{{subject}} was already taken and is not repeatable.",
+        "FEAT_INCREASES": "Choose the ability increases that {{subject}} allows.",
+        "ABILITY_CAP": "{{subject}} would go above its maximum.",
+        "SKILL_INVALID": "{{subject}} cannot be chosen here.",
+        "SKILL_NOT_ALLOWED": "This class gives no skill when multiclassing."
       }
     }
   }

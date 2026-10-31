@@ -18,6 +18,7 @@ import {
   type WeaponAttack,
 } from '#shared/characters';
 import { ABILITY_SCORE_CAP, abilityModifier, SKILL_ABILITIES, STANDARD_LANGUAGES, validateBaseScores } from './abilities.ts';
+import { MULTICLASS_TRAITS } from './multiclass.ts';
 
 /** Bentuk mekanik corpus yang dibaca di sini (lihat ingest_characters.py / ingest_equipment.py). */
 interface ClassMechanics {
@@ -78,6 +79,8 @@ interface ArmorMechanics {
 }
 
 const SHIELD_ID = 'equipment.shield';
+/** Epic Boon: "to a maximum of 30". */
+const EPIC_BOON_CAP = 30;
 /** Penalti Speed bila Strength di bawah syarat armor Heavy. */
 const ARMOR_STRENGTH_SPEED_PENALTY = 10;
 const DEFAULT_SCORE = 10;
@@ -151,6 +154,16 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
     const contributions: Contribution[] = [{ source: 'base', value: base }];
     const bonus = Math.min(increase[ability] ?? 0, Math.max(0, ABILITY_SCORE_CAP - base));
     if (bonus > 0 && draft.backgroundId) contributions.push({ source: draft.backgroundId, value: bonus });
+    // Kenaikan dari feat level up (ASI, feat umum, Epic Boon), dibatasi 20 atau 30 untuk Epic Boon.
+    let running = base + Math.max(0, bonus);
+    for (const record of character.advancements) {
+      const add = record.feat?.increases[ability];
+      if (!record.feat || !add) continue;
+      const cap = mechanicsOf<FeatMechanics>(catalog, record.feat.featId, 'feat')?.category === 'epic-boon' ? EPIC_BOON_CAP : ABILITY_SCORE_CAP;
+      const applied = Math.min(add, Math.max(0, cap - running));
+      if (applied > 0) contributions.push({ source: record.feat.featId, value: applied });
+      running += applied;
+    }
     const score = value(contributions);
     abilities[ability] = { score, modifier: abilityModifier(score.value) };
   }
@@ -170,6 +183,7 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
     else if (feats.includes(draft.extraOriginFeatId) && !extra.repeatable) issue('extraOriginFeatId', 'INVALID', { value: draft.extraOriginFeatId });
     else feats.push(draft.extraOriginFeatId);
   } else if (draft.extraOriginFeatId) issue('extraOriginFeatId', 'NOT_ALLOWED');
+  for (const record of character.advancements) if (record.feat) feats.push(record.feat.featId);
   const featMechanics = feats.map((id) => [id, mechanicsOf<FeatMechanics>(catalog, id, 'feat') ?? { category: 'origin' }] as const);
   if (background?.featOption) warnings.push({ code: 'FEAT_CHOICES_PENDING', params: { feat: background.feat } });
 
@@ -191,6 +205,8 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   if (species) pickSkills('speciesSkills', draft.speciesSkills, species.skillChoice, draft.speciesId);
   const skilled = featMechanics.find(([, feat]) => feat.proficiencyChoice);
   pickSkills('featSkills', draft.featSkills, skilled ? { count: skilled[1].proficiencyChoice! } : undefined, skilled?.[0] ?? null);
+  // Skill dari multiclass (Bard/Ranger/Rogue) tercatat pada level yang memilihnya.
+  for (const record of character.advancements) if (record.skill && !skillSources.has(record.skill)) grant(record.skill, record.classId);
 
   const skills = {} as DerivedCharacter['skills'];
   for (const skill of SKILLS) {
@@ -227,6 +243,11 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   const fixedTools = [...(cls?.toolProficiencies?.fixed ?? []), ...(background?.toolProficiencies.fixed ?? [])];
   const tools: ToolChoice[] = [...new Set(fixedTools)].map((id) => ({ id }));
   for (const tool of draft.toolChoices) tools.push(tool);
+  // Multiclass hanya memberi trait di bagian "As a Multiclass Character"; saving throw tidak ikut.
+  const multiclassTraits = character.classLevels.slice(1).flatMap(({ classId: id }) => (MULTICLASS_TRAITS[id] ? [MULTICLASS_TRAITS[id]] : []));
+  for (const trait of multiclassTraits) {
+    if (trait.tool && trait.tool !== 'musical-instrument' && !tools.some((tool) => 'id' in tool && tool.id === trait.tool)) tools.push({ id: trait.tool });
+  }
 
   // ---------------------------------------------------------------- equipment
   const inventory: InventoryItem[] = [];
@@ -256,7 +277,7 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   const owns = (id: Id) => inventory.some((item) => item.id === id);
 
   // ---------------------------------------------------------------- armor class & speed
-  const training = cls?.armorTraining ?? [];
+  const training = [...new Set([...(cls?.armorTraining ?? []), ...multiclassTraits.flatMap((trait) => trait.armor)])];
   const armorClass: Contribution[] = [];
   const speed: Contribution[] = [];
   if (species && draft.speciesId) speed.push({ source: draft.speciesId, value: species.speed });
@@ -290,9 +311,13 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   levels.forEach((entry, index) => {
     const die = mechanicsOf<ClassMechanics>(catalog, entry.classId, 'class')?.hitDie;
     if (!die) return;
-    // Level karakter pertama: nilai maksimum Hit Point Die; level lain: nilai tetap (die / 2 + 1).
+    // Level karakter pertama: nilai maksimum Hit Point Die; level berikutnya: hasil yang tercatat saat
+    // level up (tetap atau lemparan), atau nilai tetap (die / 2 + 1) bila level tidak punya catatan.
     const fixed = die / 2 + 1;
-    hitPoints.push({ source: entry.classId, value: index === 0 ? die + fixed * (entry.level - 1) : fixed * entry.level });
+    const recorded = character.advancements.filter((record) => record.classId === entry.classId);
+    const unrecorded = Math.max(0, entry.level - recorded.length - (index === 0 ? 1 : 0));
+    const total = (index === 0 ? die : 0) + recorded.reduce((sum, record) => sum + record.hpDie, 0) + unrecorded * fixed;
+    hitPoints.push({ source: entry.classId, value: total });
     hitDice.push({ classId: entry.classId, die, max: entry.level, spent: character.resources.hitDiceSpent[entry.classId] ?? 0 });
   });
   if (hitPoints.length) hitPoints.push({ ...modifier('con'), value: mod('con') * level });
@@ -309,13 +334,12 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
   if (hp.value < 1 && hitPoints.length) hp.value = 1;
 
   // ---------------------------------------------------------------- attacks
+  // Class pertama memberi proficiency penuh; class multiclass hanya trait multiclass-nya.
+  const weaponCategories = [...new Set([...(cls?.weaponProficiencies.categories ?? []), ...multiclassTraits.flatMap((trait) => trait.weapons)])];
+  const martialWithProperty = cls?.weaponProficiencies.martialWithProperty ?? [];
   const proficientWith = (weapon: WeaponMechanics) =>
-    levels.some(({ classId: id }) => {
-      const proficiencies = mechanicsOf<ClassMechanics>(catalog, id, 'class')?.weaponProficiencies;
-      if (!proficiencies) return false;
-      if (proficiencies.categories.includes(weapon.category)) return true;
-      return weapon.category === 'martial' && (proficiencies.martialWithProperty ?? []).some((property) => weapon.properties?.includes(property));
-    });
+    weaponCategories.includes(weapon.category) ||
+    (weapon.category === 'martial' && martialWithProperty.some((property) => weapon.properties?.includes(property)));
   const attacks: WeaponAttack[] = [];
   for (const itemId of new Set(inventory.flatMap((item) => (item.id && item.quantity > 0 ? [item.id] : [])))) {
     const weapon = mechanicsOf<{ weapon?: WeaponMechanics }>(catalog, itemId, 'equipment')?.weapon;
@@ -346,7 +370,7 @@ export function deriveCharacter(character: Character, catalog: ContentCatalog): 
     passivePerception: value(passive, override('passivePerception')),
     darkvision: species?.darkvision ?? null,
     armorTraining: training,
-    weaponProficiencies: { categories: cls?.weaponProficiencies.categories ?? [], martialWithProperty: cls?.weaponProficiencies.martialWithProperty ?? [] },
+    weaponProficiencies: { categories: weaponCategories, martialWithProperty },
     tools,
     languages: ['Common', ...draft.languages],
     feats,

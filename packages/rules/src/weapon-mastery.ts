@@ -1,6 +1,7 @@
 import type { ContentCatalog, ValidationResult } from '#shared/content';
 import type { Id } from '#shared/contracts';
 import type { Character, MasteryGrant } from '#shared/characters';
+import { MULTICLASS_TRAITS } from './multiclass.ts';
 
 /** Bentuk mekanik corpus yang dibaca di sini (lihat ingest_characters.py / ingest_equipment.py). */
 interface ClassMechanics {
@@ -53,13 +54,13 @@ export function masteryGrants(character: Character, catalog: ContentCatalog): Ma
   return grants;
 }
 
+/** Class pertama: proficiency penuh; class multiclass: hanya trait multiclass (rule.multiclassing). */
 function proficientWith(character: Character, catalog: ContentCatalog, weapon: WeaponMechanics): boolean {
-  return character.classLevels.some(({ classId }) => {
-    const proficiencies = classMechanics(catalog, classId)?.weaponProficiencies;
-    if (!proficiencies) return false;
-    if (proficiencies.categories.includes(weapon.category)) return true;
-    return weapon.category === 'martial' && (proficiencies.martialWithProperty ?? []).some((property) => weapon.properties?.includes(property));
-  });
+  const [first, ...later] = character.classLevels;
+  const proficiencies = first ? classMechanics(catalog, first.classId)?.weaponProficiencies : undefined;
+  const categories = [...(proficiencies?.categories ?? []), ...later.flatMap(({ classId }) => MULTICLASS_TRAITS[classId]?.weapons ?? [])];
+  if (categories.includes(weapon.category)) return true;
+  return weapon.category === 'martial' && (proficiencies?.martialWithProperty ?? []).some((property) => weapon.properties?.includes(property));
 }
 
 function fits(grant: MasteryGrant, weapon: WeaponMechanics, character: Character, catalog: ContentCatalog): boolean {
