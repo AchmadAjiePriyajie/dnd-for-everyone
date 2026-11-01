@@ -1,6 +1,7 @@
 // Hanya `import type` dari file saudara dan zod: dipakai server, web, dan packages/rules.
 import { z } from 'zod';
 import type { Id } from './contracts.js';
+import type { VitalState } from './combat.js';
 
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'] as const;
 export type AbilityKey = (typeof ABILITIES)[number];
@@ -156,6 +157,8 @@ export interface ClassSpells {
  * `initialized` = false sampai finalisasi menyalin paket awal; sebelum itu inventory diturunkan dari draft.
  */
 export interface CharacterResources {
+  /** Shared HP-related state; absent on saves written before combat vitals existed. */
+  vitals?: VitalState;
   initialized: boolean;
   inventory: InventoryEntry[];
   coins: Record<Coin, number>;

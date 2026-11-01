@@ -5,6 +5,7 @@ import type { ApiError } from '#shared/access';
 import type { Id, JsonValue, Locale } from '#shared/contracts';
 import type { EncounterEstimate, EncounterTemplate, EncounterView, MonsterInstance } from '#shared/encounters';
 import { api } from '../../app/api';
+import { Pager, usePaged } from '../../app/Pager';
 import { Icon } from '../../app/icons';
 import { Link, routePath } from '../../app/router';
 import { sendCommand, useRoomEntry } from '../../app/room-store';
@@ -12,7 +13,6 @@ import { ErrorMessage, toApiError } from '../../app/ui';
 import { CR_STEPS, crValue, defaultMonsterFilters, filterMonsters, MONSTER_SORTS, type MonsterFilters, type MonsterSort } from './monster-filters';
 
 /** Jumlah monster per halaman daftar; "Tampilkan lagi" menambah sebanyak ini. */
-const PAGE_SIZE = 40;
 const SIZE_ORDER = ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan'];
 
 const emptyTemplate = (): EncounterTemplate => ({ name: '', target: 'moderate', party: { mode: 'levels', levels: [1, 1, 1, 1] }, monsters: [], difficultTerrain: false, notes: '' });
@@ -30,7 +30,6 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
   const [saved, setSaved] = useState<EncounterView[]>([]);
   const [editing, setEditing] = useState<{ id: Id; revision: number | null; template: EncounterTemplate }>(() => ({ id: globalThis.crypto.randomUUID(), revision: null, template: emptyTemplate() }));
   const [filters, setFilters] = useState<MonsterFilters>(defaultMonsterFilters);
-  const [shown, setShown] = useState(PAGE_SIZE);
   const [levelsText, setLevelsText] = useState('1, 1, 1, 1');
   const [error, setError] = useState<ApiError | null>(null);
   const [busy, setBusy] = useState(false);
@@ -45,12 +44,13 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
   const update = (patch: Partial<EncounterTemplate>) => setEditing((current) => ({ ...current, template: { ...current.template, ...patch } }));
   const byId = useMemo(() => new Map(monsters.map((monster) => [monster.id, monster])), [monsters]);
   const matching = useMemo(() => filterMonsters(monsters, filters), [monsters, filters]);
-  const filtered = matching.slice(0, shown);
+  const paged = usePaged(matching);
+  const filtered = paged.items;
   const creatureTypes = useMemo(() => [...new Set(monsters.flatMap((monster) => monster.creatureTypes))].sort(), [monsters]);
   const sizes = useMemo(() => SIZE_ORDER.filter((size) => monsters.some((monster) => monster.size.includes(size))), [monsters]);
   const setFilter = (patch: Partial<MonsterFilters>) => {
     setFilters((current) => ({ ...current, ...patch }));
-    setShown(PAGE_SIZE);
+    paged.setPage(1);
   };
   const filtersActive = JSON.stringify({ ...filters, sort: 'name-asc' }) !== JSON.stringify(defaultMonsterFilters());
   const finalCharacters = (snapshot?.characters ?? []).filter((character) => character.status === 'final');
@@ -129,6 +129,8 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
             <label htmlFor={`${id}-q`}>{t('encounters.search')}</label>
             <input id={`${id}-q`} type="search" value={filters.query} onChange={(event) => setFilter({ query: event.target.value })} />
           </div>
+          <details className="monster-filter-panel" open={filtersActive}>
+            <summary>{t('encounters.moreFilters')}</summary>
           <div className="field-row monster-filters">
             {(['minCr', 'maxCr'] as const).map((field) => (
               <div key={field} className="field">
@@ -186,6 +188,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               </select>
             </div>
           </div>
+          </details>
           <p className="row-actions">
             <span className="muted small" role="status">
               {t('encounters.resultCount', { shown: filtered.length, total: matching.length })}
@@ -197,6 +200,7 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
             )}
           </p>
           {matching.length === 0 && <p className="muted">{t('encounters.noMatches')}</p>}
+          <div className="monster-scroll">
           <ul className="row-list">
             {filtered.map((monster) => (
               <li key={monster.id}>
@@ -213,13 +217,8 @@ export function EncounterBuilder({ campaignId }: { campaignId: Id }) {
               </li>
             ))}
           </ul>
-          {matching.length > filtered.length && (
-            <p>
-              <button type="button" onClick={() => setShown((current) => current + PAGE_SIZE)}>
-                {t('encounters.showMore', { count: Math.min(PAGE_SIZE, matching.length - filtered.length) })}
-              </button>
-            </p>
-          )}
+          </div>
+          <Pager label={t('encounters.monsterList')} page={paged.page} pages={paged.pages} onPage={paged.setPage} />
         </section>
 
         <section className="card" aria-labelledby={`${id}-builder`}>

@@ -6,6 +6,9 @@ import { AuthScreen } from '../features/auth/AuthScreen';
 import { CampaignRoom } from '../features/campaign/CampaignRoom';
 import { CharacterPage } from '../features/characters/CharacterPage';
 import { EncounterBuilder } from '../features/encounters/EncounterBuilder';
+import { CombatScreen } from '../features/combat/CombatScreen';
+import { SessionJournal } from '../features/sessions/SessionJournal';
+import { Credits } from '../features/credits/Credits';
 import { HomebrewEditor } from '../features/encounters/HomebrewEditor';
 import { NotesPage } from '../features/notes/PartyJournal';
 import { ScenesPage } from '../features/scenes/BattleMap';
@@ -65,6 +68,8 @@ function Shell() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => { document.title = t('app.name'); }, [t]);
 
   // Konfirmasi "tersimpan" cukup sebentar; status gagal tetap terlihat.
   useEffect(() => {
@@ -162,7 +167,8 @@ function Shell() {
             </button>
           </section>
         )}
-        {auth.phase === 'anonymous' && (
+        {route.name === 'credits' && !session ? <Credits /> : null}
+        {auth.phase === 'anonymous' && route.name !== 'credits' && (
           <AuthScreen bootstrapRequired={auth.bootstrapRequired} onAuthenticated={authenticate} />
         )}
         {session && (
@@ -171,6 +177,7 @@ function Shell() {
           </SessionContext.Provider>
         )}
       </main>
+      <footer className="app-footer"><Link href={routePath.credits()}>{t('app.credits')}</Link></footer>
     </div>
   );
 }
@@ -179,6 +186,7 @@ function Routes() {
   const { t } = useTranslation();
   const route = useRoute();
   if (route.name === 'lobby') return <Lobby />;
+  if (route.name === 'credits') return <Credits />;
   if (route.name === 'campaign') return <CampaignRoom key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'character') {
     return <CharacterPage key={`${route.campaignId}/${route.characterId}`} campaignId={route.campaignId} characterId={route.characterId} />;
@@ -186,6 +194,8 @@ function Routes() {
   if (route.name === 'reference') return <ReferencePage key={route.campaignId ?? ''} campaignId={route.campaignId} />;
   if (route.name === 'notes') return <NotesPage key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'encounters') return <EncounterBuilder key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'combat') return <CombatScreen key={route.campaignId} campaignId={route.campaignId} />;
+  if (route.name === 'session') return <SessionJournal key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'homebrew') return <HomebrewEditor key={route.campaignId} campaignId={route.campaignId} />;
   if (route.name === 'scenes') return <ScenesPage key={route.campaignId} campaignId={route.campaignId} />;
   return (

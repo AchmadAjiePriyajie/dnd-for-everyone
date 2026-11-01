@@ -270,6 +270,7 @@ describe('character wizard', () => {
     const user = userEvent.setup();
     render(<App />);
 
+    await user.click(await screen.findByRole('tab', { name: 'Features' }));
     const region = await screen.findByRole('region', { name: 'Features and resources' });
     const secondWind = within(region).getByText('Second Wind').closest('li')!;
     expect(within(secondWind).getByText('2 of 2 uses left')).toBeTruthy();
@@ -343,6 +344,7 @@ describe('character wizard', () => {
       });
 
     // Inventory hidup: jumlah dan koin dari resources, bukan paket awal.
+    await user.click(await screen.findByRole('tab', { name: 'Inventory' }));
     const inventory = await screen.findByRole('region', { name: 'Inventory' });
     expect(within(inventory).getByText('Javelin')).toBeTruthy();
     expect(within(inventory).getByText('×2')).toBeTruthy();
@@ -353,6 +355,7 @@ describe('character wizard', () => {
     await waitFor(() => expect(kinds()).toContainEqual({ kind: 'character.adjust-coins', payload: { coin: 'gp', delta: -2 } }));
 
     // Spell: DC/attack dari server; slot dipakai setelah konfirmasi; cantrip dan spellbook dipisah.
+    await user.click(screen.getByRole('tab', { name: 'Actions & Spells' }));
     const spells = screen.getByRole('region', { name: 'Spells' });
     expect(within(spells).getByText(/save DC 13 · spell attack \+5/)).toBeTruthy();
     await user.click(within(spells).getByRole('button', { name: 'Use slot' }));
@@ -370,6 +373,7 @@ describe('character wizard', () => {
     );
 
     // Rest: pratinjau dulu, baru dikonfirmasi.
+    await user.click(screen.getByRole('tab', { name: 'Summary' }));
     const vitals = screen.getByRole('region', { name: 'Hit Points and rests' });
     expect(within(vitals).getByText('4 / 13 HP')).toBeTruthy();
     await user.click(within(vitals).getByRole('button', { name: 'Long Rest…' }));
@@ -426,6 +430,7 @@ describe('character wizard', () => {
     const user = userEvent.setup();
     render(<App />);
 
+    await user.click(await screen.findByRole('tab', { name: 'Level up' }));
     const card = await screen.findByRole('region', { name: 'Level up' });
     expect(within(card).getByText('Milestone levels from the DM: 1')).toBeTruthy();
     await user.click(within(card).getByRole('button', { name: 'Level up to 3…' }));

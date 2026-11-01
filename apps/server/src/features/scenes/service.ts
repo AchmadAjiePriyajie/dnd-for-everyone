@@ -9,6 +9,7 @@ import { CommandsService } from '../../commands/dispatcher.js';
 import { DomainError, forbidden } from '../../common/domain-error.js';
 import { findActiveMember } from '../campaigns/access.js';
 import { AssetsService } from './assets.js';
+import { CombatService } from '../combat/service.js';
 
 export interface SceneRow {
   id: Id;
@@ -48,6 +49,7 @@ export class ScenesService implements OnModuleInit {
   constructor(
     private readonly commands: CommandsService,
     private readonly assets: AssetsService,
+    private readonly combat: CombatService,
   ) {}
 
   onModuleInit(): void {
@@ -169,6 +171,7 @@ export class ScenesService implements OnModuleInit {
   private update(ctx: CommandContext, input: z.infer<typeof tokenUpdateSchema>): { id: Id } {
     const token = this.visibleToken(ctx.db, ctx.member, ctx.targetId);
     if (!token) throw new DomainError('NOT_FOUND', 404);
+    if (input.hp !== undefined && this.combat.tokenHitPoints(ctx.db, ctx.campaignId, token.id)) throw new DomainError('HP_LINKED', 409);
     if (input.size !== undefined) this.requireInside(JSON.parse(this.scene(ctx.db, ctx.campaignId, token.scene_id)!.grid) as GridSettings, token.x, token.y, input.size);
     if (input.ownerAccountId && !findActiveMember(ctx.db, ctx.campaignId, input.ownerAccountId)) throw new DomainError('MEMBER_NOT_FOUND', 404);
     const next = {

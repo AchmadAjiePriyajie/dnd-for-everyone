@@ -10,9 +10,12 @@ import { DatabaseModule } from './db/database.module.js';
 import { AuthModule } from './features/auth/auth.module.js';
 import { CampaignsModule } from './features/campaigns/campaigns.module.js';
 import { CharactersModule } from './features/characters/characters.module.js';
+import { CombatModule } from './features/combat/combat.module.js';
 import { EncountersModule } from './features/encounters/encounters.module.js';
 import { NotesModule } from './features/notes/notes.module.js';
 import { ScenesModule } from './features/scenes/scenes.module.js';
+import { SessionsModule } from './features/sessions/sessions.module.js';
+import { TutorialModule } from './features/tutorial/tutorial.module.js';
 import { ReferenceModule } from './features/reference/reference.module.js';
 import { RealtimeModule } from './realtime/realtime.module.js';
 
@@ -42,9 +45,12 @@ export class AppModule {
         CampaignsModule,
         ReferenceModule,
         CharactersModule,
+        CombatModule,
         NotesModule,
         EncountersModule,
         ScenesModule,
+        SessionsModule,
+        TutorialModule,
         CommandsModule,
         RealtimeModule,
       ],

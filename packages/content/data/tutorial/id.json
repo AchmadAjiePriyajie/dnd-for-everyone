@@ -1,0 +1,78 @@
+{
+  "title": "Masalah di Penggilingan Ashford",
+  "notes": [
+    {
+      "id": "tutorial-hook",
+      "kind": "scene",
+      "title": "Lentera di kala senja",
+      "visibility": "party",
+      "body": "Party sedang beristirahat di penginapan Tiga Ketel di desa Ashford ketika Odra, si pemilik penggilingan, menerobos masuk.",
+      "dmNotes": "Minta tiap pemain memperkenalkan karakternya dalam satu kalimat: siapa dia dan mengapa dia peduli pada desa ini.",
+      "scene": {
+        "readAloud": "Pintu terbanting terbuka. Seorang perempuan berlumur tepung berpegangan pada kusen, terengah-engah. \"Anakku Pell pergi menjemput anjing kami di penggilingan tua. Itu sudah berjam-jam lalu, dan sekarang ada lentera hijau aneh bergerak di halaman penggilingan. Tolong. Malam hampir tiba.\"",
+        "triggers": "Para pemain bertanya kepada Odra atau setuju membantu.",
+        "outcomes": "Odra memberi petunjuk jalan dan lentera cadangannya. Bila ditanya, dia ingat mendengar suara tinggi yang terkekeh di dekat penggilingan semalam.",
+        "rewards": "Odra menawarkan 10 GP dan roti gratis selama sebulan.",
+        "statBlocks": []
+      },
+      "links": ["tutorial-odra", "tutorial-quest", "tutorial-mill"]
+    },
+    {
+      "id": "tutorial-odra",
+      "kind": "npc",
+      "title": "Odra, pemilik penggilingan",
+      "visibility": "party",
+      "body": "Janda yang praktis dan lelah, mengelola penggilingan baru di tepi sungai. Sangat cemas akan putranya, Pell (10 tahun), dan anjing tua mereka, Biskuit.",
+      "dmNotes": "Odra menjual penggilingan tua musim dingin lalu dan mencurigai pembelinya, tetapi dia tidak akan mengatakannya kecuali karakter mendapatkan kepercayaannya (Charisma (Persuasion) check, DC 12).",
+      "links": ["tutorial-quest"]
+    },
+    {
+      "id": "tutorial-quest",
+      "kind": "quest",
+      "title": "Temukan Pell sebelum malam",
+      "visibility": "party",
+      "body": "Pell pergi ke penggilingan tua untuk menjemput anjing keluarga dan belum kembali. Sebuah lentera hijau bergerak di halaman penggilingan.",
+      "dmNotes": "Para goblin dibayar oleh pemilik baru penggilingan tua untuk menakut-nakuti penduduk desa. Pell bersembunyi tanpa luka di loteng gandum bersama Biskuit.",
+      "quest": { "status": "open" },
+      "links": ["tutorial-mill"]
+    },
+    {
+      "id": "tutorial-mill",
+      "kind": "location",
+      "title": "Penggilingan tua",
+      "visibility": "party",
+      "body": "Penggilingan batu yang miring dengan kincir air rusak, halaman berlumpur, dan loteng gandum yang dicapai lewat tangga lapuk.",
+      "dmNotes": "Menggeledah halaman (Wisdom (Perception), DC 10) menemukan jejak kaki kecil menuju loteng dan jejak bercakar yang lebih besar di dekat pintu. Bila berhasil, karakter tidak terkejut oleh para goblin.",
+      "scene": {
+        "readAloud": "Kabut bergulung dari sungai. Di halaman, sebuah lentera hijau berayun di tiang, dan dua sosok kecil berjongkok di balik tumpukan kayu sambil terkikik.",
+        "triggers": "Para karakter memasuki halaman atau berseru.",
+        "outcomes": "Dua goblin menyerang. Bila satu tumbang, yang lain kabur ke hutan. Pell berseru dari loteng setelah pertarungan berhenti.",
+        "rewards": "Pell dan Biskuit pulang; Odra membayar hadiahnya. Tiap karakter naik satu level milestone bila ini petualangan pertama mereka.",
+        "statBlocks": ["monster.goblin-warrior"]
+      },
+      "links": ["tutorial-quest"]
+    }
+  ],
+  "scene": { "id": "tutorial-yard", "name": "Halaman Penggilingan Ashford", "tokens": [
+    { "id": "tutorial-goblin-1", "label": "Goblin 1", "x": 7, "y": 2 },
+    { "id": "tutorial-goblin-2", "label": "Goblin 2", "x": 8, "y": 4 }
+  ] },
+  "encounter": { "id": "tutorial-encounter", "name": "Masalah di Penggilingan Ashford", "notes": "Dua goblin di balik tumpukan kayu. Mudah untuk dua karakter level 1; biarkan pemain belajar urutan turn, hotbar aksi, dan dadu." },
+  "guide": {
+    "dm": [
+      { "id": "invite", "title": "Undang para pemain", "body": "Buka bagian Undangan di room ini dan bagikan kodenya. Tiap pemain membuat karakter dengan motivasi dan ikatan dengan party.", "link": { "page": "room" } },
+      { "id": "hook", "title": "Bacakan hook", "body": "Buka catatan cerita dan bacakan \"Lentera di kala senja\". Quest dan NPC sudah dibagikan ke pemain; catatanmu tetap pribadi.", "link": { "page": "notes", "target": "tutorial-hook" } },
+      { "id": "check", "title": "Minta sebuah check", "body": "Di penggilingan, minta Wisdom (Perception) check, DC 10. Pemain melempar d20 dan menambahkan modifier di baki dadu.", "link": { "page": "reference", "target": "rule.ability-check" } },
+      { "id": "combat", "title": "Jalankan combat tutorial", "body": "Di halaman Combat, siapkan \"Masalah di Penggilingan Ashford\" pada peta \"Halaman Penggilingan Ashford\", tambahkan karakter, atur initiative lalu mulai.", "link": { "page": "combat" } },
+      { "id": "encounter", "title": "Ubah encounter bila mau", "body": "Tambah atau kurangi monster atau pilih difficulty lain di encounter builder. Tutorial tidak pernah mengunci apa pun.", "link": { "page": "encounters" } },
+      { "id": "reward", "title": "Hadiah dan progression", "body": "Berikan hadiah dari catatan scene. Beri satu level milestone dari sheet tiap karakter.", "link": { "page": "reference", "target": "rule.hit-points" } },
+      { "id": "recap", "title": "Tulis recap", "body": "Mulai sesi di halaman Sesi dan tulis recap singkat untuk party. Recap tersimpan otomatis.", "link": { "page": "session" } }
+    ],
+    "player": [
+      { "id": "character", "title": "Buat karaktermu", "body": "Pilih konsep, motivasi, dan ikatan dengan party di wizard karakter.", "link": { "page": "room" } },
+      { "id": "quest", "title": "Baca quest", "body": "DM membagikan quest dan orang-orang yang kamu temui di catatan cerita.", "link": { "page": "notes", "target": "tutorial-quest" } },
+      { "id": "check", "title": "Lempar check", "body": "Saat DM meminta check, lempar d20 di baki dadu dan tambahkan modifiermu.", "link": { "page": "reference", "target": "rule.ability-check" } },
+      { "id": "turn", "title": "Ambil giliranmu", "body": "Saat combat, pilih aksi dari hotbar aksi, pilih target, lalu lakukan aksinya. DM yang memutuskan efeknya.", "link": { "page": "combat" } }
+    ]
+  }
+}

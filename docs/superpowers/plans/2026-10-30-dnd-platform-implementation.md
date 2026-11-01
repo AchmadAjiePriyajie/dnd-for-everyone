@@ -282,15 +282,17 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 ### Task 15: Combat lifecycle, initiative dan action economy
 
-**Files:** Create `packages/shared/src/combat.ts`, `packages/rules/src/turns.ts`, `apps/server/src/features/combat/service.ts`, `apps/web/src/features/combat/CombatTracker.tsx`, `ActionPanel.tsx`, migration `008-combat.sql`. Test `apps/server/src/features/combat/turns.test.ts`. Create `apps/server/src/features/combat/combat.module.ts`, `combat.controller.ts`; import CommandsModule serta feature providers yang dibutuhkan tanpa dependency cycle.
+**Files:** Create `packages/shared/src/combat.ts`, `packages/rules/src/turns.ts`, `apps/server/src/features/combat/service.ts`, `apps/web/src/features/combat/CombatTracker.tsx`, `ActionPanel.tsx`, migration `013-combat.sql` (008–012 sudah digunakan). Test `apps/server/src/features/combat/turns.test.ts`. Create `apps/server/src/features/combat/combat.module.ts`, `combat.controller.ts`; import CommandsModule serta feature providers yang dibutuhkan tanpa dependency cycle.
 
 **Interfaces:** `startCombat(ctx: CommandContext, templateId: Id): Combat`; `advanceTurn(combat: Combat): Combat`; Combat includes instance combatants, round/activeId, budgets, hidden status and template reference.
 
-- [ ] Tulis `starts_instance_and_preserves_template`: `expect(template.hp).toBe(originalHp)` setelah damage instance; tie-break ditetapkan DM; end/start turn me-reset budget yang tepat, bukan semua limited-use resources.
-- [ ] Run `npm run test -- apps/server/src/features/combat/turns.test.ts`; expected FAIL.
-- [ ] Implementasikan start/end/pause combat, initiative, next turn/round, reinforcement dan action/bonus/reaction/movement tracker; hidden combatant tetap tersaring dari urutan player.
-- [ ] Run test sama; expected PASS untuk creature dihapus/mati pada giliran, urutan kosong dan correction DM tercatat.
-- [ ] Commit `feat: add combat turn management`.
+- [x] Tulis `starts_instance_and_preserves_template`: `expect(template.hp).toBe(originalHp)` setelah damage instance; tie-break ditetapkan DM; end/start turn me-reset budget yang tepat, bukan semua limited-use resources.
+- [x] Run `npm run test -- apps/server/src/features/combat/turns.test.ts`; expected FAIL.
+- [x] Implementasikan start/end/pause combat, initiative, next turn/round, reinforcement dan action/bonus/reaction/movement tracker; hidden combatant tetap tersaring dari urutan player.
+- [x] Run test sama; expected PASS untuk creature dihapus/mati pada giliran, urutan kosong dan correction DM tercatat.
+- [x] Commit `feat: add combat turn management`.
+
+Catatan implementasi: combat dimulai dalam fase persiapan initiative, lalu DM memulai ronde pertama. Token yang dibuat dari UI peta dihubungkan melalui panel penyesuaian combat; HP dan movement memakai sumber yang sama. Koreksi HP karakter memerlukan `sourceRevision` sheet selain revisi combat agar perubahan sheet yang lebih baru tidak tertimpa. Creature pada HP 0 dikeluarkan dari urutan hanya setelah DM menandainya keluar dari combat; death saves berada pada Task 16.
 
 ### Task 16: Dadu server dan hasil checks/attacks/saves
 
@@ -298,11 +300,13 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `rollDice(expression: string, randomInt: (min:number,maxExclusive:number)=>number): RollResult`; `resolveD20(input: D20Input, randomInt: RandomInt): D20Result`; `applyDamage(state: HitPointState, input: DamageInput): HitPointState`. Type definitions in `packages/shared/src/combat.ts`; crypto.randomInt is production source, injectable deterministic generator only in tests.
 
-- [ ] Tulis `validates_dice_and_applies_critical_dice`: `2d6+3` dengan kedua dadu 1 menghasilkan 5; expression/code invalid ditolak; advantage/disadvantage mengikuti fixture; critical menggandakan damage dice, bukan modifier.
-- [ ] Run dua file test; expected FAIL.
-- [ ] Implementasikan grammar dadu terbatas (maksimum awal 100 dice, 1.000 sides, ekspresi 100 karakter), attack/check/save/heal, HP/temp HP/conditions/death saves dan resistance/immunity/vulnerability sesuai data; duplicate requestId mengembalikan roll lama.
-- [ ] Run test sama; expected PASS untuk audience DM/public, invalid modifier/dice counts dan deterministic fixtures. Raw rolls tidak otomatis memakai slot tanpa action/resolution.
-- [ ] Commit `feat: add authoritative dice and damage`.
+- [x] Tulis `validates_dice_and_applies_critical_dice`: `2d6+3` dengan kedua dadu 1 menghasilkan 5; expression/code invalid ditolak; advantage/disadvantage mengikuti fixture; critical menggandakan damage dice, bukan modifier.
+- [x] Run dua file test; expected FAIL.
+- [x] Implementasikan grammar dadu terbatas (maksimum awal 100 dice, 1.000 sides, ekspresi 100 karakter), attack/check/save/heal, HP/temp HP/conditions/death saves dan resistance/immunity/vulnerability sesuai data; duplicate requestId mengembalikan roll lama.
+- [x] Run test sama; expected PASS untuk audience DM/public, invalid modifier/dice counts dan deterministic fixtures. Raw rolls tidak otomatis memakai slot tanpa action/resolution.
+- [x] Commit `feat: add authoritative dice and damage`.
+
+Catatan implementasi: migrasi `014-rolls-vitals.sql` menyimpan history roll dan vitals monster; vitals karakter tetap pada resources sheet. Modifier d20 dimasukkan manual. Roll bersifat independen dari biaya dan efek; DM menerapkan damage/heal/temp HP secara eksplisit. Defense monster dibaca dari data terstruktur, sedangkan defense karakter/efek sementara dapat memakai profil override DM. Kondisi dicatat; pembatasan aksi dan Speed 0 dasar diterapkan sesuai SRD 2024. Efek fitur/condition lainnya tetap diputuskan di meja sampai guided actions tersedia. Death save dikunci per combat dan turn, bukan nomor turn global; retry UI memakai envelope asli saat hasil command belum pasti.
 
 ### Task 17: Spell/feature actions dan penggunaan monster
 
@@ -310,11 +314,13 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `previewAction(actor: Character|MonsterInstance, input: ActionInput, view: SceneView): ActionPreview`; `ActionPreview` contains sourceId, target IDs, cost, automation level, required saves/rolls/effects and DM decision prompts. Semua target divalidasi ulang di server, bukan dipercaya dari preview client.
 
-- [ ] Tulis `supports_non_damage_and_restricted_actions`: action yang habis/target tersembunyi ditolak; spell buff/heal/utility tidak diperlakukan sebagai attack damage; monster Multiattack/Recharge/Legendary Action mengikuti stat block dan budgetnya.
-- [ ] Run `npm run test -- packages/rules/src/actions.test.ts`; expected FAIL.
-- [ ] Implementasikan attack/spell/feature guided steps, range/cost/resource, upcast, concentration, duration dan penggunaan monster. Fitur kompleks menawarkan rule text + manual decision, dengan label batas otomasi.
-- [ ] Run test sama; expected PASS untuk average-vs-roll damage, reaction trigger, insufficient slot dan fitur naratif yang tetap dapat dijalankan DM.
-- [ ] Commit `feat: add guided gameplay actions`.
+- [x] Tulis `supports_non_damage_and_restricted_actions`: action yang habis/target tersembunyi ditolak; spell buff/heal/utility tidak diperlakukan sebagai attack damage; monster Multiattack/Recharge/Legendary Action mengikuti stat block dan budgetnya.
+- [x] Run `npm run test -- packages/rules/src/actions.test.ts`; expected FAIL.
+- [x] Implementasikan attack/spell/feature guided steps, range/cost/resource, upcast, concentration, duration dan penggunaan monster. Fitur kompleks menawarkan rule text + manual decision, dengan label batas otomasi.
+- [x] Run test sama; expected PASS untuk average-vs-roll damage, reaction trigger, insufficient slot dan fitur naratif yang tetap dapat dijalankan DM.
+- [x] Commit `feat: add guided gameplay actions`.
+
+Catatan implementasi: migrasi `015-actions.sql` menyimpan pemakaian Recharge, per hari, Legendary Action dan jatah serangan per combatant. Aksi monster dibaca dari teks stat block SRD 2024 (EN) karena mechanics monster tidak memiliki daftar aksi; kalimat yang tidak dikenali tetap menjadi teks aturan + keputusan DM. `previewAction` memakai `ActionActor`/`ActionView` ternormalisasi (sheet atau stat block + budget combat, target yang terlihat). Server membangun ulang preview dari state sendiri pada `combat.act`, memakai biaya dalam transaksi command, melempar dadu server, dan mengembalikan usulan HP yang diterapkan DM melalui `combat.apply-hp`. Recharge dilempar pada awal giliran monster. Salinan player tidak memuat AC, modifier save atau dadu save monster.
 
 ### Task 18: Pending resolution, reaksi dan efek tepat sekali
 
@@ -322,11 +328,13 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `beginResolution(ctx: CommandContext, input: ActionInput): Resolution`; `decideResolution(ctx: CommandContext, input: ResolutionDecision): Resolution`; `Resolution { id, phase, actorId, costs, pendingReactions, committedEffects, cancellationPolicy }`. Tipe di `combat.ts`; command receipts Task 3 berlaku pada setiap transisi.
 
-- [ ] Tulis `survives_lost_ack_restart_and_locale_switch`: retry tidak memakai dua slot/damage; resume mempertahankan pending reaction; `expect(hpAfterRetry).toBe(hpAfterFirstCommit)`; locale switch tidak mengubah phase/cost.
-- [ ] Run unit dan E2E tersebut; expected FAIL.
-- [ ] Implementasikan state machine pending/awaitingDecision/resolved/cancelled. `beginResolution` dipanggil setelah actor mengonfirmasi aksi valid dan mengonsumsi biaya dalam transaksi yang membuat resolution; preview tidak memakai biaya. Penyelesaian tidak mengonsumsi ulang. Cancellation default tidak refund; pengecualian aturan atau koreksi DM beralasan mencatat pengembalian secara eksplisit. DM correction memakai event kompensasi. Matikan speculative combat mutations saat disconnected.
-- [ ] Run test sama; expected PASS untuk crash setelah commit sebelum ack, actor keluar, DM membatalkan serta keputusan stale ditolak.
-- [ ] Commit `feat: add durable action resolutions`.
+- [x] Tulis `survives_lost_ack_restart_and_locale_switch`: retry tidak memakai dua slot/damage; resume mempertahankan pending reaction; `expect(hpAfterRetry).toBe(hpAfterFirstCommit)`; locale switch tidak mengubah phase/cost.
+- [x] Run unit dan E2E tersebut; expected FAIL.
+- [x] Implementasikan state machine pending/awaitingDecision/resolved/cancelled. `beginResolution` dipanggil setelah actor mengonfirmasi aksi valid dan mengonsumsi biaya dalam transaksi yang membuat resolution; preview tidak memakai biaya. Penyelesaian tidak mengonsumsi ulang. Cancellation default tidak refund; pengecualian aturan atau koreksi DM beralasan mencatat pengembalian secara eksplisit. DM correction memakai event kompensasi. Matikan speculative combat mutations saat disconnected.
+- [x] Run test sama; expected PASS untuk crash setelah commit sebelum ack, actor keluar, DM membatalkan serta keputusan stale ditolak.
+- [x] Commit `feat: add durable action resolutions`.
+
+Catatan implementasi: migrasi `016-resolutions.sql` (nomor 009 sudah dipakai). `combat.act` menjadi `beginResolution`: biaya dipakai, dadu dilempar dan resolusi dibuat dalam satu transaksi; reaksi target (opsi Reaction dengan trigger yang masih bisa dipakai) ditawarkan untuk aksi publik yang memiliki attack/save. Reaksi dideklarasikan lewat `combat.act` dengan `respondsTo`. Keputusan `resolution.decide` (decline/commit/cancel/compensate) menargetkan ID resolusi sehingga revisi basi ditolak. Commit menerapkan HP melalui `EffectsService` tepat sekali dan mencatat sebelum/sesudah; kompensasi mengembalikan selisih tersebut. Penerapan HP langsung dari wizard dihapus. E2E Playwright berjalan terhadap hasil build dengan data dir sementara (`scripts/e2e-server.mjs`).
 
 **Gate tahap:** party menyelesaikan eksplorasi dan combat dari perangkat berbeda, termasuk aksi non-damage, reconnect, hidden info dan adjudikasi DM.
 
@@ -338,11 +346,15 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `startSession(ctx: CommandContext, campaignId: Id): PlaySession`; `pauseSession(ctx: CommandContext, sessionId: Id): PlaySession`; `resumeSession(principal: Principal, sessionId: Id): SessionView`. Session links existing scene/combat/resolutions, bukan membuat salinan state yang dapat bertentangan.
 
-- [ ] Tulis `resumes_committed_state_after_host_restart`: `expect(resumed.turnId).toBe(saved.turnId)` dan HP/tokens/resources/pending resolution sama; recap rahasia disaring.
-- [ ] Run `npm run test -- apps/server/src/features/sessions/resume.test.ts`; expected FAIL.
-- [ ] Implementasikan session lifecycle, waktu/recap/journal, log terstruktur yang dirender EN/ID per peserta, serta referensi keputusan aturan untuk dicek setelah sesi.
-- [ ] Run test sama; expected PASS untuk campaign tanpa active combat, draft belum di-ack dan resume session yang telah berakhir.
-- [ ] Commit `feat: add session history and resume`.
+- [x] Tulis `resumes_committed_state_after_host_restart`: `expect(resumed.turnId).toBe(saved.turnId)` dan HP/tokens/resources/pending resolution sama; recap rahasia disaring.
+- [x] Run `npm run test -- apps/server/src/features/sessions/resume.test.ts`; expected FAIL.
+- [x] Implementasikan session lifecycle, waktu/recap/journal, log terstruktur yang dirender EN/ID per peserta, serta referensi keputusan aturan untuk dicek setelah sesi.
+- [x] Run test sama; expected PASS untuk campaign tanpa active combat, draft belum di-ack dan resume session yang telah berakhir.
+- [x] Commit `feat: add session history and resume`.
+
+Catatan implementasi: migrasi `017-play-sessions.sql` (nomor 010 sudah dipakai). `resumeSession(principal, campaignId, sessionId)` membaca combat, scene dan resolusi melalui proyeksi yang sudah ada; sesi hanya menyimpan tautan `sceneId`/`combatId`, waktu bermain per segmen, recap (bagian party dan khusus DM), journal (party/pribadi) dan pertanyaan aturan. Jeda sesi menjeda combat yang berjalan dan lanjut sesi menjalankannya lagi. Log sesi berasal dari `campaign_events` dalam rentang sequence sesi; player hanya menerima jenis peristiwa umum tanpa data. Recap memakai autosave dengan revisi sehingga draft yang belum di-ack tidak pernah menimpa versi lebih baru.
+
+> **UI pass (2026-11-01, sebelum Task 20):** spec `docs/superpowers/specs/2026-11-01-ui-pass-design.md`, plan `docs/superpowers/plans/2026-11-01-ui-pass.md`. Nama produk menjadi **Campfire Tales**; halaman Combat menjadi layar terpadu (urutan turn, peta, hotbar aksi, panel Resolusi/Dadu/Rules, tab bawah di HP); player melihat status party, monster hanya Bloodied/Tumbang. Tutorial Task 20 dan audit Task 22 memakai layout ini.
 
 ### Task 20: Tutorial orisinal dan perjalanan pemula
 
@@ -350,11 +362,13 @@ Workspace belum memiliki Git repository. Saat eksekusi, periksa instruksi/enviro
 
 **Interfaces:** `createTutorialCampaign(principal: Principal, locale: Locale): Id`; tutorial instantiates existing NPC/quest/scene/encounter services dan menggunakan stable content IDs, bukan special-case engine.
 
-- [ ] Tulis E2E: DM menyiapkan hook, dua player membuat karakter/motivasi/ikatan, menerima quest, melakukan check, menjalani tutorial combat, mendapat reward/progression dan menyimpan recap dalam EN/ID.
-- [ ] Run `npm run test:e2e -- tests/e2e/first-adventure.spec.ts`; expected FAIL.
-- [ ] Tulis adventure/aset orisinal dua bahasa dan help pointers; DM tetap bisa melewati tutorial, mengimprovisasi atau mengubah encounter tanpa merusak session.
-- [ ] Run E2E sama; expected PASS dengan tidak ada tombol inti yang hanya dekorasi, serta source attribution referensi tersedia.
-- [ ] Commit `feat: add first adventure onboarding`.
+- [x] Tulis E2E: DM menyiapkan hook, dua player membuat karakter/motivasi/ikatan, menerima quest, melakukan check, menjalani tutorial combat, mendapat reward/progression dan menyimpan recap dalam EN/ID.
+- [x] Run `npm run test:e2e -- tests/e2e/first-adventure.spec.ts`; expected FAIL.
+- [x] Tulis adventure/aset orisinal dua bahasa dan help pointers; DM tetap bisa melewati tutorial, mengimprovisasi atau mengubah encounter tanpa merusak session.
+- [x] Run E2E sama; expected PASS dengan tidak ada tombol inti yang hanya dekorasi, serta source attribution referensi tersedia.
+- [x] Commit `feat: add first adventure onboarding`.
+
+Catatan implementasi: konten di `packages/content/data/tutorial/{en,id}.json` (divalidasi `#content/tutorial`), dibangun oleh `TutorialService` lewat command biasa (`note.save`, `scene.save`, `token.place`, `encounter.save`) dengan ID stabil `tutorial-*`; migrasi `018-tutorials.sql` menandai campaign tutorial. Service ditempatkan di modul `features/tutorial` (bukan campaigns module) agar tidak membuat siklus dengan CommandsModule. Panduan (`GET campaigns/:id/tutorial`) mengikuti bahasa tiap viewer; catatan tetap dalam bahasa DM. Halaman Combat kini menampilkan Dadu dan Rules walau belum ada combat (check di luar combat).
 
 ### Task 21: Ekspor/impor campaign dan backup konsisten
 

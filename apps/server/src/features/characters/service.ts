@@ -6,6 +6,7 @@ import { rollAbilityScores, STANDARD_LANGUAGES } from '#rules/abilities';
 import { advancementStatus } from '#rules/advancement';
 import { availableFeatures } from '#rules/class-features';
 import { deriveCharacter } from '#rules/character-stats';
+import { cannotAct, normalizeVitals } from '#rules/damage';
 import { startingResources } from '#rules/equipment';
 import { deriveSpellcasting } from '#rules/spellcasting';
 import { masteryGrants } from '#rules/weapon-mastery';
@@ -154,6 +155,20 @@ export class CharactersService implements OnModuleInit {
     return deriveCharacter(this.toCharacter(db, row), this.content.catalog()).speed.value;
   }
 
+  /** Shared combat state reads the authoritative sheet, including HP and current ownership. */
+  combatStats(db: DatabaseSync, campaignId: Id, characterId: Id) {
+    const row = this.row(db, characterId);
+    if (!row || row.campaign_id !== campaignId || row.status !== 'final') throw new DomainError('CHARACTER_NOT_FINAL', 409);
+    const character = this.toCharacter(db, row);
+    const derived = deriveCharacter(character, this.content.catalog());
+    return {
+      name: character.draft.name, ownerAccountId: character.ownerAccountId,
+      speedFeet: derived.speed.value,
+      hp: { current: derived.currentHitPoints, max: derived.hitPoints.value, temp: character.resources.hp.temp },
+      vitals: normalizeVitals(character.resources.vitals, derived.currentHitPoints),
+    };
+  }
+
   /** Membership pemilik karakter; selain pemilik (termasuk DM) ditolak untuk edit wizard. */
   requireCharacterOwner(principal: Principal, characterId: Id): Member {
     const row = this.row(this.database.getHandle(), characterId);
@@ -201,12 +216,28 @@ export class CharactersService implements OnModuleInit {
     return this.toCharacter(ctx.db, this.ownedRow(ctx));
   }
 
+  /** Final sheet read inside a combat read/command (guided actions); null when missing or still a draft. */
+  finalCharacter(db: DatabaseSync, campaignId: Id, characterId: Id): Character | null {
+    const row = this.row(db, characterId);
+    return row && row.campaign_id === campaignId && row.status === 'final' ? this.toCharacter(db, row) : null;
+  }
+
   /** Karakter target pada campaign command, untuk aksi DM (NOT_FOUND bila tidak ada). */
   campaignCharacter(ctx: CommandContext): Character {
     return this.toCharacter(ctx.db, this.campaignRow(ctx));
   }
 
   writeResources(ctx: CommandContext, characterId: Id, resources: CharacterResources): void {
+    const row = this.row(ctx.db, characterId);
+    if (row) {
+      const character = this.toCharacter(ctx.db, row);
+      if (resources.vitals || resources.hp.damage !== character.resources.hp.damage) {
+        const current = deriveCharacter({ ...character, resources }, this.content.catalog()).currentHitPoints;
+        const vitals = normalizeVitals(resources.vitals, current);
+        const incapacitated = cannotAct({ hp: { current }, vitals });
+        resources = { ...resources, vitals, concentration: incapacitated ? null : resources.concentration };
+      }
+    }
     ctx.db.prepare('UPDATE characters SET resources = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(resources), ctx.now, characterId);
   }
 

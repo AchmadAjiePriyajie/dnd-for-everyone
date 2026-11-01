@@ -10,11 +10,15 @@ export type Route =
   | { name: 'encounters'; campaignId: string }
   | { name: 'homebrew'; campaignId: string }
   | { name: 'scenes'; campaignId: string }
+  | { name: 'combat'; campaignId: string }
+  | { name: 'session'; campaignId: string }
+  | { name: 'credits' }
   | { name: 'not-found' };
 
 export function parseRoute(pathname: string): Route {
   if (pathname === '/' || pathname === '') return { name: 'lobby' };
   if (/^\/reference\/?$/.test(pathname)) return { name: 'reference' };
+  if (/^\/credits\/?$/.test(pathname)) return { name: 'credits' };
   const character = /^\/campaigns\/([^/]+)\/characters\/([^/]+)\/?$/.exec(pathname);
   if (character) {
     try {
@@ -23,10 +27,10 @@ export function parseRoute(pathname: string): Route {
       return { name: 'not-found' };
     }
   }
-  const section = /^\/campaigns\/([^/]+)\/(notes|encounters|homebrew|scenes)\/?$/.exec(pathname);
+  const section = /^\/campaigns\/([^/]+)\/(notes|encounters|homebrew|scenes|combat|session)\/?$/.exec(pathname);
   if (section) {
     try {
-      return { name: section[2] as 'notes' | 'encounters' | 'homebrew' | 'scenes', campaignId: decodeURIComponent(section[1]!) };
+      return { name: section[2] as 'notes' | 'encounters' | 'homebrew' | 'scenes' | 'combat' | 'session', campaignId: decodeURIComponent(section[1]!) };
     } catch {
       return { name: 'not-found' };
     }
@@ -45,6 +49,7 @@ export function parseRoute(pathname: string): Route {
 
 export const routePath = {
   lobby: () => '/',
+  credits: () => '/credits',
   campaign: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}`,
   character: (campaignId: string, characterId: string) =>
     `/campaigns/${encodeURIComponent(campaignId)}/characters/${encodeURIComponent(characterId)}`,
@@ -53,6 +58,8 @@ export const routePath = {
   encounters: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/encounters`,
   homebrew: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/homebrew`,
   scenes: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/scenes`,
+  combat: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/combat`,
+  session: (campaignId: string) => `/campaigns/${encodeURIComponent(campaignId)}/session`,
   reference: (campaignId?: string) =>
     campaignId === undefined ? '/reference' : `/campaigns/${encodeURIComponent(campaignId)}/reference`,
 };

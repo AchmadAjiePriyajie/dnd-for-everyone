@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import type { ApiError, CreatedInvite, MemberView } from '#shared/access';
 import type { Id } from '#shared/contracts';
 import { api } from '../../app/api';
+import { Tabs } from '../../app/Tabs';
+import { TutorialGuide } from './TutorialGuide';
 import { DmCheatSheet } from '../notes/DmCheatSheet';
 import { Icon, initials } from '../../app/icons';
 import { Link, navigate, routePath } from '../../app/router';
@@ -89,6 +91,12 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </p>
         </div>
         <div className="banner-actions">
+          <Link href={routePath.session(campaignId)} className="button-link">
+            <Icon name="eye" />{t('session.open')}{snapshot.session && snapshot.session.status !== 'ended' ? ` · ${t(`session.status.${snapshot.session.status}`)}` : ''}
+          </Link>
+          <Link href={routePath.combat(campaignId)} className="button-link">
+            <Icon name="shield" />{t('combat.open')}
+          </Link>
           <Link href={routePath.scenes(campaignId)} className="button-link">
             <Icon name="globe" />
             {t('scenes.open')}
@@ -116,8 +124,14 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
       {entry.error && <ErrorMessage error={entry.error} />}
       <ErrorMessage error={actionError} />
 
-      {isDm && <DmCheatSheet rows={snapshot.dm?.cheatSheet ?? []} />}
-      <div className="room-grid">
+      <TutorialGuide campaignId={campaignId} />
+      <p className="room-status">
+        {snapshot.session && snapshot.session.status !== 'ended' ? <span className="badge badge-ok">{t(snapshot.session.status === 'active' ? 'room.sessionActive' : 'room.sessionPaused')}</span> : null}
+        {snapshot.combat && snapshot.combat.status !== 'ended' ? <span className="badge badge-ok">{t('room.combatActive')}</span> : null}
+        {snapshot.combat?.status === 'active' && snapshot.combat.combatants.some((c) => c.id === snapshot.combat!.activeId && c.ownerAccountId === snapshot.you.accountId) ? <span className="badge">{t('room.yourTurn')}</span> : null}
+      </p>
+      <Tabs label={t('room.sections')} tabs={[
+        { id: 'party', label: t('room.section.party'), content: <div className="room-grid">
         <section className="card" aria-labelledby="party-heading">
           <h2 id="party-heading">
             <Icon name="users" />
@@ -198,7 +212,22 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
           </button>
         </section>
 
-        {isDm && snapshot.dm && (
+</div> },
+        { id: 'session', label: t('room.section.session'), content: <section className="card"><h2>{t('session.title')}</h2>
+          <p>{snapshot.session ? `${t('session.heading', { number: snapshot.session.number, title: snapshot.session.title })} · ${t(`session.status.${snapshot.session.status}`)}` : t('session.none')}</p>
+          <div className="row-actions"><Link href={routePath.session(campaignId)} className="button-link">{t('session.open')}</Link><Link href={routePath.combat(campaignId)} className="button-link">{t('combat.open')}</Link></div>
+        </section> },
+        ...(isDm ? [
+          { id: 'prep', label: t('room.section.prep'), content: <>
+            <DmCheatSheet rows={snapshot.dm?.cheatSheet ?? []} />
+            <section className="card"><div className="row-actions">
+              <Link href={routePath.encounters(campaignId)} className="button-link">{t('encounters.open')}</Link>
+              <Link href={routePath.notes(campaignId)} className="button-link">{t('notes.open')}</Link>
+              <Link href={routePath.homebrew(campaignId)} className="button-link">{t('homebrew.open')}</Link>
+              <Link href={routePath.scenes(campaignId)} className="button-link">{t('scenes.open')}</Link>
+            </div></section>
+          </> },
+          { id: 'invites', label: t('room.section.invites'), content: <div className="room-grid">        {isDm && snapshot.dm && (
           <section className="card dm-tools" aria-labelledby="invites-heading">
             <p className="eyebrow">
               <Icon name="crown" />
@@ -253,7 +282,9 @@ export function CampaignRoom({ campaignId }: { campaignId: Id }) {
             )}
           </section>
         )}
-      </div>
+</div> },
+        ] : []),
+      ]} />
 
       {removing && (
         <Dialog

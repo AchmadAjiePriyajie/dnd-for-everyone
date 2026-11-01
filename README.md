@@ -1,4 +1,4 @@
-# DND for Everyone
+# Campfire Tales
 
 Platform untuk mengelola permainan Dungeons & Dragons dengan campaign, karakter,
 referensi aturan, encounter, catatan, dan battle map. Aplikasi memakai React + Vite
@@ -104,6 +104,135 @@ Gunakan versi kode yang sama saat pemindahan. Menyalin seluruh folder saat serve
 berhenti juga membawa file pendamping SQLite jika masih ada serta asset permainan.
 Jika memakai `DATA_DIR`, salin direktori yang ditunjuk variabel tersebut.
 
+## Petualangan tutorial
+
+Di lobby, tekan **Mulai petualangan tutorial** untuk membuat campaign
+*Trouble at Ashford Mill*: petualangan orisinal singkat berisi hook, NPC, quest,
+lokasi, peta halaman penggilingan, dan encounter mudah (dua goblin). Semua dibuat
+dengan catatan, scene, dan encounter biasa, jadi DM bebas mengubah, melewati, atau
+berimprovisasi. **Panduan tutorial** di room menunjukkan langkah-langkah untuk DM
+dan player dalam bahasa masing-masing; tiap tautan membuka halaman sebenarnya,
+dan panduan dapat disembunyikan. Isi catatan dibuat dalam bahasa DM saat
+campaign dibuat dan tidak diterjemahkan otomatis.
+
+## Menjalankan combat
+
+1. Dari room campaign, DM membuka **Encounter**, menyusun party dan monster,
+   lalu menyimpan template encounter.
+2. Buka **Combat**, pilih template dan peta pertarungan jika diperlukan, lalu
+   tekan **Siapkan combat**.
+3. Buka **Sesuaikan** pada setiap makhluk untuk mengatur initiative dan urutan
+   seri. Angka urutan seri yang lebih kecil mendapat giliran lebih dahulu.
+4. Jika memakai peta, pilih **Token peta** dan tekan **Hubungkan token** pada
+   panel makhluk yang sesuai. Token dapat dibuat melalui halaman peta terlebih
+   dahulu; token baru juga dapat dihubungkan selama combat berlangsung.
+5. Tekan **Mulai combat**. Gunakan **Giliran berikutnya**, **Jeda combat**,
+   **Lanjutkan combat**, dan **Akhiri combat** sesuai jalannya permainan.
+
+Pelacak mencatat Aksi, Aksi Bonus, Reaksi, dan sisa gerakan. Gerak token yang
+terhubung memakai budget yang sama. Reaksi dapat dipakai di luar giliran sendiri;
+budget dipulihkan saat makhluk tersebut memulai giliran berikutnya. Slot spell dan
+resource fitur tidak direset oleh pergantian giliran.
+
+DM dapat menambahkan bantuan, menyembunyikan combatant, atau mengoreksi HP dan
+budget dengan alasan yang tercatat. HP karakter mengikuti sheet; HP monster
+disimpan pada instance combat tanpa mengubah template. Untuk token yang HP-nya
+sudah terhubung, ubah HP melalui sheet atau pelacak combat.
+
+### Layar combat
+
+Halaman **Combat** memuat semua yang dibutuhkan dalam satu layar. Di layar lebar
+(≥1200 px): **Urutan turn** di kiri (HP, kondisi, Concentration, dan simbol
+Aksi/Aksi Bonus/Reaksi tiap makhluk), **peta** di tengah dengan **hotbar aksi** di
+bawahnya, dan panel **Resolusi / Dadu / Rules** di kanan. Klik token di peta atau
+nama di urutan turn untuk memilih target. Alat koreksi DM dan pengelolaan HP
+terlipat di tiap baris (**Kelola …**, **Sesuaikan …**). Di tablet, urutan turn dan
+panel alat dibuka lewat tombol **Tampilkan urutan turn** / **Tampilkan alat**; di
+HP, bagian dipilih lewat tab di bawah layar (Peta, Karakter, Aksi, Giliran,
+Lainnya). Tawaran reaksi muncul sebagai pemberitahuan di atas tab apa pun.
+
+Player melihat HP, kondisi, dan Concentration sesama party. Monster dan NPC lawan
+hanya ditandai **Bloodied** atau **Tumbang**, tanpa angka HP.
+
+### Dadu dan HP
+
+Di halaman **Combat**, gunakan **Baki dadu** untuk ekspresi seperti `2d6+3`,
+ability check, attack roll, saving throw, atau initiative. Masukkan modifier
+manual dan DC/AC jika diperlukan. Advantage dan Disadvantage saling meniadakan.
+Untuk mengisi initiative combat secara otomatis, pilih makhluk pada **Lempar
+sebagai** saat fase persiapan.
+
+Semua dadu dilempar server. Ekspresi dibatasi 100 karakter, 100 dadu aktual,
+dan 1000 sisi per dadu. Damage kritis menggandakan dadu, bukan modifier.
+Pilih penerima **Publik** atau **DM dan pelempar**; lemparan makhluk tersembunyi
+harus privat. Jika jawaban jaringan hilang, **Ulangi lemparan yang sama** memakai
+request yang sama sehingga hasil tidak dilempar ulang.
+
+Jika respons perubahan HP atau command combat terputus, gunakan **Ulangi perintah
+yang sama**. Aplikasi menyimpan envelope semula agar damage tidak diterapkan dua kali.
+
+Lemparan tidak memakai slot atau budget aksi dan tidak menerapkan damage.
+DM menerapkan hasil melalui **Kelola HP dan kondisi** pada makhluk yang dituju.
+Resistance, Immunity, dan Vulnerability monster mengikuti data stat block.
+Override pertahanan mengganti seluruh profil; isian kosong berarti tidak ada
+pertahanan tersebut. Gunakan profil ini untuk pertahanan karakter atau efek
+sementara yang belum memiliki data terstruktur.
+
+HP sementara diserap lebih dahulu dan tidak ditumpuk. Karakter pada HP 0
+melakukan death save pada gilirannya; tiga kegagalan berarti mati, tiga sukses
+berarti stabil, dan hasil 20 memulihkan 1 HP. Monster mati pada HP 0 secara
+default; DM dapat mengaktifkan death saves untuk monster tertentu. HP dan
+kondisi tersimpan bersama data campaign. Pending resolution dan reaksi yang
+menunggu keputusan dilanjutkan pada task berikutnya.
+
+### Aksi terpandu
+
+Saat combat berjalan, **hotbar aksi** di bawah peta menampilkan serangan senjata,
+spell yang disiapkan, fitur class, dan aksi stat block monster milik makhluk
+yang kamu kendalikan. Pilih aksi, target yang terlihat, level spell slot, dan
+mode damage (lempar atau rata-rata untuk monster). Pratinjau diperiksa server
+tanpa memakai biaya; **Lakukan aksi ini** memakai Action/Bonus Action/Reaction,
+spell slot, Concentration, pemakaian fitur, Recharge, pemakaian per hari, atau
+Legendary Action dalam satu command.
+
+Label otomasi menunjukkan batasnya: **Otomatis** (biaya, lemparan, dan usulan
+perubahan HP dari data terstruktur), **Dibantu** (sebagian efek perlu DM), atau
+**Manual** (teks aturan + keputusan DM). Spell buff/utility seperti Bless tidak
+dianggap damage. Multiattack membuka jatah serangan sesuai stat block;
+Recharge dilempar server pada awal giliran monster. Player tidak melihat
+AC atau modifier save monster.
+
+### Resolusi terbuka
+
+Setiap aksi yang dilakukan menjadi resolusi yang tersimpan. Biaya dipakai saat
+aksi dikonfirmasi dan tidak dipakai lagi saat resolusi diselesaikan. Bila target
+memiliki reaksi yang sesuai (misalnya Shield), pemiliknya dapat memilih
+**Pakai …** atau **Tolak** di panel **Resolusi terbuka**. DM lalu memeriksa
+usulan perubahan HP, boleh mengubah angkanya, dan menekan **Terapkan**; HP
+berubah tepat sekali walaupun jaringan putus dan perintah diulang.
+
+**Batalkan aksi** tidak mengembalikan biaya. Pengembalian biaya adalah koreksi
+DM yang wajib diberi alasan. Perubahan HP yang sudah diterapkan dapat dikoreksi
+dengan **Batalkan perubahan Hit Points**; riwayat tetap tersimpan. Resolusi
+tetap ada setelah reload atau restart host. Saat perangkat offline, tombol
+combat dinonaktifkan sampai tersambung dan tersinkron kembali.
+
+## Sesi bermain
+
+Buka **Sesi** dari room campaign. DM menekan **Mulai sesi**, lalu **Jeda sesi**,
+**Lanjutkan sesi**, atau **Akhiri sesi**. Menjeda sesi juga menjeda combat yang
+sedang berjalan, dan melanjutkan sesi menjalankannya kembali. Sesi hanya
+menautkan scene dan combat yang ada, sehingga setelah reload, reconnect, atau
+restart host, giliran, HP, token, resource, dan resolusi terbuka tampil sesuai
+data terakhir yang tersimpan.
+
+DM menulis **Recap untuk party** dan **Catatan khusus DM**; editor menyimpan
+otomatis dan menunjukkan status tersimpan, belum tersimpan, atau gagal. Player
+hanya melihat recap untuk party. Semua anggota dapat menambah entri journal
+untuk seluruh party atau hanya untuk dirinya dan DM. DM dapat mencatat
+pertanyaan aturan untuk diperiksa setelah sesi. Log sesi tampil dalam bahasa
+masing-masing peserta; player hanya melihat peristiwa umum sesi dan combat.
+
 ## Development
 
 Install dependency dengan `npm ci`, lalu gunakan dua terminal dari root project.
@@ -161,6 +290,7 @@ Buka `http://localhost:3001`. Jika memakai Vite saat development, atur juga
 | `npm run dev:web` | Menjalankan frontend melalui Vite |
 | `npm run typecheck` | Memeriksa tipe TypeScript backend dan frontend |
 | `npm test` | Menjalankan test Vitest |
+| `npm run test:e2e` | Menjalankan test browser Playwright terhadap hasil build (jalankan `npm run build` dan `npx playwright install chromium` lebih dulu) |
 | `npm run locales:audit` | Memeriksa data terjemahan |
 | `npm run content:audit` | Memeriksa corpus konten |
 

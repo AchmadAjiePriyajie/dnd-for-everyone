@@ -16,6 +16,8 @@ import {
   HEROIC_INSPIRATION,
   type MasteryGrant,
 } from '#shared/characters';
+import type { ActionInput, ActionOption, ActionPreview } from '#shared/combat';
+import type { SessionSummary, SessionView } from '#shared/sessions';
 import type { EncounterView, HomebrewView, MonsterInstance } from '#shared/encounters';
 import type { NoteView } from '#shared/notes';
 import type { Asset, SceneView } from '#shared/scenes';
@@ -50,6 +52,12 @@ export interface FakeServerState {
   homebrew: HomebrewView[];
   scenes: Record<string, SceneView>;
   assets: Asset[];
+  /** Riwayat sesi dan tampilan resume per sesi (sudah difilter seolah oleh server). */
+  sessions: SessionSummary[];
+  sessionViews: Record<string, SessionView>;
+  /** Pilihan aksi terpandu per combatant dan pratinjau palsu (aturan sebenarnya diuji di packages/rules). */
+  actions: Record<string, ActionOption[]>;
+  previewAction?: (input: ActionInput) => ActionPreview;
   /** Jawaban khusus untuk command non-karakter; undefined = ack biasa. */
   onCommand?: (body: { kind: string; targetId: string; payload: unknown; expectedRevision?: number }) => Response | undefined;
 }
@@ -104,6 +112,9 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     homebrew: [],
     scenes: {},
     assets: [],
+    actions: {},
+    sessions: [],
+    sessionViews: {},
     ...initial,
   };
   const requests: FakeRequest[] = [];
@@ -272,6 +283,18 @@ export function installFakeApi(initial: Partial<FakeServerState> = {}) {
     if (notePath) {
       const found = state.notes[decodeURIComponent(notePath[2]!)];
       return found ? json(200, found) : error(403, 'FORBIDDEN');
+    }
+    if (/^\/api\/campaigns\/[^/]+\/sessions$/.test(path)) return json(200, state.sessions);
+    const sessionPath = /^\/api\/campaigns\/[^/]+\/sessions\/([^/]+)\/resume$/.exec(path);
+    if (sessionPath) {
+      const found = state.sessionViews[decodeURIComponent(sessionPath[1]!)];
+      return found ? json(200, found) : error(403, 'FORBIDDEN');
+    }
+    const actionsPath = /^\/api\/campaigns\/[^/]+\/combats\/[^/]+\/combatants\/([^/]+)\/actions$/.exec(path);
+    if (actionsPath) return json(200, state.actions[decodeURIComponent(actionsPath[1]!)] ?? []);
+    if (/^\/api\/campaigns\/[^/]+\/combats\/[^/]+\/actions\/preview$/.test(path)) {
+      const input = JSON.parse(url.searchParams.get('input') ?? '{}') as ActionInput;
+      return state.previewAction ? json(200, state.previewAction(input)) : error(404, 'NOT_FOUND');
     }
     if (/^\/api\/campaigns\/[^/]+\/commands$/.test(path)) {
       const custom = state.onCommand?.(body);

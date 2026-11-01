@@ -8,6 +8,7 @@ import { Icon } from '../../app/icons';
 import { useRoomEntry } from '../../app/room-store';
 import { Link, routePath } from '../../app/router';
 import { ErrorMessage, toApiError, useSession } from '../../app/ui';
+import { Tabs } from '../../app/Tabs';
 import { CharacterSheet } from './CharacterSheet';
 import { CharacterWizard } from './CharacterWizard';
 import { DmCharacterTools } from './DmCharacterTools';
@@ -84,25 +85,16 @@ export function CharacterPage({ campaignId, characterId }: { campaignId: Id; cha
       {editable ? (
         <CharacterWizard view={view} options={options} campaignId={campaignId} reload={reload} />
       ) : (
-        <>
-          <CharacterSheet view={view} options={options} />
-          {live && (
-            <div className="sheet-columns">
-              <Vitals view={view} campaignId={campaignId} reload={reload} canEdit={canEdit} isDm={isDm} />
-              <Inventory view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} />
-            </div>
-          )}
-          {live && <Spellbook view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} />}
-          {live && (owner || isDm) && <LevelUpWizard view={view} options={options} campaignId={campaignId} reload={reload} owner={owner} isDm={isDm} />}
-          <FeatureList
-            view={view}
-            options={options}
-            campaignId={campaignId}
-            reload={reload}
-            canUse={owner && view.character.status === 'final'}
-            isDm={isDm}
-          />
-        </>
+        <Tabs label={t('character.sheetSections')} tabs={[
+          { id: 'summary', label: t('character.sheetTab.summary'), content: <>
+            <CharacterSheet view={view} options={options} />
+            {live && <Vitals view={view} campaignId={campaignId} reload={reload} canEdit={canEdit} isDm={isDm} />}
+          </> },
+          ...(live ? [{ id: 'spells', label: t('character.sheetTab.spells'), content: <Spellbook view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} /> },
+            { id: 'inventory', label: t('character.sheetTab.inventory'), content: <Inventory view={view} options={options} campaignId={campaignId} reload={reload} canEdit={canEdit} /> }] : []),
+          { id: 'features', label: t('character.sheetTab.features'), content: <FeatureList view={view} options={options} campaignId={campaignId} reload={reload} canUse={owner && view.character.status === 'final'} isDm={isDm} /> },
+          ...(live && (owner || isDm) ? [{ id: 'level', label: t('character.sheetTab.levelUp'), content: <LevelUpWizard view={view} options={options} campaignId={campaignId} reload={reload} owner={owner} isDm={isDm} /> }] : []),
+        ]} />
       )}
       {isDm && room && <DmCharacterTools view={view} members={room.members} campaignId={campaignId} reload={reload} />}
     </div>

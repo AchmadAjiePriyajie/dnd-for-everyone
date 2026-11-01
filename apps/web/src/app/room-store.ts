@@ -134,12 +134,19 @@ function ensureSocket(): void {
   current.on('connect', onConnect);
   current.on('disconnect', onDisconnect);
   current.on('room:changed', onChanged);
+  // The browser knows it is offline before the socket times out: stop commands at once, resync when back.
+  const onOffline = () => setStatus('disconnected');
+  const onOnline = () => { if (current.connected) void resync(); };
+  globalThis.addEventListener?.('offline', onOffline);
+  globalThis.addEventListener?.('online', onOnline);
   const onPing = (ping: MapPing) => {
     if (ping && watchers.has(ping.campaignId)) for (const listener of pingListeners) listener(ping);
   };
   current.on('room:access-revoked', onRevoked);
   current.on('map:ping', onPing);
   detach = () => {
+    globalThis.removeEventListener?.('offline', onOffline);
+    globalThis.removeEventListener?.('online', onOnline);
     current.off('map:ping', onPing);
     current.off('connect', onConnect);
     current.off('disconnect', onDisconnect);
